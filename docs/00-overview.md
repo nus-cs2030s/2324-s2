@@ -1,4 +1,4 @@
-# Unit 0. Overview
+# Unit 0: Overview
 
 !!! abstract "Learning Objectives"
 
