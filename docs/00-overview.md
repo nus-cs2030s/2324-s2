@@ -14,8 +14,7 @@ CS2030/S is designed for students who have gone through a typical basic programm
 The first aim of CS2030/S is to change the students' mindset and to make them learn to write software that will continue to evolve as software requirements change and to write software that will be read and modified by other programmers (_including their future selves_).
 
 !!! quote
-
-    Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live. Code for readability.
+    _"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live. Code for readability."_
     
     John Woods.
 
@@ -25,6 +24,15 @@ students between writing toy programs to solve specific problems in CS1010 and w
 A programming language is the medium in which programmers can express their intention and construct software, and thus is critical to supporting the aims above.  With the appropriate features and tools, one can tame the complexity of software, make the code written friendlier to other programmers, and easier to evolve.  The third aim of CS2030/S is thus to expand the students' minds on different ways one can construct software and the principles behind some of the programming language constructs.  In particular, CS2030/S focuses on *objects*, *types*, and *functions*, as three key constructs for building programmer-friendly software.  It covers both object-oriented and functional paradigms as two different approaches to constructing software, with a strong emphasis on type safety.
 
 The final aim of CS2030/S is to introduce students to programming language concepts and to bridge them from introductory programming to advanced modules such as programming language design and implementation.  Part of CS2030/S introduces students to the design decisions behind some of the constraints and the workings behind the programming language compilation and execution, giving them a glimpse inside the programming system that so far has been mostly treated as a black box in introductory modules.
+
+!!! info "Priority"
+    When writing programs to solve problems, the general priority should be the following:
+
+    1. *Correctness*: Can your program run and solve the problem correctly.
+    2. *Efficiency*: Can your program solve the problem in an efficient way.
+    3. *Maintainability*: Can your program be maintained and improved upon by multiple people.
+
+    The priority in CS1010 is correctness.  CS2040/S teaches you about how to increase efficiency while CS2030/S focuses more on maintainability.  However, you should never sacrifice on correctness.
 
 ## The Choice of Java
 
@@ -64,9 +72,9 @@ Since software evolves, the notion of "multiple programmers" actually applies ev
 
 If you are taught properly in your introductory programming modules, you should already be familiar with good programming practices that help to tame the complexity and reduce the chances of bugs.  These practices include
 
-* __Comment your code:__ Commenting your code provides _in situ_ communication between you and other programmers on the team, as well as between you and your future self, on the non-obvious purpose of the states and the relationships between the states.  Such comments help to enhance the understanding of what the code is doing and to remind whoever is updating to code to modify appropriately when the requirement changes.
+* __Commenting your code:__ Commenting your code provides _in situ_ communication between you and other programmers on the team, as well as between you and your future self, on the non-obvious purpose of the states and the relationships between the states.  Such comments help to enhance the understanding of what the code is doing and to remind whoever is updating to code to modify appropriately when the requirement changes.
 
-* __Use a coding convention:__ Adhering to a coding convention helps improve code readability, reducing the cognitive barrier when one programmer reads another programmer's code and allowing the reader to understand the code more easily and thoroughly.
+* __Using a coding convention:__ Adhering to a coding convention helps improve code readability, reducing the cognitive barrier when one programmer reads another programmer's code and allowing the reader to understand the code more easily and thoroughly.
 
 CS2030/S will continue to enforce these good programming practices.
 
@@ -86,7 +94,7 @@ The last point above about why it is important to code in small, reusable functi
 
 [^1]: This principle is formulated by Benjamin C. Pierce in his book "Types and Programming Languages."
 
-> "Each significant piece of functionality in a program should be implemented in just one place in the source code. Where similar functions are carried out by distinct pieces of code, it is generally beneficial to combine them into one by abstracting out the varying parts."
+> _"Each significant piece of functionality in a program should be implemented in just one place in the source code. Where similar functions are carried out by distinct pieces of code, it is generally beneficial to combine them into one by abstracting out the varying parts."_
 
 This principle is something that we will visit over and over again in CS2030/S, applying it to different varying parts of a program.
 In the case of functions, the "varying parts" are the values on which we wish to perform the computation on.  We will also apply this principle to

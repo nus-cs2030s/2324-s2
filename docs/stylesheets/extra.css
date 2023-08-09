@@ -18,6 +18,7 @@ s {
 
 p {
   text-align: justify;
+  text-justify: inter-word;
 }
 
 /*nav.md-nav.md-nav--secondary {
