@@ -162,7 +162,7 @@ However, for `User` and `Booking`, we clearly need to encapsulate the informatio
     - Is there multiple properties to be stored?
         - If so, then creating a class is good.
         - In the case of airport, if there is only a single data, then we need not make a class.
-    - Is there an action associated with the entity>
+    - Is there an action associated with the entity?
         - If so, then creating a class is good.
         - In the case of user, although it only has a single property, it has an association action.
     - Is there a real world counterpart?

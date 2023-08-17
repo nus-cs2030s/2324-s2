@@ -58,7 +58,7 @@ Point p;
 p = new Point(1, 2);
 ```
 
-Line 1 declares a variable `p`.  When the JVM executes this line of code, it allocates some memory space for an object reference for `p`, the content is initialized to `null`.  Since `p` is a variable, it resides in the stack.
+Line 1 declares a variable `p`.  When the JVM executes this line of code, it allocates some memory space for an object reference for `p`, the content is currently _uninitialized_.  We show uninitialized variables with the content having the symbol ∅.  Since `p` is a variable, it resides in the stack.
 
 Line 2 creates a new `Point` object.  When the JVM executes this line of code, it (i) allocates some memory space for a `Point` object on the heap, (ii) invokes the constructor, and (iii) returns the reference to the newly allocated memory space back.  The returned memory address of this memory space becomes the reference of the object and is assigned to the variable `p`.
 
@@ -254,4 +254,4 @@ To summarize, Java uses _call by value_ for primitive types, and _call by refere
 
 If we made multiple nested method calls, as we usually do, the stack frames get stacked on top of each other. 
 
-One final note: the memory allocated on the stack is deallocated when a method returns.  The memory allocated on the heap, however, stays there as long as there is a reference to it (_either from another object or from a variable in the stack_).  Unlike C or C++, in Java, you do not have to free the memory allocated to objects.  The JVM runs a _garbage collector_  that checks for unreferenced objects on the heap and cleans up the memory automatically.
+__One final note:__ the memory allocated on the stack is deallocated when a method returns.  The memory allocated on the heap, however, stays there as long as there is a reference to it (_either from another object or from a variable in the stack_).  Unlike C or C++, in Java, you do not have to free the memory allocated to objects.  The JVM runs a _garbage collector_  that checks for unreferenced objects on the heap and cleans up the memory automatically.
