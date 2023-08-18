@@ -1,0 +1,1886 @@
+layout: true
+class: basic, layout, imaging, fonts, lists, cards, fadein, tabler
+name: content
+<div class="basic header"></div>
+<div class="basic footer"><p>CS2030S: Programming Methodology II -- Adi Yoga S. Prabawa</p></div>
+
+---
+
+name: Lecture_02
+class: bottom, titles
+
+# CS2030S
+## Programming Methodology II
+### Lecture 02: Object-Oriented Programming
+
+---
+
+name: Information_Hiding
+class: middle, sections
+
+# Information Hiding
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+]
+.ft82[
+## Recap
+### Class & Class Diagram
+
+.col51[
+#### Circle Declaration
+
+```java[name=Circlev0.1.java]
+class Circle {
+  double x;
+  double y;
+  double r;
+  
+  double getArea() {
+    return 3.14 * r * r;
+  }
+}
+```
+]
+.ft49[
+#### Diagram
+![Circle](img/01-Circle.png)
+
+.card.bg-g[
+### Notation
+.content.tight[
+A __class diagram__ is separated into three parts:
+1. The class name
+2. The fields
+3. The methods .note16[(with return type after colon)]
+]
+]
+]
+]
+.abs.lt83.wt15.top2[
+![Circle](img/01-Circle.jpg)
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+#### Motivation
+]
+.ft82[
+## Access Modifiers
+### Motivation
+#### .dgntxt[__Good__] Example
+
+.col51[
+##### Client
+.col41[
+![Client](img/Client.jpg)
+]
+.ft59[
+.card.bg-y[
+.content.tight[
+Can you give me the are of this circle `c` with radius 1 _please_ .note16[(`c.getArea()`)]?
+]
+]
+]
+]
+.ft49[
+##### Implementer
+.col61[
+```java
+class Circle {
+  double x;
+  double y;
+  double r;
+  
+  double getArea() {
+    return 3.14 * r * r;
+  }
+}
+```
+
+.card.bg-g[
+.content.tight[
+Here you go, it's __3.14__
+]
+]
+]
+.ft39[
+.right[![Implementer](img/Implementer.jpg)]
+]
+]
+]
+.abs.lt58.top35[
+.img70[![Separator](img/Separator.jpg)]
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+#### Motivation
+]
+.ft82[
+## Access Modifiers
+### Motivation
+#### .drdtxt[__Bad__] Example
+
+.col51[
+##### Client
+.col41[
+![Client](img/Client.jpg)
+]
+.ft59[
+.card.bg-y[
+.content.tight[
+Can you give me the field `r` of this circle `c` please .note16[(`c.r`)]?  I want to compute the area with the formula below.
+]
+]
+```java[copy=nones]
+area = 3.14 * c.r * c.r;
+```
+]
+]
+.ft49[
+##### Implementer
+.col61[
+```java[lite=4]
+class Circle {
+  double x;
+  double y;
+  double radius;
+  
+  double getArea() {
+    return 3.14 * r * r;
+  }
+}
+```
+
+.card.bg-r[
+.content.tight[
+What is `r`?  I don't have `r`.
+]
+]
+]
+.ft39[
+.right[![Implementer](img/Implementer.jpg)]
+]
+]
+]
+.abs.lt58.top35[
+.img70[![Separator](img/Separator.jpg)]
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+#### Motivation
+#### Keywords
+]
+.ft82[
+## Access Modifiers
+### Keywords
+
+.col51[
+#### private
+```java[name=Circlev0.2.java]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+}
+```
+]
+.ft49[
+#### public
+```java[name=BadCirclev0.2.java]
+class Circle {
+  public double x;
+  public double y;
+  public double r;
+}
+```
+]
+]
+
+.ft15.subsections.op0[
+### Recap
+### Access Modifiers
+#### Motivation
+#### Keywords
+]
+.ft82[
+##### Access
+.col51[
+.atbl.blhead.font20[
+| Accessed by code in | `private` | `public` |
+|---------------------|-----------|----------|
+| the same class | <i class="fa-solid fa-square-check dgntxt"></i> | <i class="fa-solid fa-square-check dgntxt"></i> |
+| another class | <i class="fa-solid fa-square-xmark drdtxt"></i> | <i class="fa-solid fa-square-check dgntxt"></i> |
+]
+]
+.ft49[
+.card.bg-y[
+### Notes
+.content.tight[
+- There are other keywords, but for this course we will focus mainly on these two
+- Try to make all fields `private` before deciding to make them `public`
+]
+]
+]
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+#### Motivation
+#### Keywords
+]
+.ft82[
+## Access Modifiers
+### Keywords
+
+.col51[
+#### private
+```java[name=Circlev0.2.java]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+}
+```
+]
+.ft49[
+#### public
+```java[name=BadCirclev0.2.java]
+class Circle {
+  public double x;
+  public double y;
+  public double r;
+}
+```
+]
+]
+
+.ft15.subsections.op0[
+### Recap
+### Access Modifiers
+#### Motivation
+#### Keywords
+]
+.ft82[
+##### Examples
+
+.col51[
+```jshell
+jshell> Circle c = new Circle();
+c ==> Circle@4459eb14
+jshell> c.r = 2;
+|  Error:
+|  r has private access in Circle
+|  c.r = 2;
+```
+]
+.ft49[
+```jshell
+jshell> Circle c = new Circle();
+c ==> Circle@2328c243
+jshell> c.r = 2;
+$2 ==> 2.0
+```
+]
+]
+.abs.lt70.wt28.top2[
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+How do we initialize the fields if we want all fields to be `private` first?
+]
+]
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+#### Motivation
+#### Keywords
+#### Quiz
+]
+.ft82[
+## Access Modifiers
+### Quiz
+
+.qns[
+.col41[
+> ##### Question
+> Given the code on the right, is it going to produce a compilation error?
+]
+.ft59[.mfont[ ]
+.msize[
+```java[lite=2-3,8]
+class Complex { // complex number a + bi
+  private double a;
+  private double b;
+  
+  // constructor omitted
+  
+  public boolean isTheSame(Complex c) {
+    return a == c.a && b == c.b;
+  }
+}
+```
+]
+]
+]
+
+.mrq[
+1. .quiz-choice[Yes] .quiz-ans[0] .quiz-hint[NO: the code is inside `Complex` so it can access `private`]
+2. .quiz-choice[No] .quiz-ans[1] .quiz-hint[YES: the code is inside `Complex` so it can access `private`]
+
+.quizzes-poll[xYd0Cs2eBlW5012CECVcL]
+.quizzes-time[30]
+.quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
+]
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+### Constructor
+#### Definition
+]
+.ft82[
+## Constructor
+.card.bg-b[
+### Definition
+.content.tight[
+A __constructor__ is a special method that is called when instantiation a new object .note16[(i.e., when `new` keyword is used)].
+
+<br>
+
+#### Properties
+- Must have the same name as the class.
+- Must not have return type .note16[(also, no `return` statement)].
+- Usually used to instantiate all the field.
+]
+]
+
+<br>
+
+.card.bg-y[
+### Default Constructor
+.content.tight[
+If no constructor is given at all, then a default [no argument constructor](https://docs.oracle.com/javase/tutorial/java/javaOO/constructors.html) is automatically added by the compiler.
+]
+]
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+### Constructor
+#### Definition
+#### Example
+]
+.ft82[
+## Constructor
+### Example
+.col57[
+#### Circle
+```java[name=Circlev0.3.java|show=1-12,16]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+
+  // other code omitted
+  public double getArea() {
+    return 3.14 * this.r * this.r;
+  }
+}
+```
+]
+.ft43[
+#### Usage
+```jshell[copy=nones]
+jshell> Circle c = new Circle(1, 2, 3)
+c ==> Circle@77a567e1
+jshell> c.getArea() // 3.14 * 3 * 3
+$8 ==> 28.259999999999998
+```
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+Why can we use `int` in the constructor and not `double`?
+]
+]
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+What is `this`?
+]
+]
+]
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+### Constructor
+#### Definition
+#### Example
+#### Self
+]
+.ft82[
+## Constructor
+### Self
+.col57[
+#### Circle
+```java[name=Circlev0.3.java|show=1-2,6-16|lite=8-10,14]
+class Circle {
+  // fields omitted
+  private double x;
+  private double y;
+  private double r;
+
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+
+  public double getArea() {
+    return 3.14 * this.r * this.r;
+  }
+}
+```
+]
+.ft43[
+#### Reference to Self
+.card.bg-b[
+### Definition
+.content.tight[
+The keyword __`this`__ is a reference to the current object.
+]
+]
+
+.card.bg-y[
+### Example
+.content.tight[
+The `c` in `c.getArea()` or the newly created object when using `new Circle(1, 2, 3)`.
+]
+]
+
+.card.bg-g[
+### Good Practice
+.content.tight[
+Always use `this` keyword when referring to every instance field inside the class.
+]
+]
+]
+]
+
+---
+
+# Information Hiding
+
+.ft15.subsections[
+### Recap
+### Access Modifiers
+### Constructor
+### Class Diagram
+]
+.ft82[
+## Class Diagram
+### Access Modifiers
+.col57[
+#### Circle
+```java
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+
+  public double getArea() {
+    return 3.14 * this.r * this.r;
+  }
+}
+```
+]
+.ft43[
+#### Diagram
+![Circle](img/02-Circle.png)
+
+.card.bg-g[
+### Notation
+.content.tight[
+.nol[
+- `+` indicates `public` fields/methods
+- `-` indicates `private` fields/methods
+]
+]
+]
+]
+]
+
+---
+
+name: Tell,_Don't_Ask
+class: middle, sections
+
+# Tell, Don't Ask
+
+---
+
+# Tell, Don't Ask
+
+.ft15.subsections[
+### Accessors/Mutators
+#### Definition
+]
+.ft82[
+## Accessors/Mutators
+### Definition
+.col51[
+.card.bg-b[
+### Accessor
+.content.tight[
+An __accessor__ is a method that _retrieves_ the instance field of a class.
+]
+]
+]
+.ft49[
+.card.bg-b[
+### Mutator
+.content.tight[
+A __mutator__ is a method that _modifies_ the instance field of a class.
+]
+]
+]
+
+#### Example
+.col51[
+```java
+// Accessor for field `private double x`
+public double getX() {
+  return this.x;
+}
+```
+]
+.ft49[
+```java
+// Mutator for field `private double x`
+public void setX(double x) {
+  this.x = x;
+}
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+The keyword [`void`](http://thecodelesscode.com/case/5) indicates that the function does not return any value.
+It cannot be used on an assignment.
+]
+]
+]
+]
+
+---
+
+# Tell, Don't Ask
+
+.ft15.subsections[
+### Accessors/Mutators
+#### Definition
+#### Design Choices
+]
+.ft82[
+## Accessors/Mutators
+### Design Choices
+
+.card.bg-y[
+### Choice #1
+.content.tight[
+If an instance field has a `private` access modifier but the field has both `public` accessor and `public` mutator, is it equivalent to having a `public` access modifier on the field?
+]
+]
+
+.card.bg-y[
+### Choice #2
+.content.tight[
+Do we always need mutators?
+]
+]
+
+.card.bg-y[
+### Choice #3
+.content.tight[
+Assume a field has no accessor, what do we need the field for?
+]
+]
+]
+
+---
+
+# Tell, Don't Ask
+
+.ft15.subsections[
+### Accessors/Mutators
+### Tell, Don't Ask
+#### Principle
+]
+.ft82[
+## Tell, Don't Ask
+.card.bg-g[
+### Principle
+.content.tight[
+The __tell, don't ask__ principle .note16[(often shortened to TDA)] states that
+
+<br>
+
+> Instead of __asking__ for the value of fields and perform the computation outside of the class, __tell__ the class to perform the computation.
+
+Of course, make sure that you are _telling_ the correct class to perform the computation.
+]
+]
+
+#### Example
+.col52[
+##### Without TDA
+```java
+double cX = c.getX();
+double cY = c.getY();
+double r = c.getR();
+boolean isInCircle = ((x - cX) * (x - cX) +
+                      (y - cY) * (y - cY))
+                     <= r * r;
+```
+]
+.ft48[
+##### With TDA
+```java
+boolean isInCircle = c.contains(x, y);
+```
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+Can you write the method `contains` in `Circle`?
+]
+]
+]
+]
+
+---
+
+# Tell, Don't Ask
+
+.ft15.subsections[
+### Accessors/Mutators
+### Tell, Don't Ask
+#### Principle
+#### Barrier
+]
+.ft82[
+## Tell, Don't Ask
+### Abstraction Barrier
+
+.col51[
+##### Client
+.col41[
+![Client](img/Client.jpg)
+]
+.ft59[
+.card.bg-y[
+.content.tight[
+Can you check if the point `(x, y)` is contained inside this circle `c` please .note16[(`c.contains(x, y)`)]?
+]
+]
+]
+]
+.ft49[
+##### Implementer
+.col61[
+```java
+class Circle {
+  double x;
+  double y;
+  double r;
+  
+    :
+}
+```
+
+.card.bg-g[
+.content.tight[
+Sure, it is inside.
+]
+]
+]
+.ft39[
+.right[![Implementer](img/Implementer.jpg)]
+]
+]
+]
+.abs.lt58.top35[
+.img70[![Separator](img/Separator.jpg)]
+]
+
+---
+
+name: Class_Fields_&_Methods
+class: middle, sections
+
+# Class Fields & Methods
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+#### Magic Number
+]
+.ft82[
+## Motivation
+### Magic Number
+#### Circle
+.col57[
+```java[lite=15,19|show=1-7,13-21]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+  ​
+
+  // constructor omitted
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+
+  public double getArea() {
+    return 3.14 * this.r * this.r;
+  }
+  
+  public double circumference() {
+    return 2 * 3.14 * this.r;
+  }
+}
+```
+]
+.ft43[
+.card.bg-r[
+### Problems
+.content.tight[
+- [Magic numbers](https://en.wikipedia.org/wiki/Magic_number_%28programming%29) should be avoided
+- If we want to [increase precision](https://www.jpl.nasa.gov/edu/news/2016/3/16/how-many-decimals-of-pi-do-we-really-need/), we have to change in multiple places
+- Some constants should be the same for .uline[_all_] instances
+- We should ensure that constants cannot be reassigned
+]
+]
+]
+]
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+#### Magic Number
+#### Instance Field
+]
+.ft82[
+## Motivation
+### Instance Field
+#### Circle
+.col57[
+```java[lite=5,15,19|show=1-7,13-21]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+  private double PI = 3.14159;
+
+  // constructor omitted
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+
+  public double getArea() {
+    return this.PI * this.r * this.r;
+  }
+  
+  public double circumference() {
+    return 2 * this.PI * this.r;
+  }
+}
+```
+]
+.ft43[
+.card.bg-r[
+### Problems
+.content.tight[
+- ~~[Magic numbers](https://en.wikipedia.org/wiki/Magic_number_%28programming%29) should be avoided~~
+- ~~If we want to [increase precision](https://www.jpl.nasa.gov/edu/news/2016/3/16/how-many-decimals-of-pi-do-we-really-need/), we have to change in multiple places~~
+- Some constants should be the same for .uline[_all_] instances
+- We should ensure that constants cannot be reassigned
+]
+]
+]
+]
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+### Keywords
+#### static
+]
+.ft82[
+## Keywords
+### static
+#### Circle
+.col57[
+```java[lite=5,15,19|show=1-7,13-21]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+  private static double PI = 3.14159;
+
+  // constructor omitted
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+
+  public double getArea() {
+    return Circle.PI * this.r * this.r;
+  }
+  
+  public double circumference() {
+    return 2 * Circle.PI * this.r;
+  }
+}
+```
+]
+.ft43[
+.card.bg-r[
+### Problems
+.content.tight[
+- ~~[Magic numbers](https://en.wikipedia.org/wiki/Magic_number_%28programming%29) should be avoided~~
+- ~~If we want to [increase precision](https://www.jpl.nasa.gov/edu/news/2016/3/16/how-many-decimals-of-pi-do-we-really-need/), we have to change in multiple places~~
+- ~~Some constants should be the same for .uline[_all_] instances~~
+- We should ensure that constants cannot be reassigned
+]
+]
+
+.card.bg-y[
+### static Keyword
+.content.tight[
+`static` keyword creates a [class variable](https://docs.oracle.com/javase/tutorial/java/javaOO/classvars.html).
+Only one instance is available and can be accessed by .uline[_any_] instances.
+]
+]
+]
+]
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+### Keywords
+#### static
+#### final
+]
+.ft82[
+## Keywords
+### final
+#### Circle
+.col57[
+```java[lite=5|show=1-7,13-21]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+  private static final double PI = 3.14159;
+
+  // constructor omitted
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+
+  public double getArea() {
+    return Circle.PI * this.r * this.r;
+  }
+  
+  public double circumference() {
+    return 2 * Circle.PI * this.r;
+  }
+}
+```
+]
+.ft43[
+.card.bg-r[
+### Problems
+.content.tight[
+- ~~[Magic numbers](https://en.wikipedia.org/wiki/Magic_number_%28programming%29) should be avoided~~
+- ~~If we want to [increase precision](https://www.jpl.nasa.gov/edu/news/2016/3/16/how-many-decimals-of-pi-do-we-really-need/), we have to change in multiple places~~
+- ~~Some constants should be the same for .uline[_all_] instances~~
+- ~~We should ensure that constants cannot be reassigned~~
+]
+]
+
+.card.bg-y[
+### final Keyword
+.content.tight[
+`final` keyword on class variable _prevents_ reassignment to the class variable.
+]
+]
+]
+]
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+### Keywords
+#### static
+#### final
+#### Example
+]
+.ft82[
+## Keywords
+### Example
+.col57[
+#### Circle
+```java[lite=7-8,16-17|show=1,6-10,15-23]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+  
+  // other fields omitted
+  private final int id;
+  private static int lastId = 0;
+
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    
+    // field instantiations omitted
+    this.id = Circle.lastId;
+    Circle.lastId += 1;
+  }
+  
+  public int getId() {
+    return this.id;
+  }
+}
+```
+]
+.ft43[
+#### Usage
+```jshell[lite=6,10,14]
+jshell> Circle c
+c ==> null
+jshell> c = new Circle(1,1,1)
+c ==> Circle@5a2e4553
+jshell> c.getId()
+$4 ==> 0
+jshell> c = new Circle(2,2,2)
+c ==> Circle@6d5380c2
+jshell> c.getId()
+$6 ==> 1
+jshell> c = new Circle(3,4,5)
+c ==> Circle@bebdb06
+jshell> c.getId()
+$8 ==> 2
+```
+]
+]
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+### Keywords
+### Class Method
+#### Example
+]
+.ft82[
+## Class Method
+### Example
+.col57[
+#### Circle
+```java[lite=24|show=1,6-10,15-19,24-27]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+  
+  // other fields omitted
+  private final int id;
+  private static int lastId = 0;
+
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    
+    // field instantiations omitted
+    this.id = Circle.lastId;
+    Circle.lastId += 1;
+  }
+  
+  public int getId() {
+    return this.id;
+  }
+  
+  public static int getNumOfCircles() {
+    return Circle.lastId;
+  }
+}
+```
+]
+.ft43[
+#### Usage
+```jshell[lite=10]
+jshell> Circle c
+c ==> null
+jshell> c = new Circle(1,1,1)
+c ==> Circle@5a2e4553
+jshell> c = new Circle(2,2,2)
+c ==> Circle@6659c656
+jshell> c = new Circle(3,4,5)
+c ==> Circle@45ff54e6
+jshell> Circle.getNumOfCircles()
+$6 ==> 3
+```
+]
+]
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+### Keywords
+### Class Method
+#### Example
+#### Properties
+]
+.ft82[
+## Class Method
+### Properties
+.col57[
+#### Circle
+```java[lite=24|show=1,6-10,15-19,24-27]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+  
+  // other fields omitted
+  private final int id;
+  private static int lastId = 0;
+
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    
+    // field instantiations omitted
+    this.id = Circle.lastId;
+    Circle.lastId += 1;
+  }
+  
+  public int getId() {
+    return this.id;
+  }
+  
+  public static int getNumOfCircles() {
+    return Circle.lastId;
+  }
+}
+```
+]
+.ft43[
+#### Properties
+- Class methods cannot access instance fields<br>.note16[(Which instance? There may be 0 or more instances!)]
+
+```java
+public static int getLastId() {
+  return this.id; // error
+}
+```
+
+- Instance methods can access class fields<br>.note16[(well, there is only one possible instance)]
+]
+]
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+### Keywords
+### Class Method
+### Class Diagram
+]
+.ft82[
+## Class Diagram
+### static Keyword
+.col57[
+#### Circle
+```java[show=1,6-10,15-19,24-27]
+class Circle {
+  private double x;
+  private double y;
+  private double r;
+  
+  // other fields omitted
+  private final int id;
+  private static int lastId = 0;
+
+  public Circle(double x, double y, double r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    
+    // field instantiations omitted
+    this.id = Circle.lastId;
+    Circle.lastId += 1;
+  }
+  
+  public int getId() {
+    return this.id;
+  }
+  
+  public static int getNumOfCircles() {
+    return Circle.lastId;
+  }
+}
+```
+]
+.ft43[
+#### Diagram
+![Static](img/02-Static.png)
+
+.card.bg-g[
+### Notation
+.content.tight[
+All __static__ fields and methods are underlined.
+]
+]
+]
+]
+
+---
+
+# Class Fields & Methods
+
+.ft15.subsections[
+### Motivation
+### Keywords
+### Class Method
+### Class Diagram
+### Math Library
+]
+.ft82[
+## Math Library
+### java.lang.Math
+<iframe src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Math.html" width="950" height="450" frameborder="0"> </iframe>
+]
+.abs.lt70.wt28.top2[
+.card.bg-y[
+### Reminder
+.content.tight[
+You do not have to memorize this.
+All information needed will be provided during assessments.
+]
+]
+]
+
+---
+
+name: Class_Design
+class: middle, sections
+
+# Class Design
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+#### Basic
+]
+.abs.lt83.wt15.top2[
+![Circle](img/02-Circle.jpg)
+]
+.ft82[
+## Composition
+.card.bg-g[
+### Basic
+.content.tight[
+A __composition__ captures a _".uline[has a]"_ relationship.
+It is one way to build increasingly complex data types.
+The idea is to separate the _"responsibilities"_ into different classes.
+]
+]
+
+#### Example
+.col51[
+##### Point
+```java
+class Point {
+  private double x;
+  private double y;
+
+  public Point(double x, double y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+```
+]
+.ft49[
+##### Circle
+```java
+class Circle {
+  private Point c;
+  private double r;
+
+  public Circle(Point c, double r) {
+    this.c = c;
+    this.r = r;
+  }
+}
+```
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+#### Basic
+#### Mental Model
+]
+.ft82[
+## Composition
+
+.col40[
+### Mental Model
+```java
+Point p = new Point(1,1);
+Circle c1 = new Circle(p,2);
+Circle c2 = new Circle(p,3);
+```
+
+.card.bg-y[
+### Aliasing
+.content.tight[
+Recap that aliasing in stack/heap diagram is represented by two arrows pointing to the same location.
+]
+]
+]
+.ft60[
+#### Stack/Heap Diagram
+![Stack/Heap](img/StackHeap.png)
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+#### Basic
+]
+.abs.lt83.wt15.top2[
+![Circle](img/02-Circle.jpg)
+]
+.abs.lt68.wt15.top2[
+![Circle](img/02-ColoredCircle.jpg)
+]
+.ft82[
+## Inheritance
+.card.bg-g[
+### Basic
+.content.tight[
+An __inheritance__ captures an _".uline[is a]"_ relationship.
+It is another way to build increasingly complex data types by _"extending"_ the capability of another data type.
+The keyword to use is `extends`.
+]
+]
+
+#### Example
+.col51[
+##### Point
+```java
+class Circle {
+  private Point c;
+  private double r;
+
+  public Circle(Point c, double r) {
+    this.c = c;
+    this.r = r;
+  }
+}
+```
+]
+.ft49[
+##### Circle
+```java
+class ColouredCircle extends Circle {
+  private String colour;
+
+  public ColouredCircle(Point c,
+      double r, String colour) {
+    super(c,r);
+    this.colour = colour;
+  }
+}
+```
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+#### Basic
+#### Subtyping
+]
+.abs.lt83.wt15.top2[
+![Circle](img/02-Circle.jpg)
+]
+.abs.lt68.wt15.top2[
+![Circle](img/02-ColoredCircle.jpg)
+]
+.ft82[
+## Inheritance
+### Subtyping
+.card.bg-b[
+### Definition
+.content.tight[
+A type ___T___ is a __subtype__ of ___S___ .note16[(denoted __T__ <: __S__)] if<br><br>
+
+.nol[
+- A code written for variable of type ___S___ can also be safely used on variables of type ___T___
+]
+
+<br>
+We say that ___S___ is the __supertype__ of ___T___.
+]
+]
+
+
+.card.bg-y[
+### ColouredCircle <: Circle
+.content.tight[
+A code written for variable of type `Circle` can also be safely used on variables of type `ColouredCircle`.
+
+- Why?
+    - __Inheritance:__ all publicly available fields and methods in `Circle` are also available in `ColouredCircle`
+- Implication
+    - `Circle c = new ColouredCircle(p, 1, "blue");` is .dgntxt[__OK__]
+    - `ColouredCircle c = new Circle(p, 1);` is an .drdtxt[__ERROR__]
+]
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+#### Basic
+#### Subtyping
+#### Run-Time Type
+]
+.abs.lt83.wt15.top2[
+![Circle](img/02-Circle.jpg)
+]
+.abs.lt68.wt15.top2[
+![Circle](img/02-ColoredCircle.jpg)
+]
+.ft82[
+## Inheritance
+### Run-Time Type
+.card.bg-b[
+### Definition
+.content.tight[
+The __run-time__ type of a variable is the _actual_ type the variable is instantiated as.
+
+<br>
+
+__Recap:__ compile-time type of a variable is the _declared_ type.
+]
+]
+
+#### Example
+```java
+Circle c = new ColouredCircle(p, 1, "blue");
+```
+
+.col28[
+- __Compile-Time Type__
+- __Run-Time Type__
+]
+.ft70[
+.nol.deindent[
+- `Circle`
+- `ColouredCircle`
+]
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+#### Basic
+#### Subtyping
+#### Run-Time Type
+#### Class Diagram
+]
+.abs.lt83.wt15.top2[
+![Circle](img/02-Circle.jpg)
+]
+.abs.lt68.wt15.top2[
+![Circle](img/02-ColoredCircle.jpg)
+]
+.ft82[
+## Inheritance
+### Class Diagram
+.col51[
+#### Codes
+```java
+class Circle {
+  private Point c;
+  private double r;
+    :
+}
+
+class ColouredCircle extends Circle {
+  private String colour;
+    :
+}
+```
+.card.bg-g[
+### Notation
+.content.tight[
+A __subtyping__ relationship is denoted by a solid arrow from subtype to supertype.
+]
+]
+]
+.ft49[
+#### Diagram
+![ColouredCircle](img/02-ColoredCircle.png)
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+#### Basic
+#### Subtyping
+#### Run-Time Type
+#### Class Diagram
+#### Quiz
+]
+.abs.lt70.wt35.top13[
+![Quiz](img/02-Quiz.svg)
+]
+.ft82[
+## Inheritance
+### Quiz
+
+.qns[
+.col61[
+> ##### Question
+> Consider the class diagram on the right. Select ALL codes below that do not result in an error?
+>
+> __Hint:__ First determine the compile-time type and the run-time type.
+]
+]
+
+.mrq[
+1. .quiz-choice[`C x = new CB();`] .quiz-ans[1] .quiz-hint[YES: `CB <: C1 <: C`]
+2. .quiz-choice[`C2 x = new CA();`] .quiz-ans[0] .quiz-hint[NO: they are incompatible]
+2. .quiz-choice[`C2 x = new CA();`] .quiz-ans[0] .quiz-hint[NO: they are incompatible]
+1. .quiz-choice[`C1 x = new CA();`] .quiz-ans[1] .quiz-hint[YES: `CA <: C1`]
+
+.quizzes-poll[Zh491767shM6fURf06JCH]
+.quizzes-time[60]
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+#### Basic
+#### Subtyping
+#### Run-Time Type
+#### Class Diagram
+#### Quiz
+#### Root
+]
+.ft82[
+## Inheritance
+### Root of Class Hierarchy
+<iframe src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" width="950" height="450" frameborder="0"> </iframe>
+]
+.abs.lt70.wt28.top2[
+.card.bg-y[
+### Note
+.content.tight[
+We are mainly going to use only the following:
+- `Object::equals(Object obj)`
+- `Object::toString()`
+]
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+### Type Checking
+#### Recap
+]
+.ft82[
+## Type Checking
+.card.bg-y[
+### [Recap](cs2030s-lect01.html#25)
+.content.tight[
+Recap that the compiler ensures that errors based on type do not occur.
+However, the limitation is that compiler only works based on the compile-time type information.
+]
+]
+
+#### limitation
+.col57[
+```java
+Circle c = new ColouredCircle(p, 1, "blue");
+c.getColour();
+```
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+Will the code above produce a compilation error?
+]
+]
+]
+.ft43[
+.img80[![Subtyping](img/02-ColoredCircle.png)]
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+### Type Checking
+#### Recap
+#### Why?
+]
+.ft82[
+## Type Checking
+### Why Compile-Time Type Only?
+.col55[
+#### Codes
+```java
+Circle make(boolean check) {
+  if (riemannHypothesis() == check) {
+    return new ColouredCircle(p, 1, "blue");
+  } else {
+    return new LinedCircle(p, 1, "dashed");
+  }
+}
+```
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+Can you prove that the [Riemann hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) is true?
+]
+]
+]
+.ft45[
+#### Diagram
+![LinedCircle](img/02-LinedCircle.png)
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+### Type Checking
+### Method Override
+#### Signature/Descriptor
+]
+.ft82[
+## Method Override
+
+.col50[
+.card.bg-b[
+### Method Signature
+.content.tight[
+A __method signature__ includes:
+1. The method name
+2. The type of arguments
+3. The order of arguments
+4. The number of arguments
+]
+]
+]
+
+.col50[
+.card.bg-b[
+### Method Descriptor
+.content.tight[
+A __method descriptor__ is the __method signature__ + the return type.
+]
+]
+]
+]
+
+.ft15.subsections.op0[
+### Composition
+### Inheritance
+### Type Checking
+### Method Override
+#### Signature/Descriptor
+]
+.ft82[
+#### Steps
+.col50[
+```java
+public boolean contains(int x, int y) {
+    :
+}
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+We often add the class name followed by double-colon .note16[(e.g., `Circle::contains(int, int)`)]
+]
+]
+]
+.ft50[
+1. Remove body, modifiers, and parameter name .note16[(method descriptor)]
+```java[copy=nones]
+boolean contains(int, int)
+```
+2. Remove return type .note16[(method signature)]
+```java[copy=nones|show=2]
+boolean
+contains(int, int)
+```
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+### Type Checking
+### Method Override
+#### Signature/Descriptor
+#### Quiz
+]
+.ft82[
+## Method Override
+### Quiz
+
+.qns[
+> ##### Question
+> What is the method signature of the following method?
+```java[copy=nones]
+public int foo(double x, Point p) { /* .. */ }
+```
+>
+> __Hint:__ Follow the two steps in the previous slide.
+]
+
+.mrq[
+1. .quiz-choice[`int foo(double x, Point p)`] .quiz-ans[0] .quiz-hint[NO: return type & parameter names should not be included]
+2. .quiz-choice[`foo(double x, Point p)`] .quiz-ans[0] .quiz-hint[NO: parameter names should not be included]
+2. .quiz-choice[`foo(double, Point)`] .quiz-ans[1] .quiz-hint[YES: this is all that you need]
+1. .quiz-choice[`int foo(double, Point)`] .quiz-ans[0] .quiz-hint[NO: return type should not be included]
+
+.quizzes-poll[iAyUwXjIeL1PKWO4einqI]
+.quizzes-time[60]
+]
+]
+
+---
+
+# Class Design
+
+.ft15.subsections[
+### Composition
+### Inheritance
+### Type Checking
+### Method Override
+#### Signature/Descriptor
+#### Quiz
+#### Definition
+]
+.ft82[
+## Method Override
+
+.card.bg-b[
+### Definition
+.content.tight[
+__Method overriding__ happens when a subclass defines an _instance method_ with the __same method descriptor__ .note16[(as an exception, the overriding method can return the subclass)] as an instance method in the superclass.
+
+<br>
+
+As a good practice, when overriding an instance method in superclass, annotate the method in the subclass with `@Override` annotation.
+]
+]
+
+#### Example
+.col63[
+```java
+class Circle {
+  private Point c;
+  private double r;
+  
+  @Override
+  public String toString() {
+    return "Circle(" + this.c + ", " + this.r + ")";
+  }
+}
+```
+]
+.ft37[
+.card.bg-y[
+### Note
+.content.tight[
+`toString()` method is automatically called when printing .note16[(i.e., `System.out.println(..)`)] or concatenating with `String` using `+` operator.
+
+<br>
+
+This automatic conversion is not done when assigning to a `String`.
+]
+]
+]
+]
+
+---
+
+layout: false
+class: middle, end, fadein
+
+`jshell> /exit`
+
+`|  Goodbye`
