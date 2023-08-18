@@ -686,7 +686,9 @@ The __tell, don't ask__ principle .note16[(often shortened to TDA)] states that
 
 <br>
 
-> Instead of __asking__ for the value of fields and perform the computation outside of the class, __tell__ the class to perform the computation.
+.nol[
+- Instead of __asking__ for the value of fields and perform the computation outside of the class, __tell__ the class to perform the computation.
+]
 
 Of course, make sure that you are _telling_ the correct class to perform the computation.
 ]
@@ -742,6 +744,10 @@ Can you write the method `contains` in `Circle`?
 .card.bg-y[
 .content.tight[
 Can you check if the point `(x, y)` is contained inside this circle `c` please .note16[(`c.contains(x, y)`)]?
+
+<br>
+
+I don't have access to the fields of `Circle`.
 ]
 ]
 ]
@@ -926,7 +932,7 @@ class Circle {
 .content.tight[
 - ~~[Magic numbers](https://en.wikipedia.org/wiki/Magic_number_%28programming%29) should be avoided~~
 - ~~If we want to [increase precision](https://www.jpl.nasa.gov/edu/news/2016/3/16/how-many-decimals-of-pi-do-we-really-need/), we have to change in multiple places~~
-- ~~Some constants should be the same for .uline[_all_] instances~~
+- Some constants should be the same for .uline[_all_] instances <i class="fa-solid fa-square-check dgntxt"></i>
 - We should ensure that constants cannot be reassigned
 ]
 ]
@@ -986,8 +992,8 @@ class Circle {
 .content.tight[
 - ~~[Magic numbers](https://en.wikipedia.org/wiki/Magic_number_%28programming%29) should be avoided~~
 - ~~If we want to [increase precision](https://www.jpl.nasa.gov/edu/news/2016/3/16/how-many-decimals-of-pi-do-we-really-need/), we have to change in multiple places~~
-- ~~Some constants should be the same for .uline[_all_] instances~~
-- ~~We should ensure that constants cannot be reassigned~~
+- Some constants should be the same for .uline[_all_] instances <i class="fa-solid fa-square-check dgntxt"></i>
+- We should ensure that constants cannot be reassigned <i class="fa-solid fa-square-check dgntxt"></i>
 ]
 ]
 
@@ -1174,14 +1180,13 @@ class Circle {
 .ft43[
 #### Properties
 - Class methods cannot access instance fields<br>.note16[(Which instance? There may be 0 or more instances!)]
+- Instance methods can access class fields<br>.note16[(well, there is only one possible instance)]
 
 ```java
 public static int getLastId() {
   return this.id; // error
 }
 ```
-
-- Instance methods can access class fields<br>.note16[(well, there is only one possible instance)]
 ]
 ]
 
