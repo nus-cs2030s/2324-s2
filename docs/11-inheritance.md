@@ -95,7 +95,9 @@ In Java, if the call to `super` appears in a constructor, it has to appear as th
 
 [^1]: Truthfully, this reasoning is _faulty_ because (i) it is too restrictive and (ii) it does not solve the problem stated.  Java allows the call to super to invoke another function (_e.g.,_ `super(f(x))`).  Then, `f(x)` can actually invoke methods from superclass.  In any case, that's the typical reasoning given by Java, but just take it with a grain of salt.
 
-You will see later that if a given class does not explicitly inherit another class, it will _implicitly_ inherit from the `Object` class.  So, the constructor we have written so far does not -- as its first line -- invoke the `super` keyword.  How can it still work if we have the rule above?  The answer is that similar to default constructor, if there is no call to `super`, Java will automatically add the default `super()`.
+You will see later that if a given class does not explicitly inherit another class, it will _implicitly_ inherit from the `Object` class.  So, the constructor we have written so far does not -- as its first line -- invoke the `super` keyword.  How can it still work if we have the rule above?  The answer is that similar to default constructor, if there is no call to `super`[^2], Java will automatically add the default `super()`.
+
+[^2]: There should also be no call to `this` in the constructor, but that will only be discussed when we talk about method overloading.  In particular, we may overload the constructor.
 
 In combination with default constructor (_or lack thereof_), this may lead to potential problem that can be difficult to debug.  Furthermore, the error messages may not be easy to understand as they do not give hint at a possibility of missing `super(..)`.
 
@@ -303,9 +305,9 @@ T makeT(boolean check) {
 }
 ```
 
-Here, we to know the actual run-time type, Java compiler will have to actually proof that the [Riemann hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) is true.  Unfortunately, it is currently still an open problem in Mathematics[^2].
+Here, we to know the actual run-time type, Java compiler will have to actually proof that the [Riemann hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) is true.  Unfortunately, it is currently still an open problem in Mathematics[^3].
 
-[^2]: If you do solve it, there is a $1 million prize for it.  Please kindly remember who introduced you to this problem and share the prize.
+[^3]: If you do solve it, there is a $1 million prize for it.  Please kindly remember who introduced you to this problem and share the prize.
 
 So the only thing known about `x` from the perspective of the compiler is that it is of compile-time type `T`.  We can extend this reasoning further to the following code snippet.
 
@@ -403,7 +405,7 @@ Unfortunately, unless we explicitly add a subtyping relationship between `Point3
 
 This also relates to the _anti-symmetry_ property of subtyping relationship in Java.  Java prevents a cyclic subtyping relationship.  Try the example below and see the error message from the compiler.
 
-!!! bug "Cycling Inheritance"
+!!! bug "Cyclic Inheritance"
     ```java
     class A extends B {
     }
