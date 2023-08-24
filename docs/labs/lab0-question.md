@@ -33,7 +33,7 @@ A skeleton code has been given.  Your task is to complete the implementation of 
 
 To accept the task, you first need to do the following:
 
-1. [Set up `.gitconfig`.])(github.md#1-setting-up-gitconfig)
+1. [Set up `.gitconfig`.](github.md#1-setting-up-gitconfig)
 2. [Set up password-less login.](github.md#2-setting-up-password-less-login)
 3. [Login to PE hosts.](environments.md#accessing-the-pe-hosts)
 4. You may want to create a new directory `mkdir CS2030S-2324-S1-Labs`.
