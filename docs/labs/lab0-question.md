@@ -37,8 +37,8 @@ To accept the task, you first need to do the following:
 2. [Set up password-less login.](github.md#2-setting-up-password-less-login)
 3. [Login to PE hosts.](environments.md#accessing-the-pe-hosts)
 4. You may want to create a new directory `mkdir CS2030S-2324-S1-Labs`.
-5. Go into the directory.
-6. Run `sh ~cs2030s/get-lab0`
+5. Go into the directory (_if created_).
+6. Run `sh ~cs2030s/get-lab0` (_from inside the directory if needed_).
 
 ## Task 1: `Point` Class
 
