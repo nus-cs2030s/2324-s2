@@ -29,6 +29,17 @@
 
 A skeleton code has been given.  Your task is to complete the implementation of the classes `Point`, `RandomPoint`, `Circle`, and `Lab0`, according to the OO principles that were taught: _abstraction_, _encapsulation_, _information hiding_, _inheritance_, _tell-don't-ask_.
 
+### Accepting the Task
+
+To accept the task, you first need to do the following:
+
+1. [Set up `.gitconfig`.])(github.md#1-setting-up-gitconfig)
+2. [Set up password-less login.](github.md#2-setting-up-password-less-login)
+3. [Login to PE hosts.](environments.md#accessing-the-pe-hosts)
+4. You may want to create a new directory `mkdir CS2030S-2324-S1-Labs`.
+5. Go into the directory.
+6. Run `sh ~cs2030s/get-lab0`
+
 ## Task 1: `Point` Class
 
 Fill in the class `Point` with the constructor and the necessary fields.  Add a `toString` method so that a string representation as shown in the examples below is returned.
