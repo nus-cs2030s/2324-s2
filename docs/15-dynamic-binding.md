@@ -185,7 +185,7 @@ Now, suppose that `Circle` overrides the method `Object::equals(Object)` with it
         #### Run-Time Step
 
         1. Descriptor = `void foo(T)`
-        2. `RTT(arg)` = `T`
+        2. `RTT(obj)` = `T`
         3. Check method from `T`
             - `void T::foo(T)` :material-close:
             - `void U::foo(T)` :material-check:
@@ -216,7 +216,7 @@ Now, suppose that `Circle` overrides the method `Object::equals(Object)` with it
         #### Run-Time Step
 
         1. Descriptor = `void foo(S)`
-        2. `RTT(arg)` = `S`
+        2. `RTT(obj)` = `S`
         3. Check method from `S`
             - `void S::foo(S)` :material-close:
             - `void T::foo(S)` :material-check:
