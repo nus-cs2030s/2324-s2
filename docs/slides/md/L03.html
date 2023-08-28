@@ -15,6 +15,104 @@ class: bottom, titles
 
 ---
 
+name: Announcement
+class: middle, sections
+
+# Announcement
+
+---
+
+# Announcement
+
+.ft15.subsections[
+### Lab/Recitation
+]
+.ft82[
+## Lab/Recitation
+
+.card.bg-y[
+### Lab Session
+.content.tight[
+- Starts this week
+- Lab 1 will open this Thursday
+    - Deadline is next Tuesday
+- Please email me if you have not submitted your Github username survey
+    - I will reopen the survey for you
+]
+]
+
+.card.bg-y[
+### Recitation Session
+.content.tight[
+- Starts this week
+- Problem Set 1 is uploaded
+    - No need to submit but do prepare before coming to session
+]
+]
+]
+
+---
+
+# Announcement
+
+.ft15.subsections[
+### Lab/Recitation
+### Lab Vacancies
+]
+.ft82[
+## Lab/Recitation
+
+.card.bg-r[
+### Lab Vacancies
+.content.tight[
+We would like to request people from Lab 14A and Lab 14B to move if they have no clash with other sessions to accommodate those who can only attend Lab 14A or Lab 14B.
+
+<br>
+
+Do email me if you want to voluntarily swap from Lab 14A or Lab 14B.  Put the subject as `[CS2030S] Lab Swap`.
+]
+]
+
+.card.bg-b[
+### Lab Adjustment
+.content.tight[
+We may also move you from Lab XXA to Lab XXB .note16[(and vice versa)] to balance the workload of the TA.
+
+<br>
+
+Do email me if you want to voluntarily move from Lab XXA to Lab XXB.  Put the subject as `[CS2030S] Lab Move`.
+]
+]
+]
+
+---
+
+# Announcement
+
+.ft15.subsections[
+### Lab/Recitation
+### Lab Vacancies
+### Catch-Up Session
+]
+.ft82[
+## Catch-Up Session
+
+.card.bg-y[
+### Catch-Up Session #1
+.content.tight[
+- This Saturday, 10:00
+- On Zoom, the link will be announced later
+    - Session will be recorded
+- Q&A Session
+    - You may ask your questions beforehand .note16[(the link will be announced later as well)]
+    - Please come to clarify your questions .note16[(if needed)]
+    - As usual, Q&A will be transferred to Piazza
+]
+]
+]
+
+---
+
 name: Recap
 class: middle, sections
 
@@ -438,7 +536,8 @@ $11 ==> false
 ```
 ]
 .ft35[
-![Huh?](https://c.tenor.com/bygKq3UlHYUAAAAd/what-nick-young.gif)
+#### Stack/Heap Diagram
+![Stack Heap](img/03-equals.png)
 ]
 ]
 
@@ -477,9 +576,55 @@ class Circle {
 ```
 
 #### Testing
-```jshell[lite=2]
+```jshell[lite=2|steps=1;1-2]
 jshell> c1.equals(c2)
 $11 ==> false
+```
+]
+.ft35[
+![Huh?](https://c.tenor.com/bygKq3UlHYUAAAAd/what-nick-young.gif)
+
+.card.bg-y[
+### Why?
+.content.tight[
+We have not implemented `equals` for `Point`.
+]
+]
+]
+]
+
+---
+
+# Polymorphism
+
+.ft15.subsections[
+### Method Overloading
+### Polymorphism
+#### Motivation
+#### equals
+#### Overloading
+]
+.ft82[
+## Polymorphism
+### via Overloading
+.col65[
+```java
+class Point {
+  // code omitted
+  public boolean equals(Point point) {
+      return (point.x == this.x)
+          && (point.y == this.y);
+  }
+}
+```
+
+#### Testing
+```jshell[lite=5|steps=1,2,4;1-5]
+jshell> Object obj = c1;
+jshell> obj == c1;
+true
+jshell> obj.equals(c2);
+false
 ```
 ]
 .ft35[
