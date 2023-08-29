@@ -337,7 +337,7 @@ This lab is worth 20 marks and contribute 2% to your Lab Assignment component.  
 |-----------|---------------|-------|
 | Correctness | | 4 marks |
 | OO Principles | | 16 marks |
-| | Encapsulation<br>Information Hiding<br>Polymorphism<br>Tell, Don't Ask<br>LSP | 2 marks<br>2 marks<br>4 marks<br>4 marks<br>4 marks |
+| | _Encapsulation<br>Information Hiding<br>Polymorphism<br>Tell, Don't Ask<br>LSP_ | _2 marks<br>2 marks<br>4 marks<br>4 marks<br>4 marks_ |
 
 Correctness mark will only be awarded if your code compiles and there are sufficient encapsulation (_i.e., you have created classes and used them_).  Note that the original code will have passed all test cases.  Additionally, if your code cannot compile __for any reason__, you will only get __75%__ of the mark for OO principles.  This penalty will be increased in subsequent labs.
 
