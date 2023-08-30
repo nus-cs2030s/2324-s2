@@ -57,11 +57,15 @@ What you are doing is similar to this, but the behavior of the agents are going 
 !!! failure "Do NOT Edit This Class"
     The following is for your information only.  This restriction may be lifted in future labs.
 
-The `Agent` class is an abstract class with a single field called `actionTime`.  This field indicates the time in which the agent will take an action (_i.e., will have its_ `act(Buffer)` _method invoked_).  The `Agent::toString()` method returns the time as a string enclosed in parentheses.  The `Agent::getTime(int)` method returns the time + some increment.
+The `Agent` class is an abstract class with a single field called `actionTime`.  This field indicates the time in which the agent will take an action (_i.e., will have its_ `act(Buffer)` _method invoked_).  The `Agent::toString()` method returns the time as a string enclosed in parentheses and prefixed with `@` (_e.g.,_ `(@2)`).  The `Agent::getTime(int)` method returns the time plus some increment.  So it is not a pure accessor.
 
 This class has a single abstract method `Agent::act(Buffer)`.  The method accepts a buffer which may be mutated by the action.  The method may return `null` or may generate another agent that act at a later time.  Since this method is abstract, all subclasses of this class will have to override this method.
 
 You may ignore the superclass `Comparable<Agent>` for now.  It will be made clearer later.  What you need to know about that is simply that we need to override the method `compareTo(Agent)`.  This method is used by `PriorityQueue` to determine the ordering of agents.
+
+#### Class Diagram
+
+![Agent](Agent.svg){ width=250px }
 
 ### The `Buffer` Class
 
@@ -79,6 +83,10 @@ It has two important methods:
 - `String Buffer::receive()` that allows agents to receive a message (`String`) from the buffer if possible.
     - If there is a message, the message will be returned from the front of the buffer.
     - If there is no message, a `null` value will be returned.
+
+#### Class Diagram
+
+![Buffer](Buffer.svg){ width=250px }
 
 ### The `Network` Class
 
@@ -155,13 +163,19 @@ Your task for this `Network` class is to replace the use of `NetworkAgent` class
 
 The `NetworkAgent` class is very badly written class for agent.  It extends the abstract class `Agent` so that it can be used by `PriorityQueue<Agent>` but it does not follow the good OOP principles: _information hiding_, _tell, don't ask_, _LSP_, _polymorphism_, _etc_.
 
+#### Class Diagram
+
+![Network Agent](NetworkAgent.svg)
+
+#### Your Task
+
 We separate the agent into two broad class of agents called __Sender__ and __Receiver__.  All initial __Sender__ will have unique sequential id.  So the first sender will have id of 0, the second sender will have id of 1, and so on.  Similarly, all initial __Receiver__ will have unique sequential id.  So if we have a sequence of: _sender_, _receiver_, _sender_.  Their id will be: _sender[0]_, _receiver[0]_, _sender[1]_.
 
 Note that the sequential id are only for the initial sender/receiver.  In particular, our current receiver produces another receiver with the same id but acting at a later time.
 
 The current implementation of `NetworkAgent` is a mix of three different agents:
 
-#### Single Sender Agent
+##### Single Sender Agent
 
 The action of this agent is to send a single message into the buffer if possible.  If the action fails (_e.g., the buffer is full_), then this sender does not perform anything.  The action of this sender does not generate additional agent.
 
@@ -169,7 +183,7 @@ When printed, this agent remembers if it successfully send a message or not and 
 
 ![SS](SS.png)
 
-#### Multi Sender Agent
+##### Multi Sender Agent
 
 The action of this agent is to send multiple messages into the buffer if possible.  As soon as the action fails (_e.g., it fails to send the second message out of four messages_), the agent will stop trying to send.  The action of this sender does not generate additional agent.
 
@@ -177,7 +191,7 @@ When printed, this agent remembers how many messages it successfully sent and pr
 
 ![MS](MS.png)
 
-#### Single Receiver Agent
+##### Single Receiver Agent
 
 The action of this agent is to try to receive a single message from the buffer if possible.  If it receives a message, this receiver will generate a (_potentially the same_) receiver with the same id to act at another time.  The time is computed from the input `t` and `nt` of `SR`.  On the other hand, if it fails to receive a message (_e.g., the buffer is empty_), the agent will not generate additional agent.
 
