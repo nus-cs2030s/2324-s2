@@ -35,7 +35,22 @@ So as an abstraction, senders write into the buffer if it can (_i.e., the buffer
 
 The notion of "time" in this simulation is an abstract concept.  Time may not run linearly but you are guaranteed that time will order the events.  In particular, an agent acting at time $n$ will act before an agent acting at time $m$ if and only if $n < m$.  You are also guaranteed that no two agents will act at the same time.
 
-In Lab 1, we provide you with four classes: `Agent`, `Buffer`, `Network`, `NetworkAgent`.
+To make it more concrete, consider the following set of events.  In this example, our buffer capacity is 4.
+
+| Time | Agent | Event | Buffer #1 | Buffer #2 | Buffer #3 | Buffer #4 |
+|------|-------|-------|-----------|-----------|-----------|-----------|
+| 2 | Receiver #1 | Cannot receive message | - | - | - | - |
+| 4 | Sender #1 | Send message "CS" | "CS" | - | - | - |
+| 7 | Sender #2 | Send message "2030S" | "CS" | "2030S" | - | - |
+| 8 | Receiver #2 | Receive message "CS" | "2030S" | - | - | - |
+| 17 | Sender #3 | Send message "is" | "2030S" | "is" | - | - |
+| 19 | Sender #4 | Send message "very" | "2030S" | "is" | "very" | - |
+| 20 | Sender #5 | Send message "very" | "2030S" | "is" | "very | "very" |
+| 21 | Sender #6 | Cannot send message "hard" | "2030S" | "is" | "very | "very" |
+| 25 | Receiver #3 | Receive message "2030S" | "is" | "very | "very" | - |
+| 99 | Sender #7 | Send message "easy" | "is" | "very | "very" | "easy" |
+
+What you are doing is similar to this, but the behavior of the agents are going to be slightly different.  contiIn Lab 1, we provide you with four classes: `Agent`, `Buffer`, `Network`, `NetworkAgent`.
 
 ### The `Agent` Class
 
@@ -140,7 +155,9 @@ Your task for this `Network` class is to replace the use of `NetworkAgent` class
 
 The `NetworkAgent` class is very badly written class for agent.  It extends the abstract class `Agent` so that it can be used by `PriorityQueue<Agent>` but it does not follow the good OOP principles: _information hiding_, _tell, don't ask_, _LSP_, _polymorphism_, _etc_.
 
-We separate the agent into two broad class of agents called __Sender__ and __Receiver__.  All __Sender__ will have unique contiguous id.  So the first sender will have id of 0, the second sender will have id of 1, and so on.  Similarly, all __Receiver__ will have unique contiguous id.  So if we have a sequence of: _sender_, _receiver_, _sender_.  Their id will be: _sender[0]_, _receiver[0]_, _sender[1]_.
+We separate the agent into two broad class of agents called __Sender__ and __Receiver__.  All initial __Sender__ will have unique sequential id.  So the first sender will have id of 0, the second sender will have id of 1, and so on.  Similarly, all initial __Receiver__ will have unique sequential id.  So if we have a sequence of: _sender_, _receiver_, _sender_.  Their id will be: _sender[0]_, _receiver[0]_, _sender[1]_.
+
+Note that the sequential id are only for the initial sender/receiver.  In particular, our current receiver produces another receiver with the same id but acting at a later time.
 
 The current implementation of `NetworkAgent` is a mix of three different agents:
 
@@ -163,6 +180,23 @@ When printed, this agent remembers how many messages it successfully sent and pr
 #### Single Receiver Agent
 
 The action of this agent is to try to receive a single message from the buffer if possible.  If it receives a message, this receiver will generate a (_potentially the same_) receiver with the same id to act at another time.  The time is computed from the input `t` and `nt` of `SR`.  On the other hand, if it fails to receive a message (_e.g., the buffer is empty_), the agent will not generate additional agent.
+
+!!! example "Single Receiver Example"
+    Consider part of the input:
+
+    ```
+    SR 4 5
+    ```
+
+    This creates a single receiver that is first activated at time 4.  Assume its id is 0 and we will denote this as (@4) Receiver[0].  So at time 4, this receiver may receive a message "CS2030S".  Once the message is received, a receiver with the same id will be returned by the action that will be activated at time 9 (_i.e., 4 + 5_).  In other words, this will be (@9) Receiver[0].  If this receiver then failed to receive a message, we may see the following output.
+
+    ```
+      :
+    (@4) Receiver[0] received 'CS2030S'
+      :
+    (@9) Receiver[0] failed to receive message
+      :
+    ```
 
 When printed, this agent remembers how many messages it successfully sent and prints accordingly.
 
@@ -206,13 +240,18 @@ Note that Lab 1 is the first of a series of labs, where we introduce new require
 
 Note that not all of the above changes may be executed.  A mixture of those or similar changes may be executed instead.  Thus, making sure that your code will be able to adapt to the new problem statements is the key.  Trying to solve the lab without considering this and you will likely find yourself painted into a corner and have to re-write much of your solution to handle any new requirements.
 
+!!! note "Termination"
+    You are guaranteed that the input will produce a simulation that will terminate _if implemented correctly_.  However, it is not guaranteed that the buffer will be empty at the end!
+
+    Since an incorrect implementation has a potential to have an infinite loop, if your code does not terminate, you may force it to stop by pressing ++ctrl++ + ++c++.
+
 ### First Step
 
 To help you in your design, we will show a potential first step.  This may not be the step that you choose in the end but it can be a candidate.  This step is taken based on the following specification:
 
-> We separate the agent into two broad class of agents called __Sender__ and __Receiver__.  All __Sender__ will have unique contiguous id.  So the first sender will have id of 0, the second sender will have id of 1, and so on.  Similarly, all __Receiver__ will have unique contiguous id.  So if we have a sequence of: _sender_, _receiver_, _sender_.  Their id will be: _sender[0]_, _receiver[0]_, _sender[1]_.
+> We separate the agent into two broad class of agents called __Sender__ and __Receiver__.  All initial __Sender__ will have unique sequential id.  So the first sender will have id of 0, the second sender will have id of 1, and so on.  Similarly, all initial __Receiver__ will have unique sequential id.  So if we have a sequence of: _sender_, _receiver_, _sender_.  Their id will be: _sender[0]_, _receiver[0]_, _sender[1]_.
 
-This brings us to the creation of an _abstract_ class `Sender` with a specific responsibilities of ensuring that in the normal case, the id of all sender will be contiguous starting from 0.  You will see this class in the file `Sender.java`.
+This brings us to the creation of an _abstract_ class `Sender` with a specific responsibilities of ensuring that in the normal case, the id of all sender will be sequential starting from 0.  You will see this class in the file `Sender.java`.
 
 ![Lab 01](Lab01.svg){ width=250px }
 
@@ -294,7 +333,25 @@ $ grep -i 'Receiver\[0\]' OUT
 
 This lab is worth 20 marks and contribute 2% to your Lab Assignment component.  The marking scheme is as follows:
 
-- Correctness: 4 marks.
-- OO Principles: 16 marks.
+| Component | Sub-Component | Marks |
+|-----------|---------------|-------|
+| Correctness | | 4 marks |
+| OO Principles | | 16 marks |
+| | _Encapsulation<br>Information Hiding<br>Polymorphism<br>Tell, Don't Ask<br>LSP_ | _2 marks<br>2 marks<br>4 marks<br>4 marks<br>4 marks_ |
 
-We may make additional deductions for other issues or errors in your code such as compilation error, failure to follow instructions, etc.
+Correctness mark will only be awarded if your code compiles and there are sufficient encapsulation (_i.e., you have created classes and used them_).  Note that the original code will have passed all test cases.  Additionally, if your code cannot compile __for any reason__, you will only get __75%__ of the mark for OO principles.  This penalty will be increased in subsequent labs.
+
+We may make additional deductions for other issues or errors in your code such as run-time error, failure to follow instructions, etc.
+
+## Submission
+
+To submit the lab, run the following command from the directory containing your lab 1 code.
+
+```sh
+~cs2030s/submit-lab1
+```
+
+Please check your repo after running the submission script to ensure that your files have been added correctly.  The URL to your repo is given after you run the submission script.
+
+!!! danger "Do NOT Use Other Git Command"
+    While you may be familiar with git commands, please do not use them.  Please use only the submission script `submit-labX` to ensure that your submissions are recorded properly.
