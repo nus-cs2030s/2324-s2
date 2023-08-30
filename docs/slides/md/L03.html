@@ -756,7 +756,7 @@ obj.foo(arg);
 1. Determine the .uline[_compile-time type_] ___T___ of `obj`.
 2. Collect all methods accessible in class ___T___ with the name `foo`<br>.note16[(includes methods signature in superclasses of ___T___)].
     - If there are none, then it is an error.
-3. Keep only methods from step 2 that can accept the .uline[_run-time type_] of `arg`<br>.note16[(if there are more than 1 arguments, it must be able to accept all)].
+3. Keep only methods from step 2 that can accept the .uline[_compile-time type_] of `arg`<br>.note16[(if there are more than 1 arguments, it must be able to accept all)].
     - If there are none, then it is an error.
 4. Find the .uline[_most specific method descriptor_] from step 3.
     - If there are more than one, then it is an error.
