@@ -240,7 +240,7 @@ Here are some hints:
 
 Note that the goal of this lab and, and of CS2030S in general, is _NOT to solve the problem with the cleverest and the shortest piece of code possible_. For instance, you might notice that you can solve Lab 1 with only a few variables and an array. But such a solution is hard to extend and modify. In CS2030S, our goal is to produce software that can easily evolve and be modified, with a reduced risk of introducing bugs while doing so.
 
-Note that Lab 1 is the first of a series of labs, where we introduce new requirements or modify existing ones in every lab (_not unlike what software engineers face in the real world_). We will modify the behavior for the agents and buffer In particular, in the future,
+Note that Lab 1 is the first of a series of labs, where we introduce new requirements or modify existing ones in every lab (_not unlike what software engineers face in the real world_). We will modify the behavior for the agents and buffer.  In particular, in the future,
 
 - a different receiver may be added that tries to receive multiple messages with one of the following possible behavior.
     - Receive one at a time (_i.e., receive one now and act at a later time to receive again until a specified number of messages have been received_).
