@@ -1,0 +1,1711 @@
+layout: true
+class: basic, layout, imaging, fonts, lists, cards, fadein, tabler
+name: content
+<div class="basic header"></div>
+<div class="basic footer"><p>CS2030S: Programming Methodology II -- Adi Yoga S. Prabawa</p></div>
+
+---
+
+name: Lecture_04
+class: bottom, titles
+
+# CS2030S
+## Programming Methodology II
+### Lecture 04: Interface, Wrapper, and Exception
+
+---
+
+name: Preliminary
+class: middle, sections
+
+# Preliminary
+
+---
+
+# Preliminary
+
+.ft15.subsections[
+### Design > Coding
+]
+.ft82[
+## More Design, Less Coding
+
+<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="500">      <a href="https://www.reddit.com/r/NotMyJob/comments/125kge6/house_built_boss_and_the_bricks_laid_evenly_it/">House built, Boss. And the bricks laid evenly? It couldn't be more even, Boss</a><br> by      <a href="https://www.reddit.com/user/xTCHx">u/xTCHx</a> in      <a href="https://www.reddit.com/r/NotMyJob/">NotMyJob</a>    </blockquote>
+]
+
+---
+
+name: Interface
+class: middle, sections
+
+# Interface
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+#### Definition
+]
+.ft82[
+## Abstract Class
+.card.bg-b[
+### Definition
+.content.tight[
+An __abstract class__ is a class that cannot be _instantiated_.
+It typically represents an abstract concept .note16[(i.e., not concrete, so instantiating it is "unphysical")].
+
+<br>
+
+#### Properties
+- Abstract class can be subclasses.
+- Abstract class may have fields.
+- Abstract class may have abstract methods .note16[(i.e., method without implementation)].
+- Abstract class may have non-abstract methods .note16[(i.e., concrete methods)].
+- Abstract class is not required to have abstract methods.
+- If a class has an abstract method, it must be declared abstract.
+]
+]
+
+#### Example
+```java
+abstract class Shape {              // abstract class
+  public abstract double getArea(); // abstract method: no implementation
+}
+```
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+#### Definition
+#### Class
+]
+.ft82[
+## Abstract Class
+### Abstract Class is a Class
+
+.col60[
+```java
+abstract class Shape extends Object {
+  private int symmetry;
+  
+  public Shape(int symmetry) {
+    this.symmetry = symmetry;
+  }
+  
+  public boolean isSymmetric() {
+    return symmetry > 0;
+  }
+  
+  public abstract double getArea();
+  
+  public double getSquareArea() {
+    return this.getArea();
+  }
+}
+```
+]
+.ft40[
+.card.bg-y[
+### Note
+.content.tight[
+- It may have fields.
+- It may have non-abstract methods.
+- It may extends from __at most one__ class.
+    - If none is specified, it extends from `Object`.
+    - The only class that extends nothing is `Object`.
+]
+]
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+#### Definition
+#### Class
+#### Multiple Inheritance?
+]
+.ft82[
+## Abstract Class
+### Multiple Inheritance?
+
+.col51[
+#### Class Diagram
+.img70[![Class Diagram](img/04-Multiple.svg)]
+]
+.ft49[
+#### Problem
+##### Code
+```java
+C c = new C();
+c.foo(); // which one is called?
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+Java solution to multiple inheritance problem is using __interface__.
+
+<br>
+
+.note12[However, because of __impure interface__, the problem we show here will still be present in some form.]
+]
+]
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+#### Definition
+]
+.ft82[
+## Interface
+.card.bg-b[
+### Definition
+.content.tight[
+An __interface__ is an _abstraction_ of what the _type can do_.
+
+<br>
+
+__Convention:__ Java typically use the suffic ".uline[_-able_]" to indicate that the type is an interface .note16[(e.g., `Comparable`)].
+]
+]
+
+#### Example
+.col30[
+```java[copy=nones]
+interface GetAreable {
+  double getArea();
+}
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+By default, all methods in an interface has the modifier `public` and `abstract`.
+]
+]
+]
+.ft70[
+```java
+class Circle extends Shape implements GetAreable {
+    :
+  @Override
+  public double getArea() {
+    return Math.PI * this.r * this.r;
+  }
+    :
+}
+```
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+#### Definition
+#### Usage
+]
+.ft82[
+## Interface
+### Usage
+.col51[
+```java[lite=1,3]
+double findLargest(GetAreable[] array) {
+  double maxArea = 0;
+  for (GetAreable curr : array) {
+    double area = curr.getArea();
+    if (area > maxArea) {
+      maxArea = area;
+    }
+  }
+  return maxArea;
+}
+```
+]
+.ft49[
+.card.bg-y[
+### Note
+.content.tight[
+An interface also defines a __type__.
+So whenever a type is required in the syntax, an interface can be used.
+]
+]
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+#### Definition
+#### Usage
+#### Properties
+]
+.ft82[
+## Interface
+### Properties
+.card.bg-y[
+### Subtyping
+.content.tight[
+If a class ___C___ implements an interface ___I___, then ___C <: I___.
+]
+]
+
+.card.bg-g[
+### Java Inheritance Rule
+.content.tight[
+- A class can extend __at most one__ class .note16[(keyword: `extends`)].
+- A class can implement __zero or more__ interfaces .note16[(keyword: `implements` with comma-separated interfaces)].
+- An interface can extend __zero or more__ interfaces  .note16[(keyword: `extends`)].
+]
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+#### Definition
+#### Usage
+#### Properties
+#### Spectrum
+]
+.ft82[
+## Interface
+### Spectrum
+
+.col25[
+#### Concrete Class
+]
+.col25[
+#### Abstract Class
+]
+.col25[
+#### .drdtxt[~~Impure Interface~~]
+]
+.col25[
+#### Pure Interface
+]
+
+![vline](img/Vline.jpg)
+
+.col25[
+```java[copy=nones]
+class Circle {
+    :
+    :
+}
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+- No abstract methods
+- May have non-abstract methods
+- May have instance fields
+]
+]
+]
+.col25[
+```java[copy=nones]
+abstract class
+    Shape {
+    :
+}
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+- May have abstract methods
+- May have non-abstract methods
+- May have instance fields
+]
+]
+]
+.col25[
+.card.bg-r[
+### Warning
+.content.tight[
+We do not talk about this.
+]
+]
+]
+.col25[
+```java[copy=nones]
+interface
+    GetAreable {
+    :
+}
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+- May have abstract methods
+- No non-abstract methods
+- No instance fields
+]
+]
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+### Multiple Inheritance
+#### via Pure Interface
+]
+.ft82[
+## Multiple Inheritance
+### via Pure Interface
+
+.col51[
+#### Class Diagram
+.img70[![Class Diagram](img/04-Interface.svg)]
+]
+.ft49[
+#### Problem
+##### Code
+```java
+C c = new C();
+c.foo(); // which one is called?
+```
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+Will the class diagram even compiled?
+]
+]
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+### Multiple Inheritance
+#### via Pure Interface
+]
+.ft82[
+## Multiple Inheritance
+### via Pure Interface
+
+.col51[
+#### Class Diagram
+.img70[![Class Diagram](img/04-MulInter.svg)]
+]
+.ft49[
+#### Problem
+##### Code
+```java
+C c = new C();
+c.foo(); // which one is called?
+```
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+Is there still any ambiguity now?
+]
+]
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+### Multiple Inheritance
+### Type Casting
+#### Permissive
+]
+.ft82[
+## Type Casting
+### Permissive
+
+.col51[
+#### Code
+
+```java
+interface I {
+    :
+}
+class A {
+    :
+}
+class B implements I {
+    :
+}
+```
+]
+.ft49[
+#### Unrelated Classes
+```java
+A a1 = (A) b; // Compile error
+B b1 = (B) a; // Compile error
+```
+
+#### To Interface
+```java
+I i1 = b; // Widening
+I i2 = a; // Compile error
+I i3 = (I) a; // Compiles?!
+```
+]
+]
+.abs.rt2.top2.wt30[
+.card.bg-y[
+### Variables
+```java
+A a = /* omitted */;
+B b = /* omitted */;
+```
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+### Multiple Inheritance
+### Type Casting
+#### Permissive
+#### Why?
+]
+.ft82[
+## Type Casting
+### Why?
+
+.col51[
+#### Code
+
+```java
+interface I {
+    :
+}
+class A {
+    :
+}
+class B implements I {
+    :
+}
+class A1 extends A implements I {
+    :
+}
+```
+]
+.ft49[
+#### Unrelated Classes
+```java
+A a1 = (A) b; // Compile error
+B b1 = (B) a; // Compile error
+```
+
+#### To Interface
+```java
+I i1 = b; // Widening
+I i2 = a; // Compile error
+I i3 = (I) a; // Compiles?!
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+Type cast to interface is allowed as long as the compiler cannot show that such type casting will always result in compilation error.
+]
+]
+]
+]
+.abs.rt2.top2.wt30[
+.card.bg-y[
+### Variables
+```java
+A a = new A1();
+B b = /* omitted */;
+```
+]
+]
+
+---
+
+# Interface
+
+.ft15.subsections[
+### Abstract Class
+### Interface
+### Multiple Inheritance
+### Type Casting
+#### Permissive
+#### Why?
+#### Example
+]
+.ft82[
+## Type Casting
+### Example
+.col55[
+#### Code
+```java[copy=nones]
+GetAreable findLargest(GetAreable[] array) {
+  double maxArea = 0;
+  GetAreable maxObj = null;
+  for (GetAreable curr : array) {
+    double area = curr.getArea();
+    if (area > maxArea) {
+      maxArea = area;
+      maxObj = curr;
+    }
+  }
+  return maxObj;
+}
+```
+]
+.ft45[
+#### OK
+```java[copy=nones|lite=4]
+GetAreable[] arr = new GetAreable[2];
+Point p = new Point(0, 0);
+arr[0] = new Square(1);
+arr[1] = new Circle(p, 1);
+Circle c = (Circle) findLargest(arr);
+c.contains(p);
+```
+
+#### ERROR
+```java[copy=nones|lite=3]
+GetAreable[] arr = new GetAreable[2];
+Point p = new Point(0, 0);
+arr[0] = new Square(2);
+arr[1] = new Circle(p, 1);
+Circle c = (Circle) findLargest(arr);
+c.contains(p);
+```
+]
+]
+.abs.rt2.top2.wt30[
+.card.bg-y[
+### Note
+.content.tight[
+Type casting is basically saying
+
+> We know better than you, trust me this is definitely going to be a `Circle`.
+]
+]
+]
+
+---
+
+name: Wrapper_Class
+class: middle, sections
+
+# Wrapper Class
+
+---
+
+# Wrapper Class
+
+.ft15.subsections[
+### Motivation
+]
+.ft82[
+## Motivation
+### Motivational Example
+.col55[
+#### Code
+```java[copy=nones]
+boolean contains(Object[] array, Object obj) {
+  for (Object curr : array) {
+    if (curr.equals(obj)) {
+      return true;
+    }
+  }
+  return false;
+}
+```
+]
+.ft45[
+#### Expected Usage
+```java
+Point p = new Point(0, 0);
+Circle[] arr = new Circle[2];
+arr[0] = new Circle(p, 1);
+arr[1] = new Circle(p, 2);
+contains(arr, new Circle(p, 2)); // OK
+```
+
+#### Limitation
+```java
+int[] intArr = new int[2];
+int[0] = 1;
+int[1] = 2;
+contains(intArr, 2); // ?
+```
+]
+]
+
+---
+
+# Wrapper Class
+
+.ft15.subsections[
+### Motivation
+### Wrapper Class
+#### Definition
+]
+.ft82[
+## Wrapper Class
+.card.bg-b[
+### Definition
+.content.tight[
+A __wrapper class__ is a class that encapsulates a _type_.
+In other words, it is the _reference type_ counterpart of _primitive type_.
+]
+]
+
+#### Classes
+.atbl.blhead.font20[
+| Primitive Types | Wrapper Classes | Direct Supertype |
+|-----------------|-----------------|------------------|
+| `byte`<br>`short`<br>`int`<br>`long` | [`Byte`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Byte.html)<br>[`Short`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Short.html)<br>[`Integer`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html)<br>[`Long`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Long.html) | `Number` |
+| `float`<br>`double` | [`Float`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Float.html)<br>[`Double`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html) | `Number` |
+| `char` | [`Character`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Character.html) | `Object` |
+| `boolean` | [`Boolean`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html) | `Object` |
+]
+]
+
+---
+
+# Wrapper Class
+
+.ft15.subsections[
+### Motivation
+### Wrapper Class
+#### Definition
+#### Difference
+]
+.ft82[
+## Wrapper Class
+### Difference with Primitive Types
+
+.col51[
+#### Reference Type
+```java
+Integer i = Integer.valueOf(2);
+int j = i.intValue();
+```
+]
+.ft49[
+![Ref](img/04-Ref.jpg)
+]
+
+.col51[
+#### Primitive Type
+```java
+i = 2;
+```
+]
+.ft49[
+![Ref](img/04-Prim.png)
+]
+]
+
+---
+
+# Wrapper Class
+
+.ft15.subsections[
+### Motivation
+### Wrapper Class
+#### Definition
+#### Difference
+#### Auto-Boxing/Unboxing
+]
+.ft82[
+## Wrapper Class
+### Auto-Boxing/Unboxing
+
+.col51[
+#### Reference Type
+```java
+Integer i = Integer.valueOf(2);
+int j = i.intValue();
+```
+]
+.ft49[
+![Ref](img/04-Ref.jpg)
+]
+
+.col51[
+#### Auto-Boxing and Auto-Unboxing
+```java
+Integer i = 3;
+int j = i;
+```
+]
+.ft49[
+]
+]
+
+---
+
+# Wrapper Class
+
+.ft15.subsections[
+### Motivation
+### Wrapper Class
+#### Definition
+#### Difference
+#### Auto-Boxing/Unboxing
+]
+.ft82[
+## Wrapper Class
+### Auto-Boxing/Unboxing
+
+.col51[
+#### Reference Type
+```java
+Integer i = Integer.valueOf(2);
+int j = i.intValue();
+```
+]
+.ft49[
+![Ref](img/04-Ref.jpg)
+]
+
+.col51[
+#### Auto-Boxing and Auto-Unboxing
+```java
+Integer i = 3;
+int j = i;
+```
+]
+.ft49[
+![Auto](img/04-Plunger.jpg)
+]
+]
+
+---
+
+# Wrapper Class
+
+.ft15.subsections[
+### Motivation
+### Wrapper Class
+#### Definition
+#### Difference
+#### Auto-Boxing/Unboxing
+]
+.ft82[
+## Wrapper Class
+### Auto-Boxing/Unboxing
+
+.col51[
+#### Reference Type
+```java
+Integer i = Integer.valueOf(2);
+int j = i.intValue();
+```
+]
+.ft49[
+![Ref](img/04-Ref.jpg)
+]
+
+.col51[
+#### Auto-Boxing and Auto-Unboxing
+```java
+Integer i = 3;
+int j = i;
+```
+]
+.ft49[
+.img55[![Auto](img/04-Auto.jpg)]
+]
+]
+
+---
+
+name: Variance_of_Types
+class: middle, sections
+
+# Variance of Types
+
+---
+
+# Variance of Types
+
+.ft15.subsections[
+### Variance
+#### Definition
+]
+.ft82[
+## Variance
+.card.bg-b[
+### Definition
+.content.tight[
+Let ___C(T)___ be a _complex_ type based on type ___T___.
+We say a complex type ___C___ is:<br><br>
+
+.col15[
+- __Covariant__
+- __Contravariant__
+- __Invariant__
+]
+.ft85[
+.nol[
+- if ___S <: T___ implies ___C(S) <: C(T)___
+- if ___S <: T___ implies ___C(T) <: C(S)___ .note16[(alternatively, ___T <: S___ implies ___C(S) <: C(T)___)]
+- if ___C___ is _neither_ covariant nor contravariant
+]
+]
+
+<br><br><br><br>
+
+__Note:__ The only _complex_ type we have learnt so far is the array type.
+We denote `T[]` as ___Array(T)___ to follow this notation.
+]
+]
+
+.col51[
+.card.bg-y[
+### Java Array is Covariant
+.content.tight[
+For every reference type `T` <: `S`, Java automatically create an array type for `T` .note16[(we denote it as `T[]`)] that extends the array type for `S` .note16[(we denote it as `S[]`)].
+
+<br>
+
+Therefore, _by design_, `T` <: `S` implies `T[]` <: `S[]`.
+Hence, Java array is covariant.
+]
+]
+]
+.ft49[
+#### Proof
+```java[copy=nones]
+Integer[] intArray = new Integer[]{ 1, 2 };
+Object[] objArray;
+objArray = intArray; // ok
+
+objArray[0] = "Oh dear"; // compiles!
+// but causes run-time error
+```
+]
+]
+
+---
+
+# Variance of Types
+
+.ft15.subsections[
+### Variance
+### Producer/Consumer
+#### Definition
+]
+.ft82[
+## Producer/Consumer
+.col51[
+### Producer
+.card.bg-b[
+### Definition
+.content.tight[
+A __producer__ produces values.
+]
+]
+]
+.ft49[
+### Consumer
+.card.bg-b[
+### Definition
+.content.tight[
+A __consumer__ consumes values.
+]
+]
+]
+
+#### Array
+.col51[
+### as Producer
+```java
+Object obj = objArray[0];
+```
+]
+.ft49[
+### as Consumer
+```java
+objArray[0] = value;
+```
+]
+
+#### Function
+.col51[
+### as Producer
+```java
+Object obj = f(..);
+```
+]
+.ft49[
+### as Consumer
+```java
+f(value);
+```
+]
+]
+
+---
+
+# Variance of Types
+
+.ft15.subsections[
+### Variance
+### Producer/Consumer
+#### Definition
+#### Variance Problem
+]
+.ft82[
+## Producer/Consumer
+.col51[
+### Producer
+.card.bg-r[
+### Contravariant Problem
+.content.tight[
+___If___ array is __contravariant__, there are some cases where the compiler cannot check for problems related to array as __producer__.
+]
+]
+]
+.ft49[
+### Consumer
+.card.bg-r[
+### Covariant Problem
+.content.tight[
+___If___ array is __covariant__, there are some cases where the compiler cannot check for problems related to array as __consumer__.
+]
+]
+]
+
+.col51[
+```java[copy=nones]
+A1[] arrA1;
+B[] arrB = new B[]{ new A1(), new A2() };
+arrA1 = arrB; // assume contravariant
+
+A1 a1 = arrA1[1]; // compiles!
+// but causes run-time error
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+Does not compile because Java array is covariant.
+]
+]
+]
+.ft49[
+```java[copy=nones]
+A1[] arrA1 = new A[]{ new A1(), new A1() };
+B[] arrB;
+arrB = arrA1; // covariant
+
+arrB[0] = new A2(); // compiles!
+// but causes run-time error
+```
+]
+]
+.abs.rt2.top2.wt30[
+.card.bg-y[
+### Subtyping
+.content.tight[
+Assume `A1` <: `B`.
+Assume `A2` <: `B`.
+]
+]
+]
+
+---
+
+# Variance of Types
+
+.ft15.subsections[
+### Variance
+### Producer/Consumer
+#### Definition
+#### Variance Problem
+#### Compile-Time Type
+]
+.ft82[
+## Producer/Consumer
+.col51[
+### Producer
+.card.bg-r[
+### Contravariant Problem
+.content.tight[
+___If___ array is __contravariant__, there are some cases where the compiler cannot check for problems related to array as __producer__.
+]
+]
+]
+.ft49[
+### Consumer
+.card.bg-r[
+### Covariant Problem
+.content.tight[
+___If___ array is __covariant__, there are some cases where the compiler cannot check for problems related to array as __consumer__.
+]
+]
+]
+
+.col51[
+```java[copy=nones]
+A1[] arrA1; // arrA1 : A1[]
+B[] arrB =  // arrB : B[]
+arrA1 = arrB; // contra: B[] <: A1[]
+
+A1 a1 = arrA1[1]; // OK: A1 <: A1
+// but causes run-time error
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+Does not compile because Java array is covariant.
+]
+]
+]
+.ft49[
+```java[copy=nones]
+A1[] arrA1 = // arrA1 : A1[]
+B[] arrB;    // arrB : B[]
+arrB = arrA1; // co: A1[] <: B[]
+
+arrB[0] = new A2(); // OK: A2 <: B
+// but causes run-time error
+```
+]
+]
+.abs.rt2.top2.wt30[
+.card.bg-y[
+### Subtyping
+.content.tight[
+Assume `A1` <: `B`.
+Assume `A2` <: `B`.
+]
+]
+]
+
+---
+
+name: Exceptions
+class: middle, sections
+
+# Exceptions
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+]
+.ft82[
+## Exceptions
+.center[![Error](img/04-RandError.png)]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+#### Motivation
+]
+.ft82[
+## Exceptions
+### Motivation
+#### Code
+.col65[
+```java[copy=nones]
+try {
+  reader = new FileReader(filename);
+  scanner = new Scanner(reader);
+  value = scanner.nextInt();
+} catch (FileNotFoundException e) {
+  System.err.println("File " + filename + " not found");
+} catch (InputMismatchException e) {
+  System.err.println("Unable to scan for an integer");
+} catch (NoSuchElementException e) {
+  System.err.println("No input found");
+} finally {
+  if (scanner != null) {
+    scanner.close();
+  }
+}
+```
+]
+.ft35[
+.card.bg-r[
+### Problem
+.content.tight[
+Consider writing a method that reads in a single integer value from a file.
+
+<br>
+
+What could go wrong?
+]
+]
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+#### Motivation
+#### Try-Catch-Finally
+]
+.ft82[
+## Exceptions
+### Try-Catch-Finally
+.col60[
+.card.bg-g[
+### Syntax
+.content.tight[
+```java
+try {
+  // do something that may cause exception
+} catch (/* an exception parameter */) {
+  // handle the exception
+} finally {
+  // clean up code even if no exception
+  //   was thrown
+  // this block is ALWAYS executed
+}
+```
+]
+]
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+#### Motivation
+#### Try-Catch-Finally
+#### Normal Execution
+]
+.ft82[
+## Exceptions
+### Normal Execution
+.col60[
+.card.bg-g[
+### Syntax
+.content.tight[
+```java
+try {
+  // do something that may cause exception
+} catch(/* an exception parameter */) {
+  // handle the exception
+} finally {
+  // clean up code even if no exception
+  //   was thrown
+  // this block is ALWAYS executed
+}
+```
+]
+]
+]
+.ft40[
+#### Flowchart
+
+![Normal](img/04-ExcNormal.png)
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+#### Motivation
+#### Try-Catch-Finally
+#### Normal Execution
+#### Exceptional Execution
+]
+.ft82[
+## Exceptions
+### Exceptional Execution
+.col60[
+.card.bg-g[
+### Syntax
+.content.tight[
+```java
+try {
+  // do something that may cause exception
+} catch(/* an exception parameter */) {
+  // handle the exception
+} finally {
+  // clean up code even if no exception
+  //   was thrown
+  // this block is ALWAYS executed
+}
+```
+]
+]
+]
+.ft40[
+#### Flowchart
+
+![Exceptional](img/04-ExcErr.png)
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+#### Checked/Unchecked
+]
+.ft82[
+## Hierarchy
+.col40[
+### Class Diagram
+![Hierarchy](img/04-Exception.svg)
+]
+.ft60[
+### Checked/Unchecked
+.card.bg-y[
+### Checked Exception
+.content.tight[
+- Programmer has no control over .note16[(even if code is perfectly written)].
+- Checked by compiler that it is either handled or re-thrown.
+- Subclass of `Exception` and not subclass of `RuntimeException`.
+]
+]
+.card.bg-y[
+### Unchecked Exception
+.content.tight[
+- Caused by programmer's errors .note16[(should not happen if the code is perfectly written)].
+- Not checked by compiler and typically just let error be unrecoverable.
+- Subclass of `RuntimeException`.
+]
+]
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+#### Checked/Unchecked
+#### Custom Exception
+]
+.ft82[
+## Hierarchy
+### Custom Exception
+.col55[
+#### Unchecked Exception
+```java[copy=nones]
+class InvalidCircle extends RuntimeException {
+  public InvalidCircle(double r) {
+    super("Invalid circle with radius: " + r);
+  }
+}
+```
+]
+.ft45[
+#### Usage
+```java[copy=nones]
+class Circle {
+    :
+  public Circle(Point c, double r) {
+      :
+    if (r <= 0) {
+      throw new InvalidCircle(r);
+    }
+      :
+  }
+}
+```
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+#### Checked/Unchecked
+#### Custom Exception
+]
+.ft82[
+## Hierarchy
+### Custom Exception
+.col55[
+#### Checked Exception
+```java[copy=nones]
+class InvalidCircle extends Exception {
+  public InvalidCircle(double r) {
+    super("Invalid circle with radius: " + r);
+  }
+}
+```
+]
+.ft45[
+#### Usage
+```java[copy=nones|lite=4]
+class Circle {
+    :
+  public Circle(Point c, double r)
+      throws InvalidCircle {
+    if (r <= 0) {
+      throw new InvalidCircle(r);
+    }
+      :
+  }
+}
+```
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+### Control Flow
+#### Trace
+]
+.ft82[
+## Control Flow
+.col40[
+### Code
+.col40.font14[
+```java[copy=nones]
+void m1() {
+    :
+  m2();
+    :
+}
+
+void m2() {
+    :
+  m3();
+    :
+}
+```
+]
+.ft60.font14[
+```java[copy=nones]
+void m3() {
+    :
+  m4();
+    :
+}
+
+void m4() {
+    :
+  throw new E2();
+    :
+}
+```
+]
+
+.font14[
+```java[copy=nones]
+try {
+  m1();
+} catch (E1 e) {
+    :
+} catch (E2 e) {
+    :
+} finally {
+    :
+}
+```
+]
+]
+.ft60[
+### Trace
+.img95[![Trace](img/04-CF-Trace.png)]
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+### Control Flow
+#### Trace
+#### Normal Execution
+]
+.ft82[
+## Control Flow
+.col40[
+### Code
+.col40.font14[
+```java[copy=nones]
+void m1() {
+    :
+  m2();
+    :
+}
+
+void m2() {
+    :
+  m3();
+    :
+}
+```
+]
+.ft60.font14[
+```java[copy=nones|emph=1-8,10-11]
+void m3() {
+    :
+  m4();
+    :
+}
+
+void m4() {
+    :
+  throw new E2();
+    :
+}
+```
+]
+
+.font14[
+```java[copy=nones]
+try {
+  m1();
+} catch (E1 e) {
+    :
+} catch (E2 e) {
+    :
+} finally {
+    :
+}
+```
+]
+]
+.ft60[
+### Normal Execution
+.img95[![Normal](img/04-CF-Normal.png)]
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+### Control Flow
+#### Trace
+#### Normal Execution
+#### Error Execution
+]
+.ft82[
+## Control Flow
+.col40[
+### Code
+.col40.font14[
+```java[copy=nones]
+void m1() {
+    :
+  m2();
+    :
+}
+
+void m2() {
+    :
+  m3();
+    :
+}
+```
+]
+.ft60.font14[
+```java[copy=nones|lite=9]
+void m3() {
+    :
+  m4();
+    :
+}
+
+void m4() {
+    :
+  throw new E2();
+    :
+}
+```
+]
+
+.font14[
+```java[copy=nones]
+try {
+  m1();
+} catch (E1 e) {
+    :
+} catch (E2 e) {
+    :
+} finally {
+    :
+}
+```
+]
+]
+.ft60[
+### Error Execution
+.img95[![Error](img/04-CF-E2.png)]
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+### Control Flow
+### Good Practice
+#### Not Control Flow
+]
+.ft82[
+## Good Practice
+### Do .drdtxt[NOT] Use Try-Catch as Control Flow
+
+.col51[
+#### Bad
+```java
+try {
+  something.thenTask();
+} catch (NullPointerException e) {
+  somethingElse.task();
+}
+```
+]
+.col49[
+#### Good
+```java
+if (something != null) {
+  something.thenTask();
+} else {
+  somethingElse.task();
+}
+```
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+Why don't we do this for the file reading?
+Can't we just check if the file exists?
+]
+]
+]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+### Control Flow
+### Good Practice
+#### Not Control Flow
+#### Not Catch All
+]
+.ft82[
+## Good Practice
+### Do .drdtxt[NOT] Simply Catch Exception
+#### Pokemon Exception
+
+.img60[![Pokemon](img/04-Pokemon.png)]
+]
+
+---
+
+# Exceptions
+
+.ft15.subsections[
+### Exceptions
+### Hierarchy
+### Control Flow
+### Good Practice
+#### Not Control Flow
+#### Not Catch All
+#### Not Overreact
+]
+.ft82[
+## Good Practice
+### Do .drdtxt[NOT] Overreact
+#### But Still Try to Resolve the error
+
+.img85[![Overreact](img/04-Overreact.jpg)]
+]
+
+---
+
+layout: false
+class: middle, end, fadein
+
+`jshell> /exit`
+
+`|  Goodbye`
