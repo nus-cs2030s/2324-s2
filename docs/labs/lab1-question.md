@@ -195,6 +195,8 @@ When printed, this agent remembers how many messages it successfully sent and pr
 
 The action of this agent is to try to receive a single message from the buffer if possible.  If it receives a message, this receiver will generate a (_potentially the same_) receiver with the same id to act at another time.  The time is computed from the input `t` and `nt` of `SR`.  On the other hand, if it fails to receive a message (_e.g., the buffer is empty_), the agent will not generate additional agent.
 
+When printed, this agent remembers if it successfully received a message or not and prints accordingly.
+
 !!! example "Single Receiver Example"
     Consider part of the input:
 
@@ -211,8 +213,6 @@ The action of this agent is to try to receive a single message from the buffer i
     (@9) Receiver[0] failed to receive message
       :
     ```
-
-When printed, this agent remembers how many messages it successfully sent and prints accordingly.
 
 ![SR](SR.png)
 
