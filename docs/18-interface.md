@@ -27,7 +27,7 @@ double findLargest(Shape[] array) {
 }
 ```
 
-Note that all that is required for this method to work, is that the type of objects in `array` supports a `getArea` method.  While `Shape` that we defined in the previous unit meets this requirement, it does not have to be.  We could pass in an array of countries or an array of HDB flats.  It is unnatural to model a `Country` or a `Flat` as a subclass of `Shape` (_recall inheritance models the IS-A relationship_).
+Note that all that is required for this method to work, is that the type of objects in `array` supports a `getArea` method.  While `Shape` that we defined in the previous unit meets this requirement, it does not have to be.  We could pass in an array of countries or an array of HDB flats.  However, it is unnatural to model a `Country` or a `Flat` as a subclass of `Shape` (_recall inheritance models the IS-A relationship so we cannot easily say that a country is a shape_).
 
 To resolve this, we will look at an abstraction that models what can an entity do, possibly across different class hierarchies.
 
@@ -35,7 +35,7 @@ To resolve this, we will look at an abstraction that models what can an entity d
 
 The abstraction to do this is called an _interface_.  An interface is also a type and is declared with the keyword `interface`.
 
-Since an interface models what an entity can do, the name usually ends with the -able suffix[^1].  Java [Comparable](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html) is one such example.  You may remember this from Lab 1 where `Agent` implements `Comparable<Agent>`.  For now, we cannot fully explain what that is.
+Since an interface models what an entity can do, the name usually ends with the -able suffix[^1].  Java [Comparable](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html) is one such example.  You may remember this from Lab 1 where `Agent` implements `Comparable<Agent>`.  For now, we cannot fully explain what that is as we need to know about generics.
 
 Now, suppose we want to create a type that supports the` getArea()` method, be it a shape, a geographical region, or a real estate property.  Let's call it `GetAreable`:
 
@@ -123,7 +123,7 @@ In the example above, `Flat` <: `GetAreable` and `Flat` <: `RealEstate`.
 
 ## Casting using an Interface
 
-Like any type in Java, it is also possible cast using an interface.  Lets consider an interface `I` and two classes `A` and `B`. Note that `A` does not implement `I`
+Like any type in Java, it is also possible to cast into an interface.  Lets consider an interface `I` and two classes `A` and `B`. Note that `A` does not implement `I`
 
 ```Java
 interface I {

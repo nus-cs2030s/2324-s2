@@ -123,7 +123,7 @@ The answer: _performance_. Because using an object comes with the cost of alloca
 Consider the following two programs:
 
 ```Java
-Double sum = 0;
+Double sum = 0.0;
 for (int i = 0; i < Integer.MAX_VALUE; i++) {
   sum += i;
 }
@@ -132,13 +132,25 @@ for (int i = 0; i < Integer.MAX_VALUE; i++) {
 vs.
 
 ```Java
-double sum = 0;
+double sum = 0.0;
 for (int i = 0; i < Integer.MAX_VALUE; i++) {
   sum += i;
 }
 ```
 
-The second one can be about 2 times faster.  This makes sense if we think about it in terms of the stack/heap diagram.  When we are using wrapper class, to retrieve the value, we require at least two operations: (i) look for the variable in the stack and retrieve the value (_i.e., reference to instance_) and (ii) follow the reference into an instance and retrieve the value from the heap.
+The second one can be about or even more than 2 times faster[^1].  The following is a sample run with the timing in _milliseconds_.
+
+[^1]: There might actually be additional optimizations performed when executing the above code multiple times (_e.g., wrapping it in a method_ `f()` _and invoking_ `f()` multiple times within a method_ `h()`).  It also kind of makes sense to perform this additional optimizations only when the method is invoked multiple times because the time taken to optimize this will be paid off by the increase in speed as now the benefit can be reaped multiple times!
+
+| Run | Using `Double` | Using `double` |
+|-----|----------------|----------------|
+| 1 | 7888 ms | 1860 ms+7 |
+| 2 | 7763 ms | 1862 ms |
+| 3 | 7737 ms | 1864 ms |
+| 4 | 7733 ms | 1863 ms |
+| ___Average___ | ___7780.25 ms___ | ___1862.25 ms___ |
+
+This makes sense if we think about it in terms of the stack/heap diagram.  When we are using wrapper class, to retrieve the value, we require at least two operations: (i) look for the variable in the stack and retrieve the value (_i.e., reference to instance_) and (ii) follow the reference into an instance and retrieve the value from the heap.
 
 On the other hand, using primitive values, we can simply retrieve the value with one operation: (i) look for the variable in the stack and retrieve the value.  That's it, there is no step (ii).
 

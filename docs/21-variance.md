@@ -140,7 +140,7 @@ We will show two different of producer/consumer.
 | Kind | as Producer | as Consumer |
 |------|-------------|-------------|
 | _Array_ | `X x = arr[n];` | `arr[n] = value;` |
-| _Function_ | `X x = f(arg);` | `f(value);` |
+| _Function_ | `X x = f(arg);` (_i.e., return value is produced_) | `f(value);` (_i.e., argument is consumed_) |
 
 ## Type Problems
 

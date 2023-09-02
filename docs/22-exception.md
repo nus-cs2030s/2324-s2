@@ -238,7 +238,7 @@ A checked exception is an exception that a programmer has no control over.  Even
 
 Consider the general syntax for `try`-`catch`-`finally` above.  We have two possible execution pathways assuming no error escaped.  The first possibility is that `// do something` does not have a run-time error.  The second possibility is `//do something` has a run-time error.  We call the first normal execution and the second error execution.
 
-There are other possibilities when we consider cases where the error escaped from the current context.  This can either be because the `catch` block does not catch the required exception or because the `catch`/`finally` block themselves have a run-time error!  As there can be too many possibilities, we restrict ourselves to cases where the error does not escape.
+There are other possibilities when we consider cases where the error escaped from the current context.  This can either be because the `catch` block does not catch the required exception or because the `catch`/`finally` block themselves have a run-time error!  As there can be too many possibilities, we restrict ourselves to cases where the error does not escape.  in ["Passing the Buck"](#passing-the-buck), you will see the execution when the error escaped.
 
 ### Normal Execution
 
@@ -492,11 +492,9 @@ public void m2() throws E2 {
   try {
     // setup resources
     m3();
-  }
-  catch (E2 e) {
+  } catch (E2 e) {
     throw e;
-  }
-  finally {
+  } finally {
     // clean up resources
   }
 }
@@ -518,7 +516,7 @@ to stop the compiler from complaining.  **DO NOT DO THIS.**  Since `Exception` i
 
 [^2]: An even worse offence would be to `catch(Throwable t)`.  The only _exception_ to this rule (_pun intended_) is when you are writing code for system that must __NEVER__ shut down like a nuclear power plant or an airplane midflight.  Then by all means, catch a throwable and don't cause a nuclear meltdown or planes crashing down.
 
-### Overreacting
+### Do NOT Overreact
 
 Do not exit a program just because of an exception. This would prevent the calling function from cleaning up their resources. Worse, do not exit a program silently.
 
@@ -530,7 +528,7 @@ try {
 }
 ```
 
-### Do Not Break Abstraction Barrier
+### Do NOT Break Abstraction Barrier
 
 Sometimes, letting the calling method handle the exception causes the implementation details to be leaked, and make it harder to change the implementation later.
 
