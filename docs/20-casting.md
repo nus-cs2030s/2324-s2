@@ -106,6 +106,6 @@ We will see how to resolve this problem in later units.
     String str2 = (String) obj;
     ```
 
-    Here, the expression `(String) obj` produces a value with compile-time type of `Object`.  This value is then assigned to `str2`.  This is allowed because `String` (_from_ `(String) obj`) <: `String` (_from the compile-time type of_ `str2`).  Note that the compile-time type of both `str1` and `obj` are __unchanged__.
+    Here, the expression `(String) obj` produces a value with compile-time type of `String`.  This value is then assigned to `str2`.  This is allowed because `String` (_from_ `(String) obj`) <: `String` (_from the compile-time type of_ `str2`).  Note that the compile-time type of both `str1` and `obj` are __unchanged__.  They are still `String` and `Object` respectively.
 
     These compile-time type information is needed only for compilation and is no longer needed at run-time.  So at run-time, what Java is actually doing is to check if the given run-time type is actually a subtype of the declared casted type.  This is done without changing the run-time type of the object.  However, if the check fails, then you will get a run-time error `ClassCastException`.
