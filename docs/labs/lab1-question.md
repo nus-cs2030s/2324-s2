@@ -332,7 +332,7 @@ vim -d OUT output/Lab1.9.out
 
 will open both files and highlight the differences.
 
-As the output becomes too long, you can focus on tracing a particular agent with the help of `grep`. Suppose you want to focus on what happened to Sender #1 in `OUT`, run
+As the output becomes too long, you can focus on tracing a particular agent with the help of `grep`. Suppose you want to focus on what happened to Receiver #0 in `OUT`, run
 
 ```
 $ grep -i 'Receiver\[0\]' OUT
