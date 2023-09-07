@@ -1,0 +1,1361 @@
+layout: true
+class: basic, layout, imaging, fonts, lists, cards, fadein, tabler
+name: content
+<div class="basic header"></div>
+<div class="basic footer"><p>CS2030S: Programming Methodology II -- Adi Yoga S. Prabawa</p></div>
+
+---
+
+name: Lecture_05
+class: bottom, titles
+
+# CS2030S
+## Programming Methodology II
+### Lecture 05: Generics
+
+---
+
+name: Generics
+class: middle, sections
+
+# Generics
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+#### Integer Pairs
+]
+.ft82[
+## Motivation
+### Integer Pairs
+
+.col60[
+```java
+class IntPair {
+  private int first;
+  private int second;
+  
+  public IntPair(int first, int second) {
+    this.first = first;
+    this.second = second;
+  }
+  
+  public int getFirst() {
+    return this.first;
+  }
+  
+  public int getSecond() {
+    return this.second;
+  }
+}
+```
+]
+.ft40[
+.card.bg-r[
+### Problems
+.content.tight[
+1. How do we make this more flexible?
+2. How do we make sure type checking works?
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+#### Integer Pairs
+#### Double Pairs
+]
+.ft82[
+## Motivation
+### Double Pairs
+
+.col60[
+```java
+class DoublePair {
+  private double first;
+  private double second;
+  
+  public DoublePair(double first, double second) {
+    this.first = first;
+    this.second = second;
+  }
+  
+  public double getFirst() {
+    return this.first;
+  }
+  
+  public double getSecond() {
+    return this.second;
+  }
+}
+```
+]
+.ft40[
+.card.bg-r[
+### Problems
+.content.tight[
+1. How do we make this more flexible?
+2. How do we make sure type checking works?
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+#### Integer Pairs
+#### Double Pairs
+#### Boilerplate
+]
+.ft82[
+## Motivation
+### Boilerplate
+
+.col60[
+![Boilerplate](img/05-Boilerplate.jpg)
+]
+.ft40[
+.card.bg-y[
+### Boilerplate Class
+.content.tight[
+- Implement a boilerplate class with placeholder type.note16[(need not be compilable)]
+- Copy-paste class to a new file
+- Find and replace placeholder type
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+#### Integer Pairs
+#### Double Pairs
+#### Boilerplate
+]
+.ft82[
+## Motivation
+### Boilerplate
+
+.col60[
+```java
+class #T#Pair {
+  private #T# first;
+  private #T# second;
+  
+  public #T#Pair(#T# first, #T# second) {
+    this.first = first;
+    this.second = second;
+  }
+  
+  public #T# getFirst() {
+    return this.first;
+  }
+  
+  public #T# getSecond() {
+    return this.second;
+  }
+}
+```
+]
+.ft40[
+<pre id="boiler" style="width:100%;height:450px">
+</pre>
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+#### Integer Pairs
+#### Double Pairs
+#### Boilerplate
+#### Object Pairs
+]
+.ft82[
+## Motivation
+### Object Pairs
+
+.col60[
+```java
+class ObjectPair {
+  private Object first;
+  private Object second;
+  
+  public ObjectPair(Object first, Object second) {
+    this.first = first;
+    this.second = second;
+  }
+  
+  public Object getFirst() {
+    return this.first;
+  }
+  
+  public Object getSecond() {
+    return this.second;
+  }
+}
+```
+]
+.ft40[
+.card.bg-y[
+### Note
+.content.tight[
+- Flexible type .note16[(if we include wrapper class)]
+- But we lose type checking
+]
+]
+
+#### Invalid Usage
+```java
+ObjectPair p;
+p = new ObjectPair("hello", 4);
+Integer i = (Integer) p.getFirst();
+```
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+#### Defining Generic
+]
+.ft82[
+## Generic Pairs
+### Defining Generic
+
+.col60[
+```java
+class Pair<S, T> {
+  private S first;
+  private T second;
+  
+  public Pair(S first, T second) {
+    this.first = first;
+    this.second = second;
+  }
+  
+  public S getFirst() {
+    return this.first;
+  }
+  
+  public T getSecond() {
+    return this.second;
+  }
+}
+```
+]
+.ft40[
+.card.bg-y[
+### Note
+.content.tight[
+- `S` and `T` in `Pair<S, T>` are generic type declaration
+    - Similar to variable declaration
+    - The type can be used within the class
+- Constructor does not have `< .. >`
+- `S` and `T` will be instantiated later
+- Type checking will be performed for each usage
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+#### Defining Generic
+#### Using Generic
+]
+.ft82[
+## Generic Pairs
+### Using Generic
+
+.col60[
+```java
+class Pair<S, T> {
+  private S first;
+  private T second;
+  
+  public Pair(S first, T second) {
+    this.first = first;
+    this.second = second;
+  }
+  
+  public S getFirst() {
+    return this.first;
+  }
+  
+  public T getSecond() {
+    return this.second;
+  }
+}
+```
+]
+.ft40[
+#### Usage
+```java[lite=8-9]
+Pair<String, Integer> p;
+p = new Pair<String, Integer>
+    ("hello", 4);
+    
+// S in Pair<S, T> is now String
+// T in Pair<S, T> is now Integer
+    
+Integer i = p.getFirst();
+// Compile Error!
+
+String s = p.getFirst();
+// Compiles!
+
+Integer j = p.getSecond();
+// Compiles!
+```
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+#### Defining Generic
+#### Using Generic
+#### Extending Generic
+]
+.ft82[
+## Generic Pairs
+### Extending Generic
+
+.col60[
+```java
+class Pair<S, T> {
+  private S first;
+  private T second;
+  
+  public Pair(S first, T second) {
+    this.first = first;
+    this.second = second;
+  }
+  
+  public S getFirst() {
+    return this.first;
+  }
+  
+  public T getSecond() {
+    return this.second;
+  }
+}
+```
+]
+.ft40[
+#### Extension
+```java
+class DictEntry<T> extends
+    Pair<String, T> {
+  public DictEntry(String key,
+      T value) {
+    super(key, value);
+  }
+}
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+- `String` is not generic
+- `T` is a generic type
+    - `T` in `Pair<String, T>` will be assigned the same type as `DictEntry<T>` during instantiation
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+#### Non-Generic
+]
+.ft82[
+## Generic Methods
+### Non-Generic
+.col60[
+```java
+class Main {
+  public static     boolean contains
+      (Object[] array, Object obj) {
+    for (Object curr : array) {
+      if (curr.equals(obj)) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+```
+]
+.ft40[
+#### Usage
+```java[copy=nones]
+String[] arr = new String[] {
+  "CS2030S", "is", "easy"
+};
+Main.contains(arr, 1010);
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+The code above compiles but does not really make sense.
+An `Integer` .note16[(after auto-boxing)] is never equal to `String`.
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+#### Non-Generic
+#### Generic
+]
+.ft82[
+## Generic Methods
+### Generic
+.col60[
+```java
+class Main {
+  public static <T> boolean contains
+      (     T[] array,      T obj) {
+    for (     T curr : array) {
+      if (curr.equals(obj)) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+```
+]
+.ft40[
+#### Usage
+```java[copy=nones]
+String[] arr = new String[] {
+  "CS2030S", "is", "easy"
+};
+Main.<String>contains(arr, 1010);
+```
+
+```jshell[copy=nones]
+|  Error:
+|  incompatible types:
+|    int cannot be converted
+|    to java.lang.String
+|  Main.<String>contains(arr, 1010)
+|                             ^--^
+```
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+]
+.ft82[
+## Quiz
+### Generic Type Parameter
+
+.col51[
+.qns[
+> ##### Question
+> Consider the code on the right.
+> How many ___distinct___ generic types are there in the class `C2`?
+]
+]
+.ft49[
+```java
+class C1<S, T> {
+    : // code omitted
+}
+class C2<T> extends C1<X, T> {
+  public <T> getT() { /* omitted */ }
+  public <X> getX() { /* omitted */ }
+}
+```
+]
+
+.mrq[
+2. .quiz-choice[1] .quiz-ans[0] .quiz-hint[NO: there are at least 2]
+1. .quiz-choice[2] .quiz-ans[0] .quiz-hint[NO: `T` in `C2<T>` and `T` in `<T> getT` are different `T`]
+2. .quiz-choice[3] .quiz-ans[1] .quiz-hint[YES: `X` in `<X> getX` is a generic type]
+1. .quiz-choice[4] .quiz-ans[0] .quiz-hint[NO: `X` in `C2<X, T>` is not a generic type]
+
+.quizzes-poll[ylbUZB74f6rnu0DXNvkRw]
+.quizzes-time[60]
+.quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+#### Motivation
+]
+.ft82[
+## Bounding
+### Motivation
+.col60[
+```java[lite=7]
+class Main {
+  public static <T> T findLargest
+      findLargest (T[] array) {
+    double maxArea = 0;
+    T maxObj = null;
+    for (T curr : array) {
+      double area = curr.getArea();
+      if (area > maxArea) {
+        maxArea = area;
+        maxObj = curr;
+      }
+    }
+    return maxObj;
+  }
+}
+```
+]
+.ft40[
+#### Error
+.hljs-error[
+```
+_.java:_: error: cannot find symbol
+      double area = curr.getArea();
+                        ^
+  symbol:   method getArea()
+  location: variable curr of type T
+  where T is a type-variable:
+    T extends Object declared in method
+    <T>findLargest(T[])
+1 error
+```
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+#### Motivation
+#### Bounded Type Parameter
+]
+.ft82[
+## Bounding
+### Bounded Type Parameter
+.col60[
+```java[lite=2]
+class Main {
+  public static <T extends GetAreable> T
+      findLargest (T[] array) {
+    double maxArea = 0;
+    T maxObj = null;
+    for (T curr : array) {
+      double area = curr.getArea();
+      if (area > maxArea) {
+        maxArea = area;
+        maxObj = curr;
+      }
+    }
+    return maxObj;
+  }
+}
+```
+]
+.ft40[
+.card.bg-y[
+### Note
+.content.tight[
+The type `T` can only be subtypes of `GetAreable`.
+This guarantees that `curr.getArea()` can be invoked.
+
+<br>
+
+Without bounding, the type `T` can be any subtypes of `Object`.
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+#### Interface
+]
+.ft82[
+## Comparable
+### Interface
+.col60[
+<iframe src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html#method-summary" frameborder=0 width=100% height=450px></iframe>
+]
+.ft40[
+.card.bg-y[
+### compareTo(T o)
+.content.tight[
+Returns
+.nol[
+- _-ve_.op0[_zero+_] if `this` < `o`
+- _zero_.op0[_-+ve_] if `this` == `o`
+- _+ve_.op0[_zero-_] if `this` > `o`
+]
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+#### Interface
+#### Comparing Pair
+]
+.ft82[
+## Comparable
+### Comparing Pair
+#### Attempt #1
+.col60[
+```java[lite=5]
+class Pair<S, T> implements
+    Comparable {
+    :
+  @Override
+  public int compareTo(??? o) {
+      :
+  }
+}
+```
+]
+.ft40[
+.card.bg-r[
+### Problems
+.content.tight[
+What are we comparing it to?
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+#### Interface
+#### Comparing Pair
+]
+.ft82[
+## Comparable
+### Comparing Pair
+#### Attempt #2
+.col60[
+```java[lite=6]
+class Pair<S, T> implements
+    Comparable<Pair<S, T>> {
+    :
+  @Override
+  public int compareTo(Pair<S, T> o) {
+    return this.first.compareTo(o.first);
+  }
+}
+```
+]
+.ft40[
+.card.bg-r[
+### Problems
+.content.tight[
+Does `this.first` has a method `compareTo`?
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+#### Interface
+#### Comparing Pair
+]
+.ft82[
+## Comparable
+### Comparing Pair
+#### Attempt #3
+.col60[
+```java[lite=1]
+class Pair<S extends Comparable<S>, T> implements
+    Comparable<Pair<S, T>> {
+    :
+  @Override
+  public int compareTo(Pair<S, T> o) {
+    return this.first.compareTo(o.first);
+  }
+}
+```
+]
+.ft40[
+.card.bg-y[
+### Note
+.content.tight[
+Now we guarantee that `this.first` of type `S` has a method `compareTo`.
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+#### Interface
+#### Comparing Pair
+#### Sorting
+]
+.ft82[
+## Comparable
+### Sorting
+.col60[
+<iframe src="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Arrays.html#sort(java.lang.Object%5B%5D)" frameborder=0 width=100% height=450px></iframe>
+]
+.ft40[
+#### Usage
+```java
+Object[] arr = new Object[] {
+  new Pair<String, Integer>("A", 1),
+  new Pair<String, Integer>("C", 2),
+  new Pair<String, Integer>("B", 3),
+  new Pair<String, Integer>("D", 4)
+};
+
+Arrays.sort(arr);
+
+for (Object obj : arr) {
+  System.out.println(obj);
+}
+```
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+### Generated Code
+#### ~~Code Specialization~~
+]
+.ft82[
+## Generated Code
+### ~~Code Specialization~~
+
+.card.bg-b[
+### Definition
+.content.tight[
+__~~Code specialization~~__ is a code generation method of generating new class for every new type arguments.
+This method is used in C#, C++, Rust, _etc_.
+]
+]
+
+.col51[
+#### Usage
+```java
+Pair<String, Integer> p1;
+Pair<Double, Double> p2;
+Pair<Integer, Double> p3;
+```
+
+.card.bg-g[
+### Advantage
+.content.tight[
+Generic code may use methods available in `T` if the usage are only of that type `T` .note16[(e.g., `getArea`)].
+]
+]
+]
+.ft49[
+#### Generated Classes
+```java
+class Pair#String#Integer { .. }
+class Pair#Double#Double { .. }
+class Pair#Integer#Double { .. }
+```
+
+.card.bg-r[
+### Disadvantage
+.content.tight[
+Generic code has to be _recompiled_ for each new type arguments.
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+### Generated Code
+#### ~~Code Specialization~~
+#### Code Sharing
+]
+.ft82[
+## Generated Code
+### Code Sharing
+
+.card.bg-b[
+### Definition
+.content.tight[
+__Code Sharing__ is a code generation method of _erasing type arguments_ and _type parameters_ in conjunction  .note16[(usually after)] with _type checking_.
+This is the method used by Java.
+]
+]
+
+.col51[
+#### Usage
+```java
+Pair<String, Integer> p;
+p = new Pair<String, Integer>(..);
+Integer i = p.getSecond();
+```
+
+.card.bg-g[
+### Advantage
+.content.tight[
+Generic code just need to be compiled once and used for all future types.
+]
+]
+]
+.ft49[
+#### Generated Code
+```java
+Pair p;
+p = new Pair(..);
+Integer i = (Integer) p.getSecond();
+```
+
+.card.bg-r[
+### Disadvantage
+.content.tight[
+What you can do with the generic type is limited .note16[(e.g., cannot use `getArea`)].
+]
+]
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+### Generated Code
+### Type Erasure
+#### Generic Type
+]
+.ft82[
+## Type Erasure
+### Generic Type
+
+.col51[
+#### Generic Pair
+```java
+class Pair<S, T> {
+​
+  private S first;
+  private T second;
+    :
+  public S getFirst() { .. }
+  public T getSecond() { .. }
+}
+```
+]
+.ft49[
+#### Generated Class
+```java
+class Pair {
+​
+  private Object first;
+  private Object second;
+    :
+  public Object getFirst() { .. }
+  public Object getSecond() { .. }
+}
+```
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+### Generated Code
+### Type Erasure
+#### Generic Type
+#### Bounded Type Parameter
+]
+.ft82[
+## Type Erasure
+### Bounded Type Parameter
+
+.col51[
+#### Bounded Pair
+```java
+class Pair<S extends Comparable<S>, T>
+    extends Comparable<Pair<S, T>>{
+  private S first;
+  private T second;
+    :
+  public S getFirst() { .. }
+  public T getSecond() { .. }
+}
+```
+]
+.ft49[
+#### Generated Class
+```java
+class Pair
+    extends Comparable {
+  private Comparable first;
+  private Object second;
+    :
+  public Comparable getFirst() { .. }
+  public Object getSecond() { .. }
+}
+```
+]
+]
+
+---
+
+# Generics
+
+.ft15.subsections[
+### Motivation
+### Generic Pair
+### Generic Methods
+### Quiz
+### Bounding
+### Comparable
+### Generated Code
+### Type Erasure
+#### Generic Type
+#### Bounded Type Parameter
+#### Limitation
+]
+.ft82[
+## Type Erasure
+### Limitation
+
+.col51[
+#### No Type Information
+```java
+Pair<String,Integer>[] pairArray;
+Object[] objArray;
+
+pairArray = new Pair<String,Integer>[2];
+objArray = pairArray;
+
+objArray[0]
+    = new Pair<Double,Boolean>(3.14, true);
+String str
+    = pairArray[0].getFirst();
+
+```
+.card.bg-r[
+### Problems
+.content.tight[
+- Generics and array does not mix!
+- The code above/on the right does not compile.
+]
+]
+]
+.ft49[
+#### Generated Code at Run Time
+```java
+Pair[] pairArray;
+Object[] objArray;
+
+pairArray = new Pair[2];
+objArray = pairArray;
+
+objArray[0]
+    = new Pair(3.14, true);
+String str
+    = (String) pairArray[0].getFirst();
+
+```
+```java[copy=nones]
+new Pair<String,Integer>[2]; // ERROR
+new Pair<S,T>[2];            // ERROR
+new T[2];                    // ERROR
+```
+]
+]
+
+---
+
+name: Generic_Array
+class: middle, sections
+
+# Generic Array
+
+---
+
+# Generic Array
+
+.ft15.subsections[
+### Attempts
+#### Attempt #1
+]
+.ft82[
+## Attempts
+### Attempt #1
+.col60[
+```java[lite=5]
+class Array<T> {
+  private T[] array;
+  
+  public Array(int length) {
+    this.array = new T[length];
+  }
+  
+  public void set(int index, T t) {
+    this.array[index] = t;
+  }
+  
+  public T get(int index) {
+    return this.array[index];
+  }
+}
+```
+]
+.ft40[
+.card.bg-r[
+### Problems
+.content.tight[
+We cannot instantiate generic array!
+]
+]
+]
+]
+
+---
+
+# Generic Array
+
+.ft15.subsections[
+### Attempts
+#### Attempt #1
+#### Attempt #2
+]
+.ft82[
+## Attempts
+### Attempt #2
+.col60[
+```java[lite=5]
+class Array<T> {
+  private T[] array;
+  
+  public Array(int length) {
+    this.array = new Object[length];
+  }
+  
+  public void set(int index, T t) {
+    this.array[index] = t;
+  }
+  
+  public T get(int index) {
+    return this.array[index];
+  }
+}
+```
+]
+.ft40[
+.card.bg-r[
+### Problems
+.content.tight[
+But `Object[]` </: `T[]` because `T` might be `Circle`.
+]
+]
+]
+]
+
+---
+
+# Generic Array
+
+.ft15.subsections[
+### Attempts
+#### Attempt #1
+#### Attempt #2
+#### Attempt #3
+]
+.ft82[
+## Attempts
+### Attempt #3
+.col60[
+```java[lite=5]
+class Array<T> {
+  private T[] array;
+  
+  public Array(int length) {
+    this.array = (T[]) new Object[length];
+  }
+  
+  public void set(int index, T t) {
+    this.array[index] = t;
+  }
+  
+  public T get(int index) {
+    return this.array[index];
+  }
+}
+```
+]
+.ft40[
+.card.bg-r[
+### Problems
+.content.tight[
+There is a ".uline[_warning_]" but the code compiles.
+
+<br>
+
+But is there a potential for error?
+- `set` only takes in `T` .note16[(or subtypes of `T`)]
+- `get` only returns `T` .note16[(or subtypes of `T`)]
+]
+]
+]
+]
+
+---
+
+# Generic Array
+
+.ft15.subsections[
+### Attempts
+#### Attempt #1
+#### Attempt #2
+#### Attempt #3
+#### Attempt #4
+]
+.ft82[
+## Attempts
+### Attempt #4
+.col60[
+```java[emph=4-12|lite=9-10]
+class Array<T> {
+  private T[] array;
+  
+  public Array(int length) {
+    // The only way we can put an object into array
+    // is through the method set() and we only put
+    // object of type T inside. So it is safe to
+    // cast `Object[]` to `T[]`.
+    @SuppressWarnings("unchecked")
+    T[] temp = (T[]) new Object[length];
+    this.array = (T[]) temp;
+  }
+  
+    :
+}
+```
+]
+.ft40[
+.card.bg-y[
+### Notes
+.content.tight[
+- Only use `@SuppressWarnings` if you are really sure that it will never cause error.
+    - Write a comment to explain why it is safe.
+- Use `@SuppressWarnings` in the smallest scope.
+    - `@SuppressWarnings` can only be used on _declaration_.
+]
+]
+]
+]
+
+---
+
+# Generic Array
+
+.ft15.subsections[
+### Attempts
+### Raw Types
+#### Definition
+]
+.ft82[
+## Raw Types
+.card.bg-b[
+### Definition
+.content.tight[
+A __raw type__ is a _generic type_ used without type arguments.
+This corresponds to the code after type erasure.
+]
+]
+
+.col45[
+#### Example
+```java
+Array arr = new Array(4);
+arr.set(0, "hello");
+```
+
+.card.bg-y[
+### Allowed Usage .note16[(for now)]
+.content.tight[
+```java[copy=nones]
+obj instanceof Array
+```
+- Only for `boolean equals(Object)`
+- This is evaluated at run-time
+- There is no compile-time information
+- Will be banned in the future
+]
+]
+]
+.ft55[
+#### Warning
+.hljs-error[
+```
+Test.java:4: warning: [unchecked] unchecked call
+  to set(int,T) as a member of the raw type Array
+  arr.set(0, "hello");
+         ^
+  where T is a type-variable:
+    T extends Object declared in class Array
+1 warning   
+```
+]
+]
+]
+
+---
+
+layout: false
+class: middle, end, fadein
+
+`jshell> /exit`
+
+`|  Goodbye`
