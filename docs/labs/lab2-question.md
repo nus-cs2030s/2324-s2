@@ -159,16 +159,16 @@ So a sample output is as follows:
 ```
 (@001) S#0 successfully sent 'CS2030S'
 (@003) S#1 sent all messages
-(@004) R#0 received 'CS2030S' 
+(@004) R#0 received 'CS2030S'
 (@005) S#2 successfully sent 'actually'
-(@006) R#1 received 'is' 
-(@007) R#0 received 'really' 
-(@009) R#1 received 'not' 
-(@010) R#0 received 'that' 
-(@012) R#1 received 'hard' 
-(@013) R#0 received 'actually' 
-(@015) R#1 failed to receive message 
-(@016) R#0 failed to receive message 
+(@006) R#1 received 'is'
+(@007) R#0 received 'really'
+(@009) R#1 received 'not'
+(@010) R#0 received 'that'
+(@012) R#1 received 'hard'
+(@013) R#0 received 'actually'
+(@015) R#1 failed to receive message
+(@016) R#0 failed to receive message
 ```
 
 ## Task 3: Retries
