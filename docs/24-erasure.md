@@ -19,8 +19,47 @@ For instance, in C#, every instantiation of a generic type causes new code to be
 
 The disadvantages of such approach are
 
-- codes are duplicated, so the resulting program is larger
-- changing the client by adding more use cases requires recompilation of the entire generic `Pair` class as we may need to generate the specialized code for a new type
+- codes are duplicated, so the resulting program is larger.
+- changing the client by adding more use cases requires .recompilation of the entire generic `Pair` class as we may need to generate the specialized code for a new type.
+
+Note, in the example below, the specialized codes are __hypothethcal__ as Java does not use code specialization technique.  Additionally, th ename of the class is improper as it contains the character `#`.
+
+=== "Template Code"
+    ```java
+    class Pair<S, T> {
+      private S first;
+      pruvate T second;
+
+      public Pair(S first, T second) {
+        this.first = first;
+        this.second = second;
+      }
+    }
+    ```
+=== "String/Integer"
+    ```java
+    class Pair#String#Integer {
+      private String first;
+      pruvate Integer second;
+
+      public Pair(String first, Integer second) {
+        this.first = first;
+        this.second = second;
+      }
+    }
+    ```
+=== "Sender/Receiver"
+    ```java
+    class Pair#Sender#Receiver {
+      private Sender first;
+      pruvate Receiver second;
+
+      public Pair(Sender first, Receiver second) {
+        this.first = first;
+        this.second = second;
+      }
+    }
+    ```
 
 
 ### Code Sharing

@@ -50,7 +50,7 @@ IntPair findMinMax(int[] array) {
 }
 ```
 
-We could similarly define a pair class for two doubles (`DoublePair`), two booleans (`BooleanPair`), etc.  In other situations, it is useful to define a pair class that bundles two variables of two different types, say, a `Customer` and a `ServiceCounter`; a `String` and an `int`; etc.  
+We could similarly define a pair class for two doubles (`DoublePair`), two booleans (`BooleanPair`), _etc_.  In other situations, it is useful to define a pair class that bundles two variables of two different types, say, a `Sender` and a `Receiver`; a `String` and an `int`; _etc_.  
 
 We should not, however, create one class for each possible combination of types.  A better idea is to define a class that stores two `Object` references:
 ```Java
@@ -137,7 +137,12 @@ Pair<String,Integer> p = foo();
 Integer i = (Integer) p.getFirst(); // compile-time error
 ```
 
-With the parameterized type `Pair<String,Integer>`, the return type of `getFirst` is bound to `String`, and the compiler now have enough type information to check and give us an error since we try to cast a `String` to an `Integer`.
+With the parameterized type `Pair<String,Integer>`, the return type of `getFirst` is bound to `String`, and the compiler now have enough type information to check and give us an error since we try to cast a `String` to an `Integer` in the expression `(Integer) p.getFirst()`.  We can see this by the following reasoning:
+
+- The return type of `p.getFirst()` is the generic type `S`.
+- The variable `p` has a compile-time type of `Pair<String, Integer>`.
+    - Map this to the type declaration `class Pair<S, T>`, we get `S` = `String` and `T` = `Integer`.
+- As such, the return type of `p.getFirst()` is `String` (_because_ `S` = `String`).
 
 Note that we use `Integer` instead of `int`, since _only reference types_ can be used as type arguments.
 
@@ -150,6 +155,18 @@ class DictEntry<T> extends Pair<String,T> {
 ```
 
 We define a generic class called `DictEntry<T>` with a single type parameter `T` that extends from `Pair<String,T>`, where `String` is the first type argument (in place of `S`), while the type parameter `T` from `DictEntry<T>` is passed as the type argument for `T` of `Pair<String,T>`.
+
+!!! warning "Generic Type Declaration vs Usage"
+    In geenral, generic type declaration will always be enclosed within `< .. >`.  However, there are at least two cases where the types within `< .. >` are not declared but used.
+
+    1. Extending/implementing a generic class/interface.
+        - Consider `class DictEntry<T> extends Pair<String, T>`.
+        - We declare a generic type `T` in `class Dictionary<T> ..`.
+        - We use the generic type `T` in `.. extends Pair<.., T>`.
+    2. Instantiating an instance of a generic type.
+        - Consider `new Pair<X, Y>( ,, )`.
+        - The two types `X` and `Y` are not generic type declaration.
+
 
 ### Generic Methods
 
@@ -195,6 +212,7 @@ class A {
 The above shows an example of a _generic method_.  The type parameter `T` is declared within `<` and `>` and is added before the return type of the method.  This parameter `T` is then scoped within the whole method.
 
 To call a generic method, we need to pass in the type argument placed before the name of the method[^1].  For instance,
+
 ```Java
 String[] strArray = new String[] { "hello", "world" };
 A.<String>contains(strArray, 123); // type mismatch error
@@ -203,6 +221,26 @@ A.<String>contains(strArray, 123); // type mismatch error
 [^1]: Java actually can infer the type using the _type inference_ mechanism and allows us to skip the type argument, but for clarity, we insist on specifying the type explicitly until students get used to the generic types and reasoning about types.
 
 The code above won't compile since the compiler expects the second argument to also be a `String`.
+
+Our old implementation of [`contains` method](14-polymorphism.md) (_reproduced below_) is simply a special case of the contains method above.
+
+```java
+boolean oldContains(Object[] array, Object obj) {
+  for (Object curr : array) {
+    if (curr.equals(obj)) {
+      return true;
+    }
+  }
+  return false;
+}
+```
+
+The following two statements are equivalent.
+
+```java
+oldContains(objArr, obj);
+A.<Object>contains(objArr, obj);
+```
 
 !!! danger "Type Parameter Confusion"
     A potential confusion arise when we declare type parameter with the same name but are actually different type.  Recap that we declare a type parameter by enclosing it within `<` and `>`.  As you have seen in [Declaring a Generic Type](#declaring-a-generic-type) and [Generic Methods](#generic-methods), the two places where you can declare type parameters are when you declare a class or when you declare a method.
@@ -370,3 +408,6 @@ Let's see this in action with [`Arrays::sort`](https://docs.oracle.com/en/java/j
 ```
 
 You will see the pairs are sorted by the first element.
+
+!!! note "Upper Bound"
+    Note that there is only "upper bound" in bounded type parameters.  For a more flexible typing, we have to rely on wildcards that can specify either the upper bound or the lower bound.
