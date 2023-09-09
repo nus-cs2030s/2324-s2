@@ -77,5 +77,28 @@ Once a search is being performed.
 
 ## Split Screen
 
+### Commands
+
+| Keys | Description |
+| ---- | ----------- |
+| `:sp <filename>` | Open file name `<filename>` in _horizontal_ split screen |
+| `:vsp <filename>` | Open file name `<filename>` in _vertical_ split screen |
+| `:e <filename>` | Open the file name `<filename>` in the current screen |
+
+### Navigation
+
+| Keys | Description |
+| ---- | ----------- |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++ctrl++ + ++w++ | Change screen |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++h++ | Change to the _right_ screen |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++j++ | Change to the _down_ screen |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++k++ | Change to the _up_ screen |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++l++ | Change to the _left_ screen |
+
 ## Java
 
+| Keys | Description |
+| ---- | ----------- |
+| `:!javac <filename>.java` | Compile the java file `<filename>.java` |
+| `:!java <classname>` | Run the class `<classname>` |
+| `:!jshell <filename> <filename> ...` | Start JShell with the given `<filename>`s |
