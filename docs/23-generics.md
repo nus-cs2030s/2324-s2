@@ -161,7 +161,8 @@ We define a generic class called `DictEntry<T>` with a single type parameter `T`
 
     1. Extending/implementing a generic class/interface.
         - Consider `class DictEntry<T> extends Pair<String, T>`.
-        - We declare a generic type `T` in `class Dictionary<T> ..`.
+        - We declare a generic type `T` in `class DictEntry<T> ..`.
+        - We use the non-generic type `String` in `.. extends Pair<String, ..>`.
         - We use the generic type `T` in `.. extends Pair<.., T>`.
     2. Instantiating an instance of a generic type.
         - Consider `new Pair<X, Y>( ,, )`.
@@ -221,6 +222,35 @@ A.<String>contains(strArray, 123); // type mismatch error
 [^1]: Java actually can infer the type using the _type inference_ mechanism and allows us to skip the type argument, but for clarity, we insist on specifying the type explicitly until students get used to the generic types and reasoning about types.
 
 The code above won't compile since the compiler expects the second argument to also be a `String`.
+
+```
+_.java:_: error: incompatible types: int cannot be converted to String
+		A.<String>contains(strArray, 123); // type mismatch error
+		                             ^
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+1 error
+```
+
+Additionally, the number of type arguments passed must match the number of type arguments expected.  This is similar to how the number of argument values passed must match the number of parameter variables expected.  Consider the following method invocation.
+
+```Java
+String[] strArray = new String[] { "hello", "world" };
+A.<String, String>contains(strArray, "123"); // no more type mismatch, but wrong number of type arguments
+```
+
+The code will not compile with the following error message.
+
+```
+_.java:_: error: method contains in class A cannot be applied to given types;
+		A.<String, String>contains(strArray, "123"); // type mismatch error
+		 ^
+  required: T[],T
+  found: String[],String
+  reason: wrong number of type arguments; required 1
+  where T is a type-variable:
+    T extends Object declared in method <T>contains(T[],T)
+1 error
+```
 
 Our old implementation of [`contains` method](14-polymorphism.md) (_reproduced below_) is simply a special case of the contains method above.
 

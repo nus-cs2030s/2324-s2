@@ -209,8 +209,16 @@ The hypothetical code above actually is not a valid Java syntax.  We can't compi
 Pair<String,Integer>[] pairArray = new Pair<String,Integer>[2];
 ```
 
-The following is illegal as well:
+The following are illegal as well:
 ```Java
 new Pair<S,T>[2];
 new T[2];
 ```
+
+On the other hand, given a generic type `T`, the following is allowed.
+
+```Java
+T[] array;
+```
+
+So generic array declaration is fine but generic array instantiation is not.
