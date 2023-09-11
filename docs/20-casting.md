@@ -94,6 +94,73 @@ Square sq = (Square) findLargest(circles);
 
 We will see how to resolve this problem in later units.
 
+## Type Case Checks
+
+Although type casting is like telling the compiler that we -- the programmer -- know better, some cases are really indefensible that the compiler will know immediately that it is wrong.  The checks done during type casting in Java can be classified into two parts: compile-time check and run-time check.
+
+We consider the following statement:
+
+```java
+a = (C) b;
+```
+
+### Compile-Time Check
+
+During compile-time, the compile will perform the following checks:
+
+1. Find the compile-time type of variable `b` (_denoted_ CTT(`b`)).
+2. Check if there is a "_possibility_" that the run-time type of `b` (_denoted_ RTT(`b`)) is a subtype of `C` (_i.e.,_ RTT(`b`) <: `C`).  We will explain the possibilities more later.
+    - If it is _impossible_, then exit with __compilation error__.
+    - Otherwise, continue to step 3.
+3. Find the compile-time type of variable `a` (_denoted_ CTT(`a`)).
+4. Check if `C` is a subtype of CTT(`a`) (_i.e.,_ `C` <: CTT(`a`)).
+    - If it is not, then exit with __compilation error__.
+    - Otherwise, add __run-time check__ for RTT(`b`) <: `C`.
+
+Note that step (1) and (2) is checking if the type cast operation (_i.e.,_ `(C) b`) can potentially happen or not.  Step (3) and (4) checks if the assignment (_i.e.,_ `a = <expr>;`) satisfies the subtyping relationship or not.  The check at step (4) is simply a check for _widening_.
+
+!!! success "Possibility"
+    We will consider 3 cases where it is _possible_ for RTT(`b`) to be a subtype of `C`.  There may be other cases, so you have to think about possibilities in terms of potential new classes added in the future.
+
+    1. Case 1: CTT(`b`) <: `C`
+        - This is simply widening and is always allowed.
+        - The use of explicit type cast is unnecessary but not incorrect.
+    2. Case 2: `C` <: CTT(`b`)
+        - This is narrowing and requires run-time checks.
+        - Consider `C` <: `B`:
+            - If CTT(`b`) = `B` and RTT(`b`) = `C` (_or subtype of_ `C`), then it is allowed at run-time.
+            - If CTT(`b`) = `B` and RTT(`b`) = `C` (_or other subtype of_ `B` _that is not_ `C`), then it not allowed at run-time.
+        Since there is a _possibility_, the compiler will add codes to check at run-time.
+    3. Case 3: `C` is an interface
+        - Let RTT(`b`) = `B`.  Then it may have a subclass `A` such that `A` <: `C` (_i.e., implements the interface_ `C`).
+        ```java
+        class A extends B implements C { .. }
+        ```
+        - If RTT(`b`) = `A`, then it is allowed at run-time.
+
+!!! failure "Impossibility"
+    There are certain cases where it is _impossible_ for RTT(`b`) to be a subtype of `C`.  We will explain two cases here.
+
+    1. Let CTT(`b`) = `B` and let both `B` and `C` be two unrelated classes (_.e.,_ `B` </: `C` _and_ `C` </: `B`).
+        - Then it is impossible for RTT(`b`) to be subtype of `C` because the subclass of `B` must alreadt extends `B`.  As such, it cannot also extends from `C` as Java does not allow a class to extends from two or more classes.
+    2. Let `C` be an interface and CTT(`b`) be a class with a modifier `final`.
+        - Then Case (3) on the possibility does not apply as RTT(`b`) cannot be a subtype of CTT(`b`) since there cannot a subtype in the first place.  Recap: the `final` modifier on a class prevents the class from being inherited.
+
+### Run-Time Check
+
+The check at run-time is added on step (4) of compile-time check.  This is because at step (2) we are only looking for "_possibility_".  Therefore, there is a chance that such possibility did not occur at run-time.
+
+1. Find the run-time type of variable `b` (_denoted_ RTT(`b`)).
+2. Check if RTT(`b`) <: `C`.
+
+You may think of the check for the type cast `(C) b` as logically equivalent to the following
+
+```java
+if (!(b instanceof C)) {
+  throw new ClassCastException( .. );
+}
+```
+
 !!! info "Actual Casting"
 
     Note that at run-time, there is no need to do an actual casting from one type to another.  Remember that at run-time we will be using the run-time type information.  This run-time type information does not change!

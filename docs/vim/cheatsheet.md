@@ -6,15 +6,15 @@ In `NORMAL` mode.
 
 | Keys | Description |
 | ---- | ----------- |
-| ++h++ | Move cursor to the left |
-| ++j++ | Move cursor down |
-| ++k++ | Move cursor up |
-| ++l++ | Move cursor to the right |
+| ++h++ &nbsp;&nbsp; (_or_ ++left++) | Move cursor to the left (_you may use arrow keys if_ `.vimrc` _is set correctly_) |
+| ++j++ &nbsp;&nbsp; (_or_ ++down++) | Move cursor down (_you may use arrow keys if_ `.vimrc` _is set correctly_) |
+| ++k++ &nbsp;&nbsp; (_or_ ++up++) | Move cursor up (_you may use arrow keys if_ `.vimrc` _is set correctly_) |
+| ++l++ &nbsp;&nbsp; (_or_ ++right++) | Move cursor to the right (_you may use arrow keys if_ `.vimrc` _is set correctly_) |
 | |
-| `n` ++h++ | Move cursor `n` steps to the left |
-| `n` ++j++ | Move cursor `n` steps to the right |
-| `n` ++k++ | Move cursor `n` steps down |
-| `n` ++l++ | Move cursor `n` steps up |
+| `n` ++h++ &nbsp;&nbsp; (_or_ `n` ++left++) | Move cursor `n` steps to the left (_you may use arrow keys if_ `.vimrc` _is set correctly_) |
+| `n` ++j++ &nbsp;&nbsp; (_or_ `n` ++down++) | Move cursor `n` steps down (_you may use arrow keys if_ `.vimrc` _is set correctly_) |
+| `n` ++k++ &nbsp;&nbsp; (_or_ `n` ++up++) | Move cursor `n` steps up (_you may use arrow keys if_ `.vimrc` _is set correctly_) |
+| `n` ++l++ &nbsp;&nbsp; (_or_ `n` ++right++) | Move cursor `n` steps to the right (_you may use arrow keys if_ `.vimrc` _is set correctly_) |
 | |
 | ++g++ ++g++ | Go to the first line |
 | ++shift++ + ++g++ | Go to the last line |
@@ -42,7 +42,7 @@ In `NORMAL` mode.
 | ++p++ | Paste after cursor |
 | ++shift++ + ++p++ | Paste before cursor |
 | ++u++ | Undo |
-| ++ctr++ + ++r++ | Redo |
+| ++ctrl++ + ++r++ | Redo |
 | ++equal++ | Auto-indent current line |
 | |
 | `n` ++y++ ++y++ | Yank (_i.e., copy_) `n` lines |
@@ -52,11 +52,11 @@ In `NORMAL` mode.
 
 The last keys can be split into 3 components:
 
-- ++g++ ++g++: Go to the first line
-- ++equal++: Auto-indent
-- ++shift++ + ++g++: Go to the last line
+1. ++g++ ++g++: Go to the first line
+2. ++equal++: Auto-indent
+3. ++shift++ + ++g++: Go to the last line
 
-This reads as (i) go to the first line, then (ii) auto-indent (iii) until the last line.
+This reads as (1.) go to the first line, then (2.) auto-indent (3.) until the last line.
 
 ## Search and Replace
 
@@ -66,7 +66,8 @@ In `NORMAL` mode.
 | -------- | ----------- |
 | `/<pattern>` | Search for `<pattern>` |
 | `?<pattern>` | Search backward for `<pattern>` |
-| `:%s/<old>/<new>/g` | Replace all `<old>` with `<new>` |
+| `:%s/<old>/<new>/gc` | Replace all `<old>` with `<new>` (_this will prompt options_) |
+| `:<sn>,<en>s/<old>/<new>/gc` | Replace all `<old>` with `<new>` in the given line range from `<sn>` to `<en>` (_this will prompt options_) |
 
 Once a search is being performed.
 
@@ -75,7 +76,60 @@ Once a search is being performed.
 | ++n++ | Continue search forward |
 | ++shift++ + ++n++ | Continue search backward |
 
+Options for replace
+
+| Option | Description |
+| ------ | ----------- |
+| `y` | Yes, replace the current one |
+| `n` | No, skip this one |
+| `a` | Yes to all |
+| `l` | Yes to just this one |
+| `q` | Quit |
+
+### Comment and Uncomment
+
+We can quickly comment a specific range of lines using the replace functionality.  The idea is to replace the _beginning of a line_ with `//` (_i.e., start of single line comment_).  We need to "escape" the `/` character by writing it as `\/\/`To match the beginning of the line, the character is `^`.
+
+Comment line 4 to 17.
+
+```
+:4,17s/^/\/\//gc
+```
+
+We can also quickly uncomment specific range of lines by replacing `//` with _nothing_.
+
+Uncomment line 4 to 17.
+
+```
+:4,17s/\/\///gc
+```
+
+Simply replace `4` and `17` with the range that you need.
+
 ## Split Screen
+
+### Commands
+
+| Keys | Description |
+| ---- | ----------- |
+| `:sp <filename>` | Open file name `<filename>` in _horizontal_ split screen |
+| `:vsp <filename>` | Open file name `<filename>` in _vertical_ split screen |
+| `:e <filename>` | Open the file name `<filename>` in the current screen |
+
+### Navigation
+
+| Keys | Description |
+| ---- | ----------- |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++ctrl++ + ++w++ | Change screen |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++h++ | Change to the _right_ screen |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++j++ | Change to the _down_ screen |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++k++ | Change to the _up_ screen |
+| ++ctrl++ + ++w++ &nbsp;&nbsp;&nbsp; ++l++ | Change to the _left_ screen |
 
 ## Java
 
+| Keys | Description |
+| ---- | ----------- |
+| `:!javac <filename>.java` | Compile the java file `<filename>.java` |
+| `:!java <classname>` | Run the class `<classname>` |
+| `:!jshell <filename> <filename> ...` | Start JShell with the given `<filename>`s |

@@ -24,6 +24,9 @@ nav:
     - 20. Run-Time Class Mismatch: '20-casting.md'
     - 21. Variance: '21-variance.md'
     - 22. Exceptions: '22-exception.md'
+    - 23. Generics: '23-generics.md'
+    - 24. Type Erasure: '24-erasure.md'
+    - 25. Unchecked Warnings: '25-unchecked.md'
   - Lab Guide:
     - Programming Environments: 'environments.md'
     - GitHub Setup: 'github.md'
