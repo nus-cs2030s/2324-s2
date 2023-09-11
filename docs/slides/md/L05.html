@@ -1023,7 +1023,7 @@ class Pair {
 #### Bounded Pair
 ```java
 class Pair<S extends Comparable<S>, T>
-    extends Comparable<Pair<S, T>>{
+    implements Comparable<Pair<S, T>>{
   private S first;
   private T second;
     :
@@ -1036,7 +1036,7 @@ class Pair<S extends Comparable<S>, T>
 #### Generated Class
 ```java
 class Pair
-    extends Comparable {
+    implements Comparable {
   private Comparable first;
   private Object second;
     :
