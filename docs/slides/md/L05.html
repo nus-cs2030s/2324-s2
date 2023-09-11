@@ -557,7 +557,7 @@ class C2<T> extends C1<X, T> {
 .col60[
 ```java[lite=7]
 class Main {
-  public static <T> T findLargest
+  public static <T> T
       findLargest (T[] array) {
     double maxArea = 0;
     T maxObj = null;
@@ -666,9 +666,9 @@ Without bounding, the type `T` can be any subtypes of `Object`.
 .content.tight[
 Returns
 .nol[
-- _-ve_.op0[_zero+_] if `this` < `o`
-- _zero_.op0[_-+ve_] if `this` == `o`
-- _+ve_.op0[_zero-_] if `this` > `o`
+- _-ve_.op0[_zero+_] if `this` .op0[=>]<.op0[=] `o`
+- _zero_.op0[_-+ve_] if `this` .op0[>]==.op0[<] `o`
+- _+ve_.op0[_zero-_] if `this` .op0[=<]>.op0[=] `o`
 ]
 ]
 ]
