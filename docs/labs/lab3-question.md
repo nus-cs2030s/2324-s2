@@ -148,7 +148,7 @@ Correctness mark will only be awarded if your code compiles, otherwise we cannot
 
 Additionally, if your code cannot compile __for any reason__, you will only get __25%__ of the mark for OO principles.  This penalty will be increased in subsequent labs.
 
-We may make additional deductions for other issues or errors in your code such as run-time error, failure to follow instructions, errors from Lab 2 not corrected, not commenting `@SuppressWarning`, etc.
+We may make additional deductions for other issues or errors in your code such as run-time error, failure to follow instructions, errors from Lab 2 not corrected, not commenting `@SuppressWarning`, misuse of `@SuppressWarning` (_unnecessary, not in smallest scope, etc_), etc.
 
 ## Submission
 
