@@ -152,7 +152,7 @@ We may make additional deductions for other issues or errors in your code such a
 
 ## Submission
 
-To submit the lab, run the following command from the directory containing your lab 2 code.
+To submit the lab, run the following command from the directory containing your lab 3 code.
 
 ```sh
 ~cs2030s/submit-lab3
