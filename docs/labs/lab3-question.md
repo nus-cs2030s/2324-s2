@@ -151,7 +151,7 @@ Afterwards, you can return `res`.
 
     In which case, you can use `@SuppressWarnings("rawtypes")` to avoid having the warning.  You still need to put the `@SuppressWarnings` in the smallest scope and comment on it.
 
-    Additionally, `@SuppressWarnings` can be combined.  So you can have both `"unchecked"` and `"rawtypes"` suppressed as follows `@SuppressWarnings("unchecked,rawtypes")`.  Once you have added the necessary `@SuppressWarnings`, you should get no warning when compiling.
+    Additionally, `@SuppressWarnings` can be combined.  So you can have both `"unchecked"` and `"rawtypes"` suppressed as follows `@SuppressWarnings({"unchecked","rawtypes"})`.  Once you have added the necessary `@SuppressWarnings`, you should get no warning when compiling.
 
 ### Testing
 
