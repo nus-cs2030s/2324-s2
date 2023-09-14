@@ -114,6 +114,45 @@ n = n - 1; // decrease n
 
 Afterwards, you can return `res`.
 
+!!! info "Raw Types"
+    You may find yourself needing to instantiate a generic array.  But you can't, so you may need to instantiate them as a raw types instead.
+    
+    Consider the generic class `Pair<S, T>` again.  We cannot instantiate the following:
+    
+    ```java
+    new Pair<String, Integer>[2];
+    ```
+
+    However, we may instantiate the raw type version of it as follows:
+
+    ```java
+    new Pair[3]
+    ```
+
+    In which case, you will get a warning similar to below if you compile with `javac -Xlint:rawtypes Pair.java`:
+
+    ```
+    _.java:_: warning: [rawtypes] found raw type: Pair
+        Pair[] pArr = new Pair[2];
+        ^
+    missing type arguments for generic class Pair<S,T>
+    where S,T are type-variables:
+        S extends Object declared in class Pair
+        T extends Object declared in class Pair
+    _.java:_: warning: [rawtypes] found raw type: Pair
+        Pair[] pArr = new Pair[2];
+                        ^
+    missing type arguments for generic class Pair<S,T>
+    where S,T are type-variables:
+        S extends Object declared in class Pair
+        T extends Object declared in class Pair
+    2 warnings
+    ```
+
+    In which case, you can use `@SuppressWarnings("rawtypes")` to avoid having the warning.  You still need to put the `@SuppressWarnings` in the smallest scope and comment on it.
+
+    Additionally, `@SuppressWarnings` can be combined.  So you can have both `"unchecked"` and `"rawtypes"` suppressed as follows `@SuppressWarnings("unchecked,rawtypes")`.  Once you have added the necessary `@SuppressWarnings`, you should get no warning when compiling.
+
 ### Testing
 
 You can test your `Buffer` class by running the following.  You are also encouraged to __add more tests__.
@@ -149,6 +188,9 @@ Correctness mark will only be awarded if your code compiles, otherwise we cannot
 Additionally, if your code cannot compile __for any reason__, you will only get __25%__ of the mark for OO principles.  This penalty will be increased in subsequent labs.
 
 We may make additional deductions for other issues or errors in your code such as run-time error, failure to follow instructions, errors from Lab 2 not corrected, not commenting `@SuppressWarning`, misuse of `@SuppressWarning` (_unnecessary, not in smallest scope, etc_), etc.
+
+!!! info "Suppress Warnings"
+    If you design your code correctly, you only need one `@SuppressWarnings` but you will need to include both `"unchecked"` and `"rawtypes"`.  If you have more than one, you may want to check your design again.
 
 ## Submission
 
