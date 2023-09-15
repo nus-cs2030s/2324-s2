@@ -465,7 +465,7 @@ where `C` is a complex type and `S` is a non-generic type.
 .card.bg-g[
 ### Semantics
 .content.tight[
-In an upper-bounded wildcards, `?` can be .uline[_subtituted_] with __subtypes__ of `S`.
+In an upper-bounded wildcards, `?` can be .uline[_substituted_] with __subtypes__ of `S`.
 ]
 ]
 
@@ -516,7 +516,7 @@ where `C` is a complex type and `S` is a non-generic type.
 .card.bg-g[
 ### Semantics
 .content.tight[
-In an upper-bounded wildcards, `?` can be .uline[_subtituted_] with __supertypes__ of `S`.
+In an upper-bounded wildcards, `?` can be .uline[_substituted_] with __supertypes__ of `S`.
 ]
 ]
 
@@ -569,7 +569,7 @@ where `C` is a complex type.
 .card.bg-g[
 ### Semantics
 .content.tight[
-In an upper-bounded wildcards, `?` can be .uline[_subtituted_] with ___any___ types.
+In an upper-bounded wildcards, `?` can be .uline[_substituted_] with ___any___ types.
 ]
 ]
 
@@ -602,7 +602,7 @@ In an upper-bounded wildcards, `?` can be .uline[_subtituted_] with ___any___ ty
 
 .mrq[
 2. .quiz-choice[`C<S1> <: C<? extends S2>`] .quiz-ans[1] .quiz-hint[YES: `C<S1>` <: `C<? extends S1>` <: `C<? extends S2>`]
-1. .quiz-choice[`C<S1> <: C<? super S2>`] .quiz-ans[0] .quiz-hint[NO: `?` cannot be subtituted with `S1` (not superclass of `S2`)]
+1. .quiz-choice[`C<S1> <: C<? super S2>`] .quiz-ans[0] .quiz-hint[NO: `?` cannot be substituted with `S1` (not superclass of `S2`)]
 2. .quiz-choice[`C<S2> <: C<? extends S1>`] .quiz-ans[0] .quiz-hint[NO: `?` cannot be substituted with `S2` (not subclass of `S1`)]
 1. .quiz-choice[`C<S2> <: C<? super S1>`] .quiz-ans[1] .quiz-hint[YES: `C<S2>` <: `C<? super S2>` <: `C<? super S1>`]
 
