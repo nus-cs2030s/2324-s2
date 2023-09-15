@@ -857,11 +857,11 @@ Main.contains(new Array<String>(0), 2030); // Inferred to what?
 1. Write down all ___local___ type constraints:
     1. __Target Typing:__ return type must be the subtype of variable it is assigned to .note16[(if any)].
     2. __Argument Typing:__ the type of _argument_ must be the subtype of the _parameter_.
-    3. __Type Parameter Bound:__ from the declaration of the generic type.
+    3. __Type Parameter Bound:__ from the declaration of the generic type.<br><br>
 2. ___Solve___ the type constraint for the .uline[_declared generic type_] by using:
     - Reflexive property of subtyping relationships.
     - Transitive property of subtyping relationships.
-    - Anti-symmetric property of subtyping relationships.
+    - Anti-symmetric property of subtyping relationships.<br><br>
 3. If there are  multiple possible solutions, choose the ___most specific ones___ from the .uline[_type specified in the constraints_].
     - Ignore subclasses not specified in the constraints.
     - The solution may be a .uline[_superclass_] of the types specified in the constraints.
