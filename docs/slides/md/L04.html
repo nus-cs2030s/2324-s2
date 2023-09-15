@@ -163,7 +163,8 @@ abstract class Shape extends Object {
   public abstract double getArea();
   
   public double getSquareArea() {
-    return this.getArea();
+    double area = this.getArea();
+    return area * area;
   }
 }
 ```
