@@ -44,20 +44,37 @@ The class diagram for visualization is shown below.  Note that `Shape` extends f
 
 Now that we have our `Array<T>` class, let's modify our generic `contains` method and replace the type of the argument `T[]` with `Array<T>`.
 
-```Java
-class A {
-  // version 0.5 (with generic array)
-  public static <T> boolean contains(Array<T> array, T obj) {
-    for (int i = 0; i < array.getLength(); i++) {
-      T curr = array.get(i);
-      if (curr.equals(obj)) {
-        return true;
+=== "Contains with Generic `Array<T>`"
+    ```Java
+    class A {
+      // version 0.5 (with generic array)
+      public static <T> boolean contains(Array<T> array, T obj) {
+        for (int i = 0; i < array.getLength(); i++) {
+          T curr = array.get(i);
+          if (curr.equals(obj)) {
+            return true;
+          }
+        }
+        return false;
       }
     }
-    return false;
-  }
-}
-```
+    ```
+
+=== "Contains with Generic Array `T[]`"
+    ```Java
+    class A {
+      // version 0.5 (with generic array)
+      public static <T> boolean contains(T[] array, T obj) {
+        for (int i = 0; i < array.length; i++) {
+          T curr = array[i];
+          if (curr.equals(obj)) {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+    ```
 
 Similar to the version that takes in `T[]`, using generics allows us to constrain the type of the elements of the array and the object to search for to be the same.  This allows the following code to type-check correctly:
 
@@ -66,14 +83,14 @@ Array<String> stringArray;
 Array<Circle> circleArray;
 Circle circle;
   :
-A.<String>contains(stringArray, "hello"); // ok
-A.<Circle>contains(circleArray, circle); // ok
+A.<String>contains(stringArray, "hello"); // OK: Array<String> <: Array<String>  &  String <: String
+A.<Circle>contains(circleArray, circle);  // OK: Array<Circle> <: Array<Circle>  &  Circle <: Circle
 ```
 
 But trying to search for a circle in an array of strings would lead to a type error:
 
 ```Java
-A.<String>contains(stringArray, circle); // error
+A.<String>contains(stringArray, circle); // ERROR: Circle </: String
 ```
 
 Consider now having an array of shapes.
@@ -84,8 +101,8 @@ Array<Circle> circleArray;
 Shape shape;
 Circle circle;
   :
-A.<Shape>contains(shapeArray, shape); // ok
-A.<Circle>contains(circleArray, circle); // ok
+A.<Shape>contains(shapeArray, shape);     // OK: Array<Shape>  <: Array<Shape>   &  Shape  <: Shape
+A.<Circle>contains(circleArray, circle);  // OK: Array<Circle> <: Array<Circle>  &  Circle <: Circle
 ```
 
 As expected, we can pass `Shape` as the argument for `T`, and search for a `Shape` in an instance of `Array<Shape>`. Similarly, we can pass `Circle` as the argument for `T` and search for a `Circle` in an instance of `Array<Circle>`.
@@ -93,7 +110,7 @@ As expected, we can pass `Shape` as the argument for `T`, and search for a `Shap
 We could also look for a `Circle` instance from `Array<Shape>` if we pass `Shape` as the argument for `T`.
 
 ```Java
-A.<Shape>contains(shapeArray, circle); // ok
+A.<Shape>contains(shapeArray, circle); // OK: Array<Shape> <: Array<Shape>   &  Circle <: Shape
 ```
 
 Note that we can pass in a `Circle` instance as a `Shape`, since `Circle` <: `Shape`.
@@ -102,14 +119,14 @@ Recall that generics are invariant in Java (_i.e., there is no subtyping relatio
 
 So, we can't call:
 ```Java
-A.<Circle>contains(shapeArray, circle); // compilation error
+A.<Circle>contains(shapeArray, circle); // ERROR: Array<Shape> </: Array<Circle>
 ```
 
 The following would result in compilation errors as well:
 
 ```Java
-A.<Shape>contains(circleArray, shape); // compilation error
-A.<Circle>contains(circleArray, shape); // compilation error
+A.<Shape>contains(circleArray, shape);  // ERROR: Array<Circle> </: Array<Shape>
+A.<Circle>contains(circleArray, shape); // ERROR: Shape </: Circle
 ```
 
 Thus, with our current implementation, we can't look for a shape (_which may be a circle_) in an array of circles, even though this is something reasonable that a programmer might want to do.  This constraint is due to the invariance of generics -- while we avoided the possibility of run-time errors by avoiding covariance arrays, our methods have become less general.
@@ -180,11 +197,11 @@ class Array<T> {
 With this implementation, we can copy, say, an `Array<Circle>` to another `Array<Circle>`, an `Array<Shape>` to another `Array<Shape>`, but not an `Array<Circle>` into an `Array<Shape>`, even though each circle is a shape!
 
 ```Java
-Array<Circle> circleArray;
-Array<Shape> shapeArray;
+Array<Circle> circleArray; // T = Circle --> copyTo(Array<Circle>) & copyFrom(Array<Circle>)
+Array<Shape> shapeArray;   // T = Shape  --> copyTo(Array<Shape>)  & copyFrom(Array<Shape>)
   :
-shapeArray.copyFrom(circleArray); // error
-circleArray.copyTo(shapeArray); // error
+shapeArray.copyFrom(circleArray); // ERROR: Array<Circle> </: Array<Shape>
+circleArray.copyTo(shapeArray);   // ERROR: Array<Shape>  </: Array<Circle>
 ```
 
 ## Upper-Bounded Wildcards
@@ -209,8 +226,8 @@ What this means is that we can actually do the following sequence of assignments
 
 ```java
 Array<? extends Shape> arr;
-arr = new Array<ColoredCircle>(1);
-arr = new Array<Square>(1);
+arr = new Array<ColoredCircle>(1); // ? is substituted with ColoredCircle
+arr = new Array<Square>(1);        // ? is now substituted with Square
 ```
 
 The upper-bounded wildcard is an example of covariance. The upper-bounded wildcard has the following subtyping relations:
@@ -260,7 +277,7 @@ So now, because `Array<Circle>` <: `Array<? extends Shape>`, if we change the ty
 We can now call:
 
 ```java
-shapeArray.copyFrom(circleArray); // ok
+shapeArray.copyFrom(circleArray); // OK: Array<Circle> <: Array<? extends Shape>
 ```
 
 without error.
@@ -321,7 +338,7 @@ The `copyTo` method of `Array<Shape>` would allow an `Array<Circle>` as an argum
 
 is not type-safe and could lead to `ClassCastException` during run-time.  
 
-Where can we copy our shapes into?  We can only copy them safely into an `Array<Shape>`, `Array<Object>`, `Array<GetAreable>`, for instance.  In other words, into arrays containing `Shape` or supertype of `Shape`.  
+Where can we copy our shapes into?  We can only copy them safely into an `Array<Shape>`, `Array<Object>`, for instance.  In other words, into arrays containing `Shape` or supertype of `Shape`.  Unfortunately our running example no longer have `GetAreable`.  Otherwise, we can also safely insert into `Array<GetAreable>` too!
 
 We need a wildcard lower-bounded by `Shape`, and Java's syntax for this is `? super Shape`.  Using this new notation, we can replace the type for `dest` with:
 
@@ -556,7 +573,7 @@ Array<Object> a2 = new Array<Integer>(0);
 Whereas the following statements will compile:
 
 ```Java
-Array<?> a1 = new Array<String>(0); // Does compile
+Array<?> a1 = new Array<String>(0);  // Does compile
 Array<?> a2 = new Array<Integer>(0); // Does compile
 ```
 
@@ -604,7 +621,7 @@ Intuitively, we can think of `Array<?>`, `Array<Object>`, and `Array` as follows
 
     ![Unbounded](figures/ClassDiagram16.png)
 
-    Clearly, it cannot be a subtype of anything besides `Array<?>` and `Object`.  The latter because `Object` is the root of the class hierarchy.  But at that point, we cannot invoke the methods intended for `Array`.
+    Clearly, it cannot be a subtype of anything besides `Array<?>` and `Object`.  The latter because `Object` is the root of the class hierarchy.  But at that point, we cannot invoke the methods intended for `Array`.  So while it is more _general_, it is less _flexible_ to use `Object`.
 
     Now for non wildcard, it is actually encompasses just that single type.  This is why `Array<Circle>` is a subtype of both `Array<? extends Circle>` and `Array<? super Circle>` when we reason only using class diagram visualization.
 
@@ -631,26 +648,52 @@ class A {
 
 Can we make this simpler using wildcards?  Since we want to search for an object of type `S` in an array of its subtype, we can remove the second parameter type `T` and change the type of array to `Array<? extends S>`:
 
-```Java
-class A {
-  // version 0.7 (with wild cards array)
-  public static <S> boolean contains(Array<? extends S> array, S obj) {
-    for (int i = 0; i < array.getLength(); i++) {
-      S curr = array.get(i);
-      if (curr.equals(obj)) {
-        return true;
+=== "With Wild Cards Array"
+    ```Java
+    class A {
+      // version 0.7 (with wild cards array)
+      public static <S> boolean contains(Array<? extends S> array, S obj) {
+        for (int i = 0; i < array.getLength(); i++) {
+          S curr = array.get(i);
+          if (curr.equals(obj)) {
+            return true;
+          }
+        }
+        return false;
       }
     }
-    return false;
-  }
-}
-```
+    ```
+=== "With Generic Array"
+    ```Java
+    class A {
+      // version 0.6 (with generic array)
+      public static <S,T extends S> boolean contains(Array<T> array, S obj) {
+        for (int i = 0; i < array.getLength(); i++) {
+          T curr = array.get(i);
+          if (curr.equals(obj)) {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+    ```
 
 We can double-check that `array` is a producer (it produces `curr` on Line 5) and this follows the PECS rules.
 Now, we can search for a shape in an array of circles.
 
 ```Java
      A.<Shape>contains(circleArray, shape);
+```
+
+What is the difference between the two?  In version 0.6, we require two type parameters while in version 0.7 we only require one.  Say we have both versions in two different classes: `A.contains(Array<? extends S>, S)` and `B.contains(Array<T>, S)`.  Then we have the following behavior:
+
+```java
+     A.<Shape>contains(circleArray, shape); // OK
+     B.<Shape>contains(circleArray, shape); // ERROR: wrong number of type arguments; required 2
+
+     A.<Shape, Circle>.contains(circleArray, shape); // ERROR: wrong number of type arguments; required 1
+     B.<Shape, Circle>.contains(circleArray, shape); // OK
 ```
 
 ## Revisiting Raw Types

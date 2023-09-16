@@ -27,6 +27,8 @@ nav:
     - 23. Generics: '23-generics.md'
     - 24. Type Erasure: '24-erasure.md'
     - 25. Unchecked Warnings: '25-unchecked.md'
+    - 26. Wildcards: '26-wildcard.md'
+    - 27. Type Inference: '27-inference.md'
   - Lab Guide:
     - Programming Environments: 'environments.md'
     - GitHub Setup: 'github.md'

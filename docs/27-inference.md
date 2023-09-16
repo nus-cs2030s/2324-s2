@@ -29,10 +29,10 @@ That is only variable declaration.  We will have to copy the type to instantiate
 One example of type inference is the diamond operator `<>` when we `new` an instance of a generic type:
 
 ```Java
-Pair<String,Integer> p = new Pair<>();
+Pair<String, Integer> p = new Pair<>();
 ```
 
-Java can infer that `p` should be an instance of `Pair<String,Integer>` since the compile-time type of `p` is `Pair<String,Integer>`.  The line above is equivalent to:
+Java can infer that `p` should be an instance of `Pair<String, Integer>` since the compile-time type of `p` is `Pair<String, Integer>`.  The line above is equivalent to:
 
 ```Java
 Pair<String,Integer> p = new Pair<String,Integer>();
