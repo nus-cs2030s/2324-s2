@@ -108,7 +108,7 @@ Integer res = arr[idx];
 for (int i = idx; i < n - 1; i++) {
   arr[i] = arr[i + 1];
 }
-arr[n] = null; // removal
+arr[n - 1] = null; // removal
 n = n - 1; // decrease n
 ```
 
