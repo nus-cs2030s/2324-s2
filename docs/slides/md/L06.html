@@ -1026,7 +1026,7 @@ Shape s = Main.findLargest(new Array<Circle>(0));
 Main.findLargest(new Array<Circle>(0)).getColour();
 ```
 ```java[copy=nones]
-<T extends GetAreable> T findLargest(Array<? extends T> array) { .. }
+<T extends GetAreable> T findLargest(Array<? super T> array) { .. }
 ```
 
 .col33[
