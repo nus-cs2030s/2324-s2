@@ -460,6 +460,13 @@ where `C` is a complex type and `S` is a non-generic type.
 - For any type `S`, then `C<S>` &nbsp; <: &nbsp; `C<? extends S>`
 ]
 ]
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+What classes can be substituted on `?` for `C<? extends S1>`?
+]
+]
 ]
 .ft40[
 .card.bg-g[
@@ -509,6 +516,13 @@ where `C` is a complex type and `S` is a non-generic type.
 - .note16[Contravariant]
 ]
 - For any type `S`, then `C<S>` &nbsp; <: &nbsp; `C<? super S>`
+]
+]
+
+.card.bg-r[
+### Quick Quiz
+.content.tight[
+What classes can be substituted on `?` for `C<? super S1B>`?
 ]
 ]
 ]
@@ -888,7 +902,7 @@ Main.contains(new Array<String>(0), 2030); // Inferred to what?
 Main.contains(cArr, shape); // cArr :: Array<Circle>  &  shape :: Shape
 ```
 ```java[copy=nones]
-<S> boolean contains(Array<? extends S> array, S obj) { .. }
+<T> boolean contains(Array<? extends T> array, T obj) { .. }
 ```
 
 .col33[
