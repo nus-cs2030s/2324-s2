@@ -1,7 +1,7 @@
 # Lab 4: Some Body Once Told Me
 
 !!! abstract "Basic Information"
-    - __Deadline:__ 11 October 2023, Tuesday, 23:59 SST
+    - __Deadline:__ 11 October 2023, Wednesday, 23:59 SST (+1 day extension due to PE1)
     - __Marks:__ 20
     - __Weightage:__ 2%
 
