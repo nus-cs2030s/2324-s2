@@ -104,7 +104,7 @@ None of its .uline[_accessible_] methods can _mutate_ its internal state.
 ## Immutability
 ### Mutable Example
 
-.col51[
+.col52[
 #### Mutable Point
 ```java
 class Point {
@@ -123,7 +123,7 @@ class Point {
 }
 ```
 ]
-.ft49[
+.ft48[
 #### Mutable Circle
 ```java
 class Circle {
@@ -158,7 +158,7 @@ class Circle {
 ## Immutability
 ### Mutable Example
 
-.col51[
+.col52[
 #### Aliasing
 ```java
 Point p = new Point(0, 0);
@@ -176,7 +176,7 @@ We want only the center point of `c1` to be moved and not the center point of `c
 ]
 ]
 ]
-.ft49[
+.ft48[
 #### Stack Heap Diagram
 ![SH](img/07-Mutable.png)
 ]
@@ -196,7 +196,7 @@ We want only the center point of `c1` to be moved and not the center point of `c
 ## Immutable Point
 ### Attempt #1
 
-.col51[
+.col52[
 #### Prevent Assignment
 ```java[lite=2-3]
 class Point {
@@ -217,7 +217,7 @@ class Point {
 }
 ```
 ]
-.ft49[
+.ft48[
 #### Problem
 ```jshell[copy=nones]
 |  Error:
@@ -255,7 +255,7 @@ So to change, we return a new `Point`.
 ## Immutable Point
 ### Attempt #2
 
-.col51[
+.col52[
 #### Prevent Assignment
 ```java[lite=10-13]
 class Point {
@@ -276,7 +276,7 @@ class Point {
 }
 ```
 ]
-.ft49[
+.ft48[
 #### Problem?
 ```java[copy=nones]
 Point p = new Point(0, 0);
@@ -316,7 +316,7 @@ __Internal state may change as long as they cannot be visible from outside__.
 ## Immutable Point
 ### Attempt #2
 
-.col51[
+.col52[
 #### Prevent Assignment
 ```java[lite=10-13]
 class Point {
@@ -337,7 +337,7 @@ class Point {
 }
 ```
 ]
-.ft49[
+.ft48[
 #### Problem!
 ```java[copy=nones]
 class Point2 extends Point {
@@ -385,7 +385,7 @@ Subclass may give an .uline[_illusion_] of mutability.
 ## Immutable Point
 ### Attempt #3
 
-.col51[
+.col52[
 #### Prevent Assignment
 ```java[lite=10-13]
 final class Point {
@@ -406,7 +406,7 @@ final class Point {
 }
 ```
 ]
-.ft49[
+.ft48[
 #### Steps
 1. Add the modifier `final` to the fields.
 2. Add the modifier `final` to the class.
@@ -717,7 +717,6 @@ intArr[0] = 9;
 ### Internal Sharing
 #### Code
 
-.col60[
 .font16[
 ```java
 final class ImmutableArray<T> {
@@ -734,14 +733,10 @@ final class ImmutableArray<T> {
   public ImmutableArray<T> subarray(int start, int end) {
     int newStart = this.start + start;
     int newEnd = this.start + end;
-    return new ImmutableArray<T>
-        (this.array, newStart, newEnd);
+    return new ImmutableArray<T>(this.array, newStart, newEnd);
   }
 }
 ```
-]
-]
-.ft40[
 ]
 ]
 
@@ -765,14 +760,22 @@ class: middle, sections
 ### Fine Grain
 
 .col51[
-#### Encapsulation
+.card.bg-b[
+### Encapsulation
+.content.tight[
 - Combine data that belongs together .note16[(e.g., x- and y-coordinate of a point)]
 - Combine methods that works on the data .note16[(e.g., compute distance)]
 ]
+]
+]
 .ft49[
-#### Information Hiding
+.card.bg-g[
+### Information Hiding
+.content.tight[
 - Limits access to data .note16[(e.g., making fields `private`)]
 - Combined with __"Tell, Don't Ask"__ principle
+]
+]
 ]
 
 <br><br><br><br><br><br>
@@ -868,8 +871,8 @@ class A {
 2. .quiz-choice[`x = 1`] .quiz-ans[1] .quiz-hint[YES: non-static to non-static]
 1. .quiz-choice[`y = 1`] .quiz-ans[1] .quiz-hint[YES: non-static to static]
 
-.quizzes-poll[POsgx8s7fnADbXfrPl7m4]
-.quizzes-time[60]
+.quizzes-poll[hpoRDJpdPLNTZdoCFbtKd]
+.quizzes-time[30]
 .quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
 ]
 ]
@@ -923,8 +926,8 @@ class A {
 2. .quiz-choice[(1)] .quiz-ans[0] .quiz-hint[NO: look for the nearest scope]
 1. .quiz-choice[(2)] .quiz-ans[1] .quiz-hint[YES: this is the nearest scope]
 
-.quizzes-poll[POsgx8s7fnADbXfrPl7m4]
-.quizzes-time[60]
+.quizzes-poll[bvxVXh3khlfwGVp55ADnl]
+.quizzes-time[30]
 .quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
 ]
 ]
@@ -1033,8 +1036,8 @@ class A {
 2. .quiz-choice[`x = 1`] .quiz-ans[0] .quiz-hint[NO: static to non-static]
 1. .quiz-choice[`y = 1`] .quiz-ans[1] .quiz-hint[YES: static to static]
 
-.quizzes-poll[POsgx8s7fnADbXfrPl7m4]
-.quizzes-time[60]
+.quizzes-poll[SYmtZ8RnONWHownpV6OhY]
+.quizzes-time[30]
 .quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
 ]
 ]
@@ -2078,6 +2081,7 @@ new Type(arg_1, arg_2, ..., arg_n) {
 - `arg_1` to `arg_n` are passed to the corresponding constructor of `Type`
     - If `Type` is an interface, there is no constructor
     - Similar to calling `super(arg_1, arg_2, ..., arg_n)`
+- The resulting "class" is a subtype of `Type`
 - The resulting "class" has no name
 ]
 ]
