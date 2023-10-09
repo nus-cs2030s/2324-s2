@@ -390,9 +390,9 @@ Subclass may give an .uline[_illusion_] of mutability.
 .ft82[
 ## Immutable Point
 ### Attempt #3
+#### Prevent Assignment
 
 .col52[
-#### Prevent Assignment
 ```java[lite=10-13]
 final class Point {
   private final double x;
@@ -413,11 +413,15 @@ final class Point {
 ```
 ]
 .ft48[
-#### Steps
+.card.bg-y[
+### Steps
+.content.tight[
 1. Add the modifier `final` to the fields.
 2. Add the modifier `final` to the class.
 3. Remove any assignment to the fields.
 4. Change any _mutator_ from `void` to return a new modified instance.
+]
+]
 ]
 ]
 
@@ -435,9 +439,9 @@ final class Point {
 .ft82[
 ## Immutable Circle
 ### Attempt #1
+#### Prevent Assignment
 
 .col52[
-#### Prevent Assignment
 ```java[lite=10-12]
 final class Circle {
   private final Point c;
@@ -457,10 +461,14 @@ final class Circle {
 ```
 ]
 .ft48[
-#### Observation
+.card.bg-y[
+### Observation
+.content.tight[
 - `Circle` is immutable only if `Point` is immutable.
     - Especially if there is an accessor for `Point`.
     - Then simply access `Point` and mutate.
+]
+]
 ]
 ]
 
