@@ -122,6 +122,11 @@ labX-username/
 │  │  ├─ Transformer.java
 ├─ CS2030STest.java
 ├─ Test1.java
+├─ Test2.java
+├─ Test3.java
+├─ Test4.java
+├─ Test5.java
+├─ Test6.java
 ```
 
 Additionally, you should be able to compile both `Maybe.java` and `Transformer.java` from within the `cs2030s/fp` directory using the following command without any warning.
