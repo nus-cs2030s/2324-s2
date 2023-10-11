@@ -12,7 +12,7 @@
 !!! note "Files"
     In the directory, you should see the following files:
 
-    1. __Java Files:__
+    - __Java Files:__
         - `cs2030s/fp/Producer.java`: A template for `Producer`.
         - `cs2030s/fp/Consumer.java`: A template for `Consumer`.
         - `cs2030s/fp/BooleanCondition.java`: A template for `BooleanCondition`.
