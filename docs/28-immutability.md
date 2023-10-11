@@ -187,7 +187,7 @@ Note that the `final` keyword prevents assigning new value to the field.  Unfort
 
 ## Necessity of Final Keyword on Class
 
-We mentioned that it is necessary that we declare immutable classes as `final` to disallow inheritance.  So let us elaborate this further.  Consider the immutable `Point` from above.  Now let us create a subclass of it.
+We mentioned that it is necessary that we declare immutable classes as `final` to disallow inheritance.  So let us elaborate this further.  Consider the immutable `Point` from above.  __However, consider the case that the we do not declare the class as `final`.__  Now let us create a subclass of it.
 
 ```java
 class MutablePoint extends Point {
