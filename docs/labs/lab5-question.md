@@ -171,6 +171,55 @@ After you have created the `None<T>` class, we want to start handling the possib
     - an instance of `None<T>` if the result of applying the transformer is a `null` value.
     - an instance of `Maybe<T>` (_that is not_ `None<T>`) if the result of applying the transformer is not a `null` value.
 
+Notice how the `map` may transform a `Maybe<T>` into a `None<T>` but never the other way around.  Here, by `Maybe<T>`, we really meant the `Maybe<T>` that is not `None<T>`.  This can be captured as the following "state diagram".
+
+![map](lab5-map.png)
+
+In fact, the arrow in the diagram above can be either `map`, `filter` (Task 3), or `flatMap` (Task 4).
+
+Generally, the step for `map` method can be summarized below.
+
+1. Open the "box".
+2. Apply the function.
+    - Obtain the result.
+3. Put into new "box".
+4. Return the result.
+
+An illustration is shown below.
+
+=== "Overview"
+    ![map](R06_map.jpg)
+    
+    ---
+
+=== "Open the Box"
+    ![map](R06_map_01.jpg)
+
+    By invoking `map`, you are already inside the "box".  So the "box" is already opened for you.
+    
+    ---
+
+=== "Apply the Function"
+    ![map](R06_map_02.jpg)
+    
+    ---
+
+=== "Obtain the Result"
+    ![map](R06_map_03.jpg)
+    
+    ---
+
+=== "Put into new Box"
+    ![map](R06_map_04.jpg)
+    
+    ---
+
+=== "Return the result"
+    ![map](R06_map_05.jpg)
+    
+    ---
+
+
 #### Sample Usage #1
 
 The sample usage for `none()` and `of()` is shown below.
@@ -372,7 +421,7 @@ java Test5
 
 There shouldn't be any compilation warning or error when you compile `Test5.java` and all tests should prints `ok`.
 
-## Task 5: Back to Maybe
+## Task 5: Back to T
 
 Since Maybe is an abstraction for a possibly missing value, it would be useful to provide methods that decide what to do if the value is missing.
 
@@ -433,12 +482,11 @@ This lab is worth 20 marks and contribute 2% to your Lab Assignment component.  
 | Component | Sub-Component | Marks |
 |-----------|---------------|-------|
 | Correctness | | 16 marks |
-| | _Test 1<br>Test 2<br>Test 3<br>Test 4_ | _4 marks<br>4 marks<br>4 marks<br>4 marks_ |
 | Style | | 4 marks |
 
-Correctness mark will only be awarded if your code compiles, otherwise we cannot run any tester.  While we try to give you all the possible tests, there may be some tests we missed.  You should not hardcode any test cases.
+Correctness mark will be about general correctness with more manual checking of types satisfying PECS, doing the proper check (_e.g.,_ `null` _check_), _etc_.  This means that each `TestX.java` may carry different weights.  While we try to give you all the possible tests, there may be some tests we missed.  You should not hardcode any test cases.
 
-Additionally, if your code cannot compile __for any reason__ (_without any_ `TestX.java`), you will get __0 mark for the lab__.  We will check for compilation with the following from `cs2030s/fp` directory.
+Additionally, if your code cannot compile __for any reason__, you will get __0 mark for the lab__.  We will check for compilation with the following command run from `cs2030s/fp` directory.
 
 ```bash
 javac -Xlint:unchecked -Xlint:rawtypes *.java
