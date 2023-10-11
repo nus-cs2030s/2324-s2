@@ -64,14 +64,14 @@ class A {
 
   class B {
     void foo() {
-      x = 1; // accessing x from A is OK
-      y = 1; // accessing y from A is OK
+      x = 1; // accessing x in A is OK
+      y = 1; // accessing y in A is OK
     }
   }
 
   static class C {
     void bar() {
-      x = 1; // accessing x from A is not OK since C is static
+      x = 1; // accessing x in A is not OK since C is static
       y = 1; // accessing y is OK
     }
   }
@@ -112,6 +112,51 @@ class A {
     `A.this.x` is the fully qualified name for instance field `x` in the class `A`.  This is how the use of fully qualified name can remove ambiguity.  In comparison, using `this.x` may have ambiguity and even leads to an error.
     
     If we have a field `y` in class `B`, the fully qualified name to refer to it is `A.B.this.y`.
+
+### More on Static Nested Class
+
+Recap that from static context we cannot access non-static elements.  As the _instance_ fields of the outer class is a non-static element, we cannot access them.  But also recap that to access the instance field `x` of the outer class where there is a conflicting name `x` with a field of the inner class, we require the use of qualified name `A.this.x`.
+
+The two implies that `A.this` is not going to be used at all by the static nested class.  As such, we should omit them from the stack and heap diagram as well.  To illustrate this difference, consider the following class reproduced from above.
+
+```java
+class A {
+  private int x = 0;
+  static int y = 1;
+
+  class B {
+    void foo() {
+      x = 1; // accessing x in A is OK (equivalent to A.this.x)
+      y = 1; // accessing y in A is OK (equivalent to A.y)
+    }
+  }
+
+  static class C {
+    void bar() {
+      // x = 1; // removed because we cannot access this
+      y = 1; // accessing y is OK (equivalent to A.y)
+    }
+  }
+  
+  void baz() {
+    B b = new B();
+    C c = new C();
+    // Line A
+  }
+}
+```
+
+Now consider the following code snippet.
+
+```java
+A a = new A();
+a.baz();
+```
+
+The stack and heap diagram at the line marked Line A is shown below.  The diagram below also illustrates the use of _meta space_ to store the class field `A.y`.
+
+![SH011](figures/SH/011.png)
+
 
 ### Local Class
 
