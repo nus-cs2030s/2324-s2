@@ -246,8 +246,8 @@ $.. ==> false
 jshell> Maybe.some("day").equals(Maybe.some(null))
 $.. ==> false
 
-jshell> Maybe.some(null).equals(Maybe.some(null))  // be careful with this
-$.. ==> false
+jshell> Maybe.some(null).equals(Maybe.some(null))  // be careful with this (updated from false to true)
+$.. ==> true
 jshell> Maybe.some(null).equals(Maybe.some("day"))
 $.. ==> false
 jshell> Maybe.some(null).equals(null)
