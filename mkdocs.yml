@@ -31,6 +31,9 @@ nav:
     - 27. Type Inference: '27-inference.md'
     - 28. Immutability: '28-immutability.md'
     - 29. Nested Class: '29-nested-classes.md'
+    - 30. Side Effect-Free Programming: '30-functions.md'
+    - 31. Box and Maybe: '31-box-maybe.md'
+    - 32. Lazy Evaluation: '32-lazy.md'
   - Lab Guide:
     - Programming Environments: 'environments.md'
     - GitHub Setup: 'github.md'
