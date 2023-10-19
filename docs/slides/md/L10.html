@@ -1,0 +1,1808 @@
+layout: true
+class: basic, layout, imaging, fonts, lists, cards, fadein, tabler
+name: content
+<div class="basic header"></div>
+<div class="basic footer"><p>CS2030S: Programming Methodology II -- Adi Yoga S. Prabawa</p></div>
+
+---
+
+name: Lecture_10
+class: bottom, titles
+
+# CS2030S
+## Programming Methodology II
+### Lecture 10: Monad and Parallel Stream
+
+---
+
+name: Recap
+class: middle, sections
+
+# Recap
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+]
+.ft82[
+## Pure Functions
+.card.bg-b[
+### Definition
+.content.tight[
+A __pure function__ `f` .note16[(denoted by `f : X → Y`)] is a _mapping_ from the domain `X` to the codomain `Y` such that
+
+<br>
+
+- For every `x` &in; `X`, there is `y` &in; `Y` such that `y = f(x)`.
+- `f(x)` is .uline[_deterministic_], has .uline[_no side-effect_] .note16[(the .uline[return value] is the "main" effect and anythign else is a side effect)], and .uline[_referentially transparent_].
+
+In general, we want pure functions because they are _easier_ to reason to proof correctness.
+]
+]
+
+.col51[
+#### Visualization
+
+![Pure](img/10-Pure.jpg)
+]
+.ft49[
+.card.bg-y[
+### Side-Effect
+.content.tight[
+- Print to the monitor
+- Write to files
+- Throw exceptions
+- Modify fields .note16[(reassignment/mutation)]
+- Modify the arguments .note16[(reassignment/mutation)]
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+]
+.ft82[
+## Simple Box
+### Simple Container of Immutable Object
+.col51[
+#### Basic Operation
+```java
+class Box<T> {
+  private final T val;
+  ‎
+  Box(T val) {
+    this.val = val;
+  }
+  public T val() {
+    return this.val;
+  }
+  @Override
+  public String toString() {
+    return "[" + this.val + "]";
+  }
+    :
+```
+]
+.ft49[
+#### Equality and Factory
+```java
+    :
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Box<?>))
+      return false;
+    Box<?> box = (Box<?>) obj;
+    return this.val == null
+         ? this.val == box.val
+         : this.val.equals(box.val);
+  }
+  public static <T> Box<T> of(T val) {
+    return new Box<T>(val);
+  }
+}
+```
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+]
+.ft82[
+## Transformation
+### Map
+
+![Map](img/10-Map01a.jpg)
+
+.col60[
+#### Steps
+1. Open the box .note16[(or go into the box!)]
+2. Operate with the function .note16[(method invocation)]
+3. Put into new box .note16[(use factory method?)]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The transformation should preserve ___context___.
+.note16[(We will discuss context later).]
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+]
+.ft82[
+## Transformation
+### Map
+
+![Map](img/10-Map01b.jpg)
+
+.col60[
+#### Steps
+1. Open the box .note16[(or go into the box!)]
+2. .op20[Operate with the function .note16[(method invocation)]]
+3. .op20[Put into new box .note16[(use factory method?)]]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The transformation should preserve ___context___.
+.note16[(We will discuss context later).]
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+]
+.ft82[
+## Transformation
+### Map
+
+![Map](img/10-Map01c.jpg)
+
+.col60[
+#### Steps
+1. .op20[Open the box .note16[(or go into the box!)]]
+2. Operate with the function .note16[(method invocation)]
+3. .op20[Put into new box .note16[(use factory method?)]]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The transformation should preserve ___context___.
+.note16[(We will discuss context later).]
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+]
+.ft82[
+## Transformation
+### Map
+
+![Map](img/10-Map01d.jpg)
+
+.col60[
+#### Steps
+1. .op20[Open the box .note16[(or go into the box!)]]
+2. Operate with the function .note16[(method invocation)]
+3. .op20[Put into new box .note16[(use factory method?)]]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The transformation should preserve ___context___.
+.note16[(We will discuss context later).]
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+]
+.ft82[
+## Transformation
+### Map
+
+![Map](img/10-Map01e.jpg)
+
+.col60[
+#### Steps
+1. .op20[Open the box .note16[(or go into the box!)]]
+2. .op20[Operate with the function .note16[(method invocation)]]
+3. Put into new box .note16[(use factory method?)]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The transformation should preserve ___context___.
+.note16[(We will discuss context later).]
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+]
+.ft82[
+## Transformation
+### Map
+
+![Map](img/10-Map01f.jpg)
+
+.col60[
+#### Steps
+1. .op20[Open the box .note16[(or go into the box!)]]
+2. .op20[Operate with the function .note16[(method invocation)]]
+3. Put into new box .note16[(use factory method?)]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The transformation should preserve ___context___.
+.note16[(We will discuss context later).]
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+]
+.ft82[
+## Transformation
+### Map
+
+![Map](img/10-Map01a.jpg)
+
+.col60[
+#### Steps
+1. Open the box .note16[(or go into the box!)]
+2. Operate with the function .note16[(method invocation)]
+3. Put into new box .note16[(use factory method?)]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The transformation should preserve ___context___.
+.note16[(We will discuss context later).]
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+]
+.ft82[
+## Transformation
+### Map
+
+![Map](img/10-Map01a.jpg)
+
+#### Steps
+```java
+public <U> Box<U> map(Transformer<? super T, ? extends U> f) {
+  T val = this.val;         // 1. Open the box
+  U res = f.transform(val); // 2. Operate with the function
+  return new Box<>(res);    // 3. Put into new box (preserve "context")
+}
+```
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+#### Flat Map
+]
+.ft82[
+## Transformation
+### Flat Map
+
+![Flat Map](img/10-FlatMap01a.jpg)
+
+.col60[
+#### Steps
+1. Open the box .note16[(or go into the box!)]
+2. Operate with the function .note16[(method invocation)]
+3. Compose the two "context"
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The composition of "context" should obey some property to be discussed in the lecture.
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+#### Flat Map
+]
+.ft82[
+## Transformation
+### Flat Map
+
+![Flat Map](img/10-FlatMap01b.jpg)
+
+.col60[
+#### Steps
+1. Open the box .note16[(or go into the box!)]
+2. .op20[Operate with the function .note16[(method invocation)]]
+3. .op20[Compose the two "context"]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The composition of "context" should obey some property to be discussed in the lecture.
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+#### Flat Map
+]
+.ft82[
+## Transformation
+### Flat Map
+
+![Flat Map](img/10-FlatMap01c.jpg)
+
+.col60[
+#### Steps
+1. .op20[Open the box .note16[(or go into the box!)]]
+2. Operate with the function .note16[(method invocation)]
+3. .op20[Compose the two "context"]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The composition of "context" should obey some property to be discussed in the lecture.
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+#### Flat Map
+]
+.ft82[
+## Transformation
+### Flat Map
+
+![Flat Map](img/10-FlatMap01d.jpg)
+
+.col60[
+#### Steps
+1. .op20[Open the box .note16[(or go into the box!)]]
+2. Operate with the function .note16[(method invocation)]
+3. .op20[Compose the two "context"]
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The composition of "context" should obey some property to be discussed in the lecture.
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+#### Flat Map
+]
+.ft82[
+## Transformation
+### Flat Map
+
+![Flat Map](img/10-FlatMap01e.jpg)
+
+.col60[
+#### Steps
+1. .op20[Open the box .note16[(or go into the box!)]]
+2. .op20[Operate with the function .note16[(method invocation)]]
+3. Compose the two "context"
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The composition of "context" should obey some property to be discussed in the lecture.
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+#### Flat Map
+]
+.ft82[
+## Transformation
+### Flat Map
+
+![Flat Map](img/10-FlatMap01f.jpg)
+
+.col60[
+#### Steps
+1. .op20[Open the box .note16[(or go into the box!)]]
+2. .op20[Operate with the function .note16[(method invocation)]]
+3. Compose the two "context"
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The composition of "context" should obey some property to be discussed in the lecture.
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+#### Flat Map
+]
+.ft82[
+## Transformation
+### Flat Map
+
+![Flat Map](img/10-FlatMap01a.jpg)
+
+.col60[
+#### Steps
+1. Open the box .note16[(or go into the box!)]
+2. Operate with the function .note16[(method invocation)]
+3. Compose the two "context"
+]
+.ft40[
+.card.bg-y[
+### Side Condition
+.content.tight[
+The composition of "context" should obey some property to be discussed in the lecture.
+]
+]
+]
+]
+
+---
+
+# Recap
+
+.ft15.subsections[
+### Pure Functions
+### Simple Box
+### Transformation
+#### Map
+#### Flat Map
+]
+.ft82[
+## Transformation
+### Flat Map
+
+![Flat Map](img/10-FlatMap01a.jpg)
+
+#### Steps
+```java
+public <U> Box<U> flatMap(Transformer<? super T, ? extends Box<? extends U>> f) {
+  T val = this.val;                        // 1. Open the box
+  Box<? extends U> box = f.transform(val); // 2. Operate with function
+  return Box.<T, U>compose(this, box);     // 3. Compose the two "context"
+}     // Changed to Box to be specific to this class
+```
+]
+
+---
+
+name: Context
+class: middle, sections
+
+# Context
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+#### Put Into Box
+]
+.ft82[
+## Side Effect
+### Put Into Box
+.col65[
+#### Impure Function
+```java
+Box<Integer> incr(Box<Integer> box) {
+  return new Box<>(box.val() + this.ctx);
+}
+```
+]
+.ft35[
+#### Visualization
+![Impure 01](img/10-Impure01.png)
+]
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+#### Put Into Box
+]
+.ft82[
+## Side Effect
+### Put Into Box
+.col65[
+#### Pure Function
+```java
+Ctx<Integer> incr(Ctx<Integer> ctx) {
+  return new Ctx<>(ctx.val() + ctx.ctx(), ctx.ctx());
+}
+```
+
+.card.bg-y[
+### Note
+.content.tight[
+- Variable `ctx` is unchanged .note16[(i.e., immutable up to `T`)]
+- `Ctx { val: v.., ctx: c }`
+<br>always produce
+<br>`Ctx { val: v+c, ctx: c }`
+]
+]
+]
+.ft35[
+#### Visualization
+![Impure 02](img/10-Impure02.png)
+]
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+#### Put Into Box
+#### Maybe
+]
+.ft82[
+## Side Effect
+### Maybe
+
+.col50[
+#### Some to Some
+.img90[![Some](img/10-Maybe01.png)]
+]
+.col50[
+#### None to None
+.img90[![None](img/10-Maybe02.png)]
+]
+
+<br><br><br><br><br><br>
+
+.card.bg-y[
+### Context
+.content.tight[
+The context of `Maybe<T>` is that the data may be present .note16[(i.e., not `None<T>`)] or the data may be missing/`null` .note16[(i.e., `None<T>`)].
+]
+]
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+#### Put Into Box
+#### Maybe
+#### Context
+]
+.ft82[
+## Side Effect
+### Context
+
+.atbl.blhead[
+| Container | Context |
+|-----------|---------|
+| `Some<T>`<br>.note16[(before `Maybe<T>`)] | Item in a box |
+| `Maybe<T>` | Item might be missing |
+| `Lazy<T>` | Item is evaluated on demand .note16[(and evaluated once)] |
+| `Loggable<T>` | Item with operations on item logged .note16[(will be discussed shortly)] |
+| `InfiniteList<T>` | Items in a lazily-evaluated sequence .note16[(in some literature, also non-determinism)] |
+]
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+]
+.ft82[
+## Logger
+### Preliminary
+.card.bg-y[
+### Immutable Class Logger
+.content.tight[
+Create an immutable class `Logger` that stores an integer value `val` and records _all_ previous operations done to reach current value .note16[(as a `String`)].
+]
+]
+
+#### Operations
+- Increment the value of `val`
+- Finding the absolute value of `val`
+- .note18[... other operations, but still log the operations?]
+.op0[
+- .
+]
+- Standard operations: `equals`, `toString`, .note18[etc]
+    - No need to log this
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+]
+.ft82[
+## Logger
+### Preliminary
+.card.bg-y[
+### Immutable Class Logger
+.content.tight[
+Create an immutable class `Logger` that stores an integer value `val` and records _all_ previous operations done to reach current value .note16[(as a `String`)].
+]
+]
+
+#### Functions
+.col60[
+##### Code
+```java
+int incr(int x) {
+  return x + 1;
+}
+int abs(int x) {
+  return x > 0 ? x : -x;
+}
+```
+]
+.ft40[
+##### Usage
+```jshell[copy=nones]
+jshell> incr(1)
+$.. ==> 2
+jshell> abs(-1)
+$.. ==> 1
+jshell> abs(incr(incr(-5)))
+$.. ==> 3
+```
+]
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+#### as a Pair
+]
+.ft82[
+## Logger
+### as a Pair
+.col60[
+#### Code
+```java
+Pair<Integer,String> incrWithLog(int x) {
+  return Pair.of(incr(x), "; incr " + x);
+}
+Pair<Integer,String> absWithLog(int x) {
+  return Pair.of(abs(x), "; abs " + x);
+}
+```
+.card.bg-r[
+### Quick Question
+.content.tight[
+Can we compose these two functions?
+]
+]
+]
+.ft40[
+#### Class
+```java
+class Pair<T,S> {
+  private final T first;
+  private final S second;
+  // private Pair(T, S)
+  // static Pair::of(T, S)
+  // Pair::getFirst()
+  // Pair::getSecond()
+  // Pair::toString()
+  // Pair::equals(Object)
+```
+]
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+#### as a Pair
+]
+.ft82[
+## Logger
+### as a Pair
+#### Code (_Composable_)
+```java
+Pair<Integer,String> incrWithLog(Pair<Integer,String> p) {
+  return Pair.of(incr(p.getFirst()), p.getSecond() + "; incr " + p.getFirst());
+}
+Pair<Integer,String> absWithLog(Pair<Integer,String> p) {
+  return Pair.of(abs(p.getFirst()), p.getSecond() + "; abs " + p.getFirst());
+}
+```
+
+#### Usage
+```jshell
+jshell> Pair<Integer, String> p = Pair.of(1, "")
+p ==> [1, ]
+jshell> absWithLog(incrWithLog(incrWithLog(p)))
+$10 ==> [3, ; incr 1; incr 2; abs 3]
+```
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+#### as a Pair
+#### as a Loggable
+]
+.ft82[
+## Logger
+### as a Loggable
+#### Impure Version
+```java
+class Loggable {
+  private       int value;
+  private       String log;
+  public  Loggable(int value, String log) {
+    this.value = value;
+    this.log = log;
+  }
+  ‎
+  ‎
+  ‎
+  public void     incrWithLog() {
+    this.value = incr(this.value); this.log = this.log + "; incr " + this.value;
+  }
+}
+```
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+#### as a Pair
+#### as a Loggable
+]
+.ft82[
+## Logger
+### as a Loggable
+#### Pure Version
+```java
+final class Loggable {
+  private final int value;
+  private final String log;
+  private Loggable(int value, String log) {
+    this.value = value;
+    this.log = log;
+  }
+  public static Loggable of(int value) { // with variant Loggable::ofWithLog(int, String)
+    return new Loggable(value, "");
+  }
+  public Loggable incrWithLog() {
+    return new Loggable(incr(this.value),     this.log + "; incr " + this.value);
+  }
+}
+```
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+#### as a Pair
+#### as a Loggable
+]
+.ft82[
+## Logger
+### as a Loggable
+#### Extension to More Operations
+```java
+final class Loggable {
+    : 
+  public Loggable absWithLog() {
+    return new Loggable(abs(this.value), this.log + "; abs " + this.value);
+  }
+  public Loggable dblWithLog() {
+    return new Loggable(dbl(this.value), this.log + "; dbl " + this.value);
+  }
+  ‎
+  ‎
+  ‎
+  ‎
+  ‎
+}
+```
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+#### as a Pair
+#### as a Loggable
+]
+.ft82[
+## Logger
+### as a Loggable
+#### Extension to More Operations
+```java
+final class Loggable {
+    :
+  public Loggable absWithLog() {
+    return new Loggable(abs(this.value), this.log + "; abs " + this.value);
+  }
+  public Loggable dblWithLog() {
+    return new Loggable(dbl(this.value), this.log + "; dbl " + this.value);
+  }
+  ‎public Loggable map(Transformer<Integer, Integer> f) {
+    int value = this.value;
+    int res = f.transform(value);
+    return new Loggable(res, this.log); // What to log?
+  }
+}
+```
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+#### as a Pair
+#### as a Loggable
+]
+.ft82[
+## Logger
+### as a Loggable
+#### Custom Log
+```java
+final class Loggable {
+    :
+  public Loggable absWithLog() {
+    return new Loggable(abs(this.value), this.log + "; abs " + this.value);
+  }
+  public Loggable dblWithLog() {
+    return new Loggable(dbl(this.value), this.log + "; dbl " + this.value);
+  }
+  ‎public Loggable flatMap(Transformer<Integer, Loggable> f) {
+    int value = this.value;
+    Loggable res = f.transform(value);
+    return compose(this, res);
+  }
+}
+```
+]
+
+---
+
+# Context
+
+.ft15.subsections[
+### Side Effect
+### Logger
+#### Preliminary
+#### as a Pair
+#### as a Loggable
+]
+.ft82[
+## Logger
+### as a Loggable
+#### Custom Log
+```java
+final class Loggable {
+    :
+  public Loggable absWithLog() {
+    return new Loggable(abs(this.value), this.log + "; abs " + this.value);
+  }
+  public Loggable dblWithLog() {
+    return new Loggable(dbl(this.value), this.log + "; dbl " + this.value);
+  }
+  ‎public Loggable flatMap(Transformer<Integer, Loggable> f) {
+    int value = this.value;
+    Loggable res = f.transform(value);
+    return compose(this, res);
+  }
+}
+```
+]
+.abs.rt2.bot15.wt50[
+.card.bg-w.font16[
+```java[copy=nones]
+private static Loggable compose(Loggable p, Loggable n) {
+  return new Loggable(n.value, p.log + n.log);
+}
+```
+]
+]
+
+---
+
+name: Monad_&_Functor
+class: middle, sections
+
+# Monad & Functor
+
+---
+
+# Monad & Functor
+
+.ft15.subsections[
+### Monad
+#### Definition
+]
+.ft82[
+## Monad
+.card.bg-g[
+### Definition
+.content.tight[
+A __monad__ is a .uline[_structure_] with _at least two_ methods called `of` and `flatMap` .note16[(may be called differently)] that obeys ___three___ laws below:
+1. __Left Identity Law__
+.nol[
+- `∀ x, f`:
+    - `Monad.of(`.hilite-y[`x`]`).flatMap(y ->`.op0[`.`].hilite-y[`f(y)`]`)`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - .hilite-y[`f(x)`]
+]
+2. __Right Identity Law__
+.nol[
+- `∀ monad`:
+    - .hilite-y[`monad`]`.flatMap(x -> Monad.of(y))`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - .hilite-y[`monad`]
+]
+3. __Associative Law__
+.nol[
+- `∀ monad, f`:
+    - `monad.flatMap(x -> f(x)`.hilite-y[`)`]`.flatMap(y -> g(y))`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - `monad.flatMap(x -> f(x).flatMap(x -> g(x))`.hilite-y[`)`]
+]
+]
+]
+]
+
+---
+
+# Monad & Functor
+
+.ft15.subsections[
+### Monad
+#### Definition
+#### Left Identity Law
+]
+.ft82[
+## Monad
+.card.bg-b[
+### Left Identity Law
+.content.tight[
+.nol[
+- `∀ x, f`:
+    - `Monad.of(`.hilite-y[`x`]`).flatMap(y ->`.op0[`.`].hilite-y[`f(y)`]`)`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - .hilite-yy[`f(x)`]
+]
+]
+]
+
+.col50[
+#### LHS
+```java[copy=nones]
+Monad.of(x).flatMap(y -> f(y))
+```
+
+![LHS](img/10-Monad01a.png)
+]
+.col50[
+#### RHS
+```java[copy=nones]
+f(x)
+```
+
+![RHS](img/10-Monad01b.png)
+]
+]
+
+---
+
+# Monad & Functor
+
+.ft15.subsections[
+### Monad
+#### Definition
+#### Left Identity Law
+#### Right Identity Law
+]
+.ft82[
+## Monad
+.card.bg-b[
+### Right Identity Law
+.content.tight[
+.nol[
+- `∀ monad`:
+    - .hilite-y[`monad`]`.flatMap(x -> Monad.of(y))`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - .hilite-y[`monad`]
+]
+]
+]
+
+.col50[
+#### LHS
+```java[copy=nones]
+monad.flatMap(y -> Monad.of(y))
+```
+
+![LHS](img/10-Monad02a.png)
+]
+.col50[
+#### RHS
+```java[copy=nones]
+monad
+```
+
+![RHS](img/10-Monad02b.png)
+]
+]
+
+---
+
+# Monad & Functor
+
+.ft15.subsections[
+### Monad
+#### Definition
+#### Left Identity Law
+#### Right Identity Law
+#### Associative Law
+]
+.ft82[
+## Monad
+.card.bg-b[
+### Associative Law
+.content.tight[
+.nol[
+- `∀ monad, f`:
+    - `monad.flatMap(x -> f(x)`.hilite-y[`)`]`.flatMap(y -> g(y))`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - `monad.flatMap(x -> f(x).flatMap(x -> g(x))`.hilite-y[`)`]
+]
+]
+]
+
+.col50[
+#### LHS
+```java[copy=nones]
+monad.flatMap(y -> Monad.of(y))
+```
+
+![LHS](img/10-Monad03a.png)
+]
+.col50[
+#### RHS
+```java[copy=nones]
+monad
+```
+
+![RHS](img/10-Monad03b.png)
+]
+]
+
+---
+
+# Monad & Functor
+
+.ft15.subsections[
+### Monad
+### Functor
+#### Definition
+]
+.ft82[
+## Functor
+.card.bg-g[
+### Definition
+.content.tight[
+A __monad__ is a .uline[_structure_] with _at least two_ methods called `of` and `map` .note16[(may be called differently)] that obeys ___two___ laws below:
+1. __Identity Law / Identity Morphism__
+.nol[
+- `∀ functor`:
+    - .hilite-y[`functor`]`.map(x -> x)`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - .hilite-y[`functor`]
+]
+2. __Composition Law / Composition Morphism__
+.nol[
+- `∀ functor, f, g`:
+    - `functor.map(x ->`.op0[`.`].hilite-y[`f(x)`]`).map(y ->`.op0[`.`].hilite-y[`g(y)`]`)`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - `functor.map(x ->`.op0[`.`].hilite-y[`g(f(x))`]`)`
+]
+]
+]
+]
+
+---
+
+# Monad & Functor
+
+.ft15.subsections[
+### Monad
+### Functor
+#### Definition
+#### Identity
+]
+.ft82[
+## Functor
+.card.bg-b[
+### Identity
+.content.tight[
+.nol[
+- `∀ functor`:
+    - .hilite-y[`functor`]`.map(x -> x)`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - .hilite-y[`functor`]
+]
+]
+]
+
+.col50[
+#### LHS
+```java[copy=nones]
+functor.map(x -> x)
+```
+
+![LHS](img/10-Functor01a.png)
+]
+.col50[
+#### RHS
+```java[copy=nones]
+functor
+```
+
+![RHS](img/10-Functor01b.png)
+]
+]
+
+---
+
+# Monad & Functor
+
+.ft15.subsections[
+### Monad
+### Functor
+#### Definition
+#### Identity
+#### Composition
+]
+.ft82[
+## Functor
+.card.bg-b[
+### Composition
+.content.tight[
+.nol[
+- `∀ functor, f, g`:
+    - `functor.map(x ->`.op0[`.`].hilite-y[`f(x)`]`).map(y ->`.op0[`.`].hilite-y[`g(y)`]`)`
+    - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
+    - `functor.map(x ->`.op0[`.`].hilite-y[`g(f(x))`]`)`
+]
+]
+]
+
+.col50[
+#### LHS
+```java[copy=nones]
+functor.map(x -> f(x)).map(y -> g(y))
+```
+
+![LHS](img/10-Functor02a.png)
+]
+.col50[
+#### RHS
+```java[copy=nones]
+functor.map(x -> g(f(x)))
+```
+
+![RHS](img/10-Functor02b.png)
+]
+]
+
+---
+
+name: Concurrent_&_Parallel
+class: middle, sections
+
+# Concurrent & Parallel
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+#### Sequential
+]
+.ft82[
+## Preliminary
+### Sequential
+
+.img80[![Sequential](img/10-Parallel01.png)]
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+#### Sequential
+#### Concurrent
+]
+.ft82[
+## Preliminary
+### Concurrent
+
+.img80[![Concurrent](img/10-Parallel02.png)]
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+#### Sequential
+#### Concurrent
+#### Parallel
+]
+.ft82[
+## Preliminary
+### Parallel
+
+.img80[![Parallel](img/10-Parallel03.png)]
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+#### Sequential
+]
+.ft82[
+## IntStream
+```java
+boolean isPrime(int n) {
+  return IntStream.range(2, (int)Math.sqrt(n) + 1)
+                  .noneMatch(x -> n % x == 0);
+}
+```
+
+### Sequential
+#### Prime in Range
+```java
+IntStream.range(2_030_000, 2_040_000)
+‎
+         .filter(x -> isPrime(x))
+         .forEach(System.out::println);
+```
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+#### Sequential
+#### Parallel
+]
+.ft82[
+## IntStream
+```java
+boolean isPrime(int n) {
+  return IntStream.range(2, (int)Math.sqrt(n) + 1)
+                  .noneMatch(x -> n % x == 0);
+}
+```
+
+### Parallel
+#### Prime in Range
+```java
+IntStream.range(2_030_000, 2_040_000)
+         .parallel()
+         .filter(x -> isPrime(x))
+         .forEach(System.out::println);
+```
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+]
+.ft82[
+## Considerations
+### Cannot Have Interference
+```java
+List<String> list = new ArrayList<>(List.of("Luke", "Leia", "Han"));
+list.stream().peek(name -> { if (name.equals("Han")) {
+                               list.add("Chewie");
+                             } })
+             .forEach(x -> {});
+```
+
+### Should Have No Side Effect
+```java
+List<Integer> list = new ArrayList<>(
+  Arrays.asList(1,3,5,7,9,11,13,15,17,19,21,23,25,27,29)
+);
+List<Integer> result = new ArrayList<>();
+list.parallelStream().filter(x -> isPrime(x)).forEach(System.out::println);
+list.parallelStream().filter(x -> isPrime(x)).forEach(x -> result.add(x));
+list.parallelStream().filter(x -> isPrime(x)).toList();
+```
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+### Reduce
+]
+.ft82[
+## Reduce
+
+<iframe frameborder=0 width=100% height=490px src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#reduce(java.util.function.BinaryOperator)"></iframe>
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+### Reduce
+#### Sequential
+]
+.ft82[
+## Reduce
+### Sequential
+```java[copy=nones]
+T reduce(T e, BinaryOperator<T> f)
+```
+
+.img80[![Sequential](img/10-Reduce01.png)]
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+### Reduce
+#### Sequential
+#### Parallel
+]
+.ft82[
+## Reduce
+### Parallel
+```java[copy=nones]
+T reduce(T e, BinaryOperator<T> f)
+```
+
+.img80[![Parallel](img/10-Reduce02.png)]
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+### Reduce
+#### Sequential
+#### Parallel
+]
+.ft82[
+## Reduce
+### Parallel
+```java[copy=nones]
+<U> U reduce(U e, BiFunction<U,? super T,U> f, BinaryOperator<U> g)
+```
+
+.img80[![Parallel](img/10-Reduce03.png)]
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+### Reduce
+#### Sequential
+#### Parallel
+#### Properties
+]
+.ft82[
+## Reduce
+### Properties
+```java[copy=nones]
+<U> U reduce(U e, BiFunction<U,? super T,U> f, BinaryOperator<U> g)
+```
+
+#### Parallelizing Reduce
+.col30[
+- __Identity__ `e`<br><br>
+
+- __Pure__ `f` __&__ `g`
+
+- __Associative__ `f` __&__ `g`<br><br><br><br>
+
+- __Compatible__ `f` __&__ `g`<br><br>
+]
+.ft70.nol[
+- `g(e, x)` equal to `x`<br>&nbsp;&nbsp;&nbsp;.note16[for `T reduce(T e, BinaryOperator<T> f)`, then `f(e, x)` equal to `x`]
+
+- `f` and `g` should be pure functions
+
+- `g(g(x, y), z)` equal to `g(x, g(y, z))`
+<br>&nbsp;&nbsp;&nbsp;.note16[`f` being associative is not a necessary condition but a sufficient condition]
+<br>&nbsp;&nbsp;&nbsp;.note16[the reason is that `f` is going to be applied in the same order for each fragment]
+<br>&nbsp;&nbsp;&nbsp;.note16[`f(f(f(f(e, a1), a2), a3), a4)`]
+
+- [More about compatibility](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#reduce%28java.lang.Object,java.util.function.BiFunction,java.util.function.BinaryOperator%29)<br>&nbsp;&nbsp;&nbsp;.note16[using our symbol, `g(x, f(e, y))` equals to `f(x, y)`]
+]
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+### Reduce
+#### Sequential
+#### Parallel
+#### Properties
+]
+.ft82[
+## Reduce
+### Properties
+```java[copy=nones]
+<U> U reduce(U e, BiFunction<U,? super T,U> f, BinaryOperator<U> g)
+```
+
+#### Parallelizing Reduce
+.col30[
+- __Identity__ `e`<br><br>
+
+- __Pure__ `f` __&__ `g`
+
+- __Associative__ `f` __&__ `g`<br><br><br><br>
+
+- __Compatible__ `f` __&__ `g`<br><br>
+]
+.ft70.nol[
+- `g(e, x)` equal to `x`<br>&nbsp;&nbsp;&nbsp;.note16[for `T reduce(T e, BinaryOperator<T> f)`, then `f(e, x)` equal to `x`]
+
+- `f` and `g` should be pure functions
+
+- `g(g(x, y), z)` equal to `g(x, g(y, z))`
+<br>&nbsp;&nbsp;&nbsp;.note16[`f` being associative is not a necessary condition but a sufficient condition]
+<br>&nbsp;&nbsp;&nbsp;.note16[the reason is that `f` is going to be applied in the same order for each fragment]
+<br>&nbsp;&nbsp;&nbsp;.note16[`f(f(f(f(e, a1), a2), a3), a4)`]
+
+- [More about compatibility](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#reduce%28java.lang.Object,java.util.function.BiFunction,java.util.function.BinaryOperator%29)<br>&nbsp;&nbsp;&nbsp;.note16[using our symbol, `g(x, f(e, y))` equals to `f(x, y)`]
+]
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+### Reduce
+#### Sequential
+#### Parallel
+#### Properties
+#### Examples
+]
+.ft82[
+## Reduce
+### Examples
+#### Sum
+```java
+List<Integer> list = new ArrayList<Integer>();
+for (int i=1; i<=10000; i++) {
+  list.add(i);
+}
+list.stream().parallel().reduce(0, (acc, elem) -> acc + elem);
+```
+
+#### Length
+```java
+List<String> list = List.of("CS", "2030", "S")
+list.stream().parallel().reduce(0,
+    (acc, elem) -> acc + elem.length(),
+    (acc1, acc2) -> acc1 + acc2);
+```
+]
+
+---
+
+# Concurrent & Parallel
+
+.ft15.subsections[
+### Preliminary
+### IntStream
+### Considerations
+### Reduce
+### Timing
+]
+.ft82[
+## Timing
+### Code
+```java[name=Timing.java|show=5,10-20|lite=14]
+import java.time.Duration;
+import java.time.Instant;
+import java.time.stream.IntStream;
+
+class Timing {
+  public static boolean isPrime(int n) {
+    return IntStream.range(2, (int)Math.sqrt(n) + 1)
+        .noneMatch(x -> n % x == 0);
+  }
+  public static void main(String[] args) {
+    Instant start = Instant.now();
+    long count = IntStream.range(2_000_000, 3_000_000)
+        .filter(x -> isPrime(x))
+      //.parallel()
+        .count();
+    Instant stop = Instant.now();
+    System.out.println("count: " + count);
+    System.out.println("time : " + Duration.between(start, stop).toMillis() + " ms");
+  }
+}
+```
+]
+.abs.rt2.top3.wt44[
+.font16[
+```java[copy=nones|lite=3]
+boolean isPrime(int n) {
+  return IntStream.range(2, (int)Math.sqrt(n) + 1)
+    //.parallel()
+      .noneMatch(x -> n % x == 0);
+}
+```
+]
+]
+
+---
+
+layout: false
+class: middle, end, fadein
+
+`jshell> /exit`
+
+`|  Goodbye`

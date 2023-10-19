@@ -1,0 +1,1249 @@
+layout: true
+class: basic, layout, imaging, fonts, lists, cards, fadein, tabler
+name: content
+<div class="basic header"></div>
+<div class="basic footer"><p>CS2030S: Programming Methodology II -- Adi Yoga S. Prabawa</p></div>
+
+---
+
+name: Lecture_09
+class: bottom, titles
+
+# CS2030S
+## Programming Methodology II
+### Lecture 09: Infinite List and Stream
+
+---
+
+name: Infinite_List
+class: middle, sections
+
+# Infinite List
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+]
+.ft82[
+## Eager List
+### Idea
+
+```java
+class EagerList<T> {
+  private final T head;
+  private final EagerList<T> tail;
+}
+```
+
+#### Visualization
+![Eager List](img/09-Eager01.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+]
+.ft82[
+## Eager List
+### Template
+
+```java
+class EagerList<T> {
+  private final T head;
+  private final EagerList<T> tail;
+  
+  public static <T> EagerList<T> generate(T t, int size) { .. }
+  public static <T> EagerList<T> iterate(
+      T init,
+      BooleanCondition<T> pred,
+      Transformer<T, T> next
+  ) { .. }
+  
+  public <U> EagerList<U> map(Transformer<T, U> fn) { .. }
+  public EagerList<T> filter(BooleanCondition<T> pred) { .. }
+}
+```
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+]
+.ft82[
+## Eager List
+### Map
+#### Visualization
+
+![Map](img/09-Eager02a.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+]
+.ft82[
+## Eager List
+### Map
+#### Visualization
+
+![Map](img/09-Eager02b.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+]
+.ft82[
+## Eager List
+### Map
+#### Visualization
+
+![Map](img/09-Eager02c.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+]
+.ft82[
+## Eager List
+### Map
+#### Visualization
+
+![Map](img/09-Eager02d.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+]
+.ft82[
+## Eager List
+### Map
+#### Visualization
+
+![Map](img/09-Eager02e.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+]
+.ft82[
+## Eager List
+### Map
+#### Visualization
+
+![Map](img/09-Eager02f.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+#### Filter
+]
+.ft82[
+## Eager List
+### Filter
+#### Visualization
+
+![Filter](img/09-Eager03a.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+#### Filter
+]
+.ft82[
+## Eager List
+### Filter
+#### Visualization
+
+![Filter](img/09-Eager03b.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+#### Filter
+]
+.ft82[
+## Eager List
+### Filter
+#### Visualization
+
+![Filter](img/09-Eager03c.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+#### Filter
+]
+.ft82[
+## Eager List
+### Filter
+#### Visualization
+
+![Filter](img/09-Eager03d.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+#### Idea
+#### Template
+#### Map
+#### Filter
+#### Test
+]
+.ft82[
+## Eager List
+### Test
+
+.col55[
+#### Code
+```java[copy=nones]
+EagerList<Integer> l = EagerList
+    .iterate(1,   i -> i < 10,   i -> i + 1)
+    .filter(i -> i % 3 == 0)
+    .map(i -> i * 2);
+l.head();
+l.tail().head();
+l.tail().tail().head();
+```
+]
+.ft45[
+#### Trace
+.atbl.blhead.font20[
+| Operation | Values |
+|-----------|--------|
+| iterate | `[` `1`, `2`, `3`, `4`, `5`, `6`,.op0[`.`] `7`, `8`, `9` .op0[`.`]`]` |
+| filter | `[` .op0[`1`, `2`,] `3`, .op0[`4`, `5`,] `6`,.op0[`.`] .op0[`7`, `8`,] `9` .op0[`.`]`]` |
+| map | `[` .op0[`1`, `2`,] `6`, .op0[`4`, `5`,] `12`, .op0[`7`, `8`,] `18` `]` |
+]
+]
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+]
+.ft82[
+## Infinite List
+### Idea
+
+```java
+class InfiniteList<T> {
+  private final Producer<T> head;
+  private final Producer<InfiniteList<T>> tail;
+}
+```
+
+#### Visualization
+![Infinite List](img/09-Infinite00.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+]
+.ft82[
+## Infinite List
+### Template
+
+```java
+class InfiniteList<T> {
+  private final Producer<T> head;
+  private final Producer<InfiniteList<T>> tail;
+}
+  
+  public static <T> InfiniteList<T> generate(Producer<T> prod) { .. }
+  public static <T> InfiniteList<T> iterate(
+      T init,
+      /* BooleanCondition<T> pred, */ 
+      Transformer<T, T> next
+  ) { .. }
+  
+  public <U> InfiniteList<U> map(Transformer<T, U> fn) { .. }
+  public InfiniteList<T> filter(BooleanCondition<T> pred) { .. }
+}
+```
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]]
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite-b[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01a.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite-b[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01b.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite-b[`map(x -> x * 2)`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01c.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01d.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01e.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01e2.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01f.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01g.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01h.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01i.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01i2.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01j.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01k.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01l.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01m.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01m2.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01n.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01n2.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01o.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01p.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01q.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01r.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01r2.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01s.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01t.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01u.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01u2.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01v.png)
+]
+
+---
+
+# Infinite List
+
+.ft15.subsections[
+### Eager List
+### Infinite List
+#### Idea
+#### Template
+#### Visualization
+]
+.ft82[
+## Infinite List
+### Visualization
+> .font18[.hilite[`InfiniteList.iterate(0, x -> x + 2)`]`.`.hilite[`map(x -> x + 1)`]`.`.hilite[`map(x -> x * 2)`]`.`.hilite-b[`head()`]]
+
+#### Heap Diagram
+![Infinite](img/09-Infinite01w.png)
+]
+
+---
+
+name: Java_API
+class: middle, sections
+
+# Java API
+
+---
+
+# Java API
+
+.ft15.subsections[
+### java.util.function
+]
+.ft82[
+## java.util.function
+### Java 17
+
+.vtbl.blhead[
+| CS2030S | java.util.function |
+|---------|--------------------|
+| `BooleanCondition<T>::test` | [`Predicate<T>::test`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html#test%28T%29) |
+| `Producer<T>::produce` | [`Supplier<T>::test`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html#get%28%29) |
+| `Consumer<T>::consume` | [`Consumer<T>::test`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html#accept%28T%29) |
+| `Transformer<T, U>::transform` | [`Function<T, R>::test`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html#apply%28T%29) |
+| `Transformer<T, T>::transform` | [`UnaryOp<T>::test`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/UnaryOperator.html) |
+]
+]
+
+---
+
+# Java API
+
+.ft15.subsections[
+### java.util.function
+### Java Container
+]
+.ft82[
+## Java Container
+### Java 17
+
+.vtbl.blhead[
+| CS2030S | Java Version |
+|---------|--------------|
+| `Maybe` | [`java.util.Optional<T>`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html) |
+| `Lazy` | _N/A_ |
+| `InfiniteList` | [`java.util.Optional<T>`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html) |
+]
+]
+
+---
+
+name: Streams
+class: middle, sections
+
+# Streams
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+#### Overview
+]
+.ft82[
+## Pipeline
+### Overview
+
+![Stream](img/09-Stream.png)
+
+#### Explanation
+
+.col33[
+.card.bg-g[
+### Data Source
+.content.tight[
+Produce a stream.<br><br>
+]
+]
+]
+.col33[
+.card.bg-y[
+### Intermediate Operation
+.content.tight[
+Transform a stream into another stream.
+]
+]
+]
+.col33[
+.card.bg-r[
+### Terminal Operation
+.content.tight[
+Consumes a stream.<br><br>
+]
+]
+]
+]
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+#### Overview
+#### Data Source
+]
+.ft82[
+## Pipeline
+### Data Source
+
+#### Static Factory Methods
+- [`Stream::of(T...)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#of%28T...%29) 
+- [`Stream::generate(Supplier<? extends T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#generate%28java.util.function.Supplier%29) 
+- [`Stream::iterate(T, Predicate<? super T>, UnaryOperator<T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#iterate%28T,java.util.function.Predicate,java.util.function.UnaryOperator%29) 
+
+#### Conversion from Other Data Types
+
+- [`Arrays::stream(T[])`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Arrays.html#stream%28T%5B%5D%29)
+- [`Collection::stream()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html#stream%28%29)
+]
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+#### Overview
+#### Data Source
+#### Intermediate Operations
+]
+.ft82[
+## Pipeline
+### Intermediate Operations
+
+#### Stateless
+- [`Stream::filter(Predicate<? super T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#filter&#40;java.util.function.Predicate&#41;)
+    - Keep the element if the predicate returns true on the element
+- [`Stream::map(Function<? super T, ? extends R>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#map&#40;java.util.function.Function&#41;)
+    - Transform each element with the given function
+- [`Stream::flatMap(Function<? super T, ? extends Stream<? extends R>>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#flatMap&#40;java.util.function.Function&#41;)
+    - map + flatten .note16[(i.e., no nested stream)]
+
+.col35[
+#### Stateful
+- [`Stream::sorted()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#sorted&#40;&#41;)
+- [`Stream::distinct()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#distinct&#40;&#41;)
+]
+.col65[
+#### Bounding
+- [`Stream::limit(long)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#limit&#40;long&#41;)
+- [`Stream::takeWhile(Predicate<? super T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#takeWhile&#40;java.util.function.Predicate&#41;)
+]
+]
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+#### Overview
+#### Data Source
+#### Intermediate Operations
+#### Terminal Operations
+]
+.ft82[
+## Pipeline
+### Terminal Operations
+- [`Stream::forEach(Consumer<? super T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#forEach&#40;java.util.function.Consumer&#41;)
+    - Perform the operation specified by the consumer for each element
+- [`Stream::reduce(BinaryOperator<T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#reduce&#40;java.util.function.BinaryOperator&#41;)
+    - Perform a _reduction_ operation using the binary operator
+- [`Stream::count()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#count&#40;&#41;)
+    - Returns the number of element in the stream
+- Element Matching
+    - [`Stream::allMatch(Predicate<? super T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#allMatch&#40;java.util.function.Predicate&#41;)
+    - [`Stream::anyMatch(Predicate<? super T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#anyMatch&#40;java.util.function.Predicate&#41;)
+    - [`Stream::noneMatch(Predicate<? super T>)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#noneMatch&#40;java.util.function.Predicate&#41;)
+]
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+### Difference
+]
+.ft82[
+## Difference
+### vs Infinite List
+#### Peeking
+```java
+Stream.iterate(0, x -> x + 1)
+      .peek(System.out::println)
+      .takeWhile(x < 5)
+      .forEach(x -> {});
+```
+
+#### Consumed Once
+```java
+Stream<Integer> s = Stream.iterate(0, x -> x + 1).takeWhile(x -> x < 5);
+s.forEach(System.out::println);
+s.forEach(System.out::println); // Fail!
+```
+
+.col50[
+.card.bg-y[
+### Note
+.content.tight[
+You have to recreate the stream!
+]
+]
+]
+]
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+### Difference
+### Summary
+#### Filter
+]
+.ft82[
+## Summary
+### Filter
+![filter](img/09-filter.png)
+]
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+### Difference
+### Summary
+#### Filter
+#### Map
+]
+.ft82[
+## Summary
+### Map
+![map](img/09-map.png)
+]
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+### Difference
+### Summary
+#### Filter
+#### Flat Map
+]
+.ft82[
+## Summary
+### Flat Map
+![flatmap](img/09-flatmap.png)
+]
+
+---
+
+# Streams
+
+.ft15.subsections[
+### Pipeline
+### Difference
+### Summary
+#### Filter
+#### Flat Map
+#### Reduce
+]
+.ft82[
+## Summary
+### Reduce
+![reduce](img/09-reduce.png)
+]
+
+---
+
+layout: false
+class: middle, end, fadein
+
+`jshell> /exit`
+
+`|  Goodbye`
