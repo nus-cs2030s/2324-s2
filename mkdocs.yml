@@ -34,6 +34,8 @@ nav:
     - 30. Side Effect-Free Programming: '30-functions.md'
     - 31. Box and Maybe: '31-box-maybe.md'
     - 32. Lazy Evaluation: '32-lazy.md'
+    - 33. Infinite List: '33-infinitelist.md'
+    - 34. Streams in Java: '34-stream.md'
   - Lab Guide:
     - Programming Environments: 'environments.md'
     - GitHub Setup: 'github.md'
