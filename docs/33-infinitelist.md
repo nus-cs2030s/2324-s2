@@ -1,4 +1,4 @@
-# Unit 33: Infinite list
+# Unit 33: Infinite List
 
 !!! abstract "Learning Objectives"
 
