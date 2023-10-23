@@ -1150,7 +1150,7 @@ Consumes a stream.<br><br>
 ```java
 Stream.iterate(0, x -> x + 1)
       .peek(System.out::println)
-      .takeWhile(x < 5)
+      .takeWhile(x -> x < 5)
       .forEach(x -> {});
 ```
 
