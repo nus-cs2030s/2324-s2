@@ -354,17 +354,19 @@ The last example shows that the same method reference expression can be interpre
     === "Method Reference"
         ```java
         Point origin = new Point(0, 0);
-        Transformer<Point, Double> dist = origin::distanceTo(p);
+        Transformer<Point, Double> dist = origin::distanceTo;
         ```
     
     In the case of lambda, the variable `origin` is _effectively final_.  On the other hand, the variable `origin` is not effectively final when using method reference.  In fact, the following is allowed.
 
     ```java
     Point origin = new Point(0, 0);
-    Transformer<Point, Double> dist = origin::distanceTo(p);
+    Transformer<Point, Double> dist = origin::distanceTo;
     origin = new Point(1, 1);
     double diagonal = dist.transform(new Point(3, 4)); // 5.0
     ```
+
+    Note that Line 4 is computing the distance with respect to the original `origin` at (0, 0).  This is the famous Pythagorean triple 3, 4, 5.  The distance between the point (0, 0) and the point (3, 4) is exactly 5.  So although `origin` is not effectively final, the method reference `origin::distanceTo` is pointing to exactly the method `distanceTo` within this particular instance.  So even if the variable `origin` is reassigned to another value, the method reference is still pointing to the old method.
 
 ### Lexical This
 

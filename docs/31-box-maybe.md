@@ -80,7 +80,7 @@ Maybe<Agent> next = agent.act(this.buffer);
 
 System.out.println(agent);
 
-next.ifPresent(() -> this.queue.add(next));
+next.ifPresent(nxt -> this.queue.add(nxt));
 ```
 
 With this design, `Agent::act` is now a function with the domain `Buffer` mapped to the codomain `Maybe<Agent>`, and it is pure.
