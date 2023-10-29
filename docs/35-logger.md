@@ -159,8 +159,8 @@ Loggable absWithLog(int x) {
 We can write:
 ```Java
 Loggable.of(4)
-    .flatMap(x -> incrWithLog(x))
-    .flatMap(x -> absWithLog(x))
+        .flatMap(x -> incrWithLog(x))
+        .flatMap(x -> absWithLog(x))
 ```
 
 to now compose the methods `incr` and `abs` together, along with the log messages!
