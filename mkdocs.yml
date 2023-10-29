@@ -36,6 +36,9 @@ nav:
     - 32. Lazy Evaluation: '32-lazy.md'
     - 33. Infinite List: '33-infinitelist.md'
     - 34. Streams in Java: '34-stream.md'
+    - 35. Loggable: '35-logger.md'
+    - 36. Monad: '36-monad.md'
+    - 37. Parallel Streams: '37-parallel.md'
   - Lab Guide:
     - Programming Environments: 'environments.md'
     - GitHub Setup: 'github.md'
