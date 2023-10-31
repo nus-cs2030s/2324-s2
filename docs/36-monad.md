@@ -82,7 +82,7 @@ Note a few things, the `map` method should preserve the context while the `flatM
 
 ## Three Laws of Monad
 
-The three laws below are all related to the context.  In particular, we need to ensure that the `compose` method (_i.e., the composition of_ `context`).  In particular, we want the `of` method to add "identity" context and we want `flatMap` to be associative with respect to the context.
+The three laws below are all related to the context.  In particular, we need to ensure that the `compose` method (_i.e., the composition of_ `context`) is associative.  In particular, we want the `of` method to add "identity" context and we want `flatMap` to be associative with respect to the context.
 
 So, the `of` method in a monad should create a new monad by initializing our monad with a value and its side information should be whatever is considered an "empty" side-information (_more formally, this is the identity element_).   For instance, in our `Loggable<T>`,
 
