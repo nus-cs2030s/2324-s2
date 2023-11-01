@@ -158,7 +158,7 @@ The `Sentinel` class is not only an indication of an empty list but because our 
 3. Implement the method `List<T> toList()` in `InfiniteList`.
     - The method takes in no parameter.
     - The method returns a new [`List<T>`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html) (_should really just be_ [`ArrayList<T>`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html)) which is a collection elements of the `InfiniteList` in the same order as they appear in the `InfiniteList`.
-4. Override the method `InfiniteList<T> limit(long n)` in `Sentinel`.
+4. Override the method `InfiniteList<T> toList()` in `Sentinel`.
     - The method takes in no parameter.
     - Determine the appropriate behaviour for this.
 
