@@ -1142,13 +1142,13 @@ A __monad__ is a .uline[_structure_] with _at least two_ methods called `of` and
 2. __Right Identity Law__
 .nol[
 - `∀ monad`:
-    - .hilite-y[`monad`]`.flatMap(x -> Monad.of(y))`
+    - .hilite-y[`monad`]`.flatMap(x -> Monad.of(x))`
     - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
     - .hilite-y[`monad`]
 ]
 3. __Associative Law__
 .nol[
-- `∀ monad, f`:
+- `∀ monad, f, g`:
     - `monad.flatMap(x -> f(x)`.hilite-y[`)`]`.flatMap(y -> g(y))`
     - &nbsp;&nbsp;&nbsp;&nbsp; `≡`
     - `monad.flatMap(x -> f(x).flatMap(x -> g(x))`.hilite-y[`)`]
