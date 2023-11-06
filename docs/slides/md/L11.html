@@ -854,11 +854,11 @@ We need to differentiate between _thread_ and _task_ .note16[(a task may run in 
 #### Code
 ```java
 Maybe<Integer> foo(int x) {
-  Maybe<Integer> a = Box.of(taskA(x));
+  Maybe<Integer> a = Maybe.of(taskA(x));
   Maybe<Integer> b = a.flatMap(va -> taskB(va));
   Maybe<Integer> c = a.flatMap(va -> taskC(va));
   Maybe<Integer> d = a.flatMap(va -> taskD(va));
-  Maybe<Integer> e = b.map(vb -> c.map(vc -> taskE(vb, vc)));
+  Maybe<Integer> e = b.flatMap(vb -> c.flatMap(vc -> taskE(vb, vc)));
   return e;
 }
 ```
@@ -883,11 +883,11 @@ Maybe<Integer> foo(int x) {
 #### Code
 ```java
 Lazy<Integer> foo(int x) {
-  Lazy<Integer> a = Box.of(taskA(x));
+  Lazy<Integer> a = Lazy.of(taskA(x));
   Lazy<Integer> b = a.flatMap(va -> taskB(va));
   Lazy<Integer> c = a.flatMap(va -> taskC(va));
   Lazy<Integer> d = a.flatMap(va -> taskD(va));
-  Lazy<Integer> e = b.map(vb -> c.map(vc -> taskE(vb, vc)));
+  Lazy<Integer> e = b.flatMap(vb -> c.flatMap(vc -> taskE(vb, vc)));
   return e;
 }
 ```
@@ -913,13 +913,13 @@ Lazy<Integer> foo(int x) {
 #### Code
 ```java
 CompletableFuture<Integer> foo(int x) {
-  CompletableFuture<Integer> a = Box.of(taskA(x));
+  CompletableFuture<Integer> a = CompletableFuture.completedFuture(taskA(x));
   CompletableFuture<Integer> b = a.thenComposeAsync(va -> taskB(va));
   CompletableFuture<Integer> c = a.thenComposeAsync(va -> taskC(va));
   CompletableFuture<Integer> d = a.thenComposeAsync(va -> taskD(va));
-  CompletableFuture<Integer> e = b.map(vb -> c.map(vc -> taskE(vb, vc)));
+  CompletableFuture<Integer> e = b.thenCompose(vb -> c.thenCompose(vc -> taskE(vb, vc)));
   return e;                   // b.thenCombineAsync(c, (vb, vc) -> taskE(vb, vc));
-}
+} // we use thenCompose for the last one due to space limitation
 ```
 
 ##### Mapping
