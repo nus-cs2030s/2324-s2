@@ -331,10 +331,10 @@ Thread findPrime = new Thread( () -> {
         Stream.iterate(2, i -> i + 1)
               .filter(x -> isPrime(x))
               .limit(500000)
-              .reduce((x, y) -> y)
-              .orElse(() -> 0)
+              .reduce(0, (x, y) -> y)
       );
   });
+  ​
 findPrime.start();
 ```
 ]
@@ -342,11 +342,11 @@ findPrime.start();
 #### Waiting Code
 ```java
 // Find something to do until finished
-while(findPrime.isAlive()) {
+while (findPrime.isAlive()) {
   try {
     System.out.print(".");
     Thread.sleep(1000); // busy-wait
-  } catch(InterruptedException e) {
+  } catch (InterruptedException e) {
     System.out.println(
       "who woke me up?!"
     );
@@ -1902,9 +1902,9 @@ class Summer extends RecursiveTask<Integer> {
     : // code omitted
   protected Integer compute() {
     if (hIdx - lIdx < FORK_THRESHOLD) { return sum(lIdx, hIdx, array); }
-    int mid - (lIdx + hIdx) / 2;
+    int mid = (lIdx + hIdx) / 2;
     Summer lSum = new Summer(lIdx, mid , array);
-    Summer rSum = new Summer(mid , rIdx, array);
+    Summer rSum = new Summer(mid , hIdx, array);
     lSum.fork();                          // DIVIDE
     return rSum.compute() + lSum.join();  // CONQUER
   }
