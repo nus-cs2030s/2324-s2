@@ -20,6 +20,11 @@
         - `Timing.java`: Timing helper class.
         - `Source.class`: The data source.
 
+!!! warning "Errata"
+    The earlier version of this incorrectly state that you cannot use loops.
+    You are allowed to use loops.
+    The only restriction is that the concurrency has to be done with `CompletableFuture` and not the parallel version of stream.
+
 ## Preliminary
 
 The rental data shows the state of housing rental in Singapore.  The data is composed of 4 rows:
@@ -117,7 +122,7 @@ This lab is worth 20 marks and contribute 2% to your Lab Assignment component.  
 | Documentation | 2 marks |  |
 | Style | _up to -4 marks_ | _Negative Marking_ |
 
-Correctness mark will be about general correctness with some manual checking, doing the proper check (_e.g.,_ `null` _check_), laziness, not using conditional statement/expression, not using loops, _etc_.  This means that each `TestX.java` may carry different weights.  While we try to give you all the possible tests, there may be some tests we missed.  You should not hardcode any test cases.
+Correctness mark will be about general correctness with manual checking on concurrency.
 
 Most of the documentations are already done.  For any additional method you add, please provide documentations.
 
