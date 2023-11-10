@@ -1457,11 +1457,228 @@ We can focus only on the __essence__ of the computation with respect to the depe
 
 ---
 
-# The Way of the Stone
+name: The_Way_of_the_Stream
+class: middle, sections
+
+# The Way of the Stream
+
+---
+
+# The Way of the Stream
 
 .ft15.subsections[
-### Immutability
-### Functions
+### Higher-Abstraction
+#### as Context
+]
+.ft82[
+## Higher-Abstraction
+### as Context
+
+.atbl.blhead[
+| Monad | Context |
+|-------|---------|
+| `Maybe<T>` | The answer may be missing |
+| `Lazy<T>` | The answer is computed when needed and memoized |
+| `Stream<T>` | The answer is one of the item in the stream |
+| `CompletableFuture<T>` | The answer will be available when you need it .note16[(no control over when it is actually ready)] |
+]
+]
+
+---
+
+# The Way of the Stream
+
+.ft15.subsections[
+### Higher-Abstraction
+#### as Context
+#### as Abstraction
+]
+.ft82[
+## Higher-Abstraction
+### as Abstraction
+
+.atbl.blhead[
+| Monad | Abstraction |
+|-------|---------|
+| `Maybe<T>` | Abstracting `null` check |
+| `Lazy<T>` | Abstracting lazy computation |
+| `Stream<T>` | Abstracting loops |
+| `CompletableFuture<T>` | Abstracting asynchronous computation |
+]
+]
+
+---
+
+# The Way of the Stream
+
+.ft15.subsections[
+### Higher-Abstraction
+### Unloop
+#### Trace
+]
+.ft82[
+## Unloop
+### Trace
+
+.col51[
+#### Code
+```java[copy=nones]
+// Sum of square of odd number up to n
+sum = 0;
+for (int i = 0; i < n; i++) {
+  if (i % 2 == 1) {
+    sum += i * i;
+  }
+}
+```
+]
+.ft49[
+#### Trace Table
+.atbl.blhead[
+| Iter |   | `i` | `sum` |   | `i * i` | `sum += i * i` |
+|------|---|-----|-------|---|---------|----------------|
+| 1 | | 0 | 0 | |.tbl-cell[tbl-bg-r] - | .tbl-cell[tbl-bg-r] - |
+| 2 | | 1 | 0 | | 1 | 1 |
+| 3 | | 2 | 1 | |.tbl-cell[tbl-bg-r] - | .tbl-cell[tbl-bg-r] - |
+| 4 | | 3 | 1 | | 9 | 10 |
+| 5 | | 4 | 10 | |.tbl-cell[tbl-bg-r] - | .tbl-cell[tbl-bg-r] - |
+| : | | : | : | | : | : |
+]
+]
+]
+
+---
+
+# The Way of the Stream
+
+.ft15.subsections[
+### Higher-Abstraction
+### Unloop
+#### Trace
+#### Sideways
+]
+.ft82[
+## Unloop
+### Sideways
+
+.col51[
+#### Code
+```java[copy=nones]
+// Sum of square of odd number up to n
+sum = 0;
+for (int i = 0; i < n; i++) {
+  if (i % 2 == 1) {
+    sum += i * i;
+  }
+}
+```
+]
+.ft49[
+#### Trace Table (Sideways)
+.atbl.blhead[
+| Iter | 1 | 2 | 3 | 4 | 5 | .. |
+|------|---|---|---|---|---|----|
+|.tbl-row[tbl-bg-k] | | | | | | |
+| `i` | 0 | 1 | 2 | 3 | 4 | .. |
+| `sum` | 0 | 0 | 1 | 1 | 10 | .. |
+|.tbl-row[tbl-bg-k] | | | | | | |
+| `i * i` |.tbl-cell[tbl-bg-r] - | 1 |.tbl-cell[tbl-bg-r] - | 9 |.tbl-cell[tbl-bg-r] - | .. |
+| `sum += i * i` |.tbl-cell[tbl-bg-r] - | 1 |.tbl-cell[tbl-bg-r] - | 10 | .tbl-cell[tbl-bg-r] - | .. |
+]
+]
+]
+
+---
+
+# The Way of the Stream
+
+.ft15.subsections[
+### Higher-Abstraction
+### Unloop
+#### Trace
+#### Sideways
+#### Stream
+]
+.ft82[
+## Unloop
+### Stream
+
+.col51[
+#### Code
+```java[copy=nones]
+// Sum of square of odd number up to n
+sum = 0;
+for (int i = 0; i < n; i++) {
+  if (i % 2 == 1) {
+    sum += i * i;
+  }
+}
+```
+]
+.ft49[
+#### Trace Table (with Stream)
+.atbl.blhead[
+| Operation  | 1 | 2 | 3 | 4 | .. |
+|------------|---|---|---|---|----|
+| `.iterate` | 0 | 1 | 2 | 3 | .. |
+| `.filter` |.tbl-cell[tbl-bg-r] - | 1 |.tbl-cell[tbl-bg-r] - | 3 | .. |
+| `.map` |.tbl-cell[tbl-bg-r] - | 1 |.tbl-cell[tbl-bg-r] - | 9 | .. |
+| `.reduce` | _sum_ |
+]
+]
+]
+
+---
+
+# The Way of the Stream
+
+.ft15.subsections[
+### Higher-Abstraction
+### Unloop
+#### Trace
+#### Sideways
+#### Stream
+]
+.ft82[
+## Unloop
+### Stream
+
+.col51[
+#### Code
+```java[copy=nones]
+// Sum of square of odd number up to n
+sum = 0;
+for (int i = 0; i < n; i++) {
+  if (i % 2 == 1) {
+    sum += i * i;
+  }
+}
+```
+]
+.ft49[
+#### Stream Code
+```java[copy=nones]
+// Sum of square of odd number up to n
+Stream.iterate(0, i -> i < n, i -> i + 1)
+      .filter(i -> i % 2 == 1)
+      .map(i -> i * i)
+      .reduce(0, (acc, elem) -> acc + elem)
+```
+]
+]
+
+---
+
+name: The_Way_of_the_FP
+class: middle, sections
+
+# The Way of the FP
+
+---
+
+# The Way of the FP
+
+.ft15.subsections[
 ### Functional Programming
 #### Comparison
 ]
@@ -1510,11 +1727,9 @@ int fact(int n) {
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1568,11 +1783,9 @@ class Square <: Shape {
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1626,11 +1839,9 @@ class Square <: Shape {
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1696,11 +1907,9 @@ class Triangle <: Shape {
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1754,11 +1963,9 @@ class Square <: Shape {
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1819,11 +2026,9 @@ We need to modify all existing classes!
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1861,11 +2066,9 @@ public static double getArea(Shape s) {
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1903,11 +2106,9 @@ public static double getArea(Shape s) {
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1952,11 +2153,9 @@ We need to modify all existing functions!
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -1994,11 +2193,9 @@ public static double getArea(Shape s) {
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -2047,11 +2244,9 @@ double getPerimeter(Shape s)
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -2124,11 +2319,9 @@ double getPerimeter(Shape s)
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -2143,11 +2336,9 @@ double getPerimeter(Shape s)
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -2164,11 +2355,9 @@ double getPerimeter(Shape s)
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -2188,11 +2377,9 @@ double getPerimeter(Shape s)
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
@@ -2224,11 +2411,9 @@ _"OO programming is good, when you know what it is. Functional programming is go
 
 ---
 
-# The Way of the Stone
+# The Way of the FP
 
 .ft15.subsections[
-### Immutability
-### Functions
 ### Functional Programming
 #### Comparison
 #### Expression Problem
