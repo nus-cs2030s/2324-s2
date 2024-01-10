@@ -6,59 +6,59 @@ nav:
     - 2. Variables and Types: '02-type.md'
     - 3. Functions: '03-function.md'
     - 4. Encapsulation: '04-encapsulation.md'
-    - 5. Information Hiding: '05-infohiding.md'
-    - 6. Tell, Don't Ask: '06-tell-dont-ask.md'
-    - 7. Class Fields: '07-static-field.md'
-    - 8. Class Methods: '08-static-method.md'
-    - 9. Composition: '09-composition.md'
-    - 10. Heap and Stack: '10-heap-stack.md'
-    - 11. Inheritance: '11-inheritance.md'
-    - 12. Overriding: '12-overriding.md'
-    - 13. Overloading: '13-overloading.md'
-    - 14. Polymorphism: '14-polymorphism.md'
-    - 15. Method Invocation: '15-dynamic-binding.md'
-    - 16. LSP: '16-lsp.md'
-    - 17. Abstract Class: '17-abstract.md'
-    - 18. Interface: '18-interface.md'
-    - 19. Wrapper Class: '19-wrapper.md'
-    - 20. Run-Time Class Mismatch: '20-casting.md'
-    - 21. Variance: '21-variance.md'
-    - 22. Exceptions: '22-exception.md'
-    - 23. Generics: '23-generics.md'
-    - 24. Type Erasure: '24-erasure.md'
-    - 25. Unchecked Warnings: '25-unchecked.md'
-    - 26. Wildcards: '26-wildcard.md'
-    - 27. Type Inference: '27-inference.md'
-    - 28. Immutability: '28-immutability.md'
-    - 29. Nested Class: '29-nested-classes.md'
-    - 30. Side Effect-Free Programming: '30-functions.md'
-    - 31. Box and Maybe: '31-box-maybe.md'
-    - 32. Lazy Evaluation: '32-lazy.md'
-    - 33. Infinite List: '33-infinitelist.md'
-    - 34. Streams in Java: '34-stream.md'
-    - 35. Loggable: '35-logger.md'
-    - 36. Monad: '36-monad.md'
-    - 37. Parallel Streams: '37-parallel.md'
-    - 38. Threads: '38-thread.md'
-    - 39. Asynchronous Programming: '39-async.md'
-    - 40. Fork and Join: '40-forkjoin.md'
-  - Lab Guide:
-    - Programming Environments: 'environments.md'
-    - GitHub Setup: 'github.md'
-    - Unix CLI:
-       - Background: 'unix/background.md'
-       - Essentials: 'unix/essentials.md'
-       - Advanced: 'unix/advanced.md'
-    - Vim: 
-       - Background: 'vim/philosophy.md'
-       - Setup: 'vim/setup.md'
-       - Lessons: 'vim/quick-lessons.md'
-       - Tips: 'vim/tips.md'
-       - Plugins: 'vim/plugins.md'
-       - Cheat Sheet: 'vim/cheatsheet.md'
-  - Java Guide: 
-       - Coding Style: 'style.md'
-       - JavaDoc : 'javadoc.md'
+  #   - 5. Information Hiding: '05-infohiding.md'
+  #   - 6. Tell, Don't Ask: '06-tell-dont-ask.md'
+  #   - 7. Class Fields: '07-static-field.md'
+  #   - 8. Class Methods: '08-static-method.md'
+  #   - 9. Composition: '09-composition.md'
+  #   - 10. Heap and Stack: '10-heap-stack.md'
+  #   - 11. Inheritance: '11-inheritance.md'
+  #   - 12. Overriding: '12-overriding.md'
+  #   - 13. Overloading: '13-overloading.md'
+  #   - 14. Polymorphism: '14-polymorphism.md'
+  #   - 15. Method Invocation: '15-dynamic-binding.md'
+  #   - 16. LSP: '16-lsp.md'
+  #   - 17. Abstract Class: '17-abstract.md'
+  #   - 18. Interface: '18-interface.md'
+  #   - 19. Wrapper Class: '19-wrapper.md'
+  #   - 20. Run-Time Class Mismatch: '20-casting.md'
+  #   - 21. Variance: '21-variance.md'
+  #   - 22. Exceptions: '22-exception.md'
+  #   - 23. Generics: '23-generics.md'
+  #   - 24. Type Erasure: '24-erasure.md'
+  #   - 25. Unchecked Warnings: '25-unchecked.md'
+  #   - 26. Wildcards: '26-wildcard.md'
+  #   - 27. Type Inference: '27-inference.md'
+  #   - 28. Immutability: '28-immutability.md'
+  #   - 29. Nested Class: '29-nested-classes.md'
+  #   - 30. Side Effect-Free Programming: '30-functions.md'
+  #   - 31. Box and Maybe: '31-box-maybe.md'
+  #   - 32. Lazy Evaluation: '32-lazy.md'
+  #   - 33. Infinite List: '33-infinitelist.md'
+  #   - 34. Streams in Java: '34-stream.md'
+  #   - 35. Loggable: '35-logger.md'
+  #   - 36. Monad: '36-monad.md'
+  #   - 37. Parallel Streams: '37-parallel.md'
+  #   - 38. Threads: '38-thread.md'
+  #   - 39. Asynchronous Programming: '39-async.md'
+  #   - 40. Fork and Join: '40-forkjoin.md'
+  # - Lab Guide:
+  #   - Programming Environments: 'environments.md'
+  #   - GitHub Setup: 'github.md'
+  #   - Unix CLI:
+  #      - Background: 'unix/background.md'
+  #      - Essentials: 'unix/essentials.md'
+  #      - Advanced: 'unix/advanced.md'
+  #   - Vim: 
+  #      - Background: 'vim/philosophy.md'
+  #      - Setup: 'vim/setup.md'
+  #      - Lessons: 'vim/quick-lessons.md'
+  #      - Tips: 'vim/tips.md'
+  #      - Plugins: 'vim/plugins.md'
+  #      - Cheat Sheet: 'vim/cheatsheet.md'
+  # - Java Guide: 
+  #      - Coding Style: 'style.md'
+  #      - JavaDoc : 'javadoc.md'
 theme: 
   name: material
   features: 
@@ -68,8 +68,8 @@ theme:
     - content.code.annotate
     - content.code.copy
   palette:
-    primary: light green
-    accent: light green
+    primary: deep orange
+    accent: deep orange
   shortcuts:
     previous: 72 #h
     next: 76 #l
@@ -77,8 +77,8 @@ theme:
 
 site_name: CS2030S Programming Methodology II
 # repo_url: https://github.com/nus-cs1010/1819-s1
-site_url: https://nus-cs2030s.github.io/2324-s1
-copyright: Copyright by Department of Computer Science, National University of Singapore 2023
+site_url: https://nus-cs2030s.github.io/2324-s2
+copyright: Copyright by Department of Computer Science, National University of Singapore 2024
 # remote_branch: gh-pages
 use_directory_urls: false
 markdown_extensions:
