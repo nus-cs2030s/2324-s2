@@ -13,7 +13,7 @@
 
 ## Data Abstraction: Variable
 
-One of the important abstractions that are provided by a programming language is the _variable_.  Data are stored in some location in computer memory.  But we should not be referring to the memory location all the time.  First, referring to something like `0xFA49130E` is not user-friendly; Second, the location may change.  A _variable_ is an abstraction that allows us to give a user-friendly name to a piece of data in memory.  We use the _variable name_ whenever we want to access the _value_ in that location, and _pointer to the variable_ or _reference to the variable_ whenever we want to refer to the address of the location.
+One of the important abstractions that are provided by a programming language is the _variable_.  Data are stored in some location in computer memory.  But we should not be referring to the memory location all the time.  First, referring to something like `0xFA49130E` is not user-friendly; Second, the location may change.  A _variable_ is an abstraction that allows us to give a user-friendly name to a piece of data in memory.  We use the _variable name_ whenever we want to access the _value_ in that location, and a _pointer to the_ variable_ or _reference to the variable_ whenever we want to refer to the address of the location.
 
 ![Variable](figures/Variable.png)
 
@@ -60,12 +60,12 @@ i = 4;   // ok because 4 is of type int
 i = "5"; // error, cannot assign a string to an `int`
 ```
 
-The type that a variable is assigned with when we declare the variable is also known as the _compile-time type_.  During the compilation, this is the only type that the compiler is aware of.  The compiler will check if the compile-time type matches when it parses the variables, expressions, values, and function calls, and throw an error if there is a type mismatch.  This type-checking step helps to catch errors in the code early.
+The type that a variable is assigned when we declare the variable is also known as the _compile-time type_.  During the compilation, this is the only type that the compiler is aware of.  The compiler will check if the compile-time type matches when it parses the variables, expressions, values, and function calls, and throw an error if there is a type mismatch.  This type-checking step helps to catch errors in the code early.
 
 !!! important "Types on Variable"
-    An important distinction between dynamic and static type is where is the type gets **attached** to.  In static typing, the type is attached to the _variable_ such that the variable can only store values of that particular type (_or its subtype as you will see later_).  In fact, in Java, the type that is attached to a variable is the _declared_ type (_i,e., the type written in the variable declaration also commonly known as compile-time type_).
+    An important distinction between dynamic and static type is where the type gets **attached** to.  In static typing, the type is attached to the _variable_ such that the variable can only store values of that particular type (_or its subtype as you will see later_).  In fact, in Java, the type that is attached to a variable is the _declared_ type (_i,e., the type written in the variable declaration also commonly known as compile-time type_).
 
-    On the other hand, in dynamically typed language, the type is attached to the _value_.  In other words, a variable can store anything but we can know what the type is because the type can be queried from the value.
+    On the other hand, in a dynamically typed language, the type is attached to the _value_.  In other words, a variable can store anything but we can know what the type is because the type can be queried from the value.
 
 ### Strong Typing vs. Weak Typing
 
@@ -73,7 +73,7 @@ A _type system_ of a programming language is a set of rules that governs how the
 
 A programming language can be strongly typed or weakly typed.  There are no formal definitions of "strong" vs. "weak" typing of a programming language, and there is a spectrum of "strength" between the typing discipline of a language.  
 
-Generally, a _strongly typed_ programming language enforces strict rules in its type system, to ensure _type safety_, i.e., to ensure that if there are any problems with the program, it is not due to the type.  For instance, catching attempt at multiplying two strings.  One way to ensure type safety is to catch type errors during compile time rather than leaving it to runtime.
+Generally, a _strongly typed_ programming language enforces strict rules in its type system, to ensure _type safety_, i.e., to ensure that if there are any problems with the program, it is not due to the type.  For instance, catching an attempt at multiplying two strings.  One way to ensure type safety is to catch type errors during compile time rather than leaving it to runtime.
 
 On the other hand, a _weakly typed_ (_or loosely typed_) programming language is more permissive in terms of typing checking.  C is an example of a static, weakly typed language.  In C, the following is possible:
 
@@ -99,40 +99,40 @@ we will get the following compile-time error message:
 |  incompatible types: java.lang.String cannot be converted to int
 ```
 
-because the compiler enforces a stricter rule and allows typecasting only if it makes sense.  More specifically, we will get compilation error if the compiler can determine with **certainty** that such conversion can never happen successfully.
+because the compiler enforces a stricter rule and allows typecasting only if it makes sense.  More specifically, we will get a compilation error if the compiler can determine with **certainty** that such conversion can never happen successfully.
 
 ## Type Checking with A Compiler
 
-In addition to checking for syntax errors, the compiler can check for type compilability according to the compile-time type, to catch possible errors as early as possible.  Such type checking is made possible with static typing.  Consider the following Python program:
+In addition to checking for syntax errors, the compiler can check for type compilability according to the compile-time type, to catch possible errors as early as possible.  Such type-checking is made possible with static typing.  Consider the following Python program:
 
 ```Python
 i = 0
 while (i < 10):
-  # do something that takes a loooooooooooooooooooooooong time
+  # do something that takes a long time
   i = i + 1
 print("i is " + i)
 ```
 
-The type mismatch error on Line 5 is only caught when Line 5 is executed.  Since the type of the variable `i` can change during run time, Python (_and generally, dynamically typed languages_) can not tell if Line 5 will lead to an error until it is evaluated at run-time.  
+Since Python does not allow adding a string to an integer, there is a type mismatch error on Line 5.  The type mismatch error is only caught when Line 5 is executed after the program is run for a long time.  Since the type of the variable `i` can change during run time, Python (_and generally, dynamically typed languages_) cannot tell if Line 5 will lead to an error until it is evaluated during run time.  
 
-In contrast, statically typed language like Java can detect type mismatch during compile time since the compile-time type of a variable is fixed.  So Java can confidently produce compilation error without even running the following program because we cannot multiply a `String` with an `int` in Java.
+In contrast, statically typed language like Java can detect type mismatch during compile time since the compile-time type of a variable is fixed.  As you will see later, Java allows "addition" or string and integer, and but multiplication of a string and an integer.  If we have the following code, Java can confidently produce compilation errors without even running a program: 
 
-```Python
-i = 0
-while (i < 2) {
-  // do something that takes a loooooooooooooooooooooooong time
+```Java
+int i = 0
+while (i < 10) {
+  // do something that takes a long time
   i = i + 1;
 }
-print("ba" + ("na" * i)); // "banana"?
+String s = "i is " * i;
 ```
 
 ## Primitive Types in Java
 
 We now switch our focus to Java, particularly to the types supported.  There are two categories of types in Java, the _primitive types_ and the _reference types_.  We will first look at primitive types in this unit.
 
-Primitive types are types that holds numeric values (_integers, floating-point numbers_) as well as boolean values (`true` _and_ `false`).  
+Primitive types are types that hold numeric values (_integers, floating-point numbers_) as well as boolean values (`true` _and_ `false`).  
 
-For storing integral values, Java provides four types, `byte`, `short`, `int`, and `long`, for storing 8-bit, 16-bit, 32-bit, 64-bit signed integers respectively.  The type `char` stores 16-bit unsigned integers representing UTF-16 Unicode characters.
+For storing integral values, Java provides four types, `byte`, `short`, `int`, and `long`, for storing 8-bit, 16-bit, 32-bit, and 64-bit signed integers respectively.  The type `char` stores 16-bit unsigned integers representing UTF-16 Unicode characters.
 
 For storing floating-point values, Java provides two types, `float` and `double`, for 32-bit and 64-bit floating-point numbers.
 
@@ -153,7 +153,7 @@ i = i + 1;
 | Floating-Point | <ul><li>`float`</li><li>`double`</li></ul> | <ul><li>32-bit</li><li>64-bit</li></ul> |
 
 !!! info "Long and Float Constant"
-    To differentiate between a `long` and an `int` constant, you can use suffix `L` to denote that the value is expected to be of `long` type.  This is important for large values beyond the range of `int`.  On the other hand, if the constant is a floating-point constant, by default it is treated as type `double`.  You need to add suffix `f` to indicate that the value is to be treated as a `float` type.
+    To differentiate between a `long` and an `int` constant, you can use the suffix `L` to denote that the value is expected to be of `long` type.  This is important for large values beyond the range of `int`.  On the other hand, if the constant is a floating-point constant, by default it is treated as type `double`.  You need to add the suffix `f` to indicate that the value is to be treated as a `float` type.
 
 ## Subtypes
 
@@ -162,12 +162,12 @@ An important concept that we will visit repeatedly in CS2030/S is the concept of
 !!! note "Subtype"
     Let $S$ and $T$ be two types.  We say that $T$ is a _subtype_ of $S$ if _a piece of code written for variables of type $S$ can also safely be used on variables of type $T$_.  
 
-We use the notation $T <: S$ or $S :> T$ to denote that $T$ is subtype of $S$.  Subtyping relationship in general must satisfy two properties:
+We use the notation $T <: S$ or $S :> T$ to denote that $T$ is a subtype of $S$.  The subtyping relationship in general must satisfy two properties:
 
 1. **Reflexive**: For any type $S$, we have $S <: S$ (_i.e., $S$ is a subtype of itself_).
 2. **Transitive**: If $S <: T$ and $T <: U$, then $S <: U$.  In other words, if $S$ is a subtype of $T$ and $T$ is a subtype of $U$, then $S$ is a subtype of $U$.
 
-Additionally, in Java, you will find that subtyping relationship also satisfies _anti-symmetry_.  However, this is often omitted as it is enforced by design.
+Additionally, in Java, you will find that the subtyping relationship also satisfies _anti-symmetry_.  However, this is often omitted as it is enforced by design.
 
 - **Anti-Symmetry**: If $S <: T$ and $T <: S$, then $S$ must be the same type as $T$.
 
@@ -175,7 +175,7 @@ We also use the term _supertype_ to denote the reversed relationship: if $T$ is 
 
 ### Subtyping Between Java Primitive Types
 
-Consider the range of values that the primitive types can take, Java defines the following subtyping relationship:
+Considering the range of values that the primitive types can take, Java defines the following subtyping relationship:
 
 - `byte` <: `short` <: `int` <: `long` <: `float` <: `double`
 - `char` <: `int`
@@ -187,7 +187,7 @@ Graphically, we can draw the subtyping relationship as an arrow from subtype to 
 !!! info "Long $<:$ Float?"
     Why is `long` a subtype of `float`?  More specifically, `long` is 64-bit and `float` is only 32-bit.  Clearly, there are more values in `long` than in `float`!
 
-    The resolution lies in the precision.  While it is indeed true that all (_mathematical_) integer can be converted into a (_mathematical_) real number by simply appending `.0` to the end, some `long` values cannot be represented _precisely_ as `float`.  Try the following and see what are printed.
+    The resolution lies in the precision.  While it is indeed true that any (_mathematical_) integer can be converted into a (_mathematical_) real number by simply appending `.0` to the end, some `long` values cannot be represented _precisely_ as `float`.  Try the following and see what is printed.
 
     ```Java
     long l = 123456789L;
