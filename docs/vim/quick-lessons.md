@@ -58,10 +58,10 @@ When you start, you will be in `NORMAL` mode.  Do not go into the `INSERT` mode 
 Now try the following steps in `NORMAL` mode:
 
 1. Press ++slash++.
-2. Type in any word (_or prefix of a word_), we recomment the word `the`.
+2. Type in any word (_or prefix of a word_), we recommend the word `the`.
 3. Press ++enter++.
 
-After step 2, you should see the following with your command highlighted in red box.
+After step 2, you should see the following with your command highlighted in a red box.
 
 ![L02_S02](figures/L02_S02.png)
 
@@ -81,10 +81,10 @@ $ vim jfk.txt
 
 ### Step 1: Deletion
 
-Deletion is actually closer to _cut_.  The deleted characters are stored in _buffer_.  Try the following:
+Deletion is closer to _cut_.  The deleted characters are stored in a _clipboard_.  Try the following:
 
 - Press ++0++ ++d++ ++3++ ++w++ to move the cursor to the beginning of the line and delete three words.
-- Press ++u++ to undo.  _This is another lifesaver that you should remember._
+- Press ++u++ to undo.  This is another lifesaver that you should remember.
 
 In `vim`, repeating the same command twice usually means applying it to the whole line.  Pairing a command with ++shift++ (_or the capital letter version_) usually means applying the action until the end of the line.  
 
@@ -93,15 +93,15 @@ In `vim`, repeating the same command twice usually means applying it to the whol
 
 ### Step 2: Copy-Pasting
 
-Pasting recovers what are available in the buffer.  Try the following:
+Pasting recovers what was stored in the clipboard.  Try the following:
 
 - Press ++p++ to paste back what you just deleted.
 - Move the cursor to somewhere else.
 - Press ++p++ to paste again.
 
-We can also copy instead of cut (_or delete and put into buffer_).
+We can also copy instead of cut (or delete and put into the clipboard).
 
-- Press ++y++ ++y++ to copy (_or yank_) the current line.
+- Press ++y++ ++y++ to copy (or yank) the current line.
 - Move the cursor to somewhere else.
 - Press ++p++ to paste the copied line.
 
@@ -131,7 +131,7 @@ Change `libertyi. liberty.` to `libtery.` by positioning the cursor on the secon
 
 ### Step 4: Visual Mode
 
-In addition to the `INSERT` and `NORMAL` modes, `vim` has the third mode, the `VISUAL` mode.  You can enter the `VISUAL` mode by hitting ++v++.  Once in visual mode, you can move your cursor to select the text and perform some actions on it (_e.g.,_ ++d++ _or_ ++x++ _to delete,_ ++y++ _to yank_).
+In addition to the `INSERT` and `NORMAL` modes, `vim` has a third mode, the `VISUAL` mode.  You can enter the `VISUAL` mode by hitting ++v++.  Once in visual mode, you can move your cursor to select the text and perform some actions on it (_e.g.,_ ++d++ or ++x++ to delete, ++y++ to yank).
 
 Hitting ++shift+v++ will allow you to select line-by-line.
 
@@ -162,7 +162,7 @@ But, let's try the following:
 :'<,'>!fmt
 ```
 
-`!fmt` tells `vim` to invoke the shell and run `fmt`.  `fmt` is another simple small Unix utility that takes in a text (_from standard input_) and spews out formatted text in the standard output.  You will see that the width of the text has changed to the default of 65.
+`!fmt` tells `vim` to invoke the shell and run `fmt`.  `fmt` is another simple small Unix utility that takes in a text (from standard input) and spews out formatted text in the standard output.  You will see that the width of the text has changed to the default of 65.
 
 You can try something that we have seen before.  Select the text again, and hit
 
@@ -188,7 +188,7 @@ The `:` command prompt supports ++control+p++ and ++control+n++ for navigating b
 
 ## Lesson 3: Insert mode!
 
-Finally, we are going to try inserting some text.  Remember, to use `INSERT` mode, we always start with a command ++i++ ++a++ ++o++ or ++s++ (_may pair with_ ++shift++) followed by the text that
+Finally, we are going to try inserting some text.  Remember, to use `INSERT` mode, we always start with the command ++i++ ++a++ ++o++ or ++s++ (may pair with ++shift++) followed by the text that
 you want to insert, followed by ++esc++.
 
 ### Step 1: Insert
@@ -204,7 +204,7 @@ You just added some text to the file.
 
 ### Step 2: Append
 
-Now let's try ++a++ (_append_).
+Now let's try ++a++ (append).
 
 1. Place your cursor anywhere.
 2. Press ++a++.

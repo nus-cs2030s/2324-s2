@@ -33,17 +33,17 @@ If you find yourselves typing too many ++h++++j++++k++++l++ to navigate around y
 To move word-by-word:
 
 - ++w++ jump to the beginning of the next word
-- ++b++ ump to the beginning of the previous word (_reverse of `w`_)
-- ++e++ jump to the end of the word (_or next word when pressed again_)
+- ++b++ ump to the beginning of the previous word (reverse of `w`)
+- ++e++ jump to the end of the word (or next word when pressed again)
 
 To search:
 
 - ++f++ char: search forward in the line and sit on the next matching char
 - ++t++ char:  search forward in the line and sit on one space before the matching char
 
-++0++ would move you to the beginning of the line, but when coding, it is sometimes useful to jump to the first non-blank character instead.  To do so, use ++shift+6++ (_i.e., `^`_).
+++0++ would move you to the beginning of the line, but when coding, it is sometimes useful to jump to the first non-blank character instead.  To do so, use ++shift+6++ (_i.e._, `^`).
 
-In coding, we have many pairs of `[]`, `{}`, `()` and `<>`.  You can use ++shift+5++ (_i.e., `%`_) jump between matching parentheses.
+In coding, we have many pairs of `[]`, `{}`, `()` and `<>`.  You can use ++shift+5++ (_i.e._, `%`) jump between matching parentheses.
 
 ### Jump to a Line
 
@@ -57,11 +57,11 @@ Since we are on the topic of correcting mistakes, ++u++ in command mode undo you
 
 ### Navigation + Editing
 
-`vim` is powerful because you can combine _operations_ with _navigation_.  For instance ++c++ to change, ++d++ to delete, ++y++ to yank (_copy_).  Since ++w++ is the navigation command to move over the current word, combining them we get:
+`vim` is powerful because you can combine _operations_ with _navigation_.  For instance ++c++ to change, ++d++ to delete, ++y++ to yank (copy).  Since ++w++ is the navigation command to move over the current word, combining them we get:
 
-- ++c++++w++ change the current word (_delete the current word and enter insert mode_)
+- ++c++++w++ change the current word (delete the current word and enter insert mode)
 - ++d++++w++ delete the current word
-- ++y++++w++ yank the current word (_copy word into buffer_)
+- ++y++++w++ yank the current word (copy word into buffer)
 
 Can you guess what each of these does:
 
@@ -92,8 +92,8 @@ Sometimes we need to comment out a whole block of code in C for testing purposes
 - ++0++ to jump to the beginning of the line
 - ++shift+v++ enter visual mode
 - Use the arrow key to select the block of code you want to comment on.
-- ++shift+i++ to insert at the beginning of the line (_here, since we already selected the block, we will insert at the beginning of every selected_)
-- ++slash++++slash++ to insert the C comment character (_you will see it inserted in the current line, but don't worry_)
+- ++shift+i++ to insert at the beginning of the line (here, since we already selected the block, we will insert at the beginning of every selected)
+- ++slash++++slash++ to insert the C comment character (you will see it inserted in the current line, but don't worry)
 - ++escape++ to escape from the visual code.
 
 To uncomment,
@@ -112,7 +112,7 @@ To uncomment,
 :%s/oldWord/newWord/gc
 ```
 
-`:` enters the command mode.  `%` means apply to the whole document, `s` means substitute, `g` means global (_otherwise, only the first occurrence of each line is replaced_). `c` is optional -- adding it cause `vim` to confirm with you before each replacement  
+`:` enters the command mode.  `%` means apply to the whole document, `s` means substitute, `g` means global (otherwise, only the first occurrence of each line is replaced). `c` is optional -- adding it cause `vim` to confirm with you before each replacement  
 
 ### Shell Command
 
@@ -148,17 +148,17 @@ You can open an interactive shell from within `vim` with:
 :terminal
 ```
 
-This command splits the window and add a terminal, within which you can compile or run your code.  
+This command splits the window and add a terminal, within which you can compile or run your code.
 
 ### Abbreviation
 
 You can use the command `ab` to abbreviate frequently typed commands.  E.g., in your `~/.vimrc`,
 
 ```
-ab pl cs1010_print_long(
+ab sop System.out.println
 ```
 
-Now, when you type `pl `, it will be expanded into `cs1010_print_long(`
+Now, when you type `sop `, it will be expanded into `System.out.println`
 
 ### Auto-Completion
 
@@ -166,7 +166,7 @@ You can use ++control+p++ or ++control+n++ to auto-complete.  By default, the au
 
 ### Auto-Indent the Whole File
 
-You can ++g++++g++++equal++++shift+g++ in command mode (_i.e., type out `gg=G`_) to auto-indent the whole file.  ++g++++g++ is the command to go to the beginning of the file.  ++equal++ is the command to indent.  ++shift+g++ is the command to go to the end of the file.
+You can ++g++++g++++equal++++shift+g++ in command mode (_i.e._, type out `gg=G`) to auto-indent the whole file.  ++g++++g++ is the command to go to the beginning of the file.  ++equal++ is the command to indent.  ++shift+g++ is the command to go to the end of the file.
 
 ### Split `vim`'s Viewport
 
@@ -186,9 +186,9 @@ would open up two files for line-by-line comparison.  This is most useful if you
 
 ## 5. Recovery Files
 
-Vim automatically saves the files you are editing into temporary _swap_ files, with the extension `.swp`.  These files are hidden, so you don't normally see them when you run `ls`.  (_You need to run `ls -a` to view the hidden files_)
+Vim automatically saves the files you are editing into temporary _swap_ files, with the extension `.swp`.  These files are hidden, so you don't normally see them when you run `ls`.  (You need to run `ls -a` to view the hidden files)
 
-The swap files are useful if your editing session is disrupted before you save (_e.g., the network is disconnected, you accidentally close the terminal, your OS crashes, etc_).
+The swap files are useful if your editing session is disrupted before you save (_e.g._, the network is disconnected, you accidentally close the terminal, your OS crashes, etc).
 
 When you launch `vim` to edit a file, say, `foo.c`.  `vim` will check if a swap file `.foo.c.swp` exist.  If it does, `vim` with display the following
 

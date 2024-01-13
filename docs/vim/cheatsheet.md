@@ -69,7 +69,7 @@ In `NORMAL` mode.
 | `:%s/<old>/<new>/gc` | Replace all `<old>` with `<new>` (_this will prompt options_) |
 | `:<sn>,<en>s/<old>/<new>/gc` | Replace all `<old>` with `<new>` in the given line range from `<sn>` to `<en>` (_this will prompt options_) |
 
-Once a search is being performed.
+Once a search is performed.
 
 | Keys | Description |
 | ---- | ----------- |
@@ -88,17 +88,17 @@ Options for replace
 
 ### Comment and Uncomment
 
-We can quickly comment a specific range of lines using the replace functionality.  The idea is to replace the _beginning of a line_ with `//` (_i.e., start of single line comment_).  We need to "escape" the `/` character by writing it as `\/\/`To match the beginning of the line, the character is `^`.
+We can quickly comment on a specific range of lines using the replace functionality.  The idea is to replace the _beginning of a line_ with `//` (_i.e._, to start a single-line comment).  We need to "escape" the `/` character by writing it as `\/\/`To match the beginning of the line, the character is `^`.
 
-Comment line 4 to 17.
+Comment out Lines 4 to 17.
 
 ```
 :4,17s/^/\/\//gc
 ```
 
-We can also quickly uncomment specific range of lines by replacing `//` with _nothing_.
+We can also quickly uncomment a specific range of lines by replacing `//` with _nothing_.
 
-Uncomment line 4 to 17.
+Uncomment Lines 4 to 17.
 
 ```
 :4,17s/\/\///gc
