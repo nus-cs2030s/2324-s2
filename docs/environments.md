@@ -58,6 +58,10 @@ First, you need to set up a Virtual Private Network (VPN) (See [instructions her
 
     Note that SoC VPN is different from NUS VPN.  Connecting to NUS VPN only allows you access to the NUS internal network, but not the SoC internal network.
 
+!!! note "FortiClient VPN vs FortiClient"
+
+    When you setup the SoC VPN client, please make sure that you download and install "FortiClient VPN Only", and not "FortiClient".  The latter is a commercial product that would stop working after the free trial is over.   On the other hand, "FortiClient VPN" is a free product.
+
 ### Troubleshooting
 
 Some common error messages and what they mean:
