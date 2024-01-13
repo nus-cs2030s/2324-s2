@@ -1,8 +1,8 @@
 layout: true
-class: basic, layout, imaging, fonts, lists, cards, fadein, tabler
+class: basic, fadein, tabler, layout
 name: content
-<div class="basic header"></div>
-<div class="basic footer"><p>CS2030S: Programming Methodology II -- Adi Yoga S. Prabawa</p></div>
+<div class="header"></div>
+<div class="footer"><p>CS2030S: Programming Methodology II -- Adi Yoga Sidi Prabawa</p></div>
 
 ---
 
@@ -15,946 +15,1050 @@ class: bottom, titles
 
 ---
 
-name: Functions
-class: middle, sections
+name: Errata
+class: middle, subtitles
 
-# Functions
+# Errata
 
 ---
 
-# Functions
+### Errata
 
-.ft15.subsections[
-### Pure Functions
-#### Definition
+.lc[
+### ImmutableArray
 ]
-.ft82[
-## Pure Functions
+.rc[
+### ImmutableArray
+#### Code
+.col65[
+.xsssize[
+```java[name=ImmutableArray_v1.java|lite=8-14]
+class ImmutableArray<T> {
+  private final T[] array;
+  private final int start;
+  private final int end;
+  
+  @SafeVarargs
+  public static <T> ImmutableArray<T> of(T... items) {
+    // We need to copy to ensure that it is truly immutable
+    @SuppressWarnings("unchecked");
+    T[] arr = (T[]) new Object[items.length];
+    for (int i=0; i<items.length; i++) {
+      arr[i] = items[i];
+    }
+    return new ImmutableArray<>(arr);
+  }
+    :
+}
+```
+]
+]
+.col35[
+.card.bg-y[
+##### Notes
+.content.tight[
+To truly make it immutable, we need to ___copy___ the `items` in the factory method `of`.  Otherwise, there may still mutability.
+]
+]
+]
+]
+
+---
+
+name: Lambda
+class: middle, subtitles
+
+# Lambda
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+#### - Definition
+]
+.rc[
+### Pure Functions
 .card.bg-b[
-### Definition
+##### Definition
 .content.tight[
-A __pure function__ `f` .note16[(denoted by `f : X → Y`)] is a _mapping_ from the domain `X` to the codomain `Y` such that
-
-<br>
-
-- For every `x` &in; `X`, there is `y` &in; `Y` such that `y = f(x)`.
-- `f(x)` is .uline[_deterministic_], has .uline[_no side-effect_] .note16[(the .uline[return value] is the "main" effect and anythign else is a side effect)], and .uline[_referentially transparent_].
-
-In general, we want pure functions because they are _easier_ to reason to proof correctness.
-]
-]
-
-.col51[
-.card.bg-y[
-### Properties
-.content.tight[
-- Deterministic
-    - `f(x) == y` everywhere
-- Referentially Transparent
-    - All `f(x)` can be replaced with `y`
-    - All `y` can be replaced with `f(x)` .note16[(uncommon)]
-- No Side-Effect
-    - Only the value is relevant
-]
-]
-]
-.ft49[
-.card.bg-y[
-### Side-Effect
-.content.tight[
-- Print to the monitor
-- Write to files
-- Throw exceptions
-- Modify fields .note16[(reassignment/mutation)]
-- Modify the arguments .note16[(reassignment/mutation)]
-]
+A pure function .mnote[(denoted mathematically as `f : X -> Y`)] is a _mapping_ from the domain `X` to the codomain `Y`.
+For each `x` .math[&in;] `X`, there is `y` .math[&in;] `Y` such that `y = f(x)`.
+Additionally, the operation must be _deterministic_, without _side-effects_, and _referentially transparent_.
 ]
 ]
 ]
 
 ---
 
-# Functions
+### Lambda
 
-.ft15.subsections[
-### Pure Functions
-#### Definition
-#### Motivation
+.lc[
+### Pure
+#### - Definition
+#### - Properties
 ]
-.ft82[
-## Pure Functions
-### Motivation
+.rc[
+### Pure Functions
+.card.bg-b[
+##### Definition
+.content.tight[
+A pure function .mnote[(denoted mathematically as `f : X -> Y`)] is a _mapping_ from the domain `X` to the codomain `Y`.
+For each `x` .math[&in;] `X`, there is a `y` .math[&in;] `Y` such that `y = f(x)`.
+Additionally, the operation must be _deterministic_, without _side-effects_, and _referentially transparent_.
+]
+]
 
-<iframe width="100%" height="465px" src="https://www.youtube.com/embed/z-r9cYp3tTE?si=QtwBtpspSU0suw2V" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+#### Properties
+.col30[
+- __Deterministic__
+
+- __Referentially Transparent__
+]
+.col70.nol.deindent[
+- for the same `x`, `f(x)` must always return the same `y`
+
+- any time we have `f(x)` we can replace it with `y` and any time we have `y` we can replace it with `f(x)` .mnote[(minus the actual computation performed as we are only interested in the result)]
+]
 ]
 
 ---
 
-# Functions
+### Lambda
 
-.ft15.subsections[
-### Pure Functions
-#### Definition
-#### Motivation
-#### Quiz
+.lc[
+### Pure
+#### - Definition
+#### - Properties
+#### - Side-Effects
 ]
-.ft82[
-## Pure Functions
-### Quiz
+.rc[
+### Pure Functions
+#### Side-Effects
+> We say that the _return value_ of the function is the _"main"_ effect.
+> Any other effects are side-effects.
 
+##### Possible Side-Effects
+1. Print to monitor
+2. Write to files
+3. Throw exceptions
+4. Assign or mutate fields
+5. .lnote[... any other effects visible by the caller]
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+#### - Definition
+#### - Properties
+#### - Side-Effects
+]
+.rc[
+### Pure Functions
+#### Side-Effects
 .qns[
-> ### Question
-> Select ALL the functions that are __pure functions__.
-> 
-.col51[
-```java
+> ##### Question
+> Consider the following functions?
+.col50[
+.sssize[
+```java[copy=nones]
 int incr(int i) {
   return this.count + i;
 }
+```
+]
+]
+.col50[
+.sssize[
+```java[copy=nones]
 int add(int i, int j) {
   return i + j;
 }
 ```
 ]
-```java
+]
+> <br>
+> Which of the functions above are pure functions?
+]
+
+.mrq.ssize[
+1. .quiz-choice[`incr`] .quiz-ans[0] .quiz-hint[NO: return value depends on `this.count`]
+1. .quiz-choice[`add`] .quiz-ans[1] .quiz-hint[YES: overflow is not an error!]
+
+.quizzes-poll[i3cBY7GTIT8lMKvtldf1L]
+.quizzes-time[30]
+.quizzes-qr[img/QR.png]
+]
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+#### - Definition
+#### - Properties
+#### - Side-Effects
+]
+.rc[
+### Pure Functions
+#### Side-Effects
+.qns[
+> ##### Question
+> Consider the following functions?
+.col50[
+.sssize[
+```java[copy=nones]
 int div(int i, int j) {
   return i / j;
 }
+```
+]
+]
+.col50[
+.sssize[
+```java[copy=nones]
 int square(int i) {
   return i * i;
 }
 ```
 ]
+]
+> <br>
+> Which of the functions above are pure functions?
+]
 
-.mrq[
-1. .quiz-choice[`int incr(int i)`] .quiz-ans[0] .quiz-hint[NO: non-deterministic as it depends on `this.count`]
-1. .quiz-choice[`int add(int i, int j)`] .quiz-ans[1] .quiz-hint[YES]
-1. .quiz-choice[`int div(int i, int j)`] .quiz-ans[0] .quiz-hint[NO: may throw exception]
-1. .quiz-choice[`int square(int i)`] .quiz-ans[1] .quiz-hint[YES]
+.mrq.ssize[
+1. .quiz-choice[`div`] .quiz-ans[0] .quiz-hint[NO: cannot divide by zero]
+1. .quiz-choice[`square`] .quiz-ans[1] .quiz-hint[YES: overflow is not an error!]
 
-.quizzes-poll[i3cBY7GTIT8lMKvtldf1L]
-.quizzes-time[60]
-.quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
+.quizzes-poll[U7PhfLRuyCrK2pSaaZCgD]
+.quizzes-time[30]
+.quizzes-qr[img/QR.png]
 ]
 ]
 
 ---
 
-# Functions
+### Lambda
 
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-#### Definition
+.lc[
+### Pure
+#### - Definition
+#### - Properties
+#### - Side-Effects
 ]
-.ft82[
-## Higher-Order
+.rc[
+### Pure Functions
+#### Side-Effects
+.qns[
+> ##### Question
+> Consider the following functions?
+.col50[
+.sssize[
+```java[copy=nones]
+int dice() {
+  return rand.nextInt(6) + 1;
+} // returns 1 to 6
+```
+]
+]
+.col50[
+.sssize[
+```java[copy=nones]
+void incrCount(int i) {
+  this.count += 1;
+}
+```
+]
+]
+> <br>
+> Which of the functions above are pure functions?
+]
 
-.col51[
+.mrq.ssize[
+1. .quiz-choice[`dice`] .quiz-ans[0] .quiz-hint[NO: non-deterministic]
+1. .quiz-choice[`incrCount`] .quiz-ans[0] .quiz-hint[NO: no return value + side effect]
+
+.quizzes-poll[OX76IXAI7F7Wx0DP1lfuj]
+.quizzes-time[30]
+.quizzes-qr[img/QR.png]
+]
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+#### - Definition
+]
+.rc[
+### Function as First-Class Citizens
 .card.bg-b[
-### Definition
+##### Definition
 .content.tight[
-A function `F` is a __higher-order function__ if `F` behaves just like any other variable.
-
-<br>
-
-1. Can be assigned to another variable
-2. Can be passed to a function as arguments
-3. Can be returned from a function as return value
-4. Can be inserted into an array
-
-We can also say that .uline[function is a __first-class__ citizen].
+A programming language is said to have __first-class functions__ when functions in that language are _treated like any other variables_.
 ]
 ]
+]
+--
+.rc[
+.qns[
+> ##### Question
+> Which operation below still cannot be done if functions behave like any other variable?
+]
+
+.mrq.ssize[
+1. .quiz-choice[Assign functions to variables] .quiz-ans[0] .quiz-hint[NO: a variable can be assigned to other variables]
+1. .quiz-choice[Add two functions] .quiz-ans[1] .quiz-hint[YES: this is only possible on numbers]
+1. .quiz-choice[Pass functions as arguments] .quiz-ans[0] .quiz-hint[NO: a variable can be passed as arguments]
+1. .quiz-choice[Return as return value] .quiz-ans[0] .quiz-hint[NO: a variable can be used as return value]
+1. .quiz-choice[Put into array] .quiz-ans[0] .quiz-hint[NO: a variable can be put into array of correct type]
+
+.quizzes-poll[PwZTCWBCTiCCgGhO4f3iS]
+.quizzes-time[30]
+.quizzes-qr[img/QR.png]
+]
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+#### - Definition
+#### - Method
+]
+.rc[
+### Function as First-Class Citizens
+#### Java Method
+> Unfortunately, methods in Java are .drdtxt[__NOT__] first-class.
+
+##### Not Allowed
+.col50.sssize[
+```java[copy=nones]
+‎
+int inc(int x) {
+  return x + 1;
+}
+‎
+int apply(??? f, int x) {
+  return f(x);
+}
+```
+]
+.col50[
+```jshell[copy=nones]
+jshell> apply(inc, 2)
+```
+]
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+#### - Definition
+#### - Method
+#### - Towards
+]
+.rc[
+### Function as First-Class Citizens
+#### Towards First-Class Functions in Java
+> `1.` Create a class .mnote[(object is first-class citizen!)].
+
+##### Allowed
+.col50.sssize[
+```java[copy=nones]
+class Inc {
+  int call(int x) {
+    return x + 1;
+  }
+}
+int apply(Inc f, int x) {
+  return f.call(x);
+}
+```
+]
+.col50[
+```jshell[copy=nones]
+jshell> Inc inc = new Inc()
+inc ==> Inc@6e8cf4c6
+jshell> apply(inc, 2)
+$.. ==> 3
+```
+
 .card.bg-y[
-### Observation
+##### Notes
 .content.tight[
-Methods are __NOT__ first-class citizens in Java
+We need to create a new class for each first-class function we want to use.
 ]
 ]
-]
-.ft49[
-#### Not Allowed
-```java
-class Methods       {
-  int inc (int x) {
-    return x + 1;
-  }
-}
-class Application       {
-  int apply(???      f, int x) {
-    return f(x);
-  }
-}
-```
-
-#### Valid Usage
-```java
-Application app = new Application();
-Methods m = new Methods();
-app.apply(m.inc, 1);
-```
 ]
 ]
 
 ---
 
-# Functions
+### Lambda
 
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
-#### Convention
+.lc[
+### Pure
+### First-Class
+#### - Definition
+#### - Method
+#### - Towards
 ]
-.ft82[
-## Towards First-Class Functions
+.rc[
+### Function as First-Class Citizens
+#### Towards First-Class Functions in Java
+> `2.` Abstract into an interface .mnote[(now there can be many classes!)].
 
-.col51[
-### Step 1: Convention
-
-.card.bg-g[
-### Convention #1
-.content.tight[
-Create a class .note16[(because object is a first-class citizen)].
-Agree on the name of the method to be invoked.
+##### Allowed
+.col50.sssize[
+```java[copy=nones]
+interface Fun {
+  int call(int x);
+  // the implementation is
+  // given by the user
+}
+int apply(Fun f, int x) {
+  return f.call(x);
+}
+```
 ]
-]
-]
-.ft49[
-#### .op0[Not] Allowed (Increment)
-```java[lite=2,7,8]
-class Methods       {
-  int call(int x) {
+.col50.sssize[
+```java[copy=nones]
+class Inc implements Fun {
+  @Override
+  public int call(int x) {
     return x + 1;
   }
 }
-class Application       {
-  int apply(Methods  f, int x) {
-    return f.call(x);
-  }
-}
-```
-
-#### Valid Usage
-```java[lite=3]
-Application app = new Application();
-Methods m = new Methods();
-app.apply(m    , 1);
-```
-]
-]
-
----
-
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
-#### Convention
-]
-.ft82[
-## Towards First-Class Functions
-
-.col51[
-### Step 1: Convention
-
-.card.bg-g[
-### Convention #1
-.content.tight[
-Create a class .note16[(because object is a first-class citizen)].
-Agree on the name of the method to be invoked.
-]
-]
-
-.card.bg-r[
-### Problem
-.content.tight[
-For each method we want to make _first-class_, we have to create a class for that.
-This means that we need different `Application` class with different overloaded `apply` methods.
-]
-]
-]
-.ft49[
-#### .op0[Not] Allowed (Square)
-```java[lite=3]
-class Methods       {
-  int call(int x) {
+class Sqr implements Fun {
+  @Override
+  public int call(int x) {
     return x * x;
   }
 }
-class Application       {
-  int apply(Methods  f, int x) {
-    return f.call(x);
-  }
-}
-```
-
-#### Valid Usage
-```java
-Application app = new Application();
-Methods m = new Methods();
-app.apply(m    , 1);
 ```
 ]
 ]
 
 ---
 
-# Functions
+### Lambda
 
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
-#### Convention
-#### Interface
+.lc[
+### Pure
+### First-Class
+#### - Definition
+#### - Method
+#### - Towards
 ]
-.ft82[
-## Towards First-Class Functions
+.rc[
+### Function as First-Class Citizens
+#### Towards First-Class Functions in Java
+> `3.` Generalize types using generic .mnote[(now we don't just have to work with `int`!)].
 
-.col51[
-### Step 2: Interface
+##### Allowed
+.col65.sssize[
+```java[copy=nones]
+interface Fun<T, R> {
+  R call(T x);
+  // T: argument
+  // R: return
+} // Fun : T -> R
+<T,R> R apply(Fun<? extends T, ? super R> f, T x) {
+  return f.call(x);
+}
+```
+]
+]
 
-.card.bg-g[
-### Convention #1
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+#### - Definition
+#### - Method
+#### - Towards
+#### - Function
+]
+.rc[
+### Function as First-Class Citizens
+#### Function &lt;T,R&gt;
+<iframe width=100% height=400px src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html" frameborder=0></iframe>
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+#### - Definition
+#### - Method
+#### - Towards
+#### - Function
+]
+.rc[
+### Function as First-Class Citizens
+#### Function &lt;T,R&gt;
+.qns[
+> ##### Question
+> If `Fun<T,R>` is an interface for a function with one parameter, what is the interface for function with ___two___ parameters?
+>
+> Use the generic types `T1` for the first parameter, `T2` for the second parameter, and `R` for the return type.
+]
+
+.mrq.ssize[
+1. .quiz-choice[`Fun<T1, R extends <Fun<T2, R2>>>`] .quiz-ans[0] .quiz-hint[NO: what are `T2` and `R2`?]
+1. .quiz-choice[`Fun<T1, Fun<T2, R>>`] .quiz-ans[0] .quiz-hint[NO: what are `T2` and `R`?]
+1. .quiz-choice[`Fun<T1, T2, R>`] .quiz-ans[1] .quiz-hint[YES: all three are type parameters]
+1. .quiz-choice[`Fun<<T1, T2>, R>`] .quiz-ans[0] .quiz-hint[NO: this is a syntax error]
+
+.quizzes-poll[qxG1xiwO2gWudIXa4MARQ]
+.quizzes-time[30]
+.quizzes-qr[img/QR.png]
+]
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+### Functional
+#### - Definition
+]
+.rc[
+### Functional Interface
+.card.bg-b[
+##### Definition
 .content.tight[
-Create a class .note16[(because object is a first-class citizen)].
-Agree on the name of the method to be invoked.
+A __functional interface__ is an interface with a .uline[_single abstract method_].
 ]
 ]
 
-.card.bg-g[
-### Convention #2
+##### Annotation
+- We can annotate functional interface with .hilite-y[`@FunctionalInterface`] annotation
+- A functional interface can be used as the assignment target for a _lambda expression_ or _method reference_
+
+##### Transformer
+.col50[
+```java[copy=nones]
+@FunctionalInterface
+interface Transformer<T,U> {
+  U transform(T t);
+}
+```
+]
+.col50[
+.card.bg-y[
+##### Notes
 .content.tight[
-Abstract as an interface so only a single `Application` class is needed.
+From now on, the lecture notes will be using `Function` as defined in Java.
+]
+]
 ]
 ]
 
-#### Example
-.font16[
-```java
-class Incr implements Fun {
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+#### - Definition
+]
+.rc[
+### Lambda Expression
+.card.bg-b[
+##### Definition
+.content.tight[
+A __lambda expression__ is an _anonymous_ function.
+]
+]
+]
+.abs.lt80.wt19.top3[
+![Lambda](img/08_Lambda.jpg)
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+#### - Definition
+#### - Towards
+]
+.rc[
+### Lambda Expression
+.card.bg-b[
+##### Definition
+.content.tight[
+A __lambda expression__ is an _anonymous_ function.
+]
+]
+]
+.rc[
+#### Towards Lambda
+.col50[
+##### Named Class
+.sssize[
+```java[copy=nones]
+class Inc implements
+    Function<Integer, Integer> {
   @Override
   public int call(int x) {
     return x + 1;
   }
 }
 ```
-]
-]
-.ft49[
-#### .op0[Not] Allowed
-```java[lite=1,2]
-interface Fun       {
-  int call(int x);
-  // the implementation is
-  // given by the user
-}
-class Application       {
-  int apply(Fun      f, int x) {
-    return f.call(x);
-  }
-}
-```
-
-#### Valid Usage
-```java
-Application app = new Application();
-Methods m = new Incr(); // or Square()
-app.apply(m    , 1);
-```
-]
-]
-
----
-
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
-#### Convention
-#### Interface
-#### Generic
-]
-.ft82[
-## Towards First-Class Functions
-
-.col51[
-### Step 3: Generic
-
-.card.bg-g[
-### Convention #1
-.content.tight[
-Create a class .note16[(because object is a first-class citizen)].
-Agree on the name of the method to be invoked.
-]
-]
-
-.card.bg-g[
-### Convention #2
-.content.tight[
-Abstract as an interface so only a single `Application` class is needed.
-]
-]
-
-.card.bg-g[
-### Convention #3
-.content.tight[
-Generalize types using generic.
-]
-]
-]
-.ft49[
-#### .op0[Not] Allowed
-```java[lite=1,2]
-interface Fun<T, R> {
-  R   call(T   x);
-  // T: argument type
-  // R: return type
-} // Fun: T -> R
-class Application<T, R> {
-  R   apply(Fun<T,R> f, T   x) {
-    return f.call(x);
-  }
-}
-```
-
-.card.bg-y[
-### Note
-.content.tight[
-This is practically our `Transformer<T, U>` or Java `Function<T, R>`.
-]
-]
-]
-]
-
----
-
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
-#### Convention
-#### Interface
-#### Generic
-#### Function&lt;T, R&gt;
-]
-.ft82[
-## Towards First-Class Functions
-### Function&lt;T, R&gt;
-
-<iframe width="100%" height="465px" src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html" frameborder="0"></iframe>
-]
-
----
-
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
-#### Convention
-#### Interface
-#### Generic
-#### Function&lt;T, R&gt;
-#### Quiz
-]
-.ft82[
-## Towards First-Class Functions
-### Quiz
-
-.qns[
-> ### Question
-> If `Fun<T, R>` is an interface for a function with __one__ parameter, what is the interface for function with ___two___ parameters?
-> 
-> Use the generic type `T1` for the first parameter, `T2` for the second parameter, and `R` for the return type.
-]
-
-.mrq[
-1. .quiz-choice[.font18[`Fun<T1, R extends Fun<T2, R2>>`]] .quiz-ans[0] .quiz-hint[NO: what are `T2` and `R2`?]
-1. .quiz-choice[.font18[`Fun<T1, Fun<T2, R>>`]] .quiz-ans[0] .quiz-hint[NO: what are `T2` and `R`?]
-1. .quiz-choice[.font18[`Fun<T1, T2, R>`]] .quiz-ans[1] .quiz-hint[YES: all three are type parameter declarations]
-1. .quiz-choice[.font18[`Fun<<T1, T2>, R>`]] .quiz-ans[0] .quiz-hint[NO: this is a syntax error]
-
-.quizzes-poll[qxG1xiwO2gWudIXa4MARQ]
-.quizzes-time[60]
-.quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
-]
-]
-
----
-
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
-### Lambda
-#### Functional Interface
-]
-.ft82[
-## Lambda
-### Functional Interface
-
-.card.bg-b[
-### Definition
-.content.tight[
-A __functional interface__ is an interface with a .uline[_single abstract method_].
-
-<br>
-
-We can .note16[(and should)] annotate functional interface with `@FunctionalInterface`.
-
-<br>
-
-A functional interface can be used as the _assignment target_ for _lambda expression_
-]
-]
-]
-
-.col51[
-#### Transformer
-```java
-@FunctionalInterface
-interface Transformer<T, U> {
-  U transform(T t);
-}
-```
-]
-
----
-
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
-### Lambda
-#### Functional Interface
-#### Definition
-]
-.ft82[
-## Lambda
-### Lambda Expression
-.card.bg-b[
-### Definition
-.content.tight[
-A __lambda expression__ is an _anonymous_ function.
-In other words, it is a function without a name.
-]
-]
-
-#### Towards Lambda
-.col51[
-##### Named Class
 ```java[copy=nones]
-class Incr implements
-    Function<Integer, Integer> {
-  @Override
-  public int apply(int x) {
-    return x + 1;
-  }
-}
+Inc f = new Inc();
 ```
 ]
-.ft49[
+]
+.col50[
 ##### Anonymous Class
+.sssize[
 ```java[copy=nones]
 Function<Integer, Integer> f =
   new Function<>() {
     @Override
-    Integer apply(Integer x) {
+    Integer call(Integer x) {
       return x + 1;
     }
   };
 ```
-]
 ```java[copy=nones]
-Function<Integer, Integer> f = x -> x + 1;
+// Any shorthand?
 ```
 ]
-.abs.rt0.top2.wt17[
-![HL3](img/08-Lambda.jpg)
+]
+]
+.abs.lt80.wt19.top3[
+![Lambda](img/08_Lambda.jpg)
 ]
 
 ---
 
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
 ### Lambda
-#### Functional Interface
-#### Definition
-#### Syntax
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+#### - Definition
+#### - Towards
+#### - Syntax
 ]
-.ft82[
-## Lambda
+.rc[
+### Lambda Expression
 .card.bg-g[
-### Syntax
+##### Syntax
 .content.tight[
-.col51[
-#### No Parameter
+.col50[
+###### .msize[Single Parameter]
+.sssize[
 ```java[copy=nones]
-() -> expr
+param -> expr   
 ```
 ]
-.ft49[
-#### Single Parameter
+]
+.col50[
+###### .msize[No Parameter]
+.sssize[
 ```java[copy=nones]
-param -> expr
+() -> expr   
 ```
+]
 ]
 
-#### Multiple Parameters
+###### .msize[Multiple Parameters]
+.sssize[
 ```java[copy=nones]
 (param1, param2) -> expr  // can have as many param as needed
 ```
+]
 
-#### Multiple Statements
+###### .msize[Multiple Statements]
+.sssize[
 ```java[copy=nones]
 (param1, param2, param3) -> { body; return expr; }
 ```
 ]
 ]
 ]
-.abs.rt0.top2.wt17[
-![HL3](img/08-Lambda.jpg)
+]
+.abs.lt80.wt19.top3[
+![Lambda](img/08_Lambda.jpg)
 ]
 
 ---
 
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
 ### Lambda
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+### Curry
+#### - Motivation
+]
+.rc[
 ### Curried Functions
 #### Motivation
-]
-.ft82[
-## Curried Functions
-### Motivation
-
-.qns[
-> ### Question
 > Consider functions that return a value.
-> How do we create an interface for functions with:
-.col25.nol[
-- __1 parameter.op0[s]__
+> How do we create an interface for functions with
+.col30.nol[
+- __1 parameter__
+]
+.col70.nol.deindent[
+]
+>
+> <br>
+]
+.abs.lt80.wt19.top3[
+![Curry](img/08_Curry.jpg)
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+### Curry
+#### - Motivation
+]
+.rc[
+### Curried Functions
+#### Motivation
+> Consider functions that return a value.
+> How do we create an interface for functions with
+.col30.nol[
+- __1 parameter__
+- __2 parameters__
+]
+.col70.nol.deindent[
+- `Function1<T, R>`
+]
+>
+> <br><br>
+]
+.abs.lt80.wt19.top3[
+![Curry](img/08_Curry.jpg)
+]
+
+---
+
+### Lambda
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+### Curry
+#### - Motivation
+]
+.rc[
+### Curried Functions
+#### Motivation
+> Consider functions that return a value.
+> How do we create an interface for functions with
+.col30.nol[
+- __1 parameter__
 - __2 parameters__
 - __3 parameters__
 ]
-.ft75.nol[
-- .op0[`Function<T, R>`]
-- .op0[`Function<T1, T2, R>`]
-- .op0[`Function<T1, T2, T3, R>`]
+.col70.nol.deindent[
+- `Function1<T, R>`
+- `Function2<T1, T2, R>`
 ]
-> Is there a limit?
-> Can we create a more general interface for all possible number of parameters?
+>
+> <br><br><br>
 ]
-]
-.abs.rt0.top2.wt17[
-![HL3](img/08-Curry.jpg)
+.abs.lt80.wt19.top3[
+![Curry](img/08_Curry.jpg)
 ]
 
 ---
 
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
 ### Lambda
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+### Curry
+#### - Motivation
+]
+.rc[
 ### Curried Functions
 #### Motivation
-]
-.ft82[
-## Curried Functions
-### Motivation
-
-.qns[
-> ### Question
 > Consider functions that return a value.
-> How do we create an interface for functions with:
-.col25.nol[
-- __1 parameter.op0[s]__
+> How do we create an interface for functions with
+.col30.nol[
+- __1 parameter__
 - __2 parameters__
 - __3 parameters__
 ]
-.ft75.nol[
-- `Function<T, R>`
-- `Function<T1, T2, R>`
-- `Function<T1, T2, T3, R>`
+.col70.nol.deindent[
+- `Function1<T, R>`
+- `Function2<T1, T2, R>`
+- `Function3<T1, T2, T3, R>`
 ]
+>
+> <br><br><br>
 > Is there a limit?
-> Can we create a more general interface for all possible number of parameters?
+> Can we not make a _general_ interface for all possible number of parameters?
 ]
-]
-.abs.rt0.top2.wt17[
-![HL3](img/08-Curry.jpg)
+.abs.lt80.wt19.top3[
+![Curry](img/08_Curry.jpg)
 ]
 
 ---
 
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
 ### Lambda
-### Curried Functions
-#### Motivation
-#### Definition
-]
-.ft82[
-## Curried Functions
-### Currying
 
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+### Curry
+#### - Motivation
+#### - Definition
+]
+.rc[
+### Curried Functions
 .card.bg-b[
-### Definition
+##### Definition
 .content.tight[
-__Currying__ is a technique to convert a function that .uline[_takes multiple arguments_] into a _sequence_ of functions that each .uline[_takes a single argument_].
+__Currying__ is a technique to convert a function that takes multiple arguments into a _sequence_ of functions that each .uline[_takes a single argument_].
 ]
 ]
-
+]
+--
+.rc[
 #### Example
 ##### Two Arguments
-```java
-BiFunction<Integer, Integer, Integer> f = (x, y) -> x + y;
+.sssize[
+```java[copy=nones]
+BiFunction<Integer,Integer,Integer> f = (x, y) -> x + y;
 f.apply(1, 2);
 ```
+]
 
-##### One Arguments (_Curried_)
-```java
+##### One Argument
+.sssize[
+```java[copy=nones]
 Function<???, ???> f = x -> ???;
 f.apply(1); // then what?
 ```
 ]
-.abs.rt0.top2.wt17[
-![HL3](img/08-Curry.jpg)
+]
+.abs.lt80.wt19.top3[
+![Curry](img/08_Curry.jpg)
 ]
 
 ---
 
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
 ### Lambda
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+### Curry
+#### - Motivation
+#### - Definition
+#### - Example
+]
+.rc[
 ### Curried Functions
-#### Motivation
-#### Definition
-]
-.ft82[
-## Curried Functions
-### Currying
-
 .card.bg-b[
-### Definition
+##### Definition
 .content.tight[
-__Currying__ is a technique to convert a function that .uline[_takes multiple arguments_] into a _sequence_ of functions that each .uline[_takes a single argument_].
+__Currying__ is a technique to convert a function that takes multiple arguments into a _sequence_ of functions that each .uline[_takes a single argument_].
 ]
 ]
-
+]
+.rc[
 #### Example
 ##### Two Arguments
-```java
-BiFunction<Integer, Integer, Integer> f = (x, y) -> x + y;
+.sssize[
+```java[copy=nones]
+BiFunction<Integer,Integer,Integer> f = (x, y) -> x + y;
 f.apply(1, 2);
 ```
+]
 
-##### One Arguments (_Curried_)
-```java
+##### One Argument
+.sssize[
+```java[copy=nones]
 Function<Integer, Function<Integer, Integer>> f = x -> y -> x + y;
 f.apply(1).apply(2);
 ```
-
-.note16[The lambda expression `x -> y -> x + y` is read from .uline[right-to-left] so it is equivalent to `x -> (y -> (x + y))`.]
 ]
-.abs.rt0.top2.wt17[
-![HL3](img/08-Curry.jpg)
+
+.note[The lambda expression is read from right-to-left so it is equivalent to `x -> (y -> (x + y))`.]
+]
+.abs.lt80.wt19.top3[
+![Curry](img/08_Curry.jpg)
 ]
 
 ---
 
-# Functions
+### Lambda
 
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
+.lc[
+### Pure
+### First-Class
+### Functional
 ### Lambda
-### Curried Functions
+### Curry
 ### Closure
-#### Lambda
 ]
-.ft82[
-## Closure
-### Lambda
-.col51[
-#### Point
-```java
+.rc[
+### Lambda as Closure
+#### Code
+.col50[
+##### Point
+.sssize[
+```java[copy=nones]
 class Point {
-    : // code omitted
+  // code omitted
   public double distance(Point p) {
-      : // code omitted
+    // code omitted
   }
 }
 ```
 ]
-.ft49[
-#### Lambda as Closure
-```java
+]
+.col50[
+##### Transformer
+.sssize[
+```java[copy=nones]
 Point origin = new Point(0, 0);
 Function<Point, Double> dist =
-    p -> origin.distance(p);
-// Recap:
-//    'origin' needs to be either
-//    final or effectively final
+  p -> origin.distance(p);
+  ‎
+// Recap, 'origin' needs to be
+//   either final or effectively final
 ```
 ]
+]
+]
+--
+.rc[
+##### Method Reference
+```java[copy=nones]
+Point origin = new Point(0, 0);
+Function<Point, Double> dist = origin::distance;
+```
 ]
 
 ---
 
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
 ### Lambda
-### Curried Functions
-### Closure
-#### Lambda
-#### Lexical This
-]
-.ft82[
-## Closure
-### Lexical This
-.col51[
-#### Lambda
-```java
-class Box {
-  private int x;
-    : // code omitted
-  public int get() {
-    Supplier<Integer> p = () -> this.x;
-    // Similar to Producer
-    return p.get();
-  }
-}
-```
 
-#### Usage
-```java
-Box box = new Box(2);
-box.get(); // 2
-```
-]
-.ft49[
-#### Anonymous Class
-```java
-class Box {
-  private int x;
-    : // code omitted
-  public int get() {
-    Supplier<Integer> p = new Supplier<>() {
-      @Override
-      public Integer get() {
-        return this.x; // ERROR!
-      }
-    };
-    return p.get();
-  }
-}
-```
-]
-]
-
----
-
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
+.lc[
+### Pure
+### First-Class
+### Functional
 ### Lambda
-### Curried Functions
+### Curry
 ### Closure
-### Abstraction Barrier
+### Barrier
+#### - Previously
+]
+.rc[
+### Lambda as Abstraction Barrier
 #### Previously
-]
-.ft82[
-## Abstraction Barrier
-### Previously
 
-.img60.center[![Barrier 01](img/08-Barrier01.jpg)]
+.img70.center[![Barrier 01](img/08_Barrier_01.jpg)]
 ]
 
 ---
 
-# Functions
-
-.ft15.subsections[
-### Pure Functions
-### Higher-Order
-### Towards First-Class
 ### Lambda
-### Curried Functions
+
+.lc[
+### Pure
+### First-Class
+### Functional
+### Lambda
+### Curry
 ### Closure
-### Abstraction Barrier
-#### Previously
+### Barrier
+#### - Previously
+#### - Now
+]
+.rc[
+### Lambda as Abstraction Barrier
 #### Now
-]
-.ft82[
-## Abstraction Barrier
-### Now
 
-.img60.center[![Barrier 02](img/08-Barrier02.jpg)]
+.img70.center[![Barrier 02](img/08_Barrier_02.jpg)]
 ]
 
 ---
 
 name: Lazy
-class: middle, sections
+class: middle, subtitles
 
 # Lazy
 
 ---
 
-# Lazy
+### Lazy
 
-.ft15.subsections[
+.lc[
+### Eager
+]
+.rc[
 ### Eager Evaluation
 #### Logger
-]
-.ft82[
-## Eager Evaluation
-### Logger
 .col70[
-#### Code
-```java
+.sssize[
+##### Code
+```java[name=Logger_v0.java]
 class Logger {
   enum LogLevel { INFO, WARNING, ERROR };
   public static LogLevel currLogLevel = LogLevel.WARNING;
@@ -966,92 +1070,95 @@ class Logger {
 }
 ```
 ]
-.ft30[
-#### Other Interfaces
+]
+.col30[
+##### Other Interface
 - `Producer<T>`
 - `Consumer<T>`
 - `Task`
 
 .card.bg-y[
-### Note
+##### Notes
 .content.tight[
-`Producer<T>` and `Consumer<T>` are as defined in Lab 5.
+`Producer<T>` is as defined in Lab 5.
 ]
-]
-]
-
-<br><br><br><br><br><br><br><br><br><br><br>
-
-#### Properties
-- The message `msg` is fully computed before `Logger::log` is invoked
-]
-
----
-
-# Lazy
-
-.ft15.subsections[
-### Eager Evaluation
-### Lazy Evaluation
-#### How to be Lazy
-]
-.ft82[
-## Lazy Evaluation
-### How to be Lazy
-
-.card.bg-g[
-### Step #1: Procrastinate (Lazy)
-.content.tight[
-#### Procrastinate Until the Last Minute
-
-<br>
-
-Do not perform the computation to produce the value.
-Only _produce_ the value when it is _really_ needed.
-]
-]
-
-.card.bg-g[
-### Step #2: Memoize (Memo)
-.content.tight[
-#### Never Repeat Yourself
-
-<br>
-
-Do not perform the computation _twice_.
-This is also known as ___memoization___.
 ]
 ]
 ]
 
 ---
 
-# Lazy
+### Lazy
 
-.ft15.subsections[
+.lc[
+### Eager
+]
+.rc[
 ### Eager Evaluation
+#### Logger
+
+![Log4J](https://upload.wikimedia.org/wikipedia/commons/f/f9/Apache_Log4j_Logo.png)
+]
+
+---
+
+### Lazy
+
+.lc[
+### Eager
+]
+.rc[
+### Eager Evaluation
+#### Logger
+
+.col50[
+![Log4Shell](img/08_Log4Shell.png)
+]
+.col50[
+![3 Billion](https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/2f4c04f4-96d0-11e6-9830-00163ed833e7/2932764412/java-runtime-environment-screenshot.jpg)
+]
+]
+
+---
+
+### Lazy
+
+.lc[
+### Eager
+### Lazy
+#### - How
+]
+.rc[
 ### Lazy Evaluation
 #### How to be Lazy
-#### Procrastinate
-]
-.ft82[
-## Lazy Evaluation
-### How to be Lazy
+##### Procrastinate Until the Last Minute
+> Do not perform the computation.
+> _Produce_ it when needed.
 
-.card.bg-g[
-### Step #1: Procrastinate (Lazy)
-.content.tight[
-#### Procrastinate Until the Last Minute
-
-<br>
-
-Do not perform the computation to produce the value.
-Only _produce_ the value when it is _really_ needed.
-]
+##### Never Repeat Yourself
+> Do not perform the computation twice. Also known as ___memoization___.
 ]
 
-#### Code
-```java[lite=4]
+---
+
+### Lazy
+
+.lc[
+### Eager
+### Lazy
+#### - How
+#### - Procrastinate
+]
+.rc[
+### Lazy Evaluation
+#### How to be Lazy
+##### Procrastinate Until the Last Minute
+> Do not perform the computation.
+> _Produce_ it when needed.
+
+.sssize[
+##### Code
+```java[name=Logger_v1.java]
 class Logger {
   enum LogLevel { INFO, WARNING, ERROR };
   public static LogLevel currLogLevel = LogLevel.WARNING;
@@ -1063,35 +1170,28 @@ class Logger {
 }
 ```
 ]
+]
 
 ---
 
-# Lazy
+### Lazy
 
-.ft15.subsections[
-### Eager Evaluation
+.lc[
+### Eager
+### Lazy
+#### - How
+#### - Procrastinate
+#### - Never Repeat
+]
+.rc[
 ### Lazy Evaluation
 #### How to be Lazy
-#### Procrastinate
-]
-.ft82[
-## Lazy Evaluation
-### How to be Lazy
+##### Never Repeat Yourself
+> Do not perform the computation twice. Also known as ___memoization___.
 
-.card.bg-g[
-### Step #2: Memoize (Memo)
-.content.tight[
-#### Never Repeat Yourself
-
-<br>
-
-Do not perform the computation _twice_.
-This is also known as ___memoization___.
-]
-]
-
-#### Code
-```java[lite=4]
+.sssize[
+##### Code
+```java[name=Logger_v2.java]
 class Logger {
   enum LogLevel { INFO, WARNING, ERROR };
   public static LogLevel currLogLevel = LogLevel.WARNING;
@@ -1103,89 +1203,79 @@ class Logger {
 }
 ```
 ]
+]
 
 ---
 
-# Lazy
+### Lazy
 
-.ft15.subsections[
-### Eager Evaluation
-### Lazy Evaluation
+.lc[
+### Eager
+### Lazy
+### Lazy&lt;T&gt;
+#### - Idea
+]
+.rc[
 ### Lazy&lt;T&gt;
 #### Idea
-]
-.ft82[
-## Lazy&lt;T&gt;
-### Idea
+##### Fields
+- `T`
+- `Producer<T>`
 
-.col37[
-.card.bg-y[
-### Fields
+##### Convention
+.col60[
+- `Producer` is one-time use
+    - If the value is non-`null`, it can be used
+    - If the value is `null`, it is already used
+- Once used, set this to `null`
+]
+.col40[
+.card.bg-r[
+##### Caution
 .content.tight[
-- `T value`
-- `Producer<T> prod`
-- `boolean isAvailable`
+This convention is different from the notes due to space limitation of the slide.
+The convention in the note is a better convention.<br><br>
+
+In fact, you will create an even better one in Lab 6!
 ]
-]
-]
-.ft63[
-.card.bg-b[
-### Convention
-.content.tight[
-- `isAvailable` initialize to `false`
-    - Set ___once___ after we compute the value
-- `prod` is only used if `isAvailable` is `false`
-    - One-time use
 ]
 ]
 ]
 
-.col37[
+---
+
+### Lazy
+
+.lc[
+### Eager
+### Lazy
+### Lazy&lt;T&gt;
+#### - Idea
+#### - Bad Code
+]
+.rc[
+### Lazy&lt;T&gt;
 #### Bad Code
-.font16[
-```java
+
+.xssize[
+```java[name=Lazy.java|copy=nones]
 class Lazy<T> {
-  private T value;
-  private Producer<T> prod;
-  private boolean isAvailable;
-  ​
-  // Constructor
-  // Accessor
-}
-```
-]
-]
-.ft63[
-.col50[
-#### Constructor
-.font16[
-```java[copy=nones]
-public Lazy
-    (Producer<T> prod) {
-  this.value = null;
-  this.prod = prod;
-  this.isAvailable = false;
-}
-​
-​
-```
-]
-]
-.col50[
-#### Accessor
-.font16[
-```java[copy=nones]
-public T get() {
-  if (!this.isAvailable) {
-    this.value =
-        prod.produce();
-    this.isAvailable = true;
+  T value;
+  Producer<T> producer;
+  // the better approach is to use boolean isAvailable like in the notes
+  public Lazy(Producer<T> producer) {
+    this.producer = producer;
+    this.value = null;
   }
-  return this.value;
+  public T get() {
+    if (this.producer != null) {        // can be used!
+      this.value = producer.produce();  // use it
+      this.producer = null;             // prevent other uses
+    }
+    return this.value;
+  }
 }
 ```
-]
-]
 ]
 ]
 
@@ -1196,4 +1286,4 @@ class: middle, end, fadein
 
 `jshell> /exit`
 
-`|  Goodbye`
+`|  Goodbye`
