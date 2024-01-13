@@ -2,17 +2,17 @@
 
 ## Java version
 
-Java is a language that continues to evolve.  A new version is released every six months.  For CS2030S, we will _only_ use Java 17, the most recent version with long-term support.  Specifically, we use `openjdk 17 2021-09-14` on Ubuntu 20.04.5.
+Java is a language that continues to evolve.  A new version is released every six months.  For CS2030S, we will _only_ use Java 17, the most recent version with long-term support.  Specifically, we use `openjdk 17.0.8.1 2023-08-24` on Ubuntu 20.04.5.
 
 ## PE Hosts
 
-The school has provided a list of computing servers for you to use, with all the required software for CS2030S installed.  You can access them remotely via `ssh`, or Secure SHell.  The hosts are named `pe111`, `pe112`, ..., `pe120`.  (_`pe` stands for "programming environment"_).  We will refer to these servers generally as the _PE hosts._
+The school has provided a list of computing servers for you to use, with all the required software for CS2030S installed.  You can access them remotely via `ssh`, or Secure SHell.  The hosts are named `pe111`, `pe112`, ..., `pe120`.  (`pe` stands for "programming environment").  We will refer to these servers generally as the _PE hosts._
 
 For this semester, the two servers `pe115` and `pe116` are not available.
 
-You can choose which of the eight hosts to use.  You share the same home directory across all the hosts (_this home directory, however, is different from that of `stu1`_).  If you notice that one host is crowded, you can use another host to spread out the load.
+You can choose which of the eight hosts to use.  You share the same home directory across all the hosts (this home directory, however, is different from that of `stu1`).  If you notice that one host is crowded, you can use another host to spread out the load.
 
-While you can complete the programming assignments on your computers, the practical exams are done in a controlled environment using servers similar to the PE hosts.  It is therefore advisable for you to familiarize yourself with accessing the PE servers via `ssh` and edit your program with either `vim` or `emacs` (_`vim` is recommended and supported_).
+While you can complete the programming assignments on your computers, the practical exams are done in a controlled environment using servers similar to the PE hosts.  It is therefore advisable for you to familiarize yourself with accessing the PE servers via `ssh` and edit your program with either `vim` or `emacs` (`vim` is recommended and supported).
 
 ## Accessing the PE Hosts
 
@@ -50,9 +50,9 @@ After the command above, follow the instructions on the screen.  The first time 
 
 ### Accessing The PE Hosts from Outside SoC
 
-The PE hosts can only be accessed from __within__ the School of Computing networks.  If you want to access it from outside, you need to connect through SoC VPN.
+The PE hosts can only be accessed from _within_ the School of Computing networks.  If you want to access it from outside, you need to connect through SoC VPN.
 
-First, you need to set up a Virtual Private Network (_VPN_) (_See [instructions here](https://dochub.comp.nus.edu.sg/cf/guides/network/vpn)_).  The staff at the IT helpdesk in COM1, Level 1, will be able to help you with setting up if needed.
+First, you need to set up a Virtual Private Network (VPN) (See [instructions here](https://dochub.comp.nus.edu.sg/cf/guides/network/vpn)).  The staff at the IT helpdesk in COM1, Level 1, will be able to help you with setting up if needed.
 
 !!! note "SoC VPN vs NUS VPN"
 
@@ -70,27 +70,25 @@ Some common error messages and what they mean:
 
     You have connected to the PE host, but you are kicked out because you have no permission to use the host.
 
-    Make sure you have activated your access to "SoC computer clusters" here: https://mysoc.nus.edu.sg/~myacct/services.cgi.
+    Make sure you have activated your access to "SoC computer clusters" [here](https://mysoc.nus.edu.sg/~myacct/services.cgi).
 
 3. > `Permission denied, please try again`
 
-    You did not enter the correct password or username.  Please use the username and password 
-    of your SoC Unix account which you have created here: https://mysoc.nus.edu.sg/~newacct/.
+    You did not enter the correct password or username.  Please use the username and password of your SoC Unix account which you have created [here](https://mysoc.nus.edu.sg/~newacct/).
 
     Check that you have entered your username correctly.  It is _case-sensitive_.
 
-    If you have lost your password, go here: https://mysoc.nus.edu.sg/~myacct/resetpass.cgi
+    If you have lost your password, go here (to reset your password)[https://mysoc.nus.edu.sg/~myacct/resetpass.cgi).
 
 4. > `Could not chdir to home directory /home/o/ooiwt: Permission denied`
 
     This error means that you have successfully connected to the PE hosts, but you have no access to your home directory. 
 
-    This should not happen.  Please file a service request with SoC IT Unit at https://rt.comp.nus.edu.sg/. Include the error message, the PE hosts that you connected to, and your username.  The system administrator can reset the permission of your home directory for you.
-
+    This should not happen.  Please [file a service request with SoC IT Unit](https://rt.comp.nus.edu.sg/). Include the error message, the PE hosts that you connected to, and your username.  The system administrator can reset the permission of your home directory for you.
 
 ## Copying Files between PE Nodes and Local Computer
 
-Secure copy, or `scp`, is one way to transfer files between the programming environments and your local computer.  `scp` behaves just like `cp` (_see [Unix: Essentials](unix/essentials.md)_).  The command takes in two arguments, the source, and the destination.  The difference is that we use the `<username>@<hostname>:<filename>` notation to specify a file on a remote host.
+Secure copy, or `scp`, is one way to transfer files between the programming environments and your local computer.  `scp` behaves just like `cp` (see [Unix: Essentials](unix/essentials.md)).  The command takes in two arguments, the source, and the destination.  The difference is that we use the `<username>@<hostname>:<filename>` notation to specify a file on a remote host.
 
 Let's say you want to transfer a set of C files from the directory `lab01` to your local computer.  Then, on the local computer, run:
 
@@ -108,13 +106,13 @@ You can copy specific files as well.  For instance, to copy the file `Hello.java
 ooiwt@macbook:~$ scp Hello.java ooiwt@pe111.comp.nus.edu.sg:~/lab01
 ```
 
-`scp` supports `-r` (_recursive copy_) as well.
+`scp` supports `-r` (recursive copy) as well.
 
 Note that we always run `scp` on your local computer in the examples above, since the SSH server runs on the PE host.
 
 ## Setting up SSH Keys
 
-The next step is not required but is a time-saver and a huge quality-of-life improvement.  _You need to be familiar with basic Unix commands_, including how to copy files to remote hosts (_using `scp`_) and how to check/change file permissions (_using `ls -l` and `chmod`_).  If you are still not comfortable with these commands, make sure you play with the [basic Unix commands](unix/essentials.md) first.  You can come back and complete this step later. 
+The next step is not required but is a time-saver and a huge quality-of-life improvement.  _You need to be familiar with basic Unix commands_, including how to copy files to remote hosts (using `scp`) and how to check/change file permissions (using `ls -l` and `chmod`).  If you are still not comfortable with these commands, make sure you play with the [basic Unix commands](unix/essentials.md) first.  You can come back and complete this step later. 
 
 Our goal here is to set up a pair of public/private keys for authentication so that you do not need to type your password every time you log into a PE host.
 
@@ -124,7 +122,7 @@ You can use the following command on your local computer to generate a pair of k
 ssh-keygen -t rsa
 ```
 
-This command will generate two keys, a private key `id_rsa`, and a public key `id_rsa.pub`.  Keep the private key `id_rsa` on your local machine in the hidden `~/.ssh` directory and copy the public key `id_rsa.pub` to your account on PE `pe111`.  
+This command will generate two keys, a private key `id_rsa`, and a public key `id_rsa.pub`.  Keep the private key `id_rsa` on your local machine in the hidden `~/.ssh` directory and copy the public key `id_rsa.pub` to your account on PE `pe111`.
 
 There are two methods to do this:
 
@@ -164,7 +162,7 @@ If you find yourself facing frequent disconnection, you can consider running [`s
 screen
 ```
 
-You will see some messages, press ++enter++ to go to the command prompt. You can now use the PE host as usual. In case you are disconnected (_e.g., in the middle of editing_), you can log into the same PE host again, and run:
+You will see some messages, press ++enter++ to go to the command prompt. You can now use the PE host as usual. In case you are disconnected (e.g., in the middle of editing), you can log into the same PE host again, and run:
 
 ```
 screen -r
