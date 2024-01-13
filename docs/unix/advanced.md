@@ -1,7 +1,7 @@
 # Unix CLI: Advanced
 
 This article is adapted from the notes of the [Unix@Home Workshop](https://nus-unix-workshop.github.io/2021-s1) 
-held in August 2020.  
+held in August 2020.
 
 !!! abstract "Learning Objectives"
 
@@ -15,9 +15,9 @@ held in August 2020.
 
 ## Composing Programs with `|`
 
-Another key innovation of Unix that led to its success is the invention of the `|` operator.  
+Another key innovation of Unix that led to its success is the invention of the `|` operator.
 
-Before Unix, operating systems tend to provide complex, monolithic, programs.  The philosophy of Unix, however, is to provide many small, simple, utility programs, that can be composed to complete a more complex task.  These small programs each do one thing only (_and do it well_) and so are easier to write and less prone to bugs.
+Before Unix, operating systems tend to provide complex, monolithic, programs.  The philosophy of Unix, however, is to provide many small, simple, utility programs, that can be composed to complete a more complex task.  These small programs each do one thing only (and do it well) and so are easier to write and less prone to bugs.
 
 The composition of these utility programs relies on two things.  First, plain text is often used as input and output of the programs.  These allow the programs to understand each other easily.  Second, they use `|` to communicate with each other.  The `|` operator takes the standard output from one program and redirects it as the standard input of another program.
 
@@ -55,7 +55,7 @@ Before we see more interesting examples of using `|`, let's move beyond `cat` an
 
 ### `head` and `tail`
 
-`head` and `tail` print out the first $k$ lines and last $k$ lines from a file (_or standard input if the file name is not given_).  By default, $k$ is 10, but you can pass in an argument to specify $k$.
+`head` and `tail` print out the first $k$ lines and last $k$ lines from a file (or standard input if the file name is not given).  By default, $k$ is 10, but you can pass in an argument to specify $k$.
 
 ```
 $ cat test.txt foo.txt bar.txt
@@ -113,7 +113,7 @@ For instance, in the above, there are three consecutive lines of `2`, so only on
 
 ### `grep`
 
-`grep` returns the lines of text from the given file (_or the standard input_) that matches the given string.  For instance, run
+`grep` returns the lines of text from the given file (or the standard input) that matches the given string.  For instance, run
 
 ```
 $ grep abc
@@ -125,7 +125,7 @@ hit ++control+d++ when you are done.
 ## Pipe Example
 
 To give you an example of how useful `|` is, here is a real example.  When processing the registration of the workshop, I have quite a few registrations that are duplicates -- students registered more than once.  I need a quick way to count how many unique registrants are there.
-So I keep the student ID of all registrants in a file called `ID`.  For instance, the file `ID` contains (_not real data, of course_)
+So I keep the student ID of all registrants in a file called `ID`.  For instance, the file `ID` contains (not real data, of course)
 
 ```
 A1234567X,CS
@@ -268,7 +268,7 @@ $ ./hello.sh
 bash: ./hello.sh: Permission denied
 ```
 
-Here, we specify the relative path of the script `hello.sh`, including the prefix `./` (_for reasons that we will explain later_).  But we should get an
+Here, we specify the relative path of the script `hello.sh`, including the prefix `./` (for reasons that we will explain later).  But we should get an
 error telling us `Permission defined`.  Recall from the [`File Permissions`](essentials.md) section that a file needs to have the executable `x` permission to be executed.  So we need to add this permission for ourselves:
 ```
 $ chmod u+x hello.sh
