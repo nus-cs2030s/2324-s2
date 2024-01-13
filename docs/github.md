@@ -3,12 +3,12 @@
 ## Prerequisites
 
 1. You should already have your SoC Unix account, cluster access, and SoC VPN set up, and be able to `ssh` into one of the PE hosts.  If you are not able to do this, please look at the guide on [programming environments](environments.md).
-2. You should feel comfortable running basic UNIX commands.  If you have not gone through the UNIX guide and get your hands dirty, please [look at the guide and play with the various basic Unix commands](unix/essentials.md).
+2. You should feel comfortable running basic UNIX commands.  If you have not gone through the UNIX guide and got your hands dirty, please [look at the guide and play with the various basic Unix commands](unix/essentials.md).
 3. You should already have a GitHub account and can log into [GitHub.com](https://www.github.com).
 
 ## Purpose
 
-Your will be using `git` (_indirectly_) for retrieving skeleton code and submitting completed assignments.  We will set up your accounts on a PE host below so that `git` will be associated with your GitHub account.  This is a one-time setup.  You don't have to do this for every assignment.
+You will be using `git` (indirectly) for retrieving skeleton code and submitting completed assignments.  We will set up your accounts on a PE host below so that `git` will be associated with your GitHub account.  This is a one-time setup.  You don't have to do this for every assignment.
 
 ## 1. Setting up `.gitconfig`
 
@@ -22,7 +22,7 @@ Create and edit a file called `.gitconfig` in **your home directory on the PE ho
   user = Your GitHub Username
 ```
 
-Your email should be whatever you used to sign up on GitHub (_which may not be your SoC or NUS email_).
+Your email should be whatever you used to sign up on GitHub (which may not be your SoC or NUS email).
 
 For example, a sample `.gitconfig` looks like this:
 
@@ -64,7 +64,7 @@ On any of the PE hosts, run
 ```
 ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
-where `your_email@example.com` is the email your associate with you, when you signed up for your GitHub account (_i.e., the same one you entered in `.gitconfig`_).
+where `your_email@example.com` is the email you used when you signed up for your GitHub account (i.e., the same one you entered in `.gitconfig`).
 
 The command will prompt you where to save the key.  Just press ++enter++ to save into the default location, which is `$HOME/.ssh/id_ed25519`.
 
@@ -100,7 +100,7 @@ The key's randomart image is:
 
 The next step involves logging into GitHub.com: click on your avatar in the top right corner, and choose "Settings".  Then choose "SSH and GPG keys" on the sidebar.
 
-Then, click either "New SSH key" or "Add SSH key".  Enter an appropriate title for the key (_e.g., "PE Hosts"_).
+Then, click either "New SSH key" or "Add SSH key".  Enter an appropriate title for the key (e.g., "PE Hosts").
 
 Next, you need to paste your public key into the text box.  Go back to your terminal and run 
 
@@ -108,7 +108,7 @@ Next, you need to paste your public key into the text box.  Go back to your term
 cat ~/.ssh/id_ed25519.pub
 ```
 
-Remember that `cat` just dumps the content of the file to the standard output.  Now, you need to copy the content of the file displayed on the terminal, which is your public key, and paste it into the text box in the browser.  Your key should start with `ssh-ed22519` and ends with your email address.  For instance, this is the exact text that I copy-pasted:
+Remember that `cat` just dumps the content of the file to the standard output.  Now, you need to copy the content of the file displayed on the terminal, which is your public key, and paste it into the text box in the browser.  Your key should start with `ssh-ed22519` and end with your email address.  For instance, this is the exact text that I copy-pasted:
 ```
 ssh-ed25519 AAAZC3NzaC1lZDI1NTE8AAAAIDdmwMpRrhRB95u7CTahehtBEeOdhSxDQdlpCxBK3KCP ooiwt@comp.nus.edu.sg
 ```
@@ -138,6 +138,35 @@ git@github.com: Permission denied (publickey).
 
 or other error messages.
 
-Note that you need to connect with the username `git`.  Do not use your GitHub username (_e.g., do not use `ssh -T ooiwt@github.com`_)
+Note that you need to connect with the username `git`.  Do not use your GitHub username (e.g., do not use `ssh -T ooiwt@github.com`)
 
-[^1]: I skipped many cool details here.  This topic is part of CS2105 and CS2107.  Interested students can google up various articles and videos online about how public-key cryptography is used for authentication.
+## 4. Accept and Retrieve a Test Skeleton from GitHub
+
+We have created an empty lab for you to test if you can correctly retrieve future lab files from GitHub.  Complete the following steps:
+
+- Click here (https://classroom.github.com/a/uOrkMKIa)[https://classroom.github.com/a/uOrkMKIa].  You should see a page that looks like the following:
+
+![accept](figures/accept-assignment-demo.png)
+
+- Click the accept button.  Wait a bit and then refresh until you see a "You're ready to go" message.
+
+- Now, on your PE host, run
+
+```Bash
+~cs2030s/get setup-test
+```
+
+If everything works well, you should see:
+
+```
+Cloning into 'setup-test-<username>'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 2 (delta 0), pack-reused 0
+Receiving objects: 100% (3/3), done.
+```
+
+Change your working directory into `setup-test-<username>` and look at the directory content.  It should contain a file `README.md`. 
+
+[^1]: I skipped many cool details here.  This topic is part of CS2105 and CS2107.  Interested students can search for various articles and videos online about how public-key cryptography is used for authentication.
