@@ -23,7 +23,7 @@ Unix organizes files according to a directory structure.  The following shows an
 This structure is also known as a _directory tree_.  There are two important directories that you need to know.
 
 ### Root Directory
-The root directory is the directory at the top of the directory tree[^1]. It is simply referred to as `/`, without any name.  Under the root directory are many other system directory, which a casual user does not normally need to (_and have no permission to_) modify.
+The root directory is the directory at the top of the directory tree[^1]. It is simply referred to as `/`, without any name.  Under the root directory are many other system directory, which a casual user does not normally need to (and have no permission to) modify.
 
 [^1]: In computing, trees are upside down with the root at the top and leaves at the bottom!
 
@@ -61,13 +61,13 @@ To specify a directory or a file in the Unix directory tree, we can use either t
 
 ### Absolute path
 
-The absolute path is constructed as follows, starting from the root of the directory structure, find a path (_a sequence of directories_) to the location that you want to specify, then concatenate the names of the directories together, separated by the forward-slash `/`.  This is a similar notation used for Website URLs, so you should already be familiar with it.  For instance, the path `/home/o/ooiwt` is the absolute path of the directory named `ooiwt` in the figure above.
+The absolute path is constructed as follows, starting from the root of the directory structure, find a path (a sequence of directories) to the location that you want to specify, then concatenate the names of the directories together, separated by the forward-slash `/`.  This is a similar notation used for Website URLs, so you should already be familiar with it.  For instance, the path `/home/o/ooiwt` is the absolute path of the directory named `ooiwt` in the figure above.
 
 An absolute path is independent of the current working directory and always start with `/` or `~`
 
 ### Relative path
 
-The relative path is dependent on the current working directory.  To refer to another location, start from the current directory, and find a path (_a sequence of directories_) to the location that you refer to.  When we go up a tree, we use `..` to represent the directory.
+The relative path is dependent on the current working directory.  To refer to another location, start from the current directory, and find a path (a sequence of directories) to the location that you refer to.  When we go up a tree, we use `..` to represent the directory.
 
 For example, referring to the figure above, if we are in the directory `/home/b`, and we wish to refer to `/home/o/ooiwt`, we can use the relative path `../o/ooiwt`.  If we wish to refer to `/home/b/bob`, we can use the relative path `bob`.
 
@@ -96,15 +96,15 @@ will give the output
 The `ls` list the content in the current working directory.
 
 !!! note "Rule of Silence"
-    Unix follows the economical _rule of silence_: programs should not print unnecessary output, to allow other programs and users to easily parse the output from one program.  So, if `ls` has nothing to list, it will list nothing (_as opposed to, say, printing "This is an empty directory."_)
+    Unix follows the economical _rule of silence_: programs should not print unnecessary output, to allow other programs and users to easily parse the output from one program.  So, if `ls` has nothing to list, it will list nothing (as opposed to, say, printing "This is an empty directory.")
 
-In Unix, a file or directory with a name that starts with `.` is hidden from `ls`.  Common hidden files are `.vimrc`, the configuration file for `vim`, and `.ssh`, the directory to store your SSH keys and configuration.  To view all the files, including hidden files, run `ls` with the `-a` flag (_`a` stands for all_).
+In Unix, a file or directory with a name that starts with `.` is hidden from `ls`.  Common hidden files are `.vimrc`, the configuration file for `vim`, and `.ssh`, the directory to store your SSH keys and configuration.  To view all the files, including hidden files, run `ls` with the `-a` flag (`a` stands for all).
 
 ### `mkdir`: MaKe a subDIRectory
 
 The `mkdir` command creates a subdirectory with the given name in the current directory.
 
-In the example below, we assume that we start with an empty directory.  
+In the example below, we assume that we start with an empty directory.
 
 ```Bash
 $ ls
@@ -115,16 +115,16 @@ $ ls -F
 workshop/
 ```
 
-Here, we create a directory called `workshop`.  Now, when we `ls`, you can see the directory listed.  
+Here, we create a directory called `workshop`.  Now, when we `ls`, you can see the directory listed.
 
-You may also use `ls -F` for more information (_`-F` is one of the many _options_/_flags_ available for the `ls` command. To see a complete list of the options, refer to the man pages, i.e., `man ls`_).
+You may also use `ls -F` for more information (`-F` is one of the many _options_/_flags_ available for the `ls` command. To see a complete list of the options, refer to the man pages, i.e., `man ls`).
 
 The slash `/` beside the filename tells you that the file is a directory.  A normal file does not have a slash beside its name when "ls -F" is used.
 
-You may also use the `ls -l` command (_hyphen el, not hyphen one_) to display almost all the file information, include the size of the file and the date of modification.
+You may also use the `ls -l` command (hyphen el, not hyphen one) to display almost all the file information, include the size of the file and the date of modification.
 
 !!! tip "Use Up Arrow for Command History"
-    `bash` maintains a history of your previously executed commands, and you may use the ++control+p++ (_previous_) and ++control+n++ (_next_) to go through it. Press the ++control+p++ until you find a previously executed command. You may then press ++enter++ to execute it or edit the command before executing it. This is handy when you need to repeatedly execute a long `bash` command.
+    `bash` maintains a history of your previously executed commands, and you may use the ++control+p++ (previous) and ++control+n++ (next) to go through it. Press the ++control+p++ until you find a previously executed command. You may then press ++enter++ to execute it or edit the command before executing it. This is handy when you need to repeatedly execute a long `bash` command.
 
 ### `cd`: Change Directory
 
@@ -142,7 +142,7 @@ Suppose our starting working directory is `/home/o/ooiwt`, after we `cd` into `w
 
 As mentioned in "[Unix CLI: Background](background.md)", it is common to include the current working directory into the shell's prompt.  So, you may see your command prompt updated to include the new working directory.
 
-Entering `cd` alone (_without argument_) brings you back to your home directory.  
+Entering `cd` alone (without argument) brings you back to your home directory.  
 
 ### `rmdir`: ReMove a subDIRectory
 
@@ -296,7 +296,7 @@ bar.txt test.txt
 ```
 
 !!! warning "`rm -rf`"
-    While the Unix command line provides lots of flexibility and power, with great power comes great responsibility.  Some commands are extremely dangerous.  `rm -rf *` is the most famous one.  The notation `*` refers to all files, and the flag `-f` means forceful deletion (___no question asked!___), and `-r` means remove recursively everything under the current directory tree.  Accidentally running this command has ruined many lives.  [Read more here](https://www.quora.com/What-are-some-crazy-rm-rf-stories-you-have-heard-about)
+    While the Unix command line provides lots of flexibility and power, with great power comes great responsibility.  Some commands are extremely dangerous.  `rm -rf *` is the most famous one.  The notation `*` refers to all files, and the flag `-f` means forceful deletion (with no question asked!), and `-r` means remove recursively everything under the current directory tree.  Accidentally running this command has ruined many lives.  [Read more here](https://www.quora.com/What-are-some-crazy-rm-rf-stories-you-have-heard-about)
 
 `rm` comes with a `-i` flag that interactively asks you if you are sure if you want to delete a file.  It is a good idea to always run `rm -i`.
 
@@ -327,26 +327,26 @@ In `less`, use `<space>` to move down one page, `b` to move Back up one page, an
 
 ### `man`: Online MANual
 
-An online help facility is available in Unix via the `man` command (_`man` stands for MANual_). To look for more information about any Unix command, for example, `ls`, type `man ls`. Type `man man` and refer to Man Pages to find out more about the facility. To exit `man`, press `q`.
+An online help facility is available in Unix via the `man` command (`man` stands for MANual). To look for more information about any Unix command, for example, `ls`, type `man ls`. Type `man man` and refer to Man Pages to find out more about the facility. To exit `man`, press `q`.
 
 ## File Permission Management
 
 File permissions determine _who_ can do _what_ to a file.  Typically, you do not need to fiddle with the file permission, but when you need to, it is usually for an important reason, and it is critical to do it right.
 
 ### The _What_ of File Permissions
-Let's look at _what_ you can do to a file first.  Unix file permissions allow control of three actions: `r` (_read_), `w` (_write_) and `x` (_execute_).  These permission settings allow the following different actions to be done for regular files and directories.
+Let's look at _what_ you can do to a file first.  Unix file permissions allow control of three actions: `r` (read), `w` (write) and `x` (execute).  These permission settings allow the following different actions to be done for regular files and directories.
 
 permission | effect on file | effect on directory
 -----------|----------------|--------------------
 `r`| reading the content of a file | read the names of the files in the directory
 `w`| writing into a file | create/delete/rename files in the directory
-`x`| executing a file | access contents and meta-info (_size, creation time_) of files in the directory
+`x`| executing a file | access contents and meta-info (size, creation time) of files in the directory
 
-These three actions can be controlled independently.  
+These three actions can be controlled independently.
 
 The permissions on a file can be expressed in two ways:
 
-- using symbolic notation.  For instance,  `rwx`, `r-x`, `-wx`, where a `-` means that the corresponding permission is not given (_in the order of `r`, `w`, `x`_).
+- using symbolic notation.  For instance,  `rwx`, `r-x`, `-wx`, where a `-` means that the corresponding permission is not given (in the order of `r`, `w`, `x`).
 
 - using a numerical notation. This notation uses a digit between 0 and 7, which is computed as a sum of the individual digit representing the permissions: `r` is represented with 4, `w` is represented with 2, and `x` is represented with 1.
 For instance, `r-x` has a numerical representation of 5, and `-wx` has a numerical representation of 3.
@@ -365,7 +365,7 @@ For instance, the permission of 644, or `rw-r--r--`, on a file means that:
 
 ### Checking file permission
 
-You can view the permission of a file by using the `ls -l` command (_`l` for long format_):
+You can view the permission of a file by using the `ls -l` command (`l` for long format):
 
 ```
 $ ls -l test.txt
@@ -454,7 +454,7 @@ You will see that the `wc` command is waiting for you to type in something.  Typ
 
 ### Output Redirection
 
-By defining two abstract input and output devices (_or channels_), Unix frees the programmers from worrying about where to read the input from and write the output to.  Most of the time, we can write the output of the program to the standard output.  In instances where we need to write the output to another location, we can just _redirect_ the output.
+By defining two abstract input and output devices (or channels), Unix frees the programmers from worrying about where to read the input from and write the output to.  Most of the time, we can write the output of the program to the standard output.  In instances where we need to write the output to another location, we can just _redirect_ the output.
 
 The operators `>` and `>>` are used to redirect the standard output to a file.  The difference is that `>` will overwrite the given file, while `>>` will concatenate into the given file.
 
