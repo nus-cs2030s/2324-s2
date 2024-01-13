@@ -146,7 +146,7 @@ We have created an empty lab for you to test if you can correctly retrieve futur
 
 - Click here [https://classroom.github.com/a/uOrkMKIa](https://classroom.github.com/a/uOrkMKIa).  You should see a page that looks like the following:
 
-![accept](figures/accept-assignment-demo.png)
+![accept](figures/accept-assignment-demo.png){: style="width:500px"}
 
 - Click the accept button.  Wait a bit and then refresh until you see a "You're ready to go" message.
 

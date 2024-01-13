@@ -67,9 +67,9 @@ theme:
     - toc.integrate
     - content.code.annotate
     - content.code.copy
-  palette:
-    primary: deep orange
-    accent: deep orange
+      #  palette:
+      #    primary: deep orange
+      #    accent: deep orange
   shortcuts:
     previous: 72 #h
     next: 76 #l
