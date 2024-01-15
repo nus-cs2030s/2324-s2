@@ -1,8 +1,8 @@
 layout: true
-class: basic, layout, imaging, fonts, lists, cards, fadein, tabler
+class: basic, fadein, tabler, layout
 name: content
-<div class="basic header"></div>
-<div class="basic footer"><p>CS2030S: Programming Methodology II -- Adi Yoga S. Prabawa</p></div>
+<div class="header"></div>
+<div class="footer"><p>CS2030S: Programming Methodology II -- Adi Yoga Sidi Prabawa</p></div>
 
 ---
 
@@ -11,108 +11,30 @@ class: bottom, titles
 
 # CS2030S
 ## Programming Methodology II
-### Lecture 07: Immutable and Nested Class
+### Lecture 07: Immutable and Nested Classes
 
 ---
 
 name: Immutable_Class
-class: middle, sections
+class: middle, subtitles
 
 # Immutable Class
 
 ---
 
-# Immutable Class
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-#### Ease of Understanding
+#### - Classes
 ]
-.ft82[
-## Motivation
-### Ease of Understanding
-
-.col51[
-#### Example
-
-```java
-Sensor<Child> sensor;
-sensor = new Sensor<Child>("STOP!!!");
-Car tesla = new Tesla();
-
-// may or may not turn off sensor
-move(tesla, sensor);
-turn(tesla, sensor);
-
-if (sensor.detectChild()) {
-  // is it turned off?
-  dontHitChildren();
-}
-```
-]
-.ft49[
-#### Test
-
-![Tesla](img/07-Tesla.gif)
-
-.card.bg-y[
-### Note
-.content.tight[
-We want the `sensor` to never be _modified_ except by creating a new `Sensor` and assigning it to `sensor`.
-]
-]
-]
-]
-
----
-
-# Immutable Class
-
-.ft15.subsections[
+.rc[
 ### Motivation
-### Immutability
-#### Definition
-]
-.ft82[
-## Immutability
-
-.card.bg-b[
-### Definition
-.content.tight[
-A class is considered an __immutable class__ if the instance of the class .uline[_cannot have any visible changes outside of its abstraction barrier_].
-
-<br>
-
-
-#### In Other Words
-Using any combination of its .uline[_accessible_] methods, the behavior of the methods must be the same at all times.
-This includes:
-
-- Return value
-- Print
-- Exception
-- _etc_
-]
-]
-]
-
----
-
-# Immutable Class
-
-.ft15.subsections[
-### Motivation
-### Immutability
-#### Definition
-#### Mutable Example
-]
-.ft82[
-## Immutability
-### Mutable Example
-
-.col52[
-#### Mutable Point
-```java[lite=10-13]
+#### Classes
+.col50[
+##### Point
+.xssize[
+```java[name=Point_v0.java|show=1-13,19]
 class Point {
   private double x;
   private double y;
@@ -126,85 +48,168 @@ class Point {
     this.x = x;
     this.y = y;
   }
+  
+  @Override
+  public String toString() {
+    return "(" + this.x + ", " + this.y + ")";
+  }
 }
 ```
 ]
-.ft48[
-#### Mutable Circle
-```java[lite=10-12]
+]
+.col50[
+##### Circle
+.xssize[
+```java[name=Circle_v0.java|show=1-12,18]
 class Circle {
   private Point c;
   private double r;
-
+  
   public Circle(Point c, double r) {
     this.c = c;
     this.r = r;
   }
-
+  
   public void moveTo(double x, double y) {
     c.moveTo(x, y);
   }
+  
+  @Override
+  public String toString() {
+    return this.c.toString()+": "+this.r;
+  }
 }
-​
 ```
+]
 ]
 ]
 
 ---
 
-# Immutable Class
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Immutability
-#### Definition
-#### Mutable Example
+#### - Classes
+#### - Moving
 ]
-.ft82[
-## Immutability
-### Mutable Example
-
-.col52[
-#### Aliasing
-```java
-Point p = new Point(0, 0);
-Circle c1 = new Circle(p, 1);
-Circle c2 = new Circle(p, 4);
+.rc[
+### Motivation
+#### Moving Points
+##### Aliasing
+.col50[
+.sssize[
+```java[copy=nones|lite=4]
+Point p1 = new Point(0, 0);
+Circle c1 = new Circle(p1, 1);
+Circle c2 = new Circle(p1, 4);
 c1.moveTo(1, 1);
-
-// Where is the center point of c2?
 ```
+]
+]
+.col50[
+.qns[
+> ##### Question
+> Move circle `c1` .mnote[(and only `c1`)] to the point (1, 1).
+]
+]
+]
+--
+.abs.lt60.top60.wt36[
+![Aliasing 01](img/07_Aliasing_01.png)
+]
 
-.card.bg-y[
-### Aim
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+]
+.rc[
+### Definition
+.card.bg-b[
+##### Immutable Class
 .content.tight[
-We want only the center point of `c1` to be moved and not the center point of `c2`.
+A class is considered an __immutable class__ if the instance of the class .uline[_cannot have any visible changes outside its abstraction barrier_].
 ]
-]
-]
-.ft48[
-#### Stack Heap Diagram
-![SH](img/07-Mutable.png)
 ]
 ]
 
 ---
 
-# Immutable Class
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Immutability
+### Definition
 ### Immutable Point
-#### Attempt #1
+#### - Attempt #0
 ]
-.ft82[
-## Immutable Point
-### Attempt #1
+.rc[
+### Towards Immutable Point
+#### Attempt #0
+.col50[
+##### Point
+.xssize[
+```java[name=Point_v0.java|show=1-13,19]
+class Point {
+  private double x;
+  private double y;
 
-.col52[
-#### Prevent Assignment
-```java[lite=2-3]
+  public Point(double x, double y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  public void moveTo(double x, double y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  @Override
+  public String toString() {
+    return "(" + this.x + ", " + this.y + ")";
+  }
+}
+```
+]
+]
+.col50[
+##### Problem
+.sssize[
+```jshell[copy=nones|lite=4,7]
+jshell> Point p = new Point(0, 0)
+p ==> (0.0, 0.0)
+jshell> p
+p ==> (0.0, 0.0)
+jshell> p.moveTo(1, 1)
+jshell> p
+p ==> (1.0, 1.0)
+```
+]
+]
+]
+
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+#### - Attempt #0
+#### - Attempt #1
+]
+.rc[
+### Towards Immutable Point
+#### Attempt #1
+.col50[
+##### Point
+.xssize[
+```java[name=Point_v1.java|show=1-13,19|lite=2-3]
 class Point {
   private final double x;
   private final double y;
@@ -218,14 +223,20 @@ class Point {
     this.x = x;
     this.y = y;
   }
-  
-  // Omit double getX() and double getY()
+
+  @Override
+  public String toString() {
+    return "(" + this.x + ", " + this.y + ")";
+  }
 }
 ```
 ]
-.ft48[
-#### Problem
+]
+.col50[
+##### Problem
+.sssize[
 ```jshell[copy=nones]
+jshell> /open Point.java
 |  Error:
 |  cannot assign a value to final ...
 |      this.x = x;
@@ -235,35 +246,29 @@ class Point {
 |      this.y = y;
 |      ^----^
 ```
-
-.card.bg-y[
-### Observation
-.content.tight[
-We cannot assign to the field.
-So to change, we return a new `Point`.
-]
 ]
 ]
 ]
 
 ---
 
-# Immutable Class
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Immutability
+### Definition
 ### Immutable Point
-#### Attempt #1
-#### Attempt #2
+#### - Attempt #0
+#### - Attempt #1
+#### - Attempt #2
 ]
-.ft82[
-## Immutable Point
-### Attempt #2
-
-.col52[
-#### Prevent Assignment
-```java[lite=10-13]
+.rc[
+### Towards Immutable Point
+#### Attempt #2
+.col50[
+##### Point
+.xssize[
+```java[name=Point_v2.java|show=1-13,19|lite=10-13]
 class Point {
   private final double x;
   private final double y;
@@ -274,57 +279,53 @@ class Point {
   }
 
   public Point moveTo(double x, double y) {
-    Point res = new Point(x, y);
-    return res;
+    Point pt = new Point(x, y);
+    return pt;
   }
-  
-  // Omit double getX() and double getY()
+
+  @Override
+  public String toString() {
+    return "(" + this.x + ", " + this.y + ")";
+  }
 }
 ```
 ]
-.ft48[
-#### Problem?
-```java[copy=nones]
-Point p = new Point(0, 0);
-// p --> (0.0, 0.0)
-
-p2.moveTo(1, 1)
-// p2 is (1.0, 1.0)
-// p is still (0.0, 0.0)
-```
-
-.card.bg-y[
-### Note
-.content.tight[
-Visible changes can be detected either through `toString()` or `getX()` and `getY()`.
-We omit this but simply show the internal state.
-
-<br>
-
-__Internal state may change as long as they cannot be visible from outside__.
 ]
+.col50[
+##### Problem ?
+.sssize[
+```jshell[copy=nones]
+jshell> /open Point.java
+jshell> Point p = new Point(0, 0)
+p ==> (0.0, 0.0)
+jshell> p.moveTo(1, 1)
+$7 ==> (1.0, 1.0)
+jshell> p
+p ==> (0.0, 0.0)
+```
 ]
 ]
 ]
 
 ---
 
-# Immutable Class
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Immutability
+### Definition
 ### Immutable Point
-#### Attempt #1
-#### Attempt #2
+#### - Attempt #0
+#### - Attempt #1
+#### - Attempt #2
 ]
-.ft82[
-## Immutable Point
-### Attempt #2
-
-.col52[
-#### Prevent Assignment
-```java[lite=10-13]
+.rc[
+### Towards Immutable Point
+#### Attempt #2
+.col50[
+##### Point
+.xssize[
+```java[name=Point_v2.java|show=1-13,19]
 class Point {
   private final double x;
   private final double y;
@@ -335,65 +336,71 @@ class Point {
   }
 
   public Point moveTo(double x, double y) {
-    Point res = new Point(x, y);
-    return res;
+    Point pt = new Point(x, y);
+    return pt;
   }
-  
-  // Omit double getX() and double getY()
+
+  @Override
+  public String toString() {
+    return "(" + this.x + ", " + this.y + ")";
+  }
 }
 ```
 ]
-.ft48[
-#### Problem!
-```java[copy=nones]
-class Point2 extends Point {
-  private double x;
-  private double y;
-
-  public Point2(double x, double y) {
+]
+.col50[
+##### Problem ?
+.xssize[
+```java[show=1-5,13-18,24|lite=13-18]
+class Point3D extends Point {
+  private double x;  // bad practice
+  private double y;  // bad practice
+  private double z;
+  
+  public Point3D(double x, double y, double z) {
     super(x, y);
-    this.x = x; this.y = y;
-  }
-
-  public Point moveTo(double x, double y) {
-    this.x = x; this.y = y;
-    return this;
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
   
-  // Override getX() and getY() but omitted
+  @Override
+  public Point moveTo(double x, double y) {
+    this.x = x;
+    this.y = y;
+    return null;
+  } // also override toString
+  
+  @Override
+  public String toString() {
+    return "(" + this.x + ", " + this.y + ")";
+  }
 }
 ```
-]
-]
-
-.abs.rt2.top2.wt35[
-.card.bg-y[
-### Observation
-.content.tight[
-Subclass may give an .uline[_illusion_] of mutability.
 ]
 ]
 ]
 
 ---
 
-# Immutable Class
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Immutability
+### Definition
 ### Immutable Point
-#### Attempt #1
-#### Attempt #2
-#### Attempt #3
+#### - Attempt #0
+#### - Attempt #1
+#### - Attempt #2
+#### - Attempt #3
 ]
-.ft82[
-## Immutable Point
-### Attempt #3
-#### Prevent Assignment
-
-.col52[
-```java[lite=10-13]
+.rc[
+### Towards Immutable Point
+#### Attempt #3
+##### Point
+.col50[
+.xssize[
+```java[name=Point_v3.java|show=1-13,19|lite=1]
 final class Point {
   private final double x;
   private final double y;
@@ -404,22 +411,23 @@ final class Point {
   }
 
   public Point moveTo(double x, double y) {
-    Point res = new Point(x, y);
-    return res;
+    Point pt = new Point(x, y);
+    return pt;
   }
-  
-  // Omit double getX() and double getY()
+
+  @Override
+  public String toString() {
+    return "(" + this.x + ", " + this.y + ")";
+  }
 }
 ```
 ]
-.ft48[
+]
+.col50[
 .card.bg-y[
-### Steps
+##### Question
 .content.tight[
-1. Add the modifier `final` to the fields.
-2. Add the modifier `final` to the class.
-3. Remove any assignment to the fields.
-4. Change any _mutator_ from `void` to return a new modified instance.
+What about `Circle`?
 ]
 ]
 ]
@@ -427,333 +435,417 @@ final class Point {
 
 ---
 
-# Immutable Class
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Immutability
+### Definition
 ### Immutable Point
 ### Immutable Circle
-#### Attempt #1
+#### - Attempt #0
 ]
-.ft82[
-## Immutable Circle
-### Attempt #1
-#### Prevent Assignment
-
-.col52[
-```java[lite=10-12]
-final class Circle {
-  private final Point c;
-  private final double r;
-
+.rc[
+### Towards Immutable Circle
+#### Attempt #0
+.col50[
+##### Circle
+.xssize[
+```java[name=Circle_v0.java|show=1-12,18]
+class Circle {
+  private Point c;
+  private double r;
+  
   public Circle(Point c, double r) {
     this.c = c;
     this.r = r;
   }
+  
+  public void moveTo(double x, double y) {
+    c.moveTo(x, y);
+  }
+  
+  @Override
+  public String toString() {
+    return this.c.toString()+": "+this.r;
+  }
+}
+```
+]
+]
+.col50[
+##### Problem
+.xssize[
+```jshell[copy=nones|lite=9]
+jshell> Point p1 = new Point(0, 0)
+p1 ==> (0.0, 0.0)
+jshell> Circle c1 = new Circle(p1, 1)
+c1 ==> (0.0, 0.0): 1.0
+jshell> Circle c2 = new Circle(p1, 4)
+c2 ==> (0.0, 0.0): 4.0
+jshell> c1.moveTo(1, 1)
+jshell> c1
+c1 ==> (0.0, 0.0): 1.0
+```
+]
+]
+]
 
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+### Immutable Circle
+#### - Attempt #0
+#### - Attempt #1
+]
+.rc[
+### Towards Immutable Circle
+#### Attempt #1
+.col50[
+##### Circle
+.xssize[
+```java[name=Circle_v1.java|show=1-12,18|lite=10-12]
+final class Circle {
+  private final Point c;
+  private final double r;
+  
+  public Circle(Point c, double r) {
+    this.c = c;
+    this.r = r;
+  }
+  
   public Circle moveTo(double x, double y) {
     return new Circle(c.moveTo(x, y), r);
   }
   
-  // Omit Point getPoint()
+  @Override
+  public String toString() {
+    return this.c.toString()+": "+this.r;
+  }
 }
 ```
 ]
-.ft48[
-.card.bg-y[
-### Observation
-.content.tight[
-`Circle` is immutable only if `Point` is immutable.
-- Especially if there is an accessor for `Point`.
-- Then simply access `Point` and mutate.
+]
+.col50[
+##### Back to Starting Point
+.xssize[
+```jshell[copy=nones|lite=8,10-13]
+jshell> /open Circle.java
+jshell> Point p1 = new Point(0, 0)
+p1 ==> (0.0, 0.0)
+jshell> Circle c1 = new Circle(p1, 1)
+c1 ==> (0.0, 0.0): 1.0
+jshell> Circle c2 = new Circle(p1, 4)
+c2 ==> (0.0, 0.0): 4.0
+jshell> c1 = c1.moveTo(1, 1)
+c1 ==> (1.0, 1.0): 1.0
+jshell> c1
+c1 ==> (1.0, 1.0): 1.0
+jshell> c2
+c2 ==> (0.0, 0.0): 4.0
+```
+]
 ]
 ]
 
-<br>
+---
 
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+]
+.rc[
+### Condition
 .card.bg-b[
-### Note
+##### Immutable Class
 .content.tight[
-Particularly for _generic_, we assume that `T` is immutable when trying making `Box<T>` immutable.
-There is no need to ensure that all possible `T` are immutable.
+A class is considered an __immutable class__ if the instance of the class .uline[_cannot have any visible changes outside its abstraction barrier_].
 ]
 ]
-]
-]
-
----
-
-# Immutable Class
-
-.ft15.subsections[
-### Motivation
-### Immutability
-### Immutable Point
-### Immutable Circle
-### Advantage
-#### Object Sharing
-]
-.ft82[
-## Advantage
-### Object Sharing
-
-.col60[
-```java[lite=4,12-14]
-final class Point {
-  private final double x;
-  private final double y;
-  private static Point ORIGIN = new Point(0, 0);
-
-  private Point(double x, double y) {
-    this.x = x;
-    this.y = y;
-  }
-  
-  public static Point of(double x, double y) {
-    if (x == 0 && y == 0) {
-      return ORIGIN;
-    }
-    return new Point(x, y);
-  }
-}
-```
-]
-.ft40[
-.card.bg-y[
-### Origin
-.content.tight[
-Assuming that `Point` is immutable, we can let all origin point `(0, 0)` be the same instance!
-]
-]
-
 <br>
 
-.card.bg-r[
-### Quick Question
-.content.tight[
-Can you change the method `Point moveTo(double, double)` to use this `ORIGIN`?
+.col50[
+#### Sufficiency
+- Simply using the keyword `final` may not be sufficient
+    - .mnote[e.g., it has a field with a type of mutable class and you have a getter.]
 ]
+.col50[
+#### Necessity
+- A class may still be immutable without the keyword `final`
+    - .mnote[e.g., the class does not have any methods at all so how can it even be mutable?]
+]
+]
+--
+.rc[
+.card.bg-y[
+##### Question
+.content.tight[
+Can you provide an example for each of the cases above?
 ]
 ]
 ]
 
 ---
 
-# Immutable Class
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Immutability
+### Definition
 ### Immutable Point
 ### Immutable Circle
-### Advantage
-#### Object Sharing
-#### Concurrency
+### Condition
+### Advantages
+#### - Understanding
 ]
-.ft82[
-## Advantage
-### Concurrency
-#### Future Topic
-
-.center.img80[![tba](https://www.gannett-cdn.com/-mm-/438112d08852a5cf64fb668899b62a1c6abcfadb/c=0-104-5312-3105&r=x1683&c=3200x1680/local/-/media/2017/05/23/WIGroup/Appleton/636311326049773956-UC.jpg)]
-]
-
----
-
-name: Immutable_Array
-class: middle, sections
-
-# Immutable Array
-
----
-
-# Immutable Array
-
-.ft15.subsections[
-### Motivation
-#### Requirement
-]
-.ft82[
-## Motivation
-### Requirement
-
-.card.bg-r[
-### Task
-.content.tight[
-Create an _immutable_ _generic_ `ImmutableArray<T>` with two methods:
-
-1. `T get(int index)`
-    - Retrieves the element at the given index
-2. `ImmutableArray<T> subarray(int start, int end)`
-    - Returns a new `ImmutableArray<T>` containing only the subarray from start to end .note16[(inclusive)]
-]
-]
-
-##### Usage
-```jshell
-jshell> ImmutableArray<Integer> arr;
-jshell> arr = ImmutableArray.of();           // empty
-jshell> arr = ImmutableArray.of(1);          // 1 element
-jshell> arr = ImmutableArray.of(1, 2, 3, 4); // 4 elements
-jshell> arr = ImmutableArray.of([1, 2, 3]);  // 3 elements
-```
-]
-
----
-
-# Immutable Array
-
-.ft15.subsections[
-### Motivation
-#### Requirement
-#### Naïve Approach
-]
-.ft82[
-## Motivation
-### Naïve Approach
-
-.col60.font16[
-```java
-final class ImmutableArray<T> {
-  private final T[] array;
-  
-  @SafeVarargs
-  public static <T> ImmutableArray<T> of(T... items) {
-    return new ImmutableArray<T>(items);
-  }
-  
-  private ImmutableArray(T[] array) {
-    this.array = array;
-  }
-  
-  public ImmutableArray<T> subarray(int start, int end) {
-    // 1) Create new T[] arr (@SuppressWarnings!)
-    // 2) Copy the content from this.array to arr
-    return new ImmutableArray<T>(arr);
-  }
-}
-```
-]
-.ft40[
-.card.bg-y[
-### Note
-.content.tight[
-- "`of(T... items)`" accepts either
-    - _variable_ number of arguments .note16[(zero or more arguments)]
-    - an array of type `T[]`
-- This is called _variadic functions_
-- `items` is of type `T[]`
-- `@SafeVarargs` is like suppress warnings to tell the compiler that we will not be doing anything potentially unsafe
-    - Suppress unchecked warnings
-]
-]
-]
-]
-
----
-
-# Immutable Array
-
-.ft15.subsections[
-### Motivation
-#### Requirement
-#### Naïve Approach
-#### Problems?
-]
-.ft82[
-## Motivation
-### Naïve Approach
-
-.col60[
-.font16[
-```java
-final class ImmutableArray<T> {
-  private final T[] array;
-  
-  @SafeVarargs
-  public static <T> ImmutableArray<T> of(T... items) {
-    return new ImmutableArray<T>(items);
-  }
-  
-  private ImmutableArray(T[] array) {
-    this.array = array;
-  }
-  
-  public ImmutableArray<T> subarray(int start, int end) {
-    // 1) Create new T[] arr (@SuppressWarnings!)
-    // 2) Copy the content from this.array to arr
-    return new ImmutableArray<T>(arr);
-  }
-}
-```
-]
-]
-.ft40[
-#### Problems
-
-1. `this.array = array` makes `ImmutableArray` to be mutable!
-.font16[
+.rc[
+### Advantages
+#### Ease of Understanding
+##### Example
+.col50[
+.sssize[
 ```java[copy=nones]
-ImmutableArray<Integer> arr;
-Integer[] intArr
-​  = new Integer[] { 1, 2, 3 };
-arr = ImmutableArray.of(intArr); 
-// arr is [1, 2, 3]
-intArr[0] = 9;
-// arr is [9, 2, 3]
+Sensor s = new Sensor("detect child");
+foo(s);  // may or may not turn off
+bar(s);  // may or may not turn off
+baz(s);  // may or may not turn off
+
+// is sensor guaranteed to still be on?
+if (s.detectChild()) {
+  dontHitChildren();
+}
 ```
 ]
-2. Copying is expensive!
-3. The array is only immutable if `T` is immutable.
+]
+.col50[
+![Tesla](img/07_Tesla.gif)
 ]
 ]
 
 ---
 
-# Immutable Array
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Design
-#### Internal Sharing
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+### Advantages
+#### - Understanding
+#### - Safe Sharing
 ]
-.ft82[
-## Design
-### Internal Sharing
-#### Concept
-
-![sharing](img/07-Sharing.png)
+.rc[
+### Advantages
+#### Enable Safe Sharing of Internals
+##### Motivation
+.qns[
+> ##### Question
+> Create an immutable generic `ImmutableArray<T>` with two methods:
+1. `T get(int index)`
+    - retrieves the element at the given index
+2. `ImmutableArray<T> subarray(int start, int end)`
+    - returns a new `ImmutableArray<T>` containing only the sub-array
+]
+]
+--
+.rc[
+.card.bg-y[
+##### Notes
+.content.tight[
+We will only discuss method 2 here.
+]
+]
 ]
 
 ---
 
-# Immutable Array
+### Immutable Class
 
-.ft15.subsections[
+.lc[
 ### Motivation
-### Design
-#### Internal Sharing
-#### Code
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+### Advantages
+#### - Understanding
+#### - Safe Sharing
 ]
-.ft82[
-## Design
-### Internal Sharing
-#### Code
-
-.font16[
-```java
-final class ImmutableArray<T> {
+.rc[
+### Advantages
+#### Enable Safe Sharing of Internals
+##### Naïve Approach
+.col60[
+.xsssize[
+```java[name=ImmutableArray_v0.java|show=1-10,21-30]
+class ImmutableArray<T> {
   private final T[] array;
   private final int start;
   private final int end;
-
+  
   @SafeVarargs
   public static <T> ImmutableArray<T> of(T... items) {
-    // Copy items to T[] arr (@SuppressWarnings!)
-    return new ImmutableArray<T>(arr, 0, arr.length);
+    return new ImmutableArray<T>(items, 0, items.length);
   }
+  
+  private ImmutableArray(T[] array, int start, int end) {
+    this.array = array;
+    this.start = start;
+    this.end = end;
+  }
+  
+  public T get(int index) {
+    return this.array[index + this.start];
+  }
+  
+  public ImmutableArray<T> subarray(int start, int end) {
+    // Create new T[] arr
+    // Copy the content from this.array to arr
+    return new ImmutableArray<T>(arr);
+  }
+}
+```
+]
+]
+.col40[
+.card.bg-y[
+##### Notes
+.content.tight[
+- "`of(T... items)`" accepts a variable number of arguments of the same type `T`
+    - This is called _variadic_ function
+    - You can pass 0 or more arguments into `of`
+    - `items` is of type `T[]`
+]
+]
 
+.qns[
+> ##### Question
+> Can we do it without copying the array?
+]
+]
+]
+
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+### Advantages
+#### - Understanding
+#### - Safe Sharing
+]
+.rc[
+### Advantages
+#### Enable Safe Sharing of Internals
+##### Concept
+![Concept 01](img/07_Sharing_01.png)
+
+.note[This is _slightly_ different from the notes. In this case, we ___exclude___ the end point.]
+]
+
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+### Advantages
+#### - Understanding
+#### - Safe Sharing
+]
+.rc[
+### Advantages
+#### Enable Safe Sharing of Internals
+##### Concept
+![Concept 02](img/07_Sharing_02.png)
+
+.note[This is _slightly_ different from the notes. In this case, we ___exclude___ the end point.]
+]
+
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+### Advantages
+#### - Understanding
+#### - Safe Sharing
+]
+.rc[
+### Advantages
+#### Enable Safe Sharing of Internals
+##### Concept
+![Concept 03](img/07_Sharing_03.png)
+
+.note[This is _slightly_ different from the notes. In this case, we ___exclude___ the end point.]
+]
+
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+### Advantages
+#### - Understanding
+#### - Safe Sharing
+]
+.rc[
+### Advantages
+#### Enable Safe Sharing of Internals
+##### Sharing Approach
+.col65[
+.xsssize[
+```java[name=ImmutableArray_v1.java|show=1-10,21-30]
+class ImmutableArray<T> {
+  private final T[] array;
+  private final int start;
+  private final int end;
+  
+  @SafeVarargs
+  public static <T> ImmutableArray<T> of(T... items) {
+    return new ImmutableArray<T>(items);
+  }
+  
+  private ImmutableArray(T[] array, int start, int end) {
+    this.array = array;
+    this.start = start;
+    this.end = end;
+  }
+  
+  public T get(int index) {
+    return this.array[index + this.start];
+  }
+  
   public ImmutableArray<T> subarray(int start, int end) {
     int newStart = this.start + start;
     int newEnd = this.start + end;
@@ -763,121 +855,218 @@ final class ImmutableArray<T> {
 ```
 ]
 ]
+.col35[
+.card.bg-y[
+##### Notes
+.content.tight[
+To truly make it immutable, we need to ___copy___ the `items` in the factory method `of`.  Otherwise, there may still mutability.
+]
+]
+]
+]
+
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+### Advantages
+#### - Understanding
+#### - Safe Sharing
+#### - Object Sharing
+]
+.rc[
+### Advantages
+#### Enable Safe Sharing of Objects
+##### Empty Box
+> Add a class method in `Box` called `empty()` that creates and returns an empty box, i.e., a box with a `null` item stored in it.
+>
+> Since empty boxes are likely common, we want to _cache_ and reuse the empty box, that is, create one as a private final class field called `EMPTY_BOX`, and .uline[_whenever we need to return an empty box,_ `EMPTY_BOX` _is returned_].
+]
+
+---
+
+### Immutable Class
+
+.lc[
+### Motivation
+### Definition
+### Immutable Point
+### Immutable Circle
+### Condition
+### Advantages
+#### - Understanding
+#### - Safe Sharing
+#### - Object Sharing
+#### - Concurrency
+]
+.rc[
+### Advantages
+#### Enable Safe Concurrent Execution
+##### Future Topic
+
+.img75.center[![Under Construction](https://www.gannett-cdn.com/-mm-/438112d08852a5cf64fb668899b62a1c6abcfadb/c=0-104-5312-3105&r=x1683&c=3200x1680/local/-/media/2017/05/23/WIGroup/Appleton/636311326049773956-UC.jpg)]
+]
 
 ---
 
 name: Nested_Class
-class: middle, sections
+class: middle, subtitles
 
 # Nested Class
+
+.abs.lt70.wt28.top3[
+![Doll](https://imgaz2.staticbg.com/thumb/large/oaupload/banggood/images/7C/BD/1baea9ed-b81e-40d4-b4a5-dec2baa4d6e9.JPG)
+]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
-#### Fine Grain
+.lc[
+### Class
 ]
-.ft82[
-## Motivation
-### Fine Grain
+.rc[
+### Class
+#### Encapsulation
+- Combine data that belongs together .mnote[(x- and y-coordinate of a point)]
+- Combine methods that works on the data .mnote[(compute distance)]
 
-.col51[
-.card.bg-b[
-### Encapsulation
-.content.tight[
-- Combine data that belongs together .note16[(e.g., x- and y-coordinate of a point)]
-- Combine methods that works on the data .note16[(e.g., compute distance)]
-]
-]
-]
-.ft49[
-.card.bg-g[
-### Information Hiding
-.content.tight[
-- Limits access to data .note16[(e.g., making fields `private`)]
-- Combined with __"Tell, Don't Ask"__ principle
-]
-]
-]
-
-<br><br><br><br><br><br>
+#### Information Hiding
+- Limits access to data
+- Combined with "Tell, Don't Ask" principle
 
 .card.bg-y[
-### Problem
+##### Problems
 .content.tight[
 What if our class is not fine-grained enough?
 ]
 ]
-
-##### Example
-- `SingleSender` and `MultiSender` are not used outside of `Sender`
-    - May want to make it nested class
-    - Provide `of` method to create these in `Sender`
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
-### Kinds
-#### Classification
+.lc[
+### Class
+#### - Motivation
 ]
-.ft82[
-## Kinds
-### Classification
+.rc[
+### Class
+#### Motivation
+##### Lab 1
+.col50[
+![Class Diagram](img/07_Lab1.svg)
+]
+.col50[
+.card.bg-y[
+##### Possible Design
+.content.tight[
+Subclasses of `Event` .mnote[(e.g., `ArrivalEvent`, `DepartureEvent`, etc)] are not used outside `BankSimulation`.
+<br><br>
 
-.col35[
-1. Inner Class
+Why not just put it as a class inside `BankSimulation`?
+]
+]
+]
+]
+
+---
+
+### Nested Class
+
+.lc[
+### Class
+### Kinds
+#### - Classification
+]
+.rc[
+### Kinds of Nested Classes
+#### Classification
+.col40[
+1. Inner classes
     - Inside another class
     - Not inside a method
-    - Non-static context
-2. Static Nested Class
+    - Not static
+2. Static nested classes
     - Inside another class
     - Not inside a method
-    - Static context
-3. Local Class
+    - Static
+3. Local classes
     - Inside another class
     - Inside a method
-4. Anonymous Class
+4. Anonymous classes
     - Has no name
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
+#### - Classification
+#### - Inner Classes
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. Inner Class
+.rc[
+### Kinds of Nested Classes
+#### Inner Classes
+.col40[
+1. Inner classes
     - Inside another class
     - Not inside a method
-    - Non-static context
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. .op10[Local Class]
-    - .op10[Inside another class]
-    - .op10[Inside a method]
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+    - Not static
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Example
+]
+
+---
+
+### Nested Class
+
+.lc[
+### Class
+### Kinds
+#### - Classification
+#### - Inner Classes
+]
+.rc[
+### Kinds of Nested Classes
+#### Inner Classes
+.col40[
+1. Inner classes
+    - Inside another class
+    - Not inside a method
+    - Not static
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
+]
+.col60[
+##### Example
+.xssize[
 ```java
 class A {
   private int x;
@@ -887,53 +1076,54 @@ class A {
     void foo() {
       x = 1;
       y = 1;
-    } // Qns: Which of the above is/are OK?
-  }
+    }
+  } // Qns: Which of the above is OK?
 }
 ```
-.mrq.col51[
-2. .quiz-choice[`x = 1`] .quiz-ans[1] .quiz-hint[YES: non-static to non-static]
-1. .quiz-choice[`y = 1`] .quiz-ans[1] .quiz-hint[YES: non-static to static]
+]
+.mrq.ssize[
+1. .quiz-choice[`x = 1;`] .quiz-ans[1] .quiz-hint[YES: non-static to non-static]
+1. .quiz-choice[`y = 1;`] .quiz-ans[1] .quiz-hint[YES: non-static to static]
 
 .quizzes-poll[hpoRDJpdPLNTZdoCFbtKd]
 .quizzes-time[30]
-.quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
+.quizzes-qr[img/QR.png]
 ]
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
+#### - Classification
+#### - Inner Classes
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. Inner Class
+.rc[
+### Kinds of Nested Classes
+#### Inner Classes
+.col40[
+1. Inner classes
     - Inside another class
     - Not inside a method
-    - Non-static context
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. .op10[Local Class]
-    - .op10[Inside another class]
-    - .op10[Inside a method]
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+    - Not static
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Example
-```java
+.col60[
+##### Example
+.xssize[
+```java[show=1-10,17]
 class A {
   private int x = 0;   // (1)
   static int y;
@@ -942,53 +1132,66 @@ class A {
     private int x = 1; // (2)
     void foo() {
       x = 2;
-    } // Qns: Which x is modified?
+    }
+  } // Qns: Which x is modified?
+  
+  public void fooB() {
+    B b = new B();
+    b.foo();
+    System.out.println(x);
+  }
+}
+class Main {
+  public static void main(String[] args) {
+    A a = new A();
+    a.fooB();
   }
 }
 ```
-.mrq.col51[
-2. .quiz-choice[(1)] .quiz-ans[0] .quiz-hint[NO: look for the nearest scope]
-1. .quiz-choice[(2)] .quiz-ans[1] .quiz-hint[YES: this is the nearest scope]
+]
+.mrq.ssize[
+1. .quiz-choice[`(1)`] .quiz-ans[0] .quiz-hint[NO]
+1. .quiz-choice[`(2)`] .quiz-ans[1] .quiz-hint[YES]
 
 .quizzes-poll[bvxVXh3khlfwGVp55ADnl]
 .quizzes-time[30]
-.quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
+.quizzes-qr[img/QR.png]
 ]
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
+#### - Classification
+#### - Inner Classes
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. Inner Class
+.rc[
+### Kinds of Nested Classes
+#### Inner Classes
+.col40[
+1. Inner classes
     - Inside another class
     - Not inside a method
-    - Non-static context
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. .op10[Local Class]
-    - .op10[Inside another class]
-    - .op10[Inside a method]
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+    - Not static
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Example
-```java
+.col60[
+##### Example
+.xssize[
+```java[show=1-10,17]
 class A {
   private int x = 0;   // (1)
   static int y;
@@ -997,246 +1200,281 @@ class A {
     private int x = 1; // (2)
     void foo() {
       A.this.x = 2;
-    } // Qns: Which x is modified?
+    }
+  } // Qns: Which x is modified?
+  
+  public void fooB() {
+    B b = new B();
+    b.foo();
+    System.out.println(x);
+  }
+}
+class Main {
+  public static void main(String[] args) {
+    A a = new A();
+    a.fooB();
   }
 }
 ```
-
-.card.bg-y[
-### Note
-.content.tight[
-This is the __Fully Qualified Name__!
 ]
+.mrq.ssize[
+1. .quiz-choice[`(1)`] .quiz-ans[1] .quiz-hint[YES]
+1. .quiz-choice[`(2)`] .quiz-ans[0] .quiz-hint[NO]
+
+.quizzes-poll[kc2raes4r5WNasmSBxqph]
+.quizzes-time[30]
+.quizzes-qr[img/QR.png]
 ]
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. Static Nested Class
+.rc[
+### Kinds of Nested Classes
+#### Static Nested Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. Static nested classes
     - Inside another class
     - Not inside a method
-    - Static context
-3. .op10[Local Class]
-    - .op10[Inside another class]
-    - .op10[Inside a method]
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+    - Static
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Example
+]
+
+---
+
+### Nested Class
+
+.lc[
+### Class
+### Kinds
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+]
+.rc[
+### Kinds of Nested Classes
+#### Static Nested Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. Static nested classes
+    - Inside another class
+    - Not inside a method
+    - Static
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
+]
+.col60[
+##### Example
+.xssize[
 ```java
 class A {
   private int x;
   static int y;
   
-  static class B { // static!
+  static class B { // static
     void foo() {
       x = 1;
       y = 1;
-    } // Qns: Which of the above is/are OK?
-  }
+    }
+  } // Qns: Which of the above is OK?
 }
 ```
-.mrq.col51[
-2. .quiz-choice[`x = 1`] .quiz-ans[0] .quiz-hint[NO: static to non-static]
+]
+.mrq.ssize[
+1. .quiz-choice[`x = 1`] .quiz-ans[0] .quiz-hint[NO: static to non-static]
 1. .quiz-choice[`y = 1`] .quiz-ans[1] .quiz-hint[YES: static to static]
 
 .quizzes-poll[SYmtZ8RnONWHownpV6OhY]
 .quizzes-time[30]
-.quizzes-qr[https://www.comp.nus.edu.sg/~adi-yoga/remark/img/QR.png]
+.quizzes-qr[img/QR.png]
 ]
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
     - Inside another class
     - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Preliminary (Comparator)
-<iframe frameborder=none width=100% height=400px src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html"></iframe>
+.col60[
+##### Preliminary (Comparator)
+<iframe width=100% height=380px src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Comparator.html" frameborder=0></iframe>
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
     - Inside another class
     - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Preliminary (List)
-<iframe frameborder=none width=100% height=400px src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html"></iframe>
+.col60[
+##### Preliminary (List&lt;T&gt;)
+<iframe width=100% height=380px src="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#method-summary" frameborder=0></iframe>
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
     - Inside another class
     - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Sorting Names
-.card.bg-r[
-### Question
-.content.tight[
-Write a method `sortNames` to sort a list of names .note16[(of type String)] based on their length only.
+.col60[
+##### Motivation
+.qns[
+> ##### Question
+> Write a method to sort a list of names .mnote[(of type `String`)] based on their length only.
 ]
-]
-```java
-void sortNames(List<String> names) {
-  class NameComparator implements Comparator<String> {
-    public int compare(String s1, String s2) {
-      // NameComparator has access to parameter!
-      return s1.length() - s2.length();
-    }
-  }
-  names.sort(new NameComparator());
+
+<pre id="ex1_editor" style="width:100%;height:275px">
+void sortNames(List&lt;String&gt; names) {
+  // Stub
 }
-// NameComparator is not available outside of sortNames
-```
+</pre>
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
     - Inside another class
     - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Problem?
+.col60[
+##### Problem
+.xssize[
 ```java[lite=3,5,8]
-interface I { void g(); }
+interface C { void g(); }
 class A {
   int x = 1;
-  I f() {
+  C f() {
     int y = 2;
-    class B implements I {
+    class B implements C {
       public void g() {
-        x = y; // accessing x and y are OK
+        x = y; // accessing x and y is OK.
       }
     }
     B b = new B();
@@ -1246,195 +1484,62 @@ class A {
 ```
 ]
 ]
-.abs.rt2.bot15.wt20[
+]
+--
+.abs.lt72.wt23.top75.fc[
 .card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones]
-A a = new A();
-I i = a.f();
-i.g();
-```
-]
-]
-]
-
----
-
-# Nested Class
-
-.ft15.subsections[
-### Motivation
-### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
-    - Inside another class
-    - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
-]
-.ft65[
-#### Problem?
-```java[lite=3]
-interface I { void g(); }
-class A {
-  int x = 1;
-  I f() {
-    int y = 2;
-    class B implements I {
-      public void g() {
-        x = y; // accessing x and y are OK
-      }
-    }
-    B b = new B();
-    return b;
-  }
-}
-```
-]
-]
-.abs.rt2.bot15.wt20[
-.card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones|emph=1]
-A a = new A();
-I i = a.f();
-i.g();
-```
-]
-]
-]
-.abs.top40.lt2.wt42[
-![SH](img/07-Capture01.png)
-]
-
----
-
-# Nested Class
-
-.ft15.subsections[
-### Motivation
-### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
-    - Inside another class
-    - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
-]
-.ft65[
-#### Problem?
-```java[lite=4-13]
-interface I { void g(); }
-class A {
-  int x = 1;
-  I f() {
-    int y = 2;
-    class B implements I {
-      public void g() {
-        x = y; // accessing x and y are OK
-      }
-    }
-    B b = new B();
-    return b;
-  }
-}
-```
-]
-]
-.abs.rt2.bot15.wt20[
-.card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones|emph=2]
-A a = new A();
-I i = a.f();
-i.g();
-```
-]
-]
-]
-.abs.top40.lt2.wt42[
-![SH](img/07-Capture02.png)
-]
-
----
-
-# Nested Class
-
-.ft15.subsections[
-### Motivation
-### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
-    - Inside another class
-    - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
-]
-.ft65[
-#### Problem?
+.xssize[
 ```java
-interface I { void g(); }
+A a = new A();
+C c = a.f();
+c.g();
+```
+]
+]
+]
+
+---
+
+### Nested Class
+
+.lc[
+### Class
+### Kinds
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
+]
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
+    - Inside another class
+    - Inside a method
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
+]
+.col60[
+##### Problem
+.xssize[
+```java[emph=3]
+interface C { void g(); }
 class A {
   int x = 1;
-  I f() {
+  C f() {
     int y = 2;
-    class B implements I {
+    class B implements C {
       public void g() {
-        x = y; // accessing x and y are OK
+        x = y; // accessing x and y is OK.
       }
     }
     B b = new B();
@@ -1444,273 +1549,72 @@ class A {
 ```
 ]
 ]
-.abs.rt2.bot15.wt20[
+]
+.abs.lt72.wt23.top75.fc[
 .card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones|emph=2]
+.xssize[
+```java[emph=1]
 A a = new A();
-I i = a.f();
-i.g();
+C c = a.f();
+c.g();
 ```
 ]
 ]
 ]
-.abs.top40.lt2.wt42[
-![SH](img/07-Capture03.png)
+.abs.lt65.wt33.top3[
+![Capture](img/07_Capture_01.png)
 ]
-
----
-
-# Nested Class
-
-.ft15.subsections[
-### Motivation
-### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
-    - Inside another class
-    - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
-]
-.ft65[
-#### Problem?
-```java[lite=7-9]
-interface I { void g(); }
-class A {
-  int x = 1;
-  I f() {
-    int y = 2;
-    class B implements I {
-      public void g() {
-        x = y; // accessing x and y are OK
-      } // Where is y?
-    }
-    B b = new B();
-    return b;
-  }
-}
-```
-]
-]
-.abs.rt2.bot15.wt20[
-.card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones|emph=3]
-A a = new A();
-I i = a.f();
-i.g();
-```
-]
-]
-]
-.abs.top40.lt2.wt42[
-![SH](img/07-Capture04.png)
-]
-
----
-
-# Nested Class
-
-.ft15.subsections[
-### Motivation
-### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
-    - Inside another class
-    - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
-]
-.ft65[
-#### Variable Capture
-```java[lite=3]
-interface I { void g(); }
-class A {
-  int x = 1;
-  I f() {
-    int y = 2;
-    class B implements I {
-      public void g() {
-        x = y; // accessing x and y are OK
-      }
-    }
-    B b = new B();
-    return b;
-  }
-}
-```
-]
-]
-.abs.rt2.bot15.wt20[
-.card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones|emph=1]
-A a = new A();
-I i = a.f();
-i.g();
-```
-]
-]
-]
-.abs.top40.lt2.wt42[
-![SH](img/07-Capture01.png)
-]
-
----
-
-# Nested Class
-
-.ft15.subsections[
-### Motivation
-### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
-    - Inside another class
-    - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
-]
-.ft65[
-#### Variable Capture
-```java[lite=4-13]
-interface I { void g(); }
-class A {
-  int x = 1;
-  I f() {
-    int y = 2;
-    class B implements I {
-      public void g() {
-        x = y; // accessing x and y are OK
-      }
-    }
-    B b = new B();
-    return b;
-  }
-}
-```
-]
-]
-.abs.rt2.bot15.wt20[
-.card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones|emph=2]
-A a = new A();
-I i = a.f();
-i.g();
-```
-]
-]
-]
-.abs.top40.lt2.wt42[
-![SH](img/07-Capture05.png)
-]
-.abs.top2.rt2.wt40[
+.abs.lt1.wt19.bot2.fc[
 .card.bg-y[
-### Note
+##### Notes
 .content.tight[
-The items after the dashed lines are variable captures and not fields .note16[(i.e., `b.y` is an error)].
+The dashed line separates "_captured variables_" from fields. You cannot access captured variables using the dot notation .mnote[(e.g., `b.y`)].
 ]
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
     - Inside another class
     - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Variable Capture
-```java
-interface I { void g(); }
+.col60[
+##### Problem
+.xssize[
+```java[emph=4,5,11,12]
+interface C { void g(); }
 class A {
   int x = 1;
-  I f() {
+  C f() {
     int y = 2;
-    class B implements I {
+    class B implements C {
       public void g() {
-        x = y; // accessing x and y are OK
+        x = y; // accessing x and y is OK.
       }
     }
     B b = new B();
@@ -1720,65 +1624,73 @@ class A {
 ```
 ]
 ]
-.abs.rt2.bot15.wt20[
+]
+.abs.lt72.wt23.top75.fc[
 .card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones|emph=2]
+.xssize[
+```java[emph=2]
 A a = new A();
-I i = a.f();
-i.g();
+C c = a.f();
+c.g();
 ```
 ]
 ]
 ]
-.abs.top40.lt2.wt42[
-![SH](img/07-Capture06.png)
+.abs.lt65.wt33.top3[
+![Capture](img/07_Capture_02.png)
+]
+.abs.lt1.wt19.bot2.fc[
+.card.bg-y[
+##### Notes
+.content.tight[
+The dashed line separates "_captured variables_" from fields. You cannot access captured variables using the dot notation .mnote[(e.g., `b.y`)].
+]
+]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
     - Inside another class
     - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Variable Capture
-```java[lite=7-9]
-interface I { void g(); }
+.col60[
+##### Problem
+.xssize[
+```java[emph=7-9]
+interface C { void g(); }
 class A {
   int x = 1;
-  I f() {
+  C f() {
     int y = 2;
-    class B implements I {
+    class B implements C {
       public void g() {
-        x = y; // accessing x and y are OK
-      } // y comes from capture
+        x = y; // where is y??
+      }
     }
     B b = new B();
     return b;
@@ -1787,63 +1699,288 @@ class A {
 ```
 ]
 ]
-.abs.rt2.bot15.wt20[
+]
+.abs.lt72.wt23.top75.fc[
 .card.bg-w[
-### Usage
-.content.tight[
-```java[copy=nones|emph=3]
+.xssize[
+```java[emph=3]
 A a = new A();
-I i = a.f();
-i.g();
+C c = a.f();
+c.g();
 ```
 ]
 ]
 ]
-.abs.top40.lt2.wt42[
-![SH](img/07-Capture07.png)
+.abs.lt65.wt33.top3[
+![Capture](img/07_Capture_03.png)
 ]
-.abs.top2.rt2.wt40[
-.card.bg-r[
-### Quick Question
+.abs.lt1.wt19.bot2.fc[
+.card.bg-y[
+##### Notes
 .content.tight[
-Can we modify `y`?
+The dashed line separates "_captured variables_" from fields. You cannot access captured variables using the dot notation .mnote[(e.g., `b.y`)].
 ]
 ]
 ]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
     - Inside another class
     - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Effectively Final
+.col60[
+##### Variable Capture
+.xssize[
+```java[emph=3]
+interface C { void g(); }
+class A {
+  int x = 1;
+  C f() {
+    int y = 2;
+    class B implements C {
+      public void g() {
+        x = y; // accessing x and y is OK.
+      }
+    }
+    B b = new B();
+    return b;
+  }
+}
+```
+]
+]
+]
+.abs.lt72.wt23.top75.fc[
+.card.bg-w[
+.xssize[
+```java[emph=1]
+A a = new A();
+C c = a.f();
+c.g();
+```
+]
+]
+]
+.abs.lt65.wt33.top3[
+![Capture](img/07_Capture_01.png)
+]
+.abs.lt1.wt19.bot2.fc[
+.card.bg-y[
+##### Notes
+.content.tight[
+The dashed line separates "_captured variables_" from fields. You cannot access captured variables using the dot notation .mnote[(e.g., `b.y`)].
+]
+]
+]
+
+---
+
+### Nested Class
+
+.lc[
+### Class
+### Kinds
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
+]
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
+    - Inside another class
+    - Inside a method
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
+]
+.col60[
+##### Variable Capture
+.xssize[
+```java[emph=4,5,11,12]
+interface C { void g(); }
+class A {
+  int x = 1;
+  C f() {
+    int y = 2;
+    class B implements C {
+      public void g() {
+        x = y; // accessing x and y is OK.
+      }
+    }
+    B b = new B();
+    return b;
+  }
+}
+```
+]
+]
+]
+.abs.lt72.wt23.top75.fc[
+.card.bg-w[
+.xssize[
+```java[emph=2]
+A a = new A();
+C c = a.f();
+c.g();
+```
+]
+]
+]
+.abs.lt65.wt33.top3[
+![Capture](img/07_Capture_04.png)
+]
+.abs.lt1.wt19.bot2.fc[
+.card.bg-y[
+##### Notes
+.content.tight[
+The dashed line separates "_captured variables_" from fields. You cannot access captured variables using the dot notation .mnote[(e.g., `b.y`)].
+]
+]
+]
+
+---
+
+### Nested Class
+
+.lc[
+### Class
+### Kinds
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
+]
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
+    - Inside another class
+    - Inside a method
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
+]
+.col60[
+##### Variable Capture
+.xssize[
+```java[emph=7-9]
+interface C { void g(); }
+class A {
+  int x = 1;
+  C f() {
+    int y = 2;
+    class B implements C {
+      public void g() {
+        x = y; // can we assign to y? (e.g., y = 3)
+      }
+    }
+    B b = new B();
+    return b;
+  }
+}
+```
+]
+]
+]
+.abs.lt72.wt23.top75.fc[
+.card.bg-w[
+.xssize[
+```java[emph=3]
+A a = new A();
+C c = a.f();
+c.g();
+```
+]
+]
+]
+.abs.lt65.wt33.top3[
+![Capture](img/07_Capture_05.png)
+]
+.abs.lt1.wt19.bot2.fc[
+.card.bg-y[
+##### Notes
+.content.tight[
+The dashed line separates "_captured variables_" from fields. You cannot access captured variables using the dot notation .mnote[(e.g., `b.y`)].
+]
+]
+]
+
+---
+
+### Nested Class
+
+.lc[
+### Class
+### Kinds
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
+]
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
+    - Inside another class
+    - Inside a method
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
+]
+.col60[
+##### Effectively Final
+.xssize[
 ```java[lite=2,5,13]
 void sortNames(List<String> names) {
   boolean ascendingOrder = true;
@@ -1857,46 +1994,47 @@ void sortNames(List<String> names) {
     }
   }
 
-  ascendingOrder = false; // cannot be re-assigned!
+  ascendingOrder = false;
   names.sort(new NameComparator());
 }
 ```
 ]
 ]
+]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. Local Class
+.rc[
+### Kinds of Nested Classes
+#### Local Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. Local classes
     - Inside another class
     - Inside a method
-4. .op10[Anonymous Class]
-    - .op10[Has no name]
+4. .op20[Anonymous classes]
+    - .op20[Has no name]
 ]
-.ft65[
-#### Effectively Final (Equivalent)
+.col60[
+##### Effectively Final (Equivalently)
+.xssize[
 ```java[lite=2]
 void sortNames(List<String> names) {
   final boolean ascendingOrder = true;
@@ -1910,47 +2048,48 @@ void sortNames(List<String> names) {
     }
   }
 
-  // ascendingOrder = false; // cannot be re-assigned!
+  // ascendingOrder = false; <-- cannot change final
   names.sort(new NameComparator());
 }
 ```
 ]
 ]
+]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-#### Anonymous Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
+#### - Anonymous Classes
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. .op10[Local Class]
-    - .op10[Inside another class]
-    - .op10[Inside a method]
-4. Anonymous Class
+.rc[
+### Kinds of Nested Classes
+#### Anonymous Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. Anonymous classes
     - Has no name
 ]
-.ft65[
-#### From Named to Nameless
+.col60[
+##### From Named to Nameless
+.xssize[
 ```java[lite=3,10]
 void sortNames(List<String> names) {
 
@@ -1966,45 +2105,46 @@ void sortNames(List<String> names) {
 ```
 ]
 ]
+]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-#### Anonymous Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
+#### - Anonymous Classes
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. .op10[Local Class]
-    - .op10[Inside another class]
-    - .op10[Inside a method]
-4. Anonymous Class
+.rc[
+### Kinds of Nested Classes
+#### Anonymous Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. Anonymous classes
     - Has no name
 ]
-.ft65[
-#### From Named to Nameless
+.col60[
+##### From Named to Nameless
+.xssize[
 ```java[lite=3,10]
 void sortNames(List<String> names) {
 
-  Comparator<String> cmp = new Comparator<String>() {
+  Comparator<String> cmp = Comparator<String>() {
     @Override
     public int compare(String s1, String s2) {
       return s1.length() - s2.length();
@@ -2016,45 +2156,46 @@ void sortNames(List<String> names) {
 ```
 ]
 ]
+]
 
 ---
 
-# Nested Class
+### Nested Class
 
-.ft15.subsections[
-### Motivation
+.lc[
+### Class
 ### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-#### Anonymous Class
+#### - Classification
+#### - Inner Classes
+#### - Static Nested
+#### - Local Nested
+#### - Anonymous Classes
 ]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. .op10[Local Class]
-    - .op10[Inside another class]
-    - .op10[Inside a method]
-4. Anonymous Class
+.rc[
+### Kinds of Nested Classes
+#### Anonymous Classes
+.col40[
+1. .op20[Inner classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Not static]
+2. .op20[Static nested classes]
+    - .op20[Inside another class]
+    - .op20[Not inside a method]
+    - .op20[Static]
+3. .op20[Local classes]
+    - .op20[Inside another class]
+    - .op20[Inside a method]
+4. Anonymous classes
     - Has no name
 ]
-.ft65[
-#### From Named to Nameless
+.col60[
+##### From Named to Nameless
+.xssize[
 ```java[lite=3,10]
 void sortNames(List<String> names) {
 
-  names.sort(new Comparator<String>() {
+  names.sort(Comparator<String>() {
     @Override
     public int compare(String s1, String s2) {
       return s1.length() - s2.length();
@@ -2066,59 +2207,6 @@ void sortNames(List<String> names) {
 ```
 ]
 ]
-
----
-
-# Nested Class
-
-.ft15.subsections[
-### Motivation
-### Kinds
-#### Classification
-#### Inner Class
-#### Static Nested Class
-#### Local Class
-#### Anonymous Class
-]
-.ft82[
-## Kinds
-### Classification
-
-.col35[
-1. .op10[Inner Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Non-static context]
-2. .op10[Static Nested Class]
-    - .op10[Inside another class]
-    - .op10[Not inside a method]
-    - .op10[Static context]
-3. .op10[Local Class]
-    - .op10[Inside another class]
-    - .op10[Inside a method]
-4. Anonymous Class
-    - Has no name
-]
-.ft65[
-.card.bg-b[
-### Syntax
-.content.tight[
-```java
-new Type(arg_1, arg_2, ..., arg_n) {
-  body
-};
-```
-
-#### Where
-- `Type` can be interface or class
-- `arg_1` to `arg_n` are passed to the corresponding constructor of `Type`
-    - If `Type` is an interface, there is no constructor
-    - Similar to calling `super(arg_1, arg_2, ..., arg_n)`
-- The resulting "class" is a subtype of `Type`
-- The resulting "class" has no name
-]
-]
-]
 ]
 
 ---
@@ -2128,4 +2216,4 @@ class: middle, end, fadein
 
 `jshell> /exit`
 
-`|  Goodbye`
+`|  Goodbye`
