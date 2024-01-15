@@ -15,14 +15,10 @@ Here is a quick walkthrough to get a taste of `vim`.
 Download the following file for practice using `vim` in this session.
 
 ```Bash
-$ wget https://www.comp.nus.edu.sg/~ooiwt/unix-workshop/jfk.txt
+$ cp ~cs2030s/jfk.txt .
 ```
 
-You should see the following on your terminal.
-
-![L01_S01](figures/L01_S01.png)
-
-The file named `jfk.txt` should be downloaded.  You can check by typing the following
+The file named `jfk.txt` should be copied to your currentw orking directory.  You can check that the file is created by typing the following
 
 ```Bash
 $ ls
