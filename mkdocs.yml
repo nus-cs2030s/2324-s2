@@ -62,7 +62,7 @@ nav:
 theme: 
   name: material
   features: 
-    - navigation.instant
+    #- navigation.instant
     - toc.follow
     - toc.integrate
     - content.code.annotate
