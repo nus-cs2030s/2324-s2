@@ -2,16 +2,16 @@
 
 !!! abstract "Learning Objectives"
 
-    Students should
+    After this unit, students should
     
     - understand the aims of CS2030/S.
     - understand how the key concepts covered in CS2030/S are related to each other.
 
 ## What is This Module About?
 
-CS2030/S is designed for students who have gone through a typical basic programming module and have learned about problem-solving with simple programming constructs such as loops, conditions, and functions.  In a typical introductory programming module, such as CS1010 and its variants at NUS, students tend to write small programs (_in the order of tens or hundreds of lines of code_) to solve a programming homework problem, work alone on their code, and move on to solve the next problem once the homework is done.
+CS2030/S is designed for students who have gone through a typical basic programming module and have learned about problem-solving with simple programming constructs such as loops, conditions, and functions.  In a typical introductory programming module, such as CS1010 and its variants at NUS, students tend to write small programs (in the order of tens or hundreds of lines of code) to solve a programming homework problem, work alone on their code, and move on to solve the next problem once the homework is done.
 
-The first aim of CS2030/S is to change the students' mindset and to make them learn to write software that will continue to evolve as software requirements change and to write software that will be read and modified by other programmers (_including their future selves_).
+The first aim of CS2030/S is to change the students' mindset and to make them learn to write software that will continue to evolve as software requirements change and to write software that will be read and modified by other programmers (including their future selves).
 
 !!! quote
     _"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live. Code for readability."_
@@ -42,9 +42,9 @@ While Java is not the most elegant programming language when expressing programs
 
 ## What This Module is Not About
 
-This is not a module on Java programming.  We will not comprehensively cover Java syntax and features, except those relevant to the concepts we teach.  In fact, we will avoid and even ban students from using certain Java features (_such as `var`_) for pedagogical purposes.
+This is not a module on Java programming.  We will not comprehensively cover Java syntax and features, except those relevant to the concepts we teach.  In fact, we will avoid and even ban students from using certain Java features (such as `var`) for pedagogical purposes.
 
-This is not a module on software engineering either.  Software engineering is a broad discipline on its own and deserves another module.  Rather, this module is about the programming principles and constructs on top of which programmers can design better software.  To motivate the importance of these principles and constructs and see how they can be used, we will inevitably cover some of the software engineering design principles, such as Liskov Substitution Principle (_the L in SOLID_), Tell-Don't-Ask, Composition over Inheritance, etc.  However, we will not comprehensively cover object-oriented design or software design in general (_e.g., we will not cover S, O, I, and D in SOLID_).
+This is not a module on software engineering either.  Software engineering is a broad discipline on its own and deserves another module.  Rather, this module is about the programming principles and constructs on top of which programmers can design better software.  To motivate the importance of these principles and constructs and see how they can be used, we will inevitably cover some of the software engineering design principles, such as Liskov Substitution Principle (the L in SOLID), Tell-Don't-Ask, Composition over Inheritance, etc.  However, we will not comprehensively cover object-oriented design or software design in general (e.g., we will not cover S, O, I, and D in SOLID).
 
 Finally, CS2030/S is not a module that focuses on computational efficiency.  We have CS2040/S for that.  In CS2030/S, although reducing computational cost still plays a role, this is not the only cost that matters.  CS2030/S is also concerned with the human cost of debugging or maintaining software.  In striving for simpler software that is easier to maintain and extend, we may have to sacrifice computational efficiency.
 
@@ -82,7 +82,7 @@ CS2030/S will continue to enforce these good programming practices.
 
 You should also be taught to always break your code down into functions, each one performing a simple, specific, task.  The functions can then be composed to solve larger and more complex tasks.  Functions are an important programming structure in taming code complexity. They allow programmers to
 
-1. compartmentalize computation and its effects, reducing the number of interactions to a few well-defined ones (_through arguments and return values_);
+1. compartmentalize computation and its effects, reducing the number of interactions to a few well-defined ones (through arguments and return values);
 2. hide the implementation details so that they can be changed later without affecting other parts of the code; and
 3. reuse computations and thus write code that is more succinct and easier to understand/change.
 
@@ -124,7 +124,7 @@ Allowing a programmer to change the behavior of the existing code without changi
 
 A type system is also an important tool to reduce the complexity of software development.  Constraining the interactions among the variables, expressions, and functions, reduces the possible interdependence between these programming constructs.  Furthermore, any attempt by programmers to break the constraint can be caught automatically by the compiler.  By utilizing the type system properly, we can detect potential bugs before they manifest themselves.
 
-A reason CS2030/S chooses to use Java is due to its type system.  CS2030/S will introduce the concept of types, subtypes, compile-time vs. run-time types, variants of types, parameterized types, and type inferences, in the context of Java.  We will see how we can define our own types (_using classes and interfaces_) and define relationships between them.  We will see how we can define parameterized types and generic functions that take in types as parameters.  These concepts apply to many other programming languages.
+A reason CS2030/S chooses to use Java is due to its type system.  CS2030/S will introduce the concept of types, subtypes, compile-time vs. run-time types, variants of types, parameterized types, and type inferences, in the context of Java.  We will see how we can define our own types (using classes and interfaces) and define relationships between them.  We will see how we can define parameterized types and generic functions that take in types as parameters.  These concepts apply to many other programming languages.
 
 ### Eliminating Side Effects
 

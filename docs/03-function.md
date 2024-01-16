@@ -2,7 +2,7 @@
 
 !!! abstract "Learning Objectives"
 
-    Students should
+    After this unit, students should
 
     - understand the importance of function as a programming constructor and how it helps to reduce complexity and mitigate bugs.
     - be aware of two different roles a programmer can play: the implementer and the client.
@@ -10,7 +10,7 @@
 
 ## Function as an Abstraction over Computation
 
-Another important abstraction provided by a programming language is the _function_ (_or procedure_).  This abstraction allows programmers to group a set of instructions and give it a name.  The named set of instructions may take one or more variables as input parameters, and return zero or one values.
+Another important abstraction provided by a programming language is the _function_ (or procedure).  This abstraction allows programmers to group a set of instructions and give it a name.  The named set of instructions may take one or more variables as input parameters, and return zero or one values.
 
 Like all other abstractions, defining functions allows us to think at a higher conceptual level.  By composing functions at increasingly higher levels of abstraction, we can build programs with increasing levels of complexity.
 
@@ -27,7 +27,7 @@ Functions help us deal with complexity in a few ways as you will see later.  For
 
     To create a function, we have to specify the return type.  If there is no return type, then we need to use the type called `void`[^1].  This is then followed by the function name.  We may have zero or more parameters for a function.
 
-[^1]: `void` in Java is like a true nothingness (_unlike Python_ `None` _or JavaScript_ `undefined`).  If a function is declared as returning a type `void`, it cannot even be used in an assignment!
+[^1]: `void` in Java is like a true nothingness (unlike Python's `None` or JavaScript's `undefined`).  If a function is declared as returning a type `void`, it cannot even be used in an assignment!
 
 * Functions allow programmers to compartmentalize computation and its effects.  We can isolate the complexity within its body: the intermediate variables exist only as local variables that have no effect outside of the function.  A function only interacts with the rest of the code through its parameters and return value, and so, reduces the dependencies between variables to these well-defined interactions.  Such compartmentalization reduces the complexity of code.
 

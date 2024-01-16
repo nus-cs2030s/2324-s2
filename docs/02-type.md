@@ -2,7 +2,7 @@
 
 !!! abstract "Learning Objectives"
 
-    Students should
+    After this unit, students should
     
     - appreciate the concept of variables as an abstraction
     - understand the concept of types and subtypes
@@ -28,7 +28,7 @@ Python.  Suppose we have two variables `x` and `y`, storing the values `4` and `
 
 - If `x` and `y` are both strings, the output is `45`.
 - If `x` and `y` are both integers, the output is `9`.
-- If `x` is an integer and `y` is a string (_or vice versa_), you would get an error.
+- If `x` is an integer and `y` is a string (or vice versa), you would get an error.
 
 In the last instance above, you see that assigning a type to each variable helps to keep the program meaningful, as the operation `+` is not defined over an integer and a string in Python.
 
@@ -63,7 +63,7 @@ i = "5"; // error, cannot assign a string to an `int`
 The type that a variable is assigned when we declare the variable is also known as the _compile-time type_.  During the compilation, this is the only type that the compiler is aware of.  The compiler will check if the compile-time type matches when it parses the variables, expressions, values, and function calls, and throw an error if there is a type mismatch.  This type-checking step helps to catch errors in the code early.
 
 !!! important "Types on Variable"
-    An important distinction between dynamic and static type is where the type gets **attached** to.  In static typing, the type is attached to the _variable_ such that the variable can only store values of that particular type (_or its subtype as you will see later_).  In fact, in Java, the type that is attached to a variable is the _declared_ type (_i,e., the type written in the variable declaration also commonly known as compile-time type_).
+    An important distinction between dynamic and static type is where the type gets **attached** to.  In static typing, the type is attached to the _variable_ such that the variable can only store values of that particular type (or its subtype as you will see later).  In fact, in Java, the type that is attached to a variable is the _declared_ type (_i,e._, the type written in the variable declaration also commonly known as compile-time type).
 
     On the other hand, in a dynamically typed language, the type is attached to the _value_.  In other words, a variable can store anything but we can know what the type is because the type can be queried from the value.
 
@@ -75,7 +75,7 @@ A programming language can be strongly typed or weakly typed.  There are no form
 
 Generally, a _strongly typed_ programming language enforces strict rules in its type system, to ensure _type safety_, i.e., to ensure that if there are any problems with the program, it is not due to the type.  For instance, catching an attempt at multiplying two strings.  One way to ensure type safety is to catch type errors during compile time rather than leaving it to runtime.
 
-On the other hand, a _weakly typed_ (_or loosely typed_) programming language is more permissive in terms of typing checking.  C is an example of a static, weakly typed language.  In C, the following is possible:
+On the other hand, a _weakly typed_ (or loosely typed) programming language is more permissive in terms of typing checking.  C is an example of a static, weakly typed language.  In C, the following is possible:
 
 ```Java
 int i;        // declare a variable of type int
@@ -83,7 +83,7 @@ i = 4;        // ok because 4 is of type int
 i = (int)"5"; // you want to treat a string as an int? ok, as you wish!   
 ```
 
-The last line forces the C compiler to treat the string (_to be more precise, the address of the string_) as an integer, through typecasting.
+The last line forces the C compiler to treat the string (to be more precise, the _address_ of the string) as an integer, through typecasting.
 
 In contrast, if we try the following in Java:
 
@@ -113,7 +113,7 @@ while (i < 10):
 print("i is " + i)
 ```
 
-Since Python does not allow adding a string to an integer, there is a type mismatch error on Line 5.  The type mismatch error is only caught when Line 5 is executed after the program is run for a long time.  Since the type of the variable `i` can change during run time, Python (_and generally, dynamically typed languages_) cannot tell if Line 5 will lead to an error until it is evaluated during run time.  
+Since Python does not allow adding a string to an integer, there is a type mismatch error on Line 5.  The type mismatch error is only caught when Line 5 is executed after the program is run for a long time.  Since the type of the variable `i` can change during run time, Python (and generally, dynamically typed languages) cannot tell if Line 5 will lead to an error until it is evaluated during run time.  
 
 In contrast, statically typed language like Java can detect type mismatch during compile time since the compile-time type of a variable is fixed.  As you will see later, Java allows "addition" or string and integer, and but multiplication of a string and an integer.  If we have the following code, Java can confidently produce compilation errors without even running a program: 
 
@@ -130,7 +130,7 @@ String s = "i is " * i;
 
 We now switch our focus to Java, particularly to the types supported.  There are two categories of types in Java, the _primitive types_ and the _reference types_.  We will first look at primitive types in this unit.
 
-Primitive types are types that hold numeric values (_integers, floating-point numbers_) as well as boolean values (`true` _and_ `false`).  
+Primitive types are types that hold numeric values (integers, floating-point numbers) as well as boolean values (`true` _and_ `false`).  
 
 For storing integral values, Java provides four types, `byte`, `short`, `int`, and `long`, for storing 8-bit, 16-bit, 32-bit, and 64-bit signed integers respectively.  The type `char` stores 16-bit unsigned integers representing UTF-16 Unicode characters.
 
@@ -164,7 +164,7 @@ An important concept that we will visit repeatedly in CS2030/S is the concept of
 
 We use the notation $T <: S$ or $S :> T$ to denote that $T$ is a subtype of $S$.  The subtyping relationship in general must satisfy two properties:
 
-1. **Reflexive**: For any type $S$, we have $S <: S$ (_i.e., $S$ is a subtype of itself_).
+1. **Reflexive**: For any type $S$, we have $S <: S$ (_i.e._, $S$ is a subtype of itself).
 2. **Transitive**: If $S <: T$ and $T <: U$, then $S <: U$.  In other words, if $S$ is a subtype of $T$ and $T$ is a subtype of $U$, then $S$ is a subtype of $U$.
 
 Additionally, in Java, you will find that the subtyping relationship also satisfies _anti-symmetry_.  However, this is often omitted as it is enforced by design.
@@ -187,7 +187,7 @@ Graphically, we can draw the subtyping relationship as an arrow from subtype to 
 !!! info "Long $<:$ Float?"
     Why is `long` a subtype of `float`?  More specifically, `long` is 64-bit and `float` is only 32-bit.  Clearly, there are more values in `long` than in `float`!
 
-    The resolution lies in the precision.  While it is indeed true that any (_mathematical_) integer can be converted into a (_mathematical_) real number by simply appending `.0` to the end, some `long` values cannot be represented _precisely_ as `float`.  Try the following and see what is printed.
+    The resolution lies in the precision.  While it is indeed true that any (mathematical) integer can be converted into a (mathematical) real number by simply appending `.0` to the end, some `long` values cannot be represented _precisely_ as `float`.  Try the following and see what is printed.
 
     ```Java
     long l = 123456789L;
@@ -255,7 +255,7 @@ As you can see, the compile-time type of the variable `d` is `double` because th
 This example shows how subtyping applies to type checking.  _Java allows a variable of type $T$ to hold a value from a variable of type $S$ only if $S <: T$_.  This step is called _widening type conversion_.  Such conversion can happen during assignment or parameter passing.
 
 !!! info "Why is it Called Widening?"
-    The term widening is easy to see for primitive types with the exception of `long` to `float`.  You can immediately see that the subtype has fewer number of bits than the supertype.  Therefore, the supertype can have more possible values.  Hence, the size (_i.e., the number of possible values_) is wider.
+    The term widening is easy to see for primitive types with the exception of `long` to `float`.  You can immediately see that the subtype has fewer number of bits than the supertype.  Therefore, the supertype can have more possible values.  Hence, the size (_i.e._, the number of possible values) is wider.
 
     The opposite conversion is called _narrowing_ because the size is narrower.
 

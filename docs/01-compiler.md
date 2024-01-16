@@ -3,10 +3,10 @@
 
 !!! abstract "Learning Objectives"
 
-    Students should
+    After this unit, students should
     
     - recap some fundamental programming concepts, including the concept of a program, a programming language, a compiler, and an interpreter.
-    - be aware of two modes of running a Java program (_compiled vs. interpreted_).
+    - be aware of two modes of running a Java program (compiled vs. interpreted).
     - be aware that compile-time errors are better than run-time errors, but the compiler cannot always detect errors during compile time.
 
 
@@ -14,29 +14,29 @@
 
 A software program is a collection of data variables and instructions on how to modify these variables.  To dictate these instructions to the computer, programmers usually write down the instructions using a programming language, expressing their instructions in code that is made up of keywords, symbols, and names.  
 
-A programming language is a formal language that helps programmers specify _precisely_ what the instructions are at a higher level of _abstraction_ (_i.e., at a higher conceptual level_) so that a programmer only needs to write a few lines of code to give complex instructions to the computer.  
+A programming language is a formal language that helps programmers specify _precisely_ what the instructions are at a higher level of _abstraction_ (_i.e._, at a higher conceptual level) so that a programmer only needs to write a few lines of code to give complex instructions to the computer.  
 
 
 ## Compiled vs. Interpreted Programs
 
 The processing unit of a computer can only accept and understand instructions written in machine code.  A program, written in a higher-level programming language, therefore needs to be translated into machine code before execution.  There are different approaches to how such translations can be done.  The first approach uses a _compiler_ -- a software tool that reads the entire program written in a higher-level programming language and translates it into machine code.  The machine code is then saved into an executable file, which can be executed later.  `clang`, a C/C++ compiler, is an example.  The second approach uses an _interpreter_ -- software that reads in the program one statement at a time interprets what the statement means, and executes it directly.   This is how Python and Javascript programs are executed. 
 
-Modern programming systems for executing programs are, however, more sophisticated.  V8, for instance, is an open-source engine that executes Javascript, and it contains both an interpreter that first interprets a Javascript program into _bytecode_ (_an intermediate, low-level representation_) and its execution engine. A just-in-time compiler then reads in the bytecode and generates machine code dynamically at runtime with optimized performance. 
+Modern programming systems for executing programs are, however, more sophisticated.  V8, for instance, is an open-source engine that executes Javascript, and it contains both an interpreter that first interprets a Javascript program into _bytecode_ (an intermediate, low-level representation) and its execution engine. A just-in-time compiler then reads in the bytecode and generates machine code dynamically at runtime with optimized performance. 
 
 Java programs, on the other hand, can be executed in two ways:
 
-1. The Java program can first be compiled into bytecode.  During execution, the bytecode is interpreted and compiled on the fly by the _Java Virtual Machine_ (_JVM_) into machine code.
+1. The Java program can first be compiled into bytecode.  During execution, the bytecode is interpreted and compiled on the fly by the _Java Virtual Machine_ (JVM) into machine code.
 2. The Java program can be interpreted by the Java interpreter.
 
 To better understand this distinction, we will introduce a visual aid to describe the relationships between programs, compilers, interpreters, and machines.
 
-### Tombstone Diagrams (_T-Diagrams_)
+### Tombstone Diagrams (T-Diagrams)
 Tombstone Diagrams or T-diagrams consist of combinations of the following four components: 
 
 - *Programs* which are implemented in a particular language (_i.e.,_ `Java`, `Python`, `C/C++`)
 - Language **A** *Interpreters* implemented in language **B**
 - Language **A** to language **B** *Compilers* which are implemented in a language **C**
-- Physical *Machines* implementing a particular language (_i.e., x86-64, ARM-64_)
+- Physical *Machines* implementing a particular language (_i.e._, x86-64, ARM-64)
 
 These components are represented in T-diagrams as shown in the figure below:
 
@@ -46,11 +46,11 @@ We can treat these components like "puzzle pieces" and build diagrams to describ
 
 ![Compiler 002](figures/compiler/compiler.002.png){ width=375 }
 
-*Note:* In order for the diagram to be valid, adjacent connected diagram components need to match. This can be seen in the diagram below (_highlighted with blue boxes_).
+*Note:* In order for the diagram to be valid, adjacent connected diagram components need to match. This can be seen in the diagram below (highlighted with blue boxes).
 
 ![Compiler 006](figures/compiler/compiler.006.png){ width=700 }
 
-Since CS2030/S uses Java, we will now look at the two approaches to execute a Java program in more detail (_without worrying about how to write a single line of Java first_).
+Since CS2030/S uses Java, we will now look at the two approaches to execute a Java program in more detail (without worrying about how to write a single line of Java first).
 
 ### Compiling and Running Java Programs
 
@@ -92,7 +92,7 @@ Beginners tend to confuse between `javac` and `java`, and whether to add the ext
 
 ### Interpreting a Java program
 
-Java (_version 8 or later_) comes with an interpreter called `jshell` that can read Java statements, evaluate them, and print the results[^3]. `jshell` is useful for learning and experimenting with Java.   This can be seen in the figure below, where the `Hello.java` program is interpreted from Java directly to the x86-64 machine language. 
+Java (version 8 or later) comes with an interpreter called `jshell` that can read Java statements, evaluate them, and print the results[^3]. `jshell` is useful for learning and experimenting with Java.   This can be seen in the figure below, where the `Hello.java` program is interpreted from Java directly to the x86-64 machine language. 
 
 ![Compiler 005](figures/compiler/compiler.005.png){ width=375 }
 
@@ -134,7 +134,7 @@ While `jshell` is a convenient way to test things out and play with new Java con
 
     Olivier Danvy
 
-The compiler does more than just translate source code into machine code or bytecode.  The compiler also needs to parse the source code written and check if it follows the precise specification of the programming language (_called grammar_) used, and produces a _syntax error_ if the grammar is violated.  It therefore can detect any syntax error before the program is run.
+The compiler does more than just translate source code into machine code or bytecode.  The compiler also needs to parse the source code written and check if it follows the precise specification of the programming language (called _grammar_) used, and produces a _syntax error_ if the grammar is violated.  It therefore can detect any syntax error before the program is run.
 
 It is much better for a programmer to detect any error in its code during compilation -- since this is the phase when the program is still being developed and under the control of the programmer.  Runtime error, on the other hand, might occur when the customers are running the program, and so are much less desirable.  As such, we try to detect errors as much as possible during compilation.  The compiler is a powerful friend for any programmer if used properly.
 

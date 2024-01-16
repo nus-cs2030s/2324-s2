@@ -2,7 +2,7 @@
 
 !!! abstract "Learning Objectives"
 
-    Students should
+    After this unit, students should
 
     - understand composite data type as an even higher level abstraction over variables.
     - understand encapsulation as an object-oriented (OO) principle.
@@ -37,7 +37,7 @@ bool   circle_overlaps(circle c1, circle c2) { ... };
   :
 ```
 
-Implementing these functions requires knowledge of how a circle is represented.  The implementation will be different if we have a different representation of `circle` (_e.g.,_ `x` _and_ `y` _may represent the center of the circle or the top left corner of the bounding square_).  But once the set of functions that operates on and manipulates circles is available, we can use the _circle_ type without worrying about the internal representation.  Of course, this assumes that we will only use the functions specifically written to work on circle type.
+Implementing these functions requires knowledge of how a circle is represented.  The implementation will be different if we have a different representation of `circle` (_e.g.,_ `x` and `y` may represent the center of the circle or the top left corner of the bounding square).  But once the set of functions that operates on and manipulates circles is available, we can use the _circle_ type without worrying about the internal representation.  Of course, this assumes that we will only use the functions specifically written to work on circle type.
 
 Additionally, the example on `circle_overlap` highlights another advantage of having a composite data type.  To see the advantage, imagine that you do not have the data type `circle`.  Then the function to check if two circles overlap would require 6 parameters.
 
@@ -61,7 +61,7 @@ If we decide to change the representation of a circle, then only the set of func
 
 If you are the programmer who writes the code for the implementation of the circle as well as the functions that operate on and manipulate the circle then you are the _implementer_.  On the other hand, if you are the programmer who uses the function that manipulates a circle, then you are the _client_.
 
-## Abstraction: Class and Object (_or, Encapsulation_)
+## Abstraction: Class and Object (or, Encapsulation)
 
 We can further bundle the composite data type _and its associated functions_ on the same side of the abstraction barrier together.  This bundle is another abstraction called a _class_.
 
@@ -69,7 +69,7 @@ We can further bundle the composite data type _and its associated functions_ on 
 
     A class is a data type with a group of functions associated with it.
 
-We call the data in the class as _fields_ (_or members, or states, or attributes, or properties[^1]_).  As for the associated functions, they are called _methods_.  A well-designed class maintains the abstraction barrier, properly wraps the barrier around the internal representation and implementation, and exposes just the right _method interface_ for others to use.
+We call the data in the class as _fields_ (or members, or states, or attributes, or properties[^1]).  As for the associated functions, they are called _methods_.  A well-designed class maintains the abstraction barrier, properly wraps the barrier around the internal representation and implementation, and exposes just the right _method interface_ for others to use.
 
 The concept of keeping all the data and functions operating on the data related to a composite data type together within an abstraction barrier is called _encapsulation_.
 
@@ -90,11 +90,11 @@ class Circle {
 }
 ```
 
-The code above defines a new class using the keyword `class`, gives it a name `Circle`[^2], followed by a block listing the member variables (_with types_) and the function definitions.
+The code above defines a new class using the keyword `class`, gives it a name `Circle`[^2], followed by a block listing the member variables (with types) and the function definitions.
 
 [^2]: As a convention, we use PascalCase for class names and camelCase for variable and method names in Java.
 
-Just like we can create variables of a given type, we can create _objects_ of a given class.  Objects are _instances_ of a class, each allowing the same methods to be called, and each containing the same set of variables of the same types, but (_possibly_) storing different values.
+Just like we can create variables of a given type, we can create _objects_ of a given class.  Objects are _instances_ of a class, each allowing the same methods to be called, and each containing the same set of variables of the same types, but (possibly) storing different values.
 
 In Java, the keyword `new` creates an object of a given class.  For instance, to create a `Circle` object, we can use
 
@@ -130,9 +130,9 @@ Without even knowing the implementation of `pen.write(..)`, we can already see t
 
 ## Object-Oriented Programming
 
-A program written in an _object-oriented language_ such as Java consists of classes, with one main class as the entry point.  One can view a running object-oriented (_or OO_) program as something that instantiates objects of different classes and orchestrates their interactions with each other by calling each other's methods.
+A program written in an _object-oriented language_ such as Java consists of classes, with one main class as the entry point.  One can view a running object-oriented (or OO) program as something that instantiates objects of different classes and orchestrates their interactions with each other by calling each other's methods.
 
-One could argue that an object-oriented way of writing programs is much more natural, as it mirrors our world more closely.  If we look around us, we see objects all around us, and each object has certain properties, exhibits certain behaviors, and allows certain actions.  We interact with the objects through their interfaces, and we rarely need to know the internals of the objects we use every day (_unless we try to repair them_)[^3].  
+One could argue that an object-oriented way of writing programs is much more natural, as it mirrors our world more closely.  If we look around us, we see objects all around us, and each object has certain properties, exhibits certain behaviors, and allows certain actions.  We interact with the objects through their interfaces, and we rarely need to know the internals of the objects we use every day (unless we try to repair them)[^3].  
 
 To model a problem in an object-oriented manner, we typically model the nouns as classes and objects, the properties or relationships among the classes as fields, and the verbs or actions of the corresponding objects as methods.
 
@@ -170,7 +170,7 @@ However, for `User` and `Booking, we need to encapsulate the information into a 
         - In the case of user and booking, we have real world counterpart so we model them as separate classes.
     - Is there potential changes to the entity?
         - If so, then creating a class is good.
-        - For instance, if in the future we plan to store more information about an airport (_e.g., the country it is located, etc_), then having it as a class will minimize potential changes to other parts of the code (_e.g., if we used_ `String` _before, we now have to change all these_ `String` _into_ `Airport`).
+        - For instance, if in the future we plan to store more information about an airport (_e.g._, the country it is located, etc), then having it as a class will minimize potential changes to other parts of the code (_e.g._, if we used `String` before, we now have to change all these `String` into `Airport`).
 
     The guide above are not exhaustive.  But they are still a good starting point if this is your first attempt at modelling in OOP.
 
@@ -207,7 +207,7 @@ Line 2 would lead to a run-time error message
 Remember to _always instantiate a reference variable_ before using it.
 
 
-!!! note "Class Diagram (_Part 1_)"
+!!! note "Class Diagram (Part 1)"
 
     A useful diagram to have when trying to visualize a class is called the class diagram.  A class diagram consists of 3 segments:
 
@@ -219,7 +219,7 @@ Remember to _always instantiate a reference variable_ before using it.
 
     Additionally, we omit the implementation of the method and record only the minimal information needed.  Otherwise, there is no difference between class diagram and code.  What we want is to have a diagram that captures the essence of a class so that we can reason about our design without actually writing the code.
 
-    For instance, consider the class `Circle` v0.1 above (_reproduced below_).
+    For instance, consider the class `Circle` v0.1 above (reproduced below).
 
     ```Java
     // Circle v0.1
