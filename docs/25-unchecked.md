@@ -1,20 +1,18 @@
 # Unit 25: Unchecked Warnings
 
-!!! abstract "Learning Objectives"
+After this unit, students should:
 
-    Students should
-
-    - be aware of how to use generics with an array.
-    - be aware of unchecked warnings that compilers can give when we are using generics.
-    - be able to make arguments why a piece of code is type-safe for simple cases.
-    - know how to suppress warnings from compilers.
-    - be aware of the ethics when using the @SuppressWarnings("unchecked") annotation.
-    - know what is a raw type.
-    - be aware that raw types should never never be used in modern Java.
+- be aware of how to use generics with an array
+- be aware of unchecked warnings that compilers can give when we are using generics
+- be able to make arguments why a piece of code is type-safe for simple cases
+- know how to suppress warnings from compilers
+- be aware of the ethics when using the @SuppressWarnings("unchecked") annotation
+- know what is a raw type
+- be aware that raw types should never never be used in modern Java
 
 ## Creating Arrays with Type Parameters
 
-We have seen how arrays and generics do not mix well.  One way to get around this is to use [Java Collections](https://en.wikipedia.org/wiki/Java_collections_framework), a library of data structures provided by Java, instead of arrays, to store our items.  The `ArrayList` class
+We have seen how arrays and generics do not mix well.  One way to get around this is to use Java Collections, a library of data structures provided by Java, instead of arrays, to store our items.  The `ArrayList` class
 provides similar functionality to an array, with some performance overhead.  
 
 ```Java
@@ -31,7 +29,6 @@ ArrayList<Object> objList = pairList;  // error
 Using `ArrayList` instead of arrays only _gets around_ the problem of mixing arrays and generics, as a user.  `ArrayList` is implemented with an array internally after all.  As computing students, especially computer science students, it is important to know how to implement your own data structures instead of using ones provided by Java or other libraries.  
 
 Let's try to build one:
-
 ```Java
 // version 0.1
 class Array<T> {
@@ -55,67 +52,16 @@ class Array<T> {
 }
 ```
 
-This generic class is a wrapper around an array of type `T`.  Recall that we cannot use `new T[]` directly.  On Line 6, to get around this restriction, we `new` an `Object` array instead, and cast it to an array of `T[]` instead.
+This generic class is a wrapper around an array of type `T`.  Recall that we can't `new T[]` directly.  On Line 6, to get around this restriction, we `new` an `Object` array instead, and cast it to an array of `T[]` instead.
 
-The code now compiles.  Why would we expect this to compile at all?  Think about what the type erased code would look like.  So there is at least some reason why we would expect the code to work.
-
-=== "Type Erased Code"
-    ```Java
-    // version 0.1
-    class Array    {
-      private Object[] array;
-
-      Array(int size) {
-        this.array = (Object[]) new Object[size];
-      }
-
-      public void set(int index, Object item) {
-        this.array[index] = item;
-      }
-
-      public Object get(int index) {
-        return this.array[index];
-      }
-
-      public Object[] getArray() {
-        return this.array;
-      }
-    }
-    ```
-
-=== "Generic Code (_aligned_)"
-    ```Java
-    // version 0.1
-    class Array<T> {
-      private T     [] array;
-
-      Array(int size) {
-        this.array = (T     []) new Object[size];
-      }
-
-      public void set(int index, T      item) {
-        this.array[index] = item;
-      }
-
-      public T      get(int index) {
-        return this.array[index];
-      }
-
-      public T     [] getArray() {
-        return this.array;
-      }
-    }
-    ```
-
-Unfortunately, although the code compiles, we receive the following message:
-
+The code now compiles, but we receive the following message:
 ```
 $ javac Array.java
 Note: Array.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 ```
 
-Let's do what the compiler tells us, and compile with the `-Xlint:unchecked` flags.
+Let's do what the compiler tells us, and compile with the `-Xlint:unchecked" flags.
 ```
 $ javac -Xlint:unchecked Array.java
 Array.java:6: warning: [unchecked] unchecked cast
@@ -176,11 +122,9 @@ Can we prove that our code is type-safe?  In this case, yes.  Since `array` is d
 [^1]: Another win for information hiding!
 
 If we are sure (and only if we are sure) that the line
-
 ```
     array = (T[]) new Object[size];
 ```
-
 is safe, we can thank the compiler for its warning and assure the compiler that everything is going to be fine.  We can do so with the `@SuppressWarning("unchecked")` annotation.
 
 ```Java
@@ -211,14 +155,13 @@ class Array<T> {
 
 - `@SuppressWarning` can apply to declaration at a different scope: a local variable, a method, a type, etc.  We must always use `@SuppressWarning` to the _most limited_ scope to avoid unintentionally suppressing warnings that are valid concerns from the compiler.
 - We must suppress a warning _only if_ we are sure that it will not cause a type error later.  
-- We must always add a note (_as a comment_) to fellow programmers explaining why a warning can be safely suppressed.
+- We must always add a note (as a comment) to fellow programmers explaining why a warning can be safely suppressed.
 
 Note that since `@SuppressWarnings` cannot apply to an assignment but only to declaration, we declare a local variable `a` in the example above before assigning `this.array` to `a`.
 
 ## Raw Types
 
 Another common scenario where we can get an unchecked warning is the use of _raw types_.  A raw type is a generic type used without type arguments.  Suppose we do:
-
 ```Java
 Array a = new Array(4);
 ```
@@ -235,7 +178,7 @@ String s = a.get(0);
 where the method `populateArray` uses raw types:
 ```Java
 void populateArray(Array a) {
-  a.set(0, 1234);
+	a.set(0, 1234);
 }
 ```
 

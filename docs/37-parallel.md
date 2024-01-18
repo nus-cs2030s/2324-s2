@@ -1,13 +1,11 @@
 # Unit 37: Parallel Streams
 
-!!! abstract "Learning Objectives"
+After this unit, students should:
 
-    Students should
-
-    - be aware that a program can be broken into subtasks to run parallelly and/or concurrently 
-    - be aware of the issues caused by running subtasks parallelly and concurrently.
-    - be aware that there exist tradeoffs in the number of subtasks and the processing overhead.
-    - be familiar with how to process a stream parallelly and correctly.
+- be aware that a program can be broken into subtasks to run parallelly and/or concurrently 
+- be aware of the issues caused by running subtasks parallelly and concurrently.
+- be aware that there exist tradeoffs in the number of subtasks and the processing overhead.
+- be familiar with how to process a stream parallelly and correctly.
 
 ## Parallel and Concurrent Programming
 
@@ -47,17 +45,17 @@ Let's consider the following program that prints out all the prime numbers betwe
 
 ```Java
 IntStream.range(2_030_000, 2_040_000)
-         .filter(x -> isPrime(x))
-         .forEach(System.out::println);
+    .filter(x -> isPrime(x))
+    .forEach(System.out::println);
 ```
 
 We can parallelize the code by adding the call `parallel()` into the stream.
 
 ```Java hl_lines="3"
 IntStream.range(2_030_000, 2_040_000)
-         .filter(x -> isPrime(x))
-         .parallel()
-         .forEach(System.out::println);
+    .filter(x -> isPrime(x))
+    .parallel()
+    .forEach(System.out::println);
 ```
 
 You may observe that the output has been reordered, although the same set of numbers are still being produced.  This is because `Stream` has broken down the numbers into subsequences, and run `filter` and `forEach` for each subsequence in parallel.  Since there is no coordination among the parallel tasks on the order of the printing, whichever parallel tasks that complete first will output the result to screen first, causing the sequence of numbers to be reordered.
@@ -68,9 +66,9 @@ Suppose now that we want to compute the number of primes between 2,030,000 and 2
 
 ```Java
 IntStream.range(2_030_000, 2_040_000)
-         .filter(x -> isPrime(x))
-         .parallel()
-         .count();
+    .filter(x -> isPrime(x))
+    .parallel()
+    .count();
 ```
 
 The code above produces the same output regardless if it is being parallelized or not.
@@ -140,7 +138,6 @@ list.parallelStream()
 The `forEach` lambda generates a side effect -- it modifies `result`.  `ArrayList` is what we call a non-thread-safe data structure.  If two threads manipulate it at the same time, an incorrect result may result.
 
 There are three ways to resolve this.  One, we can use the [`.collect`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#collect(java.util.function.Supplier,java.util.function.BiConsumer,java.util.function.BiConsumer)) method.
-
 ```Java
 list.parallelStream()
     .filter(x -> isPrime(x))
@@ -174,10 +171,8 @@ Stream.of(1,2,3,4).reduce(1, (x, y) -> x * y, (x, y) -> x * y);
 To allow us to run `reduce` in parallel, however, there are several rules that the `identity`, the `accumulator`, and the `combiner` must follow:
 
 - `combiner.apply(identity, i)` must be equal to `i`.
-- The `combiner` and the `accumulator` must be associative -- the order of applying must not matter[^2].
+- The `combiner` and the `accumulator` must be associative -- the order of applying must not matter.
 - The `combiner` and the `accumulator` must be compatible -- `combiner.apply(u, accumulator.apply(identity, t))` must equal to `accumulator.apply(u, t)`
-
-[^2]: It is actually __NOT__ necessary for `accumulator` to be associative because the parallel reduce will first split the list into blocks.  Each block will actually be run in sequential order so the `accumulator` will be invoked in a specific order.  What this requirement says is that if the `accumulator` is associative (_as well as other conditions_), then we can __sufficiently__ say that parallel reduce will produce the same result as sequential reduce.  So it is not a necessary but a sufficient condition.
 
 The multiplication example above meetings the three rules:
     
@@ -203,21 +198,21 @@ Let's use the [`Instant`](https://docs.oracle.com/en/java/javase/17/docs/api/jav
 ```Java
 Instant start = Instant.now();
 long howMany = IntStream.range(2_000_000, 3_000_000)
-                        .filter(x -> isPrime(x))
-                        .parallel()
-                        .count();
+    .filter(x -> isPrime(x))
+    .parallel()
+    .count();
 Instant stop = Instant.now();
 System.out.println(howMany + " " + Duration.between(start,stop).toMillis() + " ms");
 ```
 
 The code above measures roughly the time it takes to count the number of primes between 2 million and 3 million.  On my iMac, it takes 450-550 ms.  If I remove `parallel()`, it takes slightly more than 1 second.  So with `parallel()` we gain about 50% performance.
 
-Can we parallelize some more?  Remember how we implement `isPrime`[^3]
+Can we parallelize some more?  Remember how we implement `isPrime`[^2]
 
 ```Java
 boolean isPrime(int n) {
   return IntStream.range(2, (int)Math.sqrt(n) + 1)
-                  .noneMatch(x -> n % x == 0);
+      .noneMatch(x -> n % x == 0);
 }
 ```
 
@@ -226,12 +221,12 @@ Let's parallelize this to make this even faster!
 ```Java hl_lines="3"
 boolean isPrime(int n) {
   return IntStream.range(2, (int)Math.sqrt(n) + 1)
-                  .parallel()
-                  .noneMatch(x -> n % x == 0);
+      .parallel()
+      .noneMatch(x -> n % x == 0);
 }
 ```
 
-[^3]: This is a more efficient version of the code you have seen since it stops testing after the square root of the $n$.
+[^2]: This is a more efficient version of the code you have seen since it stops testing after the square root of the $n$.
 
 If you run the code above, however, you will find that the code is not as fast as we expect. On my iMac, it takes about 18s, about 18 times slower!
 
@@ -251,19 +246,19 @@ The following, for example, takes about 700 ms on my iMac:
 
 ```Java
 Stream.iterate(0, i -> i + 7)
-      .parallel()
-      .limit(10_000_000)
-      .filter(i -> i % 64 == 0)
-      .forEachOrdered(i -> { });
+    .parallel()
+    .limit(10_000_000)
+    .filter(i -> i % 64 == 0)
+    .forEachOrdered(i -> { });
 ```
 
 But, with `unordered()` inserted, it takes about 350ms, a 2x speedup!
 
 ```Java hl_lines="3"
 Stream.iterate(0, i -> i + 7)
-      .parallel()
-      .unordered()
-      .limit(10_000_000)
-      .filter(i -> i % 64 == 0)
-      .forEachOrdered(i -> { });
+    .parallel()
+    .unordered()
+    .limit(10_000_000)
+    .filter(i -> i % 64 == 0)
+    .forEachOrdered(i -> { });
 ```

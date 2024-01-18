@@ -1,12 +1,10 @@
 # Unit 31: Box and Maybe
 
-!!! abstract "Learning Objectives"
+After this unit, students should appreciate:
 
-    Students should
-
-    - appreciate the generality of the class `Box<T>` and `Maybe<T>`
-    - appreciate how passing in functions as parameter can lead to highly general abstractions
-    - appreciate how `Maybe<T>` preserves the "maybe null" semantics over a reference type by internalizing checks for `null`
+- the generality of the class `Box<T>` and `Maybe<T>`
+- how passing in functions as parameter can lead to highly general abstractions
+- how `Maybe<T>` preserves the "maybe null" semantics over a reference type by internalizing checks for `null`
 
 ## Lambda as a Cross-Barrier State Manipulator
 
@@ -33,13 +31,13 @@ class Box<T> {
     if (!isPresent()) {
       return empty();
     }
-    return Box.of(transformer.transform(this.item));
+    return Box.ofNullable(transformer.transform(this.item));
   }
     :
 
   public Box<T> filter(BooleanCondition<? super T> condition) {
     if (!isPresent() || !(condition.test(this.item)) {
-      return emptyBox();
+      return empty();
     }
     return this;
   }
@@ -55,34 +53,20 @@ Methods such as these, which accept a function as a parameter, allows the client
 
 Let's now look at `Box<T>` in a slightly different light.  Let's rename it to `Maybe<T>`.  `Maybe<T>` is an _option type_, a common abstraction in programming languages (`java.util.Optional` in Java, `option` in Scala, `Maybe` in Haskell, `Nullable<T>` in C#, etc) that is a wrapper around a value that is either there or is `null`.  The `Maybe<T>` abstraction allows us to write code without mostly not worrying about the possibility that our value is missing.  When we call `map` on a value that is missing, nothing happens.
 
-Recall that we wish to write a program that is as close to pure mathematical functions as possible, a mathematical function always has a well-defined domain and codomain.
-
-Recap that in Lab 3, we had the following code in `Network.java`:
-
+Recall that we wish to write a program that is as close to pure mathematical functions as possible, a mathematical function always has a well-defined domain and codomain.  If we have a method that looks this like this:
 ```Java
-Agent agent = this.queue.poll();     // type added for clarity
-Agent next = agent.act(this.buffer); // type added for clarity
-
-System.out.println(agent);
-
-if (next != null) {
-  this.queue.add(next);
-}
+Counter c = bank.findCounter();
 ```
 
-This comes from the fact that our method `Agent::act` may return a `null` value.  In other words, `act` is no longer a mapping from `Buffer` to `Agent` as in this case, there is a possibility that it returns a `null` which we do not consider to be an `Agent`.  Part of the reason why `null` is not an `Agent` is that we cannot perform an `act` on a `null` value.  This is also why we do not insert `null` into the queue.
+Then `findCounter` is mapping from the domain on banks or counters.  However, if we implement `findCounter` such that it returns `null` if no counter is available, then `findCounter` is not a function anymore.  The return value `null` is not a counter, as we cannot do things that we can normally do on counters to it.  So `findCounter` now maps to a value outside its codomain!  This violation of the purity of function adds complications to our code, as we now have to specifically filter out `null` value, and is a common source of bugs.
 
-This violation of the puriting of the function adds complication to our code.  We have to add the check for `null` value.  One way to fix this is to for `Agent::act` to be a mapping from `Buffer` to `Maybe<Agent>`.  In such cases, we will no longer return a `null` value but we may actually return an instance of run-time type `None<Agent>` (_the compile-time type will always be_ `Maybe<Agent>`).  If we make such changes, we can replace the code above with:
+One way to fix this is to have a special counter (say, `class NullCounter extends Counter`) that is returned whenever no counter is available.  This way, our `findCounter` remains a pure function.  But this is not a general solution.  If we adopt this solution, everywhere we return `null` in place of a non-null instance we have to create a special subclass.
 
+Another way, that is more general, is to expand the codomain of the function to include `null`, and wrap both `null` and `Counter` under a type called `Maybe<Counter>`.  We make `findCounter` returns a `Maybe<Counter>` instead
 ```Java
-Agent agent = this.queue.poll();
-Maybe<Agent> next = agent.act(this.buffer);
-
-System.out.println(agent);
-
-next.ifPresent(nxt -> this.queue.add(nxt));
+Maybe<Counter> c = bank.findCounter();
 ```
 
-With this design, `Agent::act` is now a function with the domain `Buffer` mapped to the codomain `Maybe<Agent>`, and it is pure.
+With this design, `findCounter` is now a function with the domain `Bank` mapped to the codomain `Maybe<Counter>`, and it is pure.
 
 Another way to view the `Maybe<T>` class is that it internalizes all the checks for `null` on the client's behalf.  `Maybe<T>` ensures that if `null` represents a missing value, then the semantics of this missing value is preserved throughout the chain of `map` and `filter` operations.  Within its implementation, `Maybe<T>` do the right thing when the value is missing to prevent us from encountering `NullPointerException`.  There is a check for `null` when needed, internally, within `Maybe<T>`.  This internalization removes the burden of checking for `null` on the programmer and removes the possibility of run-time crashes due to missing `null` checks.

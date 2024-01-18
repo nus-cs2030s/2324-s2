@@ -1,11 +1,9 @@
 # Unit 34: Streams in Java
 
-!!! abstract "Learning Objectives"
+After this unit, students should understand:
 
-    Students should
-
-    - understand how to use Java `Stream`.
-    - understand the difference between Java `Stream` and `InfiniteList`.
+- how to use Java `Stream`.
+- the difference between Java `Stream` and `InfiniteList`.
 
 
 ## Java API
@@ -21,12 +19,13 @@ Java provides its own version of functional interfaces that are comparable to ou
 | `Consumer<T>::consume`        | [`Consumer<T>::accept`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html#accept&#40;T&#41;)         |
 | `Transformer<T,R>::transform` | [`Function<T,R>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html#apply&#40;T&#41;)         |
 | `Transformer<T,T>::transform` | [`UnaruOp<T>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/UnaryOperator.html)                        |
+| `Combiner<S,T,R>::combine`    | [`BiFunction<S,T,R>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BiFunction.html#apply&#40;T,U&#41;) |
 
 Besides, some of the abstractions we have built have similar counterparts in Java as well:
 
 | CS2030S               | Java version                                                                                                              |
 |-----------------------|---------------------------------------------------------------------------------------------------------------------------|
-|`Some<T>`<br>(_before_ `Maybe<T>`)               | N/A                                                                                                                       |
+|`Box<T>`               | N/A                                                                                                                       |
 |`Maybe<T>`             | [`java.util.Optional<T>`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html)           |
 |`Lazy<T>`              | N/A                                                                                                                       |
 |`InfiniteList<T>`      | [`java.util.stream.Stream<T>`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html) |
