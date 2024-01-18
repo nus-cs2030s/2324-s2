@@ -8,7 +8,7 @@ Java is a language that continues to evolve.  A new version is released every si
 
 The school has provided a list of computing servers for you to use, with all the required software for CS2030S installed.  You can access them remotely via `ssh`, or Secure SHell.  The hosts are named `pe111`, `pe112`, ..., `pe120`.  (`pe` stands for "programming environment").  We will refer to these servers generally as the _PE hosts._
 
-For this semester, the two servers `pe115` and `pe116` are not available.
+For this semester, the three servers `pe115`, `pe116`, and {++`pe120`++} are not available.
 
 You can choose which of the eight hosts to use.  You share the same home directory across all the hosts (this home directory, however, is different from that of `stu1`).  If you notice that one host is crowded, you can use another host to spread out the load.
 
