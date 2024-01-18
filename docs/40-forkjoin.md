@@ -1,13 +1,11 @@
 # Unit 40: Fork and Join
 
-!!! abstract "Learning Objectives"
+After this unit, students should:
 
-    Students should
-
-    - understand the task deque and work stealing.
-    - understand the behaviour of `fork` and `join` (and `compute`).
-    - be able to order `fork` and `join` efficiently.
-    - be able to use `RecursiveTask`.
+- understand the task deque and work stealing
+- understand the behaviour of `fork` and `join` (and `compute`)
+- be able to order `fork` and `join` efficiently
+- be able to use `RecursiveTask`
 
 ## Thread Pool
 
@@ -93,17 +91,13 @@ There are other ways we can combine and order the execution of `fork()`, `comput
 Let's now explore the idea behind how Java manages the thread pool with fork-join tasks.  The details are beyond the scope of this module, but it would be interesting to note a few key points, as follows:
 
 - Each thread has a deque[^1] of tasks.  
-- When a thread is idle, it checks its deque of tasks.  If the deque is not empty, it picks up a task at the head of the deque to execute (_e.g., invoke its_ `compute()` _method_).  Otherwise, if the deque is empty, it picks up a task from the _tail_ of the deque of another thread to run.  The latter is a mechanism called _work stealing_.
-- When `fork()` is called, the caller adds itself to the _head_ of the deque of the executing thread.  The method returns immediately and exeuction continues.  This may cause another `fork()` to be executed which adds another task into the _head_ of the deque.  This is done so that the most recently forked task gets executed next, similar to how normal recursive calls.
-- When `join()` is called, several cases might happen.  If the subtask to be joined hasn't been executed, its `compute()` method is called and the subtask is executed.  If the subtask to be joined has been completed (_some other thread has stolen this and completed it_), then the result is read, and `join()` returns.  If the subtask to be joined has been stolen and is being executed by another thread, then the current thread finds some other tasks to work on either in its local deque or steal another task from another deque.
+- When a thread is idle, it checks its deque of tasks.  If the deque is not empty, it picks up a task at the head of the deque to execute (e.g., invoke its `compute()` method).  Otherwise, if the deque is empty, it picks up a task from the _tail_ of the deque of another thread to run.  The latter is a mechanism called _work stealing_.
+- When `fork()` is called, the caller adds itself to the _head_ of the deque of the executing thread.  This is done so that the most recently forked task gets executed next, similar to how normal recursive calls.
+- When `join()` is called, several cases might happen.  If the subtask to be joined hasn't been executed, its `compute()` method is called and the subtask is executed.  If the subtask to be joined has been completed (some other thread has stolen this and completed it), then the result is read, and `join()` returns.  If the subtask to be joined has been stolen and is being executed by another thread, then the current thread finds some other tasks to work on either in its local deque or steal another task from another deque.
 
 [^1]: A deque is a double-ended queue.  It behaves like both stack and queue.
 
 The beauty of the mechanism here is that the threads always look for something to do and they cooperate to get as much work done as possible.
-
-Note that task stealing is always done from the back.  In other words, an idle worker thread is always stealing a task from the _tail_ of the deque of another worker thread.  This is because the order tasks are added is from the _head_ of the deque.  So, tasks at the back is expected to have more _unfinished computation_ compared to the tasks at the front of the deque.  This will then minimizes the number of task stealing needed[^2].
-
-[^2]: Of course we are assuming a "typical" program.  We can always create a program where the split is not equal 50%-50% of the workload but instead 90%-10%.  If the 10% of the workload is going to the task at the _tail_ of the deque, then we actually need more stealing.
 
 The mechanism here is similar to that implemented in .NET and Rust.
 
@@ -113,35 +107,31 @@ One implication of how `ForkJoinPool` adds and removes tasks from the deque is t
 
 In the class `Summer` above,
 ```java
-left.fork();  // >-----------+
-right.fork(); // >--------+  | should have
-return right.join() // <--+  | no crossing
-     + left.join(); // <-----+
+    left.fork();  // >-----------+
+    right.fork(); // >--------+  | should have
+    return right.join() // <--+  | no crossing
+         + left.join(); // <-----+
 ```
 
 is more efficient than
 ```java
-left.fork();  // >-------------+
-right.fork(); // >----------+  | there is crossing
-return left.join()   // <---|--+
-      + right.join(); // <---+
+    left.fork();  // >-------------+
+    right.fork(); // >----------+  | there is crossing
+    return left.join()   // <---|--+
+         + right.join(); // <---+
 ```
 
 In other words, your `fork()`, `compute()`, `join()` order should form a [_palindrome_](https://en.wikipedia.org/wiki/Palindrome) and there should be no crossing.  Additionally, there should only be at most a single `compute` and it should be in the middle of the palindrome.
 
 For example, the following is ok.
 ```java
-left.fork();  // >-----------+
-return right.compute() //    | compute in middle
-     + left.join(); // <-----+
+    left.fork();  // >-----------+
+    return right.compute() //    | compute in middle
+         + left.join(); // <-----+
 ```
 
 But the following is not.
 ```java
-return left.compute()    // this is practically
-     + right.compute(); // not even concurrent
+    return left.compute()   // this is practically
+         + right.compute(); // not even concurrent
 ```
-
-There are a combination of reason for this efficiency.  Firstly, the operation on the _deque_ has to be _atomic_.  In other words, when a thread $T_1$ is operating on its deque $D_1$, the thread $T_1$ has to finish its operation before another thread $T_2$ can operate on $D_1$ (_e.g., task stealing, etc_).  Atomic operations are expensive by default so the more operation is being performed, the slower the program will be.
-
-This is coupled by the behavior of `join()` that when called, _find_ and _executes_ the subtask if it is not yet computed.  If this subtask is not at the front of the deque, then we require a _search_ which is a combination of _pop_ and _push_ on a deque as opposed to just a single _pop_ if the task is at the _head_ of the deque.

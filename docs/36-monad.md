@@ -1,21 +1,16 @@
 # Unit 36: Monad
 
-!!! abstract "Learning Objectives"
+After this unit, students should:
 
-    Students should
-
-    - understand what are functors and monads
-    - understand the laws that a functor and monad must obey and be able to verify them
+- understand what are functors and monads
+- understand the laws that a functor and monad must obey and be able to verify them
 
 ## Generalizing `Loggable<T>`
 
 We have just created a class `Loggable<T>` with a `flatMap` method that allows us to operate on the value encapsulated inside, along with some "side information".  `Loggable<T>` follows a pattern that we have seen many times before.  We have seen this in `Maybe<T>` and `Lazy<T>`, and `InfiniteList<T>`.  Each of these classes has:
 
 - an `of` method to initialize the value and side information.
-- have a `map` method to update the value.
-- have a `flatMap` method to update the value and side information[^1].
-
-[^1]: Unfortunately our `InfiniteList<T>` has no `flatMap` method.
+- have a `flatMap` method to update the value and side information.
 
 Different classes above have different side information that is initialized, stored, and updated when we use the `of` and `flatMap` operations.  The class may also have other methods besides the two above.  Additionally, the methods may have different name.
 
@@ -25,78 +20,22 @@ Different classes above have different side information that is initialized, sto
 | `Lazy<T>` | The value has been evaluated or not |
 | `Loggable<T>` | The log describing the operations done on the value |
 
-These classes that we wrote follow certain patterns that make them well behaved when we create them with `of` and chain them with `flatMap`.  Such classes that are "_well behaved_" are examples of a programming construct called _monads_.  A monad must follow three laws, to behave well.  We will examine them later.
+These classes that we wrote follow certain patterns that make them well behaved when we create them with `of` and chain them with `flatMap`.  Such classes that are "well behaved" are examples of a programming construct called _monads_.  A monad must follow three laws, to behave well.  Let's examine the laws below.
 
-For now, note that we can further generalize `Loggable<T>` by abstracting the `log` into a generic type.  Previously, the `log` is always a `String`.  In this generalization, the `log` will be named as `context` with the type becoming a generic type `S`.  We can then call this abstraction a `Monad<T,S>`.
+## Identity Laws
 
-```java
-class Monad<T, S> {
-  private final T content; // the content (value to be operated on)
-  private final S context; // the context (side-information)
+Before we list down the first and second laws formally, let's try to get some intuition over the desired behavior first.
 
-    :
-  
-  public <U> Monad<U, S> map(Transformer<? super T, ? extends U> transformer) {
-    U content = transformer.transform(this.content);
-    return new Monad(content, this.context); // preserve context
-  }
-
-  public <U> Monad<U, S> flatMap(Transformer<? super T, ? extends Monad<? extends U, ? extends S>> transformer) {
-    Monad<? extends U, ? extends S>> next = transformer.transform(this.content);
-    return Monad.compose(this, next);
-  }
-
-  private static <T, U, S> Monad<U, S> compose(Monad<T, S> prev, Monad<? extends U, ? extends S>> next) {
-      : // code omitted
-  }
-}
-```
-
-Note a few things, the `map` method should preserve the context while the `flatMap` method should compose the context (_by invoking_ `compose` _static method_).  The composition of the context should follow the three laws of Monad and the behavior of `map` should satisfy the two laws of Functor.
-
-!!! warning "`flatMap` using `map`"
-    A more appropriate way to define `flatMap` is to invoke `map`.  The origin of these terms is in Category Theory where the definition of a Monad is a Functor with _additional properties_.  So in theory, for something to be a Monad, it has to first be a Functor and must have satisfied the properties for `map`.
-
-    Unfortunately, no programming language can check these properties.  So, we may actually have a structure that satisfy the three laws of Monad but does not satisfy all the laws of Functor.
-
-    If our `flatMap` invoke `map`, then we have to make changes in our definition of `flatMap`.
-
-    ```java
-    public <U> Monad<U, S> flatMap(Transformer<? super T, ? extends Monad<? extends U, ? extends S>> fn) {
-      Monad<Monad<? extends U, ? extends S>, S> monad = this.map(fn);
-      return Monad.combine(monad);
-    }
-
-    private static <T, U, S> Monad<U, S> combine(Monad<Monad<? extends U, ? extends S>, S> monad) {
-      U content = monad.content.content;
-      S prev = monad.context;
-      S next = monad.content.context;
-
-      return new Monad<>(content, Monad.compose(prev, next));
-    }
-    ```
-
-    Now we are invoking `combine` which takes in a nested monad!  But this is a special monad because the two contexts are there.  Recap that `map` preserves the context so `monad.context` is the old context.  Additionally, the content is now another Monad which has additional content and context.
-
-    If things are confusing, do not worry, you are not expected to understand the entire details (_especially not with that horrible type_).  You just need to understand the three laws (_and how to check for them_) as well as the two laws (_and how to check for them_).
-
-## Three Laws of Monad
-
-The three laws below are all related to the context.  In particular, we need to ensure that the `compose` method (_i.e., the composition of_ `context`) is associative.  In particular, we want the `of` method to add "identity" context and we want `flatMap` to be associative with respect to the context.
-
-So, the `of` method in a monad should create a new monad by initializing our monad with a value and its side information should be whatever is considered an "empty" side-information (_more formally, this is the identity element_).   For instance, in our `Loggable<T>`,
-
+The `of` method in a monad should behave like an identity.  It creates a new monad by initializing our monad with a value and its side information.   For instance, in our `Loggable<T>`,
 ```Java
 public static <T> Loggable<T> of(T value) {
   return new Loggable<>(value, "");
 }
 ```
 
-Now, we can look at this in more details.
+The logger is initialized with empty side information (e.g., empty string as a log message).
 
-### Identity Laws
-
-Let's consider the lambda that we wish to pass into `flatMap`  -- such a lambda takes in a value, compute it, and wrap it in a "new" monad, together with the correponding side information.  For instance,
+Now, let's consider the lambda that we wish to pass into `flatMap`  -- such a lambda takes in a value, compute it, and wrap it in a "new" monad, together with the correponding side information.  For instance,
 
 ```Java
 Loggable<Integer> incrWithLog(int x) {
@@ -130,9 +69,7 @@ The right identity law says:
 
 - `monad.flatMap(x -> Monad.of(x))` must be the same as `monad`
 
-So the identity laws is not just a single law, it is actually two laws.  A good thing about this is that if both left identity and right identity element exists, it must be the same value.
-
-### Associative Law
+## Associative Law
 
 Let's now go back to the original `incr` and `abs` functions for a moment.  To compose the functions, we can write `abs(incr(x))`, explicitly one function after another.  Or we can compose them as another function: 
 ```Java
@@ -147,8 +84,8 @@ Recall that after we build our `Loggable` class, we were able to compose the fun
 
 ```Java
 Loggable.of(4)
-        .flatMap(x -> incrWithLog(x))
-        .flatMap(x -> absWithLog(x))
+      .flatMap(x -> incrWithLog(x))
+      .flatMap(x -> absWithLog(x))
 ```
 
 We should get the resulting value as `abs(incr(4))`, along with the appropriate log messages.
@@ -211,16 +148,16 @@ Suppose we have two methods `foo` and `bar`, both take in an `x` and perform a s
 ```Java
 Loggable<Integer> foo(int x) {
   return Loggable.of(x)
-                 .flatMap(...)
-                 .flatMap(...)
-                   :
+      .flatMap(...)
+      .flatMap(...)
+        :
   ;
 }
 Loggable<Integer> bar(int x) {
   return Loggable.of(x)
-                 .flatMap(...)
-                 .flatMap(...)
-                   :
+      .flatMap(...)
+      .flatMap(...)
+        :
   ;
 }
 ```
@@ -232,7 +169,7 @@ foo(4).flatMap(x -> bar(x))
 
 We will find that the string `"Logging starts"` appears twice in our logs and there is now an extra blank line in the log file!
 
-## Two Laws of Functors
+## Functors
 
 We will end this unit with a brief discussion on _functors_, another common abstraction in functional-style programming.  A functor is a simpler construction than a monad in that it only ensures lambdas can be applied sequentially to the value, without worrying about side information.
 
@@ -242,8 +179,6 @@ A functor needs to adhere to two laws:
 
 - preserving identity: `functor.map(x -> x)` is the same as `functor`
 - preserving composition: `functor.map(x -> f(x)).map(x -> g(x))` is the same as `functor.map(x -> g(f(x))`. 
-
-Note that we can also infer what they should do to the context (_if any_).  If the `map` method actually modifies the context, then applying the identity function `x -> x` would have modified the context.  So it would no longer be the same as the original `functor`.  So we know that `map` cannot modify context.  This also means that `map` should not even change the context into the identity context created using the `of` method.
 
 Our classes from `cs2030s.fp`, `Lazy<T>`, `Maybe<T>`, and `InfiniteList<T>` are functors as well.
 

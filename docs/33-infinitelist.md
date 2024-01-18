@@ -1,14 +1,12 @@
-# Unit 33: Infinite List
+# Unit 33: Infinite list
 
-!!! abstract "Learning Objectives"
+After this unit, students should understand:
 
-    Students should
-
-    - understand how infinite lists can be constructed using a lazy evaluation.
+- how infinite lists can be constructed using a lazy evaluation.
 
 ## Preliminary: An Eagerly Evaluated List
 
-Let's consider first how we can represent an eagerly evaluated, finite list, recursively.  A simple way is to treat the list as a recursive structure, containing a `head` and a `tail`, with the `tail` being a list itself.  We have a special terminating list called `Sentinel` that we use to terminate the `EagerList`.  This `Sentinel` is a subtype of `EagerList` so that we can use polymorphism.
+Let's consider first how we can represent an eagerly evaluated, finite list, recursively.  A simple way is to treat the list as a recursive structure, containing a `head` and a `tail`, with the `tail` being a list itself.  We have a special terminating list called `Sentinel` that we use to terminate the EagerList.
 
 ```Java
 class EagerList<T> {
@@ -104,7 +102,6 @@ We can also provide the `filter` method, that takes in lambda expression as a pa
 ```
 
 We have the special `Sentinel` cases,
-
 ```Java
   @Override
   public <R> EagerList<R> map(Transformer<? super Object, ? extends R> mapper) {
@@ -118,11 +115,10 @@ We have the special `Sentinel` cases,
 ```
 
 The resulting list can be used this way:
-
 ```Java
-EagerList<Integer> l = EagerList.iterate(1, i -> i < 10, i -> i + 1) // [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    .filter(i -> i % 3 == 0)                                         // [      3,       6,       9]
-    .map(i -> i * 2);                                                // [      6,      12,      18]
+EagerList<Integer> l = EagerList.iterate(1, i -> i < 10, i -> i + 1) // [1, ..., 9]
+    .filter(i -> i % 3 == 0)  // [3, 6, 9]
+    .map(i -> i * 2);  // [6, 12, 18]
 l.head();        // 6
 l.tail().head(); // 12
 l.tail().tail().head(); // 18
@@ -137,7 +133,7 @@ Lazy evaluation allows us to delay the computation that produces data until the 
 EagerList.iterate("", s -> s.length() >= 0, s -> s + "a"); // infinite loop
 ```
 
-Just as we saw in the previous unit, we can delay a computation by using the `Producer` functional interface (_or anything equivalent_).  Instead of doing `compute()` which is immediately evaluated when executed, we replace it with a `Producer` instantiated with lambda expression `() -> compute()`, which "stores" the computation in an instance of `Producer`, and we only call it when we invoke the `produce()` method.
+Just as we saw in the previous unit, we can delay a computation by using the `Producer` functional interface (or anything equivalent).  Instead of doing `compute()` which is immediately evaluated when executed, we replace it with a `Producer` `() -> compute()`, which "stores" the computation in an instance of `Producer`, and we only call it when we invoke the `produce()` method.
 
 Instead of storing the head and tail of the list, we can think of an infinite list as consisting of two functions, the first is a function that generates head, and the second is a function that generates the tail.  Our `InfiniteList` looks like this:
 
@@ -171,7 +167,6 @@ class InfiniteList<T> {
 Note that we don't need a `Sentinel` for now.  We will need it if we have operations that truncate the list to a finite one, but let's not worry about it yet.
 
 We now change the `generate` method to be lazy, by passing in a producer instead.  We no longer need to pass in the size, since the list can be infinitely long!
-
 ```Java
   public static <T> InfiniteList<T> generate(Producer<T> producer) {
     return new InfiniteList<T>(producer,
@@ -180,7 +175,6 @@ We now change the `generate` method to be lazy, by passing in a producer instead
 ```
 
 We can change `iterate` as well to only iterate through and generate the next element when we need it.  Note that we no longer need to provide the terminating condition `cond`.
-
 ```Java
   public static <T> InfiniteList<T> iterate(T init, Transformer<T, T> next) {
     return new InfiniteList<T>(() -> init,
@@ -191,8 +185,8 @@ We can change `iterate` as well to only iterate through and generate the next el
 Here are some examples of how to use the two methods above:
 
 ```Java
-InfiniteList<Integer> ones = InfiniteList.generate(() -> 1);       // [1, 1, 1, 1, ... ]
-InfiniteList<Integer> evens = InfiniteList.iterate(0, x -> x + 2); // [0, 2, 4, 6, ... ]
+InfiniteList<Integer> ones = InfiniteList.generate(() -> 1); // 1, 1, 1, 1, ....
+InfiniteList<Integer> evens = InfiniteList.iterate(0, x -> x + 2); // 0, 2, 4, 6, ...
 evens.head(); // -> 0
 evens.get(5); // -> 10
 evens = evens.tail(); 
@@ -282,16 +276,16 @@ evens.map(x -> x + 1).map(x -> x * 2).head(); // 2
 into something uglier and more verbose, but with intermediate variables to help us explain what happens when the statement above is invoked.
 
 ```Java
-InfiniteList<Integer> evens = InfiniteList.iterate(0, x -> x + 2); // [0, 2, 4 , 6 , ... ]
-InfiniteList<Integer> odds = evens.map(x -> x + 1);                // [1, 3, 5 , 7 , ... ]
-InfiniteList<Integer> altEvens = odds.map(x -> x * 2);             // [2, 6, 10, 14, ... ] 
+InfiniteList<Integer> evens = InfiniteList.iterate(0, x -> x + 2); // 0, 2, 4, 6, ...
+InfiniteList<Integer> odds = evens.map(x -> x + 1); // 1, 3, 5, ...
+InfiniteList<Integer> altEvens = odds.map(x -> x * 2); // 2, 6, 10, .. 
 altEvens.head();
 ```
 
 Let's look at what gets created on the heap when we run
 
 ```Java
-InfiniteList<Integer> evens = InfiniteList.iterate(0, x -> x + 2); // [0, 2, 4 , 6 , ... ]
+InfiniteList<Integer> evens = InfiniteList.iterate(0, x -> x + 2); // 0, 2, 4, 6, ...
 ```
 
 ![evens](figures/infinitelist/infinitelist.001.png)
@@ -301,7 +295,7 @@ The figure above shows the objects created.  `evens` is an instance of `Infinite
 Next, let's look at what gets created on the heap when we run
 
 ```Java
-InfiniteList<Integer> odds = evens.map(x -> x + 1);                // [1, 3, 5 , 7 , ... ]
+InfiniteList<Integer> odds = evens.map(x -> x + 1); // 1, 3, 5, ...
 ```
 
 ![odds](figures/infinitelist/infinitelist.002.png)
@@ -310,7 +304,7 @@ The figure above shows the objects added.  `odds` is an instance of `InfiniteLis
 
 After calling 
 ```Java
-InfiniteList<Integer> altEvens = odds.map(x -> x * 2);             // [2, 6, 10, 14, ... ] 
+InfiniteList<Integer> altEvens = odds.map(x -> x * 2); // 2, 6, 10, .. 
 ```
 
 We have the following objects set up.

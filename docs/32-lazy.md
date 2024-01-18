@@ -1,16 +1,13 @@
 # Unit 32: Lazy Evaluation
 
-!!! abstract "Learning Objectives"
+After this unit, students should understand:
 
-    Students should
-
-    - understand what is lazy evaluation and how lambda expression allows us to delay the execution of a computation
-    - understand how memoization and the `Lazy<T>` abstraction allows us to evaluate an expression exactly once.
+- what is lazy evaluation and how lambda expression allows us to delay the execution of a computation
+- how memoization and the `Lazy<T>` abstraction allows us to evaluate an expression exactly once.
 
 ## Lambda as Delayed Data
 
 When we write a lambda expression like this:
-
 ```Java
 Transformer<Integer, Integer> f = x -> x + 1;
 ```
@@ -18,7 +15,6 @@ Transformer<Integer, Integer> f = x -> x + 1;
 we are just defining an expression.  We are not invoking the function `x + 1`.  This is perhaps clear to most students since to invoke the function, we need an argument for `x`, and no argument is supplied when we define `f`.
 
 Consider the following functional interfaces instead:
-
 ```Java
 @FunctionalInterface
 interface Producer<T> {
@@ -100,28 +96,28 @@ The method `System.getProperty("user.name")` is now lazily called, only if the m
 
 ## Memoization
 
-We have so far seen one way of being lazy (_i.e., procrastinating our computation until we really need the data_).  If we want to be lazier, we should not even repeat ourselves.  If we have computed the value of a function before, we can cache (_or memoize_) the value, keep it somewhere, so that we don't need to compute it again.  This is useful, of course, only if the function is pure -- regardless of how many times we invoke the function, it always returns the same value, and invoking it has no side effects on the execution of the program.  Here, we see another important advantage of keeping our code pure and free of side effects -- so that we can be lazy!
+We have so far seen one way of being lazy, i.e., procrastinating our computation until we really need the data.  Another way of being lazy is not to repeat ourselves.  If we have computed the value of a function before, we can cache (or memoize) the value, keep it somewhere, so that we don't need to compute it again.  This is useful, of course, only if the function is pure -- regardless of how many times we invoke the function, it always returns the same value, and invoking it has no side effects on the execution of the program.  Here, we see another important advantage of keeping our code pure and free of side effects -- so that we can be lazy!
 
-While other languages such as Scala as native support for lazy variables, Java does not.  Haskell is even lazy by default!  So let's build a simple one here.  (_You will build a more sophisticated one in Lab 6_).
+While other languages such as Scala as native support for lazy variables, Java does not.  So let's build a simple one here.  (You will build a more sophisticated one in Lab 6) 
 
 ```Java
 class Lazy<T> {
   private T value;
-  private boolean isAvailable;
+  private boolean evaluated;
   private Producer<T> producer;
 
   public Lazy(Producer<T> producer) {
-    this.isAvailable = false;
-    this.value = null;
-    this.producer = producer;
+    evaluated = false;
+	value = null;
+	this.producer = producer;
   }
 
   public T get() {
-	if (!isAvailable) {
-	  this.value = producer.produce();
-	  this.isAvailable = true;
+	if (!evaluated) {
+	  value = producer.produce();
+	  evaluated = true;
 	}
-	return this.value;
+	return value;
   }
 }
 ```

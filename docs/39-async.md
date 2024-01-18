@@ -1,11 +1,9 @@
 # Unit 39: Asynchronous Programming
 
-!!! abstract "Learning Objectives"
+After this unit, students should:
 
-    Students should
-
-    - understand the limitation of thread.
-    - understand and be able to use `CompletableFuture`.
+- understand the limitation of thread
+- understand and be able to use `CompletableFuture`
 
 ## Limitations of `Thread`
 
@@ -51,7 +49,7 @@ Maybe<Integer> foo(int x) {
 }
 ```
 
-Assume there is such a `Maybe::combine` method to combine the result of two monads.  This can also be done using a nested `map`.  Now, if we want to perform the tasks lazily, then we can use the `Lazy<T>` monad:
+If we want to perform the tasks lazily, then we can use the `Lazy<T>` monad:
 
 ```Java
 Lazy<Integer> foo(int x) {
@@ -64,9 +62,7 @@ Lazy<Integer> foo(int x) {
 }
 ```
 
-In fact, a monad is an abstraction of a computation!  It can be used to combine program fragments (_e.g., a sequence of statements, which can also be written as functions_) and we return a data with context (_side information_) such that we can perform additional computation (_i.e., the monad!_).  This kind of functions are called _monadic functions_.
-
-So, wouldn't it be nice if there is a monad that allows us to perform the tasks concurrently?  [`java.util.concurrent.CompletableFuture`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CompletableFuture.html) does just that!  Here is an example of how to use it:
+Wouldn't it be nice if there is a monad that allows us to perform the tasks concurrently?  [`java.util.concurrent.CompletableFuture`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CompletableFuture.html) does just that!  Here is an example of how to use it:
 
 ```Java
 CompletableFuture<Integer> foo(int x) {
@@ -79,7 +75,7 @@ CompletableFuture<Integer> foo(int x) {
 }
 ```
 
-We can then run `foo(x).get()` to wait for all the concurrent tasks to complete and return us the value.  `CompletableFuture<T>` is a monad that encapsulates a value that is either there or not there ___yet___.  Such an abstraction is also known as a promise in other languages (_e.g.,_ `Promise` _in JavaScript and_ `std::promise` _in C++_)
+We can then run `foo(x).get()` to wait for all the concurrent tasks to complete and return us the value.  `CompletableFuture<T>` is a monad that encapsulates a value that is either there or not there _yet_.  Such an abstraction is also known as a promise in other languages (e.g., `Promise` in JavaScript and `std::promise` in C++)
 -- it encapsulates the promise to produce a value.
 
 ## The `CompletableFuture` Monad
@@ -104,7 +100,7 @@ The usefulness of `CompletableFuture` comes from the ability to chain them up an
 - `thenCompose`, which is analogous to `flatMap`
 - `thenCombine`, which is analogous to `combine`
 
-The methods above run the given lambda expression in the same thread as the caller.  There is also an asynchronous version (`thenApplyAsync`, `thenComposeAsync`, `thenCombineAsync`), which may cause the given lambda expression to run in a different thread (_thus more concurrency_).
+The methods above run the given lambda expression in the same thread as the caller.  There is also an asynchronous version (`thenApplyAsync`, `thenComposeAsync`, `thenCombineAsync`), which may cause the given lambda expression to run in a different thread (thus more concurrency).
 
 `CompletableFuture` also has several methods that takes in `Runnable`.  These methods have no analogy in our lab but it is similar to `runAsync` above.
 
@@ -176,9 +172,9 @@ CompletableFuture.<Integer>supplyAsync(() -> null)
                  .join();
 ```
 
-Suppose we want to continue chaining our tasks despite exceptions.  We can use the `handle` method, to handle the exception.  The `handle` method takes in a `BiFunction` (_imagine if we add a_ `cs2030s.fp.BiTransformer<T, U, R>`).  The first parameter to the `BiFunction` is the value, the second is the exception, the third is the return value.
+Suppose we want to continue chaining our tasks despite exceptions.  We can use the `handle` method, to handle the exception.  The `handle` method takes in a `BiFunction` (similar to `cs2030s.fp.Combiner`).  The first parameter to the `BiFunction` is the value, the second is the exception, the third is the return value.
 
-Only one of the first two parameters is _meaningful_.  If the exception is __NOT__ `null`, this means that an exception has been thrown and we can use the exception (_i.e., second parameter_).  Otherwise, the exception is `null` and we can use the value (_i.e., first parameter_).
+Only one of the first two parameters is not `null`.  If the value is `null`, this means that an exception has been thrown.  Otherwise, the exception is `null`[^3].    
 
 Here is a simple example where we use `handle` to replace a default value.
 ```Java
@@ -187,4 +183,4 @@ cf.thenApply(x -> x + 1)
   .join();
 ```
 
-[^3]: This is another instance where Java uses `null` to indicates a missing value.
+[^3]: This is another instance where Java uses `null` to indicates a missing value.  We can't use `null` as a legit value due to this flawed design.

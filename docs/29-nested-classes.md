@@ -1,16 +1,14 @@
 # Unit 29: Nested Class
 
-!!! abstract "Learning Objectives"
+After this unit, students should:
 
-    Students should
+- understand the need for nested class
+- understand the behavior of the different kinds of nested class
+- be able to write nested classes
 
-    - understand the need for nested class.
-    - understand the behavior of the different kinds of nested class.
-    - be able to write nested classes.
+So far, we have defined a class only at the "top-level" of our program.  Java allows us to define a class within another class, or within a method.  
 
-## Matryoshka Doll
-
-So far, we have defined a class only at the "top-level" of our program.  Java allows us to define a class within another class, or within a method.
+## Nested Class
 
 A nested class is a class defined within another containing class.  For example, the following declaration declares a private nested class named `B` within the class `A`.
 
@@ -28,50 +26,31 @@ A nested class is a field of the containing class and can access fields and meth
 
 Since the nested class can access the private fields of the container class, we should introduce a nested class only if the nested class belongs to the same encapsulation as the container class.  Otherwise, the container class would leak its implementation details to the nested class.
 
-Take the `HashMap<K,V>` class for instance.  [The implementation of `HashMap<K,V>`](https://github.com/openjdk-mirror/jdk7u-jdk/blob/master/src/share/classes/java/util/HashMap.java) contains one top-level class `HashMap<K,V>` (_at Line 124_) and several nested classes, including the `HashIterator<E>` abstract class (_at Line 178_), which implement an `Iterator<E>` interface for iterating through the key and value pairs in the map, and a static `Entry<K,V>` class (_at Line 687_), which encapsulates a key-value pair in the map.  Some of these classes are declared `private` if they are only used within the `HashMap<K,V>` class.
+Take the `HashMap<K,V>` class for instance.  [The implementation of `HashMap<K,V>`](https://github.com/openjdk-mirror/jdk7u-jdk/blob/master/src/share/classes/java/util/HashMap.java) contains several nested classes, including `HashIterator`, which implement an `Iterator<E>` interface for iterating through the key and value pairs in the map, and an `Entry<K,V>` class, which encapsulates a key-value pair in the map.  Some of these classes are declared `private` if they are only used within the `HashMap<K,V>` class.
 
 !!! note "Example from CS2030S This Semester"
 
-    We can take another example from your labs on network.  In one of many possible designs, the subclasses of `Sender`: `SingleSender`, `MultiSender`, _etc_. are only ever mentioned in the declaration in the `Network` class.  They can be safely encapsulated within `Sender` as inner classes, so that these classes can access the fields within the `Sender` class, simplifying their implementation.  How many times have you wished that the `id` can be accessed directly?
-
-    With this design, since we cannot access the constructor of `SingleSender` and `MultiSender` directly, we have to create a (_possibly overloaded_) static method in `Sender` that creates either `SingleSender` or `MultiSender` depending on the input.  Something along the following:
-
-    ```java
-    public static Sender make(int actionTime, String message) {
-      return new SingleSender(actionTime, message);
-    }
-    public static Sender make(int actionTime, String[] messages) {
-      return new MultiSender(actionTime, messages);
-    }
-    ```
+    We can take another example from your labs on bank simulation.  In one of many possible designs, the subclasses of `Event`: `ArrivalEvent`, `DepartureEvent`, etc. are not used anywhere outside of `BankSimulation`.  They can be safely encapsulated within `BankSimulation` as inner classes, so that these classes can access the fields within the `BankSimulation` class, simplifying their implementation.
 
 A nested class can be either static or non-static.  Just like static fields and static methods, a _static nested class_ is associated with the containing _class_, NOT an _instance_.  So, it can only access static fields and static methods of the containing class.  A _non-static nested class_, on the other hand, can access all fields and methods of the containing class.  A _non-static nested class_ is also known as an _inner class_.
 
-!!! info "Static vs Non-Static"
-    Recap the following access behavior:
-
-    | From | Access Static | Access Non-Static |
-    |------|---------------|-------------------|
-    | Static | :material-check: | :material-close: |
-    | Non-Static | :material-check: | :material-check: |
-
 The example below shows a container class `A` with two nested classes, a non-static inner class `B`, and a static nested class `C`.  `B` can access instance fields, instance methods, class fields, and class methods in `A`.  `C` can only access the class fields and class methods in `A`.
 
-```Java hl_lines="14"
+```Java
 class A {
   private int x;
   static int y;
 
   class B {
     void foo() {
-      x = 1; // accessing x in A is OK
-      y = 1; // accessing y in A is OK
+      x = 1; // accessing x from A is OK
+      y = 1; // accessing y from A is OK
     }
   }
 
   static class C {
     void bar() {
-      x = 1; // accessing x in A is not OK since C is static
+      x = 1; // accessing x from A is not OK since C is static
       y = 1; // accessing y is OK
     }
   }
@@ -106,75 +85,18 @@ class A {
 }
 ```
 
-!!! note "Fully Qualified Name"
-    Recap the [fully qualified name](http://localhost:8000/2324-s1/05-infohiding.html#fully-qualified-name).  The example above shows how fully qualified name can remove any ambiguity at all.
-
-    `A.this.x` is the fully qualified name for instance field `x` in the class `A`.  This is how the use of fully qualified name can remove ambiguity.  In comparison, using `this.x` may have ambiguity and even leads to an error.
-    
-    If we have a field `y` in class `B`, the fully qualified name to refer to it is `A.B.this.y`.
-
-### More on Static Nested Class
-
-Recap that from static context we cannot access non-static elements.  As the _instance_ fields of the outer class is a non-static element, we cannot access them.  But also recap that to access the instance field `x` of the outer class where there is a conflicting name `x` with a field of the inner class, we require the use of qualified name `A.this.x`.
-
-The two implies that `A.this` is not going to be used at all by the static nested class.  As such, we should omit them from the stack and heap diagram as well.  To illustrate this difference, consider the following class reproduced from above.
-
-```java
-class A {
-  private int x = 0;
-  static int y = 1;
-
-  class B {
-    void foo() {
-      x = 1; // accessing x in A is OK (equivalent to A.this.x)
-      y = 1; // accessing y in A is OK (equivalent to A.y)
-    }
-  }
-
-  static class C {
-    void bar() {
-      // x = 1; // removed because we cannot access this
-      y = 1; // accessing y is OK (equivalent to A.y)
-    }
-  }
-  
-  void baz() {
-    B b = new B();
-    C c = new C();
-    // Line A
-  }
-}
-```
-
-Now consider the following code snippet.
-
-```java
-A a = new A();
-a.baz();
-```
-
-The stack and heap diagram at the line marked Line A is shown below.  The diagram below also illustrates the use of _meta space_ to store the class field `A.y`.
-
-![SH011](figures/SH/011.png)
-
-
 ### Local Class
 
 We can also declare a class within a function, just like a local variable.  
 
-To motivate this, let's consider how one would use the [`java.util.Comparator`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Comparator.html) interface.    
-The `Comparator` interface allows us to specify how to compare two elements, by implementing this interface with a customized `compare()` method.  `compare(o1,o2)` should return
-
-| Return Value | Meaning |
-|--------------|---------|
-| A negative integer | `o1` is "_less than_" `o2` |
-| The integer `0` | `o1` is "_equal_" `o2` |
-| A positive integer | `o1` is "_greater than_" `o2` |
+To motivate this, let's consider how one would use the [`java.util.Comparator`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Comparator.html) interface.    
+The `Comparator` interface allows us to specify how to compare two elements, by implementing this interface with a customized `compare()` method.  `compare(o1,o2)` should return 0 if the two elements are equals, a negative integer if o1 is "less than" o2, and a positive integer otherwise.
 
 Suppose we have a list of strings, and we want to sort them in the order of their length, we can write the following method:
 
 ```Java
 void sortNames(List<String> names) {
+
   class NameComparator implements Comparator<String> {
     public int compare(String s1, String s2) {
       return s1.length() - s2.length();
@@ -187,7 +109,7 @@ void sortNames(List<String> names) {
 
 This makes the code easier to read since we keep the definition of the class and its usage closer together.
 
-Classes like `NameComparator` that are declared inside a method (_or to be more precise, inside a block of code between_ `{` _and_ `}`, _but not directly inside a class_) is called a ___local class___.  Just like a local variable, a local class is scoped within the method.  Like a nested class, a local class has access to the variables of the enclosing class through the qualified `this` reference (_or fully qualified name_).  Further, it can access the local variables of the enclosing method.
+Classes like `NameComparator` that are declared inside a method (or to be more precise, inside a block of code between `{` and `}`) is called a _local class_.  Just like a local variable, a local class is scoped within the method.  Like a nested class, a local class has access to the variables of the enclosing class through the qualified `this` reference.  Further, it can access the local variables of the enclosing method.
 
 For example,
 
@@ -245,65 +167,9 @@ C b = a.f();
 b.g();
 ```
 
-will give us a reference to an object of type `B` now.  But, if we call `b.g()`, what is the value of `y`?  Without _variable capture_, the stack and heap diagram is something like the following.  Notice how we have no access to `y` anymore!
+will give us a reference to an object of type `B` now.  But, if we call `b.g()`, what is the value of `y`?
 
-=== "After `A a = new A()`"
-    ![SH 009A](figures/SH/009a.png)
-=== "Invoking `a.f()`"
-    ![SH 009B](figures/SH/009b.png)
-=== "After `int y = 1`"
-    ![SH 009C](figures/SH/009c.png)
-=== "After `B b = new B()`"
-    ![SH 009D](figures/SH/009d.png)
-=== "After `C b = a.f()`"
-    ![SH 009E](figures/SH/009e.png)
-=== "Invoking `b.g()`"
-    ![SH 009F](figures/SH/009f.png)
-
-For this reason, even though a local class can access the local variables in the enclosing method, the local class makes _a copy of local variables_ inside itself.  We say that a local class _captures_ the local variables.   Note that local variables are variables declared within a method.  These variables are local to the method.  Fields can always be accessed and need not be captured through this means.
-
-Visually, we will include the captured variables after the fields in the stack and heap diagram.  We will use a dashed line to separate the fields and captured variables.  Note that captured variables are __NOT__ part of the fields, so it cannot be accessed with the dot operator (_e.g.,_ `this.y`).
-
-=== "After `A a = new A()`"
-    ![SH 010A](figures/SH/010a.png)
-=== "Invoking `a.f()`"
-    ![SH 010B](figures/SH/010b.png)
-=== "After `int y = 1`"
-    ![SH 010C](figures/SH/010c.png)
-=== "After `B b = new B()`"
-    ![SH 010D](figures/SH/010d.png)
-=== "After `C b = a.f()`"
-    ![SH 010E](figures/SH/010e.png)
-=== "Invoking `b.g()`"
-    ![SH 010F](figures/SH/010f.png)
-
-Variables are only captured when they are (i) local to the method and (ii) used in local class.  Consider the following modification to the previous example:
-
-```java hl_lines="10"
-interface C {
-  void g();
-}
-
-class A {
-  int x = 1;
-
-  C f() {
-    int y = 1;
-    int z = 2;
-
-    class B implements C {
-      void g() {
-        x = y; // accessing x and y is OK.
-      }
-    }
-
-    B b = new B();
-    return b;
-  }
-}
-```
-
-We have added another local variable `z`.  However, this variable is not used within the local class `B`.  As such, the instance of `B` does not capture the variable `z` and only captures the variable `y`.  This capture can only be shown after we have discussed the next subsection on effectively `final`.
+For this reason, even though a local class can access the local variables in the enclosing method, the local class makes _a copy of local variables_ inside itself.  We say that a local class _captures_ the local variables.   
 
 ### Effectively `final`
 
@@ -326,18 +192,15 @@ void sortNames(List<String> names) {
 }
 ```
 
-Will `sort` sorts in ascending order or descending order?  Furthermore, in the example above, we are only creating a single instance of `NameComparator`.  What if we have a thousand of those?  Should the statement `ascendingOrder = false` modify all thousand variables that are captured?  What if there are no instance of `NameComparator`?
+Will `sort` sorts in ascending order or descending order?
 
-To avoid confusing code like this, Java only allows a local class to access variables that are explicitly declared `final` or implicitly final (_a.k.a. effectively final_).  An implicitly final variable cannot be re-assigned after initialization.  Therefore, Java saves us from such a hair-pulling situation above and disallows such code -- `ascendingOrder` is effectively final so the assignment `ascendingOrder = false` will cause compilation error.
+To avoid confusing code like this, Java only allows a local class to access variables that are explicitly declared `final` or implicitly final (or _effectively_ final).  An implicitly final variable cannot be re-assigned after initialization.  Therefore, Java saves us from such a hair-pulling situation and disallows such code -- `ascendingOrder` is not effectively final so the code above does not compile.
 
 
 **Breaking the Limitation of Effectively `final`.** &nbsp;&nbsp; The limitation of effectively final only happen because the value is of a primitive type.  So, if we captures the value and forbids re-assigning the value, there is nothing we can do to change primitive value.
 
-On the other hand, reference type can be mutated without assignment statement! So if we use our own implementation of `Bool` class below instead of `boolean` primitive type, we can modify the code above to allow the "value" in variable `ascendingOrder` to be changed. However, this change is via mutation and not re-assignment to the variable.
+On the other hand, reference type can be mutated. So if we use our own implementation of `Bool` class below instead of `boolean` primitive type, we can modify the code above to allow the "value" in variable `ascendingOrder` to be changed. However, this change is via mutation and not re-assignment to the variable.
 
-This also saves us the problem of figuring out what will happen if we have a thousand instances of `NameComparator`.  In the previous case, because the variables are captured, we need to dynamically add a thousand different assignment statements to assign the new value to all thousand different instances.
-
-On the other hand, using reference type `Bool`, the value of the captured variable is a reference to a memory location in the heap.  Therefore, all thousand instances of `NameComparator` captures this reference.  This is where ___aliasing___ helps us.  The thousand instances has the same alias to this memory location.  So, changes in this memory location can have effect on the instance.
 
 ```Java
 void sortNames(List<String> names) {

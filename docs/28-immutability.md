@@ -1,23 +1,14 @@
 # Unit 28: Immutability
 
-!!! abstract "Learning Objectives"
+After this unit, students should:
 
-    Students should
+- be able to create an immutable class
 
-    - understand when a class is immutable or not.
-    - be able to create an immutable class.
+So far in this course, we have been focusing on three ways of dealing with software complexity: by encapsulating and hiding the complexity behind abstraction barriers, by using a language with a strong type system and adhering to the subtyping substitution principle, and applying the abstraction principles and reusing code written as functions, classes, and generics types.
 
-## Avoiding Change
-
-So far in this course, we have been focusing on three ways of dealing with software complexity: (i) by encapsulating and hiding the complexity behind abstraction barriers, (ii) by using a language with a strong type system and adhering to the subtyping substitution principle, and (iii) applying the abstraction principles and reusing code written as functions, classes, and generics types.
-
-Another useful strategy to reduce bugs when code complexity increases is to avoid change altogether.  This can be done by making our classes _immutable_.  We create an instance of an immutable class, the instance _cannot have any visible changes outside its abstraction barrier_.  This means that every call of the instance's method must behave the same way throughout the lifetime of the instance.
-
-!!! info "Immutable Class"
-    An immutable class is a class for which there cannot be any visible changes outside of its abstraction barrier.
+Another useful strategy to reduce bugs when code complexity increases is to avoid change altogether.  This can be done by making our classes _immutable_. We create an instance of an immutable class, the instance _cannot have any visible changes outside its abstraction barrier_.  This means that every call of the instance's method must behave the same way throughout the lifetime of the instance.
 
 There are many advantages of why we want to make our class immutable when possible.  To start, let's revisit a common bug due to aliasing.  Recall the following example from [Unit 9](09-composition.md),  where we create two circles `c1` and `c2` centered at the origin (0, 0).
-
 ```Java
 Point p = new Point(0, 0);
 Circle c1 = new Circle(p, 1);
@@ -30,9 +21,7 @@ Let's say that we have the `moveTo` method in both `Circle` and `Point`, to move
 class Point {
   private double x;
   private double y;
-
     :
-
   public void moveTo(double x, double y) {
     this.x = x;
     this.y = y;
@@ -47,7 +36,6 @@ class Circle {
     this.c = c;
     this.r = r;
   }
-
     :
 
   public void moveTo(double x, double y) {
@@ -56,7 +44,7 @@ class Circle {
 }
 ```
 
-Suppose we want to move `c1` __and only__ `c1` to be centered at (1,1).
+Suppose we want to move `c1` and only `c1` to be centered at (1,1).
 
 ```Java
 c1.moveTo(1, 1);
@@ -84,12 +72,9 @@ p2.moveTo(1, 1);
 
 Let's now see how immutability can help us resolve our problem.
 
-
 ## Immutable Points and Circles
 
-### Immutable Points
-
-Let's start by making our `Point` class immutable.  We start by making the fields `final` to signal our_ intention_ that we do not intend to _assign_ another value to them.  Now that the `x` and `y` cannot be re-assigned (_a new value or even the same value_), to move a point, we shouldn't re-assign to the fields `x` and `y` anymore.  Instead, we return a new `Point` instance to prevent mutating the current instance, as follows:
+Let's start by making our `Point` class immutable.  We start by making the fields `final` to signal our intention that we do not intend to _assign_ another value to them.  Now that the `x` and `y` cannot be re-assigned (a new value or even the same value), to move a point, we shouldn't re-assign to the fields `x` and `y` anymore.  Instead, we return a new `Point` instance to prevent mutating the current instance, as follows:
 
 ```Java
 final class Point {
@@ -113,31 +98,7 @@ final class Point {
 }
 ```
 
-Note that, to avoid (_likely malicious or ignorant_) subclasses of `Point` overriding the methods to make it appears that the point has mutated, it is necessary that we declare immutable classes as `final` to disallow inheritance.
-
-#### Analysis of Points
-
-It is always good to check if the `Point` class above are really immutable.  Assume that the public methods available are:
-
-- `Point Point::moveTo(double, double)`
-- `String Point::toString()`
-- `double Point::getX()`
-- `double Point::getY()`
-
-To see why `Point` is indeed is immutable, we look at the following code snippet.
-
-```java
-Point p = new Point(1.0, 1.0);
-p.getX(); // 1.0
-  :       // any sequence of invocation of methods in Point`
-p.getX(); // 1.0
-```
-
-No methods in `Point` can actually change the field `x` or `y`.  First, notice that `x` and `y` are `double`.  So the only way they can be changed is by assignment to the fields.  But the fields are declared `final`, so there can be no assignment done on them.
-
-The keyword `final` on the fields are not _necessary_ because there is no assignment at all to the fields.  However, it is still a good practice to have them.  Just in case someone in the future try to perform an assignment on the field and change the `Point` class from immutable to mutable.
-
-### Immutable Circle
+Note that, to avoid (likely malicious or ignorant) subclasses of `Point` overriding the methods to make it appears that the point has mutated, it is recommended that we declare immutable classes as `final` to disallow inheritance.
 
 Now, let's make `Circle` immutable:
 
@@ -153,16 +114,12 @@ final class Circle {
     :
 
   public Circle moveTo(double x, double y) {
-    return new Circle(c.moveTo(x, y), this.r);
+    return new Circle(c.moveTo(x, y), r);
   }
 }
 ```
 
-#### Analysis of Circle
-
-With `Point` being immutable, we can be sure that the only way for the field `c` to be changed is by assigning a new value to `c`.  However, this is again prevented by the keyword `final` in the field `c`.  And again, even without such keyword, there is still no assignment on it.  So we can be sure that `Circle` is also immutable.
-
-In other words, once an instance is created, it remains unchanged (_outside the abstraction barrier_).
+With both `Point` and `Circle` immutable, we can be sure that once an instance is created, it remains unchanged (outside the abstraction barrier):
 
 ```Java
 Point p = new Point(0, 0);
@@ -179,50 +136,9 @@ c1 = c1.moveTo(1, 1);
 
 Now, `c1` moves to a new location, but `c2` remains unchanged.
 
-### Comparison with Mutable Version
-
 Compare our new immutable approach to the two approaches above. The first shares all the references and is bug-prone.  The second creates a new copy of the instance every time and is resource-intensive.  Our third approach, using immutable classes, allows us to share all the references until we need to modify the instance, in which case we make a copy.  Such a _copy-on-write_ semantic allows us to avoid aliasing bugs without creating excessive copies of objects.
 
 Note that the `final` keyword prevents assigning new value to the field.  Unfortunately, it does not prevent the field from being mutated.  So, to ensure that the classes we create are immutable, we have to ensure that the fields are themselves immutable.
-
-## Necessity of Final Keyword on Class
-
-We mentioned that it is necessary that we declare immutable classes as `final` to disallow inheritance.  So let us elaborate this further.  Consider the immutable `Point` from above.  __However, consider the case that the we do not declare the class as `final`.__  Now let us create a subclass of it.
-
-```java
-class MutablePoint extends Point {
-  private double x;
-  private double y;
-
-  public MutablePoint(double x, double y) {
-    super(x, y);
-    this.x = x;
-    this.y = y;
-  }
-
-  @Override
-  public Point moveTo(double x, double y) {
-    this.x = x;
-    this.y = y;
-    return super.moveTo(x, y);
-  }
-    :
-
-  @Override
-  public String toString() {
-    return "(" + this.x + "," + this.y + ")";
-  }
-}
-```
-
-You can see that we kept a duplicate of the internals of `Point` in `MutablePoint`, which is a bad practice.  But it also shows that if we allow inheritance, we may end up with the following behavior that shows the mutability of `Point`.
-
-```java
-Point p = new MutablePoint(1, 1); // at (1, 1)
-p.moveTo(2, 2); // now it is at (2, 2)
-```
-
-Although `Point` is immutable, its subclass `MutablePoint` is actually mutable.  This also breaks LSP because the subclass breaks the expectation that the superclass is immutable.
 
 ## Advantages of Being Immutable
 
@@ -288,7 +204,6 @@ final class ImmutableArray<T> {
   @SafeVarargs
   public static <T> ImmutableArray<T> of(T... items) {
     // We need to copy to ensure that it is truly immutable
-    // Explanation will come later
     @SuppressWarnings("unchecked");
     T[] arr = (T[]) new Object[items.length];
     for (int i=0; i<items.length; i++) {
@@ -309,7 +224,7 @@ final class ImmutableArray<T> {
 
 There are a few things to note here.
 
-**Varargs.** &nbsp;&nbsp; The parameter to the class factory method `of` has the form `T... items`.  The triple `.` notation is a Java syntax for a variable number of arguments of the same type (`T`).  Often called _varargs_, this is just syntactic sugar for passing in an array of items to a method.  The method is called _variadic method_.  We can then call `of` with a variable number of arguments, such as:
+*Varargs* The parameter to the class factory method `of` has the form `T... items`.  The triple `.` notation is a Java syntax for a variable number of arguments of the same type (`T`).  Often called _varargs_, this is just syntactic sugar for passing in an array of items to a method.  The method is called _variadic method_.  We can then call `of` with a variable number of arguments, such as:
 
 ```Java
 ImmutableArray<Integer> a;
@@ -318,23 +233,7 @@ a = ImmutableArray.of(1, 2, 3);
 a = ImmutableArray.of(1, 2, 3, 4, 5);
 ```
 
-We can also call `of` with a single array as an argument!
-
-```java
-ImmutableArray<Integer> a;
-a = ImmutableArray.of(new Integer[] { 1, 2, 3 });
-```
-
-!!! info "Another Main Function"
-    Now that we have learnt about _vargargs_, we can write a different version of the main function.  In this version, instead of having a parameter of an array of `String` written as `String[]`, we have a parameter of an array of `String` written as `String...`.
-
-    ```java
-    public static void main(String... args) {
-        :
-    }
-    ```
-
-**@SafeVarargs.** &nbsp;&nbsp; Since the varargs is just an array, and array and generics do not mix well in Java, the compiler would throw us an unchecked warning.  In this instance, however, we know that our code is safe because we never put anything other than items of type `T` into the array.  We can use the `@SafeVarargs` annotation to tell the compiler that we know what we are doing and this varargs is safe.
+**@SafeVarargs.** &nbsp; Since the varargs is just an array, and array and generics do not mix well in Java, the compiler would throw us an unchecked warning.  In this instance, however, we know that our code is safe because we never put anything other than items of type `T` into the array.  We can use the `@SafeVarargs` annotation to tell the compiler that we know what we are doing and this varargs is safe.
 
 Notice that we removed the `set` method and there is no other way an external client can modify the array once it is created.  This, of course, assumes that we will only be inserting an immutable object into our immutable array.  Unfortunately, this cannot be enforced by the compiler as the generic type `T` can be anything.
 
@@ -359,7 +258,6 @@ class ImmutableArray<T> {
   @SafeVarargs
   public static <T> ImmutableArray<T> of(T... items) {
     // We need to copy to ensure that it is truly immutable
-    // Explanation will come later
     @SuppressWarnings("unchecked");
     T[] arr = (T[]) new Object[items.length];
     for (int i=0; i<items.length; i++) {
@@ -385,18 +283,6 @@ class ImmutableArray<T> {
      return new ImmutableArray<>(this.array, this.start + start, this.start + end);
   }
 }
-```
-
-#### Why Copy the Array
-
-Now we need to explain why we need to copy the parameter `items` in our factory method `of`.  Consider not copying the content of the array.  Since we can invoke the factory method by passing an array as argument, we can do the following.
-
-```java
-Integer[] int_arr = new Integer[]{ 1, 2, 3 };
-ImmutableArray<Integer> arr = ImmutableArray.of(int_arr);
-arr.get(0); // 1
-int_arr[0] = 9;
-arr.get(0); // will be 9 if array is not copied since there is an aliasing
 ```
 
 ### Enabling Safe Concurrent Execution
@@ -459,65 +345,3 @@ final class Circle {
 ```
 
 That is not to say that the `final` keyword is not important.  It helps accidental re-assignment and in some cases that is sufficient especially if the fields are of primitive type.  Once we have created one immutable class, we can then create other larger immutable classes by only using immutable classes as fields.
-
-### Trivially Immutable Class
-
-We can even have trivially immutable classes.  Consider our old `Pair<S, T>` class.
-
-```java
-class Pair<S,T> {
-  private S first;
-  private T second;
-
-  public Pair(S first, T second) {
-    this.first = first;
-    this.second = second;
-  }
-
-  public S getFirst() {
-    return this.first;
-  }
-
-  public T getSecond() {
-    return this.second;
-  }
-}
-```
-
-Assuming that `S` and `T` are _immutable_, the generic class `Pair<S, T>` is also immutable.  This is achieved by simply having no mutator.  Additionally, there is no `String toString()` method that exposes the internal state.
-
-Another way to have a trivially immutable class with mutator is to have no accessor to the mutated state.  If we never expose the mutated internal state, then there is no way to have any visible changes outside of its abstraction barrier.  The following `Counter` is an example.
-
-```java
-class Counter {
-  private int val;
-  private int ctx;
-
-  public Counter(int val) {
-    this.val = val;
-    this.ctx = 0;
-  }
-
-  public int get() {
-    this.ctx += 1;
-    return this.val;
-  }
-
-  @Override
-  public String toString() {
-    return "{" + this.val + "}";
-  }
-}
-```
-
-Note that the internal state `ctx` changed but there is no way for us to expose this externally.  So using only its abstraction barrier (_i.e., the methods_ `get()` _and_ `toString()`), we can never see any visible changes.
-
-!!! note "Checklist for Immutability"
-    The following is a general guide to help you create immutable class.  Some of the items in the checklist may not be necessary but they are good to have.
-
-    1. Ensure that all fields have the `final` modifier (_not necessary but good to have_).
-    2. Ensure that the types of all the fields are immutable classes.
-    3. Ensure that arrays are copied before assigning to a field.
-    4. Ensure that there is no mutator.
-        - If there was a mutator and you are modifying the class to be immutable, then you need to return a new instance instead.
-    5. Ensure that the class has the `final` modifier to prevent inheritance.

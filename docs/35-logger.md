@@ -1,12 +1,9 @@
 # Unit 35: Loggable
 
-!!! abstract "Learning Objectives"
+After this unit, students should understand:
 
-    Students should
+- why we need `flatMap` operation.
 
-    - understand why we need the `flatMap` method.
-
-## The Story So Far
 
 So far in the class, we have seen very general abstractions that support the `flatMap` operation.  But, it is not clear where this operation comes from, why is it fundamental, nor why is it useful[^1]
 
@@ -37,7 +34,7 @@ abs(incr(incr(5)));
 
 ## `Loggable` with `Pair`
 
-Suppose now we want to return not only an `int`, but some additional information related to the operation on `int`.  For instance, let's suppose we want to return a string describing the operation (_for logging_).  Java does not support returning multiple values, so let's return a `Pair`.
+Suppose now we want to return not only an `int`, but some additional information related to the operation on `int`.  For instance, let's suppose we want to return a string describing the operation (for logging).  Java does not support returning multiple values, so let's return a `Pair`.
 
 ```Java
 Pair<Integer,String> incrWithLog(int x) {
@@ -68,14 +65,13 @@ Pair<Integer,String> absWithLog(Pair<Integer,String> p) {
 ```
 
 We can now compose the methods.
-
 ```Java
 incrWithLog(absWithLog(Pair.of(-4, ""))); 
 ```
 
 ## `Loggable` Class
 
-Let's do it in a more OO-way by writing a class to replace `Pair`.
+Let's do it in a more OO-way, by writing a class to replace `Pair`.
 
 ```Java
 // version 0.1
@@ -107,7 +103,6 @@ class Loggable {
 ```
 
 We can use the class above as:
-
 ```Java
 Loggable x = Loggable.of(4);
 Loggable z = x.incrWithLog().absWithLog();
@@ -126,7 +121,6 @@ There are many possible operations on `int`, and we do not want to add a method 
 ```
 
 We can use it like:
-
 ```Java
 Loggable.of(4).map(x -> incr(x)).map(x -> abs(x))
 ```
@@ -159,8 +153,8 @@ Loggable absWithLog(int x) {
 We can write:
 ```Java
 Loggable.of(4)
-        .flatMap(x -> incrWithLog(x))
-        .flatMap(x -> absWithLog(x))
+    .flatMap(x -> incrWithLog(x))
+    .flatMap(x -> absWithLog(x))
 ```
 
 to now compose the methods `incr` and `abs` together, along with the log messages!
