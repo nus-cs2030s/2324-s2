@@ -59,7 +59,7 @@ Recap that for static fields (i.e., class fields), we only have exactly one inst
 
 As a consequence, if we have not instantiated a class, no instance of that class has been created.  The keyword `this` is meant to refer to the _current instance_, and if there is no instance, the keyword `this` is not meaningful.  Therefore, within the context of a `static` method, Java actually prevents the use of `this` from any method with the `static` modifier.
 
-```Java title="Invalid reference of `this` within a `static` method
+```Java title="Invalid reference of `this` within a `static` method"
   public static int getLastId() {
     return this.id; 
   }
