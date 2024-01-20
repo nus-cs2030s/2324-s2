@@ -1,9 +1,11 @@
 # Unit 6: Tell, Don't Ask
 
-After taking this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand what accessor and mutator are used for, and why not to use them
-- understand the principle of "Tell, Don't Ask"
+    After this unit, students should:
+
+    - understand what accessor and mutator are used for, and why not to use them
+    - understand the principle of "Tell, Don't Ask"
 
 ## Accessors and Mutators
 
@@ -54,6 +56,29 @@ class Circle {
 }
 ```
 
+In the code above, we can categorise the accessor and mutator of each field as follows.
+
+| Fields | Accessors | Mutators |
+|--------|-----------|----------|
+| `x` | `getX` | `setX` |
+| `y` | `getY` | `setY` |
+| `r` | `getR` | `setR` |
+
+!!! danger "Why have Accessor and Mutator methods when you can make a field public?"
+    Whilst having both accessor and mutator for a private field is controversial, it is still _better_ than setting the field itself public.  By having accessor and mutator, we are still adding atleast some layer of abstraction because we can change the name of the field without affecting the client.
+
+    Another advantage is that we may be able to perform some checks on the mutator and prevent certain invalid values from ever being assigned to the field.  Consider the method `setR` in our circle v0.4 above.  A slightly better approach is to implement it with a check to prevent setting the radius zero or negative.
+
+    ```java
+    public void setR(double r) {
+      if (r > 0) {
+        this.r = r;
+      }
+    }
+    ```
+
+    Still, you should first check if you really need an accessor or a mutator for all fields.
+
 ## The "Tell Don't Ask" Principle
 
 The mutators and accessors above are pretty pointless.  If we need to know the internal and do something with it, then we are breaking the abstraction barrier.  The right approach is to implement a method within the class that does whatever we want the class to do.   For instance, suppose that we want to check if a given point (x,y) calls within the circle, one approach would be:
@@ -72,7 +97,7 @@ A better approach would be to add a new `boolean` method in the `Circle` class, 
 boolean isInCircle = c.contains(x, y);
 ```
 
-The better approach involves writing a few more lines of code to implement the method, but it keeps the encapsulation intact.  If one fine day, the implementer of `Circle` decided to change the representation of the circle and remove the direct accessors to the fields, then only the implementer needs to change the implementation of `contains`.  The client does not have to change anything.  
+This better approach involves writing a few more lines of code to implement the method, but it keeps the encapsulation intact.  If one fine day, the implementer of `Circle` decided to change the representation of the circle and remove the direct accessors to the fields, then only the implementer needs to change the implementation of `contains`.  The client does not have to change anything.  
 
 The principle around which we can think about this is the "Tell, Don't Ask" principle.  The client should tell a `Circle` object what to do (compute the circumference), instead of asking "what is your radius?" to get the value of a field then perform the computation on the object's behalf.
 

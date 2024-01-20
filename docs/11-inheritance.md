@@ -1,12 +1,14 @@
 # Unit 11: Inheritance
 
-After taking this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand inheritance as a mechanism to extend existing code
-- understand how inheritance models the IS-A relationship
-- know how to use the `extends` keyword for inheritance
-- understand inheritance as a subtype
-- be able to determine the run-time type and compile-time type of a variable
+    After taking this unit, students should:
+
+    - understand inheritance as a mechanism to extend existing code
+    - understand how inheritance models the IS-A relationship
+    - know how to use the `extends` keyword for inheritance
+    - understand inheritance as a subtype
+    - be able to determine the run-time type and compile-time type of a variable
 
 ## Extension with Composition
 
@@ -71,7 +73,7 @@ class ColoredCircle extends Circle {
 }
 ```
 
-We just created a new type `ColoredCircle` as a class that extends from `Circle`.  We call `Circle` the _parent class_ or _superclass_ of `ColoredCircle`; and `ColoredCircle` a _subclass_ of `Circle`.  
+We have just created a new type called ``ColoredCircle` as a class that extends from `Circle`.  We call `Circle` the _parent class_ or _superclass_ of `ColoredCircle`; and `ColoredCircle` a _subclass_ of `Circle`.  
 
 We also say that `ColoredCircle` _inherits_ from `Circle`, since all the public fields of `Circle` (center and radius) and public methods (like `getArea()`) are now accessible to `ColoredCircle`.  Just like a parent-child relationship in real-life, however, anything private to the parent remains inaccessible to the child.  This privacy veil maintains the abstraction barrier of the parent from the child, and creates a bit of a tricky situation -- technically a child `ColoredCircle` object has a center and a radius, but it has no access to it!
 
@@ -125,12 +127,12 @@ The message here is this: _Use composition to model a has-a relationship; inheri
 ## Run-Time Type
 
 Recall that Java allows a variable of type $T$ to hold a value from a variable of type $S$ only if $S <: T$.  Since `ColoredCircle` <: `Circle`, the following is not allowed in Java:
-```
+```Java
 ColoredCircle c = new Circle(p, 0); // error
 ```
 
 but this is OK:
-```
+```Java
 Circle c = new ColoredCircle(p, 0, blue); // OK
 ```
 

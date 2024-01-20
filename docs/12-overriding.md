@@ -1,14 +1,16 @@
 # Unit 12: Overriding
 
-After reading this unit, students should
+!!! abstract "Learning Objectives"
 
-- be aware that every class inherits from `Object`
-- be familiar with the `equals` and `toString` methods
-- understand what constitutes a method signature
-- understand method overriding
-- appreciate the power of method overriding
-- understand what Java annotations are for, and know when to use `@Override`
-- be exposed to the `String` class and its associated methods, especially the `+` operator
+    After taking this unit, students should:
+
+    - be aware that every class inherits from `Object`
+    - be familiar with the `equals` and `toString` methods
+    - understand what constitutes a method signature
+    - understand method overriding
+    - appreciate the power of method overriding
+    - understand what Java annotations are for, and know when to use `@Override`
+    - be exposed to the `String` class and its associated methods, especially the `+` operator
 
 ## `Object` and `String`
 
@@ -18,6 +20,44 @@ The `Object` class does not encapsulate anything in particular.  It is a very ge
 
 - `equals(Object obj)`, which checks if two objects are equal to each other, and
 - `toString()`, which returns a string representation of the object as a `String` object.
+
+Now that we have related classes as well as methods that may be inherited, we will introduce a notation that captures the essence of a method as well as where the method is _implemented_.  Consider the method `equals(Object obj)` in the class `Object`.  First note that the parameter name `obj` can actually be renamed so the name does not matter.  As such, we can actually omit them.  Secondly, we need to indicate that the implementation we are interested is the implementation in the class `Object`.  So, we can write it simply as `Object::equals(Object)`.
+
+!!! info "Method Summary"
+    There are two ways we can summarize a method. Consider the following class with a single method `foo`.
+
+    ```Java
+    class C {
+        : // fields omitted
+      A foo(B1 b1, B2 b2) {
+          : // body omitted
+      }
+    }
+    ```
+
+    - **Method Signature**
+        - Only the name of the method and the type of parameters.  Optionally, we may include the class name.
+        - In other words, the information captured are:
+            - Method name.
+            - Number of parameters.
+            - Types of parameters.
+            - Order of parameters.
+    - **Method Descriptor**
+        - Only the name of the method, the type of parameters, and the return type.  Optionally, we may include the class name.
+        - In other words, the information captured are:
+            - Method name.
+            - Number of parameters.
+            - Types of parameters.
+            - Order of parameters.
+            - Return type.
+
+    | Summary | Without Class Name | With Class Name |
+    |---------|--------------------|-----------------|
+    | _Method Signature_ | `foo(B1, B2)` | `C::foo(B1, B2)` |
+    | _Method Descriptor_ | `A foo(B1, B2)` | `A C::foo(B1, B2)` |
+
+    Class names are included if we want to mention a specific implementation.  On the other hand, we typically excldue the class names when we want to talk about the method regardless of where it is implemented.  Lastly, we may omit the parameters if we want to talk about all the methods with the given name.
+
 
 ## The `toString` Method
 
@@ -41,14 +81,14 @@ String s = "Circle c is " + c.toString();
 
 [^1]: Calling `toString` explicitly is not wrong, but we usually omit the call to keep the code readable and succinct.
 
-Recall that in our `Circle` class (up to version 0.5) we do not have any `toString` method.  The `toString` method that we invoked here is the `toString` method inherited from its parent `Object`.
+Recall that in our `Circle` class (up to version 0.5) we do not have any `Circle::toString()` method.  The `toString` method that we invoked here is the `toString` method inherited from its parent `Object` (_i.e.,_ `Object::toString()`).
 
 !!! Note "`jshell` and `toString`"
     Recall that `jshell` is a REPL tool.  After evaluating an expression, `jshell` prints the resulting value out.  If the resulting value is a reference type, `jshell` will invoke `toString` to convert the reference type to a string first, before printing the string.
 
 ## Customizing `toString` for `Circle`
 
-The `Object::toString` method (that is our notation for the method `toString` from the class `Object`) is not very user friendly.  Ideally, when we print a `Circle` object, say, for debugging, we want to see its center and its radius.  To do so, we can define our own `toString` method in `Circle`.  Let's upgrade our `Circle` class to do this:
+The `Object::toString()` method is not very user friendly.  Ideally, when we print a `Circle` object, say, for debugging, we want to see its center and its radius.  To do so, we can define our own `toString` method in `Circle`  (_i.e.,_ `Circle::toString()`).  Let's upgrade our `Circle` class to do this:
 
 ```Java hl_lines="34-40"
 // version 0.6
@@ -63,7 +103,7 @@ class Circle {
 
   /**
    * Create a circle centered on Point c with given radius r
-  */
+   */
   public Circle(Point c, double r) {
     this.c = c;
     this.r = r;
@@ -81,7 +121,7 @@ class Circle {
    */
   public boolean contains(Point p) {
     return false;
-	// TODO: Left as an exercise
+    // TODO: Left as an exercise
   }
 
   /**
@@ -89,17 +129,17 @@ class Circle {
    */
   @Override
   public String toString() {
-	  return "{ center: " + this.c + ", radius: " + this.r + " }";
+    return "{ center: " + this.c + ", radius: " + this.r + " }";
   }
 }
 ```
 
-The body of the method `toString` simply constructs a string representation for this circle object and returns it.  With this `toString` implemented, the output will look something like this:
+The body of the method `Circle::toString()` simply constructs a string representation for this circle object and returns it.  With this `toString` implemented, the output will look something like this:
 ```
 Circle c is { center: (0.0, 0.0), radius: 4.0 }
 ```
 
-Note that when the center `this.c` is converted to a string, the `toString` method of `Point` is invoked.  We leave the implementation of `Point::toString` as an exercise.
+Note that when the center `this.c` is converted to a string, the `toString` method of the `Point` class is invoked (_i.e.,_ `Point::toString()`).  We leave the implementation of `Point::toString()` as an exercise.
 
 ## Method Overriding
 
@@ -112,7 +152,7 @@ When a subclass defines an instance method with the same _method descriptor_ as 
 
 ## The `@Override` Annotation
 
-Line 37 in the example above contains the symbol `@Override`.  This symbol is an example of _annotation_ in Java.  An annotation is not part of the program and does not affect the bytecode generated.  Instead, it is a _hint_ to the compiler.  Remember that the compiler is our friend who will do its best to help detect errors early, during compilation.  We must do our part to help the compiler help us.  Here, `@Override` is a hint to the compiler that the following method, `toString`, is intended to override the method in the parent class.  In case, there is a typo and overriding is not possible, the compiler will let us know.
+Line 37 in the `Circle` example above contains the symbol `@Override`.  This symbol is an example of _annotation_ in Java.  An annotation is not part of the program and does not affect the bytecode generated.  Instead, it is a _hint_ to the compiler.  Remember that the compiler is our friend who will do its best to help detect errors early, during compilation.  We must do our part to help the compiler help us.  Here, `@Override` is a hint to the compiler that the following method, `toString`, is intended to override the method in the parent class.  In case, there is a typo and overriding is not possible, the compiler will let us know.
 
 It is therefore recommended and expected that all overriding methods in your code are annotated with `@Override`.
 

@@ -1,10 +1,13 @@
 # Unit 9: Composition
 
-After learning this unit, students should understand:
+!!! abstract "Learning Objectives"
 
-- how to compose a new class from existing classes using composition
-- how composition models the HAS-A relationship
-- how sharing reference values in composed objects could lead to surprising results
+    After learning this unit, students should understand:
+
+    - how to compose a new class from existing classes using composition
+    - how composition models the HAS-A relationship
+    - how sharing reference values in composed objects could lead to surprising results
+
 
 ## Adding more Abstractions
 
@@ -29,7 +32,7 @@ class Circle {
 
   /**
    * Create a circle centered on Point c with given radius r
-  */
+   */
   public Circle(Point c, double r) {
     this.c = c;
     this.r = r;
@@ -46,7 +49,7 @@ class Circle {
    * Return true if the given point p is within the circle.
    */
   public boolean contains(Point p) {
-	// TODO: Left as an exercise
+    // TODO: Left as an exercise
     return false;
   }
 }
@@ -74,7 +77,7 @@ class Cylinder {
 ```
 
 
-## Sharing References (aka Aliasing)
+## Sharing References aka Aliasing)
 
 Recall that unlike primitive types, reference types may share the same reference values.  This is called _aliasing_.  Let's look at the subtleties of how this could affect our code and catch us by surprise.
 
@@ -100,11 +103,12 @@ class Circle {
   private Point c;   // the center
   private double r;  // the length of the radius
 	:
+
   /**
    * move the center of this circle to the given point
    */
   void moveTo(Point c) {
-	  this.c = c;
+    this.c = c;
   }
 
    :
@@ -125,9 +129,7 @@ Cylinder cylinder1 = new Cylinder(c1, 1);
 Cylinder cylinder2 = new Cylinder(c1, 1);
 ```
 
-that share the same base, then the same problem repeats itself!
-
-One solution is to avoid sharing references as much as possible.  For instance,
+that share the same base, then the same problem repeats itself! One solution is to avoid sharing references as much as possible.  For instance,
 
 ```Java
 Point p1 = new Point(0, 0);

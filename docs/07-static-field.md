@@ -1,11 +1,13 @@
 # Unit 7: Class Fields
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand the difference between instance fields and class fields
-- understand the meaning of keywords `final` and `static` in the context of a field
-- be able to define and use a class field
-- be able to use `import` to access classes from the Java standard libraries
+    After this unit, students should:
+
+    - understand the difference between instance fields and class fields.
+    - understand the meaning of keywords `final` and `static` in the context of a field.
+    - be able to define and use a class field.
+    - be able to use `import` to access classes from the Java standard libraries.
 
 ## Class Fields 
 
@@ -49,6 +51,8 @@ class Math {
 ```
 
 We call these `static` fields that are associated with a class as _class fields_, and fields that are associated with an object as _instance fields_.  Note that, a `static` class field needs not be `final` and it needs not be `public`.  Class fields are useful for storing pre-computed values or configuration parameters associated with a class rather than individual objects.
+
+Because it is associated with the class rather than instance, we can think about `static` fields as having **exactly one** instance during the entire execution of the program.  In other words, there is only exactly one instance of `PI` regardless of how many instances of `Math` we have created.  In fact, we need not create any instance of `Math` at all to be able to use `PI`.
 
 ## Accessing Class Fields
 
@@ -99,7 +103,7 @@ class Circle {
 
   /**
    * Create a circle centered on (x, y) with given radius
-  */
+   */
   public Circle(double x, double y, double r) {
     this.x = x;
     this.y = y;

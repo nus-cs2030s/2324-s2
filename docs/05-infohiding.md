@@ -1,17 +1,34 @@
 # Unit 5: Information Hiding
 
-After taking this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand the drawback of breaking the abstraction barrier
-- understand the concept of information hiding to enforce the abstraction barrier
-- understand how Java uses access modifiers to enforce information hiding
-- understand what is a constructor and how to write one in Java
+    After taking this unit, students should:
+
+    - understand the drawback of breaking the abstraction barrier.
+    - understand the concept of information hiding to enforce the abstraction barrier.
+    - understand how Java uses access modifiers to enforce information hiding.
+    - understand what is a constructor and how to write one in Java.
 
 ## Breaking the Abstraction Barrier
 
 In the ideal case, the code above the abstraction barrier would just call the provided interface to use the composite data type.  There, however, may be cases where a programmer may intentionally or accidentally break the abstraction barrier.  
 
-Consider the case of `Circle` above, where we modify the radius `r` directly with `c.r = 10`.  In doing so, we, as the client to `Circle`, make an explicit assumption of how `Circle` implements a circle.  The implementation details have been leaked outside the abstraction barrier.   Now, if the implementer wishes to change the representation of the `Circle`, to say, store the diameter, instead.  This small implementation change would invalidate the code that the client has written!  The client will have to carefully change all the code that makes the assumption, and modify accordingly, increasing the chances of introducing a bug.
+Consider the case of `Circle` in Unit 4, where we modify the radius `r` directly with `c.r = 10`.  In doing so, we, as the client to `Circle`, make an explicit assumption of how `Circle` implements a circle.  The implementation details have been leaked outside the abstraction barrier.   Now, if the implementer wishes to change the representation of the `Circle`, to say, store the diameter, instead. 
+
+```Java
+// Circle using Diameter
+class Circle {
+  double x;
+  double y;
+  double d; // d for diameter
+
+  double getArea() {
+    return 3.141592653589793 * d * d / 4.0;
+  }
+}
+```
+
+This small implementation change would invalidate the code that the client has written!  The line `c.r = 10;` will cause a compilation error. The client will have to carefully change all the code that makes the assumption, and modify accordingly, increasing the chances of introducing a bug.
 
 ## Data Hiding
 
@@ -36,10 +53,19 @@ class Circle {
 
 [^1]: The other access modifier is `protected`.  Again, we do not want to worry about this modifier for now.
 
+So, as a quick summary, the two access modifiers are shown below.
+
 Now the fields `x`, `y`, and `r` are hidden behind the abstraction barrier of the class `Circle`.  Note that these fields are not accessible and modifiable outside of the class `Circle`, but they can be accessed and modified within `Circle` (inside the abstraction barrier), such as in the methods `getArea`.
 
 !!! note "Breaking Python's Abstraction Barrier"
     Python tries to prevent _accidental_ access to internal representation by having a convention of prefixing the internal variables with `_` (one underscore) or `__` (two underscores).   This method, however, does not prevent a lazy programmer from directly accessing the variables and possibly planting a bug/error that will surface later.
+
+In summary, the two access modifiers are shown below:
+
+| Acessed from | `private` | `public` |
+|--------------|-----------|----------|
+| _inside the class_ | :material-check: | :material-check: |
+| _outside the class_ | :material-close: | :material-check: |
 
 ## Constructors
 
@@ -75,6 +101,18 @@ Circle c = new Circle(0.0, 0.5, 10.0);
 
 !!! note "Constructor in Python and JavaScript"
     In Python, the constructor is the `__init__` method.   In JavaScript, the constructor is simply called `constructor`.
+
+### Default Constructor
+
+Our original circle v0.1 does not have constructor.  If there is no constructor given, then a default constructor is added automatically at compile time.  The default constructor has no parameter and has no code written for the body.  In the case of circle v0.1, the default constructor would be the following.
+
+```Java
+Circle() {
+}
+```
+
+Notice the condition "_if no constructor is given at all_".  Therefore, if there is at least one constructor written, then the default constructor will not be added automatically.
+
 
 ## The `this` Keyword
 

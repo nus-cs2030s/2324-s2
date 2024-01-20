@@ -1,11 +1,13 @@
 # Unit 8: Class Methods
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand the differences between instance methods and class methods
-- be able to define and use a class method
-- know that the `main` method is the entry point to a Java program 
-- the modifies and parameters required for a `main` method
+    After this unit, students should:
+
+    - understand the differences between instance methods and class methods
+    - be able to define and use a class method
+    - know that the `main` method is the entry point to a Java program 
+    - the modifies and parameters required for a `main` method
 
 Let's suppose that, in our program, we wish to assign a unique integer identifier to every `Circle` object ever created.  We can do this with the additions below:
 
@@ -24,8 +26,8 @@ class Circle {
     this.x = x;
     this.y = y;
     this.r = r;
-	this.id = Circle.lastId;
-	Circle.lastId += 1;
+    this.id = Circle.lastId;
+    Circle.lastId += 1;
   }
 
   /**
@@ -49,6 +51,28 @@ The interesting thing here is that we declare `getNumOfCircles` with a `static` 
 
 Other examples of class methods include the methods provided in `java.lang.Math`: `sqrt`, `min`, etc.  These methods can be invoked through the `Math` class: e.g., `Math.sqrt(x)`.
 
+### Non-Static from Static
+
+Recap that for static fields (i.e., class fields), we only have exactly one instance of it throughout the lifetime of the program.  More generally, a field or method with modifier `static` belongs to the class rather than the specific instance.  In other words, they can be accessed/updated (for fields, assuming proper access modifier) or invoked (for methods, assuming proper access modifier) without even instantiating the class.
+
+As a consequence, if we have not instantiated a class, there is no instance, no object that is created.  The keyword `this` captures the _current instance_, and if there is no instance, the keyword `this` cannot be referring to any instance.  Therefore, within the context of a `static` method, Java actually prevents the use of `this` from any method with the `static` modifier.
+
+```Java
+  public static int getLastId() {
+    return this.id; 
+  }
+```
+
+Try it out, you will get the following error.
+
+```
+_.java:_: error: non-static variable this cannot be referenced from a static context
+  	return this.id;
+               ^
+```
+
+The opposite is not true.  We can access class fields from non-static methods.
+
 ## The `main` method
 
 The most common class method you will use is probably the `main` method.
@@ -62,7 +86,7 @@ will invoke the `main` method defined within the class `Hello` to kick start the
 
 The `main` method must be defined in the following way:
 ```Java
-public final static void main(String[] args) {
+public static final void main(String[] args) {
 }
 ```
 
