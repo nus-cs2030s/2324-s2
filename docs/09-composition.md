@@ -11,16 +11,15 @@
 
 ## Adding more Abstractions
 
-Our previous implementation of `Circle` stores the center using its Cartesian coordinate $(x,y)$.  We have a method `contains` that takes in the Cartesian coordinate of a point.  As such, our implementation of `Circle` assumes that a 2D point is best represented using its Cartesian coordinate.  
+Our previous implementation of `Circle` stores the center using its Cartesian coordinates $(x,y)$.  We have a method `contains` that takes in the Cartesian coordinate of a point.  As such, our implementation of `Circle` assumes that a 2D point is best represented using its Cartesian coordinate.  
 
-Recall that we wish to hide the implementation details as much as possible, protecting them with an abstraction barrier, so that the client does not have to bother about the details and it is easy for the implementer to change the details.  In this example, what happens if the application finds that it is more convenient to use polar coordinates to represent a 2D point?  We will have to change the code of the constructor to `Circle` and the method `contains`.  If our code contains other shapes or other methods in `Circle` that similarly assume a point is represented with its Cartesian coordinate, we will have to change them as well.  It is easy for bugs to creep in.  For instance, we might pass in the polar coordinate $(r, \theta)$ to a method, but the method treats the two parameters as the Cartesian $(x,y)$.
+Recall that we wish to hide the implementation details as much as possible, protecting them with an abstraction barrier, so that the client does not have to bother about the details and it is easy for the implementer to change the details.  Let's consider an example: what if the programmer finds that it is more convenient to use polar coordinates to represent a 2D point?  We will have to change the code of the constructor to `Circle` and the method `contains`.  If our code contains other shapes or other methods in `Circle` that similarly assume a point is represented with its Cartesian coordinates, we will have to change them as well.  It is easy for bugs to creep in.  For instance, we might pass in the polar coordinates $(r, \theta)$ to a method, but the method treats the two parameters as the Cartesian $(x,y)$.
 
-We can apply the principle of abstraction and encapsulation here, and create a new class `Point`.  The details of which are omitted and left as an exercise.  
+We can apply the principle of abstraction and encapsulation here, and create a new class `Point`.  The details of which are omitted and left as an exercise.
 
 With the `Point` class, our `Circle` class looks like the following:
 
-```Java
-// version 0.5
+```Java  title="Circle v0.5"
 import java.lang.Math;
 
 /**
@@ -55,9 +54,9 @@ class Circle {
 }
 ```
 
-This example also illustrates the concept of _composition_.  Our class `Circle` has been upgraded from being a bundle of primitive types and its methods, to a bundle that includes a reference type `Point` as well.  In OOP, composition is a basic technique to build up layers of abstractions and construct sophisticated classes.
+This example also illustrates the concept of _composition_.  Our class `Circle` has been upgraded from being a bundle of primitive types and methods to a bundle that includes a reference type `Point` as well.  In OOP, composition is a basic technique to build up layers of abstractions and construct sophisticated classes.
 
-We have mentioned that classes model real-world entities in OOP.  The composition models that HAS-A relationship between two entities.  For instance, a circle _has a_ point as the center.
+We have mentioned that classes model real-world entities in OOP.  The composition models the HAS-A relationship between two entities.  For instance, a circle _has a_ point as the center.
 
 ## Example: `Cylinder`
 
@@ -77,9 +76,9 @@ class Cylinder {
 ```
 
 
-## Sharing References aka Aliasing)
+## Sharing References, aka Aliasing
 
-Recall that unlike primitive types, reference types may share the same reference values.  This is called _aliasing_.  Let's look at the subtleties of how this could affect our code and catch us by surprise.
+Recall that, unlike primitive types, reference types may share the same reference values.  This is called _aliasing_.  Let's look at the subtleties of how this could affect our code and catch us by surprise.
 
 Consider the following, where we create two circles `c1` and `c2` centered at the origin (0, 0).
 ```Java
@@ -123,7 +122,7 @@ Circle c2 = new Circle(p, 4);
 c1.moveTo(new Point(1, 1));
 ```
 
-You will find that `c1` will now have a new center, but `c2`'s center remains at (0,0).  Why doesn't this solve our problem then?  Recall that we can further composed circles into other objects.  Let's say that we have two cylinders:
+You will find that `c1` will now have a new center, but `c2`'s center remains at (0,0).  Why doesn't this solve our problem then?  Recall that we can further compose circles into other objects.  Let's say that we have two cylinders:
 ```
 Cylinder cylinder1 = new Cylinder(c1, 1);
 Cylinder cylinder2 = new Cylinder(c1, 1);
@@ -143,6 +142,6 @@ p1.moveTo(1, 1);
 
 Without sharing references, moving `p1` only affects `c1`, so we are safe.   
 
-The drawback of not sharing objects with the same content is that we will have a proliferation of objects and the computational resource usage is not optimized.  This is an example of the trade offs we mentioned in the [introduction to this module](00-overview.md): we are sacrificing the computational cost to save programmers from potential suffering!
+The drawback of not sharing objects with the same content is that we will have a proliferation of objects and the computational resource usage is not optimized.  This is an example of the trade-offs we mentioned in the [introduction to this module](00-overview.md): we are sacrificing the computational cost to save programmers from potential suffering.
 
 Another approach to address this issue is _immutability_.  We will cover this later in the module.

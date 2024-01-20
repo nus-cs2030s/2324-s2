@@ -21,43 +21,7 @@ The `Object` class does not encapsulate anything in particular.  It is a very ge
 - `equals(Object obj)`, which checks if two objects are equal to each other, and
 - `toString()`, which returns a string representation of the object as a `String` object.
 
-Now that we have related classes as well as methods that may be inherited, we will introduce a notation that captures the essence of a method as well as where the method is _implemented_.  Consider the method `equals(Object obj)` in the class `Object`.  First note that the parameter name `obj` can actually be renamed so the name does not matter.  As such, we can actually omit them.  Secondly, we need to indicate that the implementation we are interested is the implementation in the class `Object`.  So, we can write it simply as `Object::equals(Object)`.
-
-!!! info "Method Summary"
-    There are two ways we can summarize a method. Consider the following class with a single method `foo`.
-
-    ```Java
-    class C {
-        : // fields omitted
-      A foo(B1 b1, B2 b2) {
-          : // body omitted
-      }
-    }
-    ```
-
-    - **Method Signature**
-        - Only the name of the method and the type of parameters.  Optionally, we may include the class name.
-        - In other words, the information captured are:
-            - Method name.
-            - Number of parameters.
-            - Types of parameters.
-            - Order of parameters.
-    - **Method Descriptor**
-        - Only the name of the method, the type of parameters, and the return type.  Optionally, we may include the class name.
-        - In other words, the information captured are:
-            - Method name.
-            - Number of parameters.
-            - Types of parameters.
-            - Order of parameters.
-            - Return type.
-
-    | Summary | Without Class Name | With Class Name |
-    |---------|--------------------|-----------------|
-    | _Method Signature_ | `foo(B1, B2)` | `C::foo(B1, B2)` |
-    | _Method Descriptor_ | `A foo(B1, B2)` | `A C::foo(B1, B2)` |
-
-    Class names are included if we want to mention a specific implementation.  On the other hand, we typically excldue the class names when we want to talk about the method regardless of where it is implemented.  Lastly, we may omit the parameters if we want to talk about all the methods with the given name.
-
+Now that we have related classes as well as methods that may be inherited, we will introduce a notation that captures the essence of a method as well as where the method is _implemented_.  Consider the method `equals(Object obj)` in the class `Object`.  First, note that the parameter name `obj` can be renamed, so the name does not matter.  As such, we can omit them.  Secondly, we need to indicate that the implementation we are interested in is the implementation in the class `Object`.  So, we can write it simply as `Object::equals(Object)`.
 
 ## The `toString` Method
 
@@ -66,12 +30,13 @@ The `toString` method is very special, as this is invoked _implicitly_ by Java, 
 [We showed you](02-type.md) that in Python, `4 + "Hello"` would result in a type mismatch error.  In Java, however, `4 + "Hello"` will result in the string `"4Hello"`.  In this example, the primitive value 4 is converted to a string before concatenation.
 
 A more interesting scenario is what happens if we try to concatenate, say, a `Circle` object with a string.  Let's say we have:
+
 ```Java
 Circle c = new Circle(new Point(0, 0), 4.0);
 String s = "Circle c is " + c;
 ```
 
-You will see that `s` now contains the string "Circle c is Circle@1ce92674 " (the seemingly gibberish text after @` is the reference to the object and so your result will be different).
+You will see that `s` now contains the string "Circle c is Circle@1ce92674 " (the seemingly gibberish text after @ is the reference to the object so your result will be different).
 
 What happened here is that the `+` operator sees that one of the operands is a string but the other is not, so it converts the one that is not a string to a string by calling its `toString()` method automatically for us.  This is equivalent to[^1]
 ```Java
@@ -84,14 +49,13 @@ String s = "Circle c is " + c.toString();
 Recall that in our `Circle` class (up to version 0.5) we do not have any `Circle::toString()` method.  The `toString` method that we invoked here is the `toString` method inherited from its parent `Object` (_i.e.,_ `Object::toString()`).
 
 !!! Note "`jshell` and `toString`"
-    Recall that `jshell` is a REPL tool.  After evaluating an expression, `jshell` prints the resulting value out.  If the resulting value is a reference type, `jshell` will invoke `toString` to convert the reference type to a string first, before printing the string.
+    Recall that `jshell` is a REPL tool.  After evaluating an expression, `jshell` prints the resulting value.  If the resulting value is a reference type, `jshell` will invoke `toString` to convert the reference type to a string first, before printing the string.
 
 ## Customizing `toString` for `Circle`
 
-The `Object::toString()` method is not very user friendly.  Ideally, when we print a `Circle` object, say, for debugging, we want to see its center and its radius.  To do so, we can define our own `toString` method in `Circle`  (_i.e.,_ `Circle::toString()`).  Let's upgrade our `Circle` class to do this:
+The `Object::toString()` method is not very user-friendly.  Ideally, when we print a `Circle` object, say, for debugging, we want to see its center and its radius.  To do so, we can define our own `toString` method in `Circle`  (_i.e.,_ `Circle::toString()`).  Let's upgrade our `Circle` class to do this:
 
-```Java hl_lines="34-40"
-// version 0.6
+```Java hl_lines="34-40" title="Circle v0.6, with toString"
 import java.lang.Math;
 
 /**
@@ -141,11 +105,29 @@ Circle c is { center: (0.0, 0.0), radius: 4.0 }
 
 Note that when the center `this.c` is converted to a string, the `toString` method of the `Point` class is invoked (_i.e.,_ `Point::toString()`).  We leave the implementation of `Point::toString()` as an exercise.
 
+## Method Signature and Descriptor
+
+Let's define the _method signature_ of a method as the method name and the number of parameters, the type of each parameter, and the order of its parameters.  We define the _method descriptor_ as the method signature plus the return type.
+
+The notions of method signature and descriptor are important ones for the compilers, as they are what the compiler uses to uniquely identify a method.  
+
+Suppose we have the following class,
+
+```Java
+class C {
+  A foo(B1 x, B2 y) {
+  }
+}
+```
+
+Using our notation, we denote the method signature for `foo` in `C` as `C::foo(B1, B2)`.  The method descriptor for the same implementation is `A C::foo(B1, B2)`.   
+
+We may exclude the class names when we want to talk about the method regardless of where it is implemented.  Lastly, we may omit the parameters if we want to talk about all the methods with the given name (e.g., `A::foo` or `foo`).
+
 ## Method Overriding
 
-What we just did is called _method overriding_ in OOP.  Inheritance is not only good for extending the behavior of an existing class but through method overriding, we can _alter_ the behavior of an existing class as well.
+Coming back to our `Circle` v0.6.  What we just did when we defined `Circle::toString(`)` is called _method overriding_ in OOP.  Inheritance is not only good for extending the behavior of an existing class but through method overriding, we can _alter_ the behavior of an existing class as well.
 
-Let's define the _method signature_ of a method as the method name and the number, type, and order of its parameters, and the _method descriptor_ as the method signature plus the return type.  
 When a subclass defines an instance method with the same _method descriptor_ as an instance method in the parent class, we say that the instance method in the subclass _overrides_ the instance method in the parent class[^2].  In the example above, `Circle::toString` has overridden `Object::toString`.
 
 [^2]: It is possible to override a method in some cases when the return type is different.  We will discuss this during recitations.
@@ -162,6 +144,6 @@ It is therefore recommended and expected that all overriding methods in your cod
     ```Java
     @Override
     public String toString() {
-	  return super.toString() + " { center: " + this.c + ", radius: " + this.r + " }";
+	      return super.toString() + " { center: " + this.c + ", radius: " + this.r + " }";
     }
     ```

@@ -13,8 +13,7 @@ Similar to providing constructors, a class should also provide methods to retrie
 
 The use of accessor and mutator methods is a bit controversial.   Suppose that we provide an accessor method and a mutator method for every private field, then we are exposing the internal representation, therefore breaking the encapsulation.  For instance:
 
-```Java
-// Circle v0.4
+```Java title="Circle v0.4"
 class Circle {
   private double x;
   private double y;
@@ -64,24 +63,26 @@ In the code above, we can categorise the accessor and mutator of each field as f
 | `y` | `getY` | `setY` |
 | `r` | `getR` | `setR` |
 
-!!! danger "Why have Accessor and Mutator methods when you can make a field public?"
-    Whilst having both accessor and mutator for a private field is controversial, it is still _better_ than setting the field itself public.  By having accessor and mutator, we are still adding atleast some layer of abstraction because we can change the name of the field without affecting the client.
+!!! danger "Why provide an accessor and a mutator when you can declare a field as `public`?"
+    Whilst having both an accessor and a mutator for a private field is controversial, it is still _better_ than setting the field `public`.  By having an accessor and a mutator, we are adding a layer of abstraction.  For instance, we can still rename a field without affecting the client.
 
-    Another advantage is that we may be able to perform some checks on the mutator and prevent certain invalid values from ever being assigned to the field.  Consider the method `setR` in our circle v0.4 above.  A slightly better approach is to implement it with a check to prevent setting the radius zero or negative.
+    Another advantage is that we may be able to perform some checks on the mutator and prevent certain invalid values from ever being assigned to the field.  Consider the method `setR` in our `Circle` v0.4 above.  A slightly better approach is to implement it with a check to prevent setting the radius to a non-positive value.
 
     ```java
     public void setR(double r) {
       if (r > 0) {
         this.r = r;
+      } else {
+        // handle error
       }
     }
     ```
 
-    Still, you should first check if you really need an accessor or a mutator for all fields.
+    Regardless, we should think carefully if an accessor or a mutator is really needed for a field.
 
-## The "Tell Don't Ask" Principle
+## The "Tell, Don't Ask" Principle
 
-The mutators and accessors above are pretty pointless.  If we need to know the internal and do something with it, then we are breaking the abstraction barrier.  The right approach is to implement a method within the class that does whatever we want the class to do.   For instance, suppose that we want to check if a given point (x,y) calls within the circle, one approach would be:
+The mutators and accessors above are pretty pointless.  If we need to know the internal and do something with it, then we are breaking the abstraction barrier.  The right approach is to implement a method within the class that does whatever we want the class to do.   For instance, suppose that we want to check if a given point (x,y) falls within the circle, one approach would be:
 
 ```Java
 double cX = c.getX();
@@ -97,11 +98,11 @@ A better approach would be to add a new `boolean` method in the `Circle` class, 
 boolean isInCircle = c.contains(x, y);
 ```
 
-This better approach involves writing a few more lines of code to implement the method, but it keeps the encapsulation intact.  If one fine day, the implementer of `Circle` decided to change the representation of the circle and remove the direct accessors to the fields, then only the implementer needs to change the implementation of `contains`.  The client does not have to change anything.  
+This better approach involves writing a few more lines of code to implement the method, but it keeps the encapsulation intact.  If one fine day, the implementer of `Circle` decides to change the representation of the circle and remove the direct accessors to the fields, then only the implementer needs to change the implementation of `contains`.  The client does not have to change anything.
 
-The principle around which we can think about this is the "Tell, Don't Ask" principle.  The client should tell a `Circle` object what to do (compute the circumference), instead of asking "what is your radius?" to get the value of a field then perform the computation on the object's behalf.
+The principle around which we can think about this is the "Tell, Don't Ask" principle.  The client should _tell_ a `Circle` object what to do (compute the circumference), instead of _asking_ "What is your radius?" to get the value of a field, then perform the computation on the object's behalf.
 
-While there are situations where we can't avoid using accessor or modifier in a class, for beginner OO programmers like yourself, it is better to not define classes with any accessor and modifier to the private fields, and forces yourselves to think in the OO way -- to tell an object what task to perform as a client, and then implement this task within the class as a method as the implementer.
+While there are situations where we cannot avoid using an accessor or a mutator in a class, for beginner OO programmers like yourself, it is better to not define classes with any accessor and modifier to the private fields and force yourselves to think in the OO way -- to tell an object what task to perform as a client, and then implement this task within the class as a method as the implementer.
 
 ## Further Reading
 

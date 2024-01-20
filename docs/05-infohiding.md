@@ -28,7 +28,7 @@ class Circle {
 }
 ```
 
-This small implementation change would invalidate the code that the client has written!  The line `c.r = 10;` will cause a compilation error. The client will have to carefully change all the code that makes the assumption, and modify accordingly, increasing the chances of introducing a bug.
+This small implementation change would invalidate the code that the client has written!  The line `c.r = 10;` will cause a compilation error. The client will have to carefully change all the code that makes the assumption, and modify it accordingly, increasing the chances of introducing a bug.
 
 ## Data Hiding
 
@@ -38,8 +38,7 @@ Such a mechanism to protect the abstraction barrier from being broken is called 
 
 In our original `Circle` class (v0.1) in [Unit 4](04-encapsulation.md), we did not specify any access modifier -- this amounts to using the _default_ modifier, the meaning of which is not our concern right now[^1]  For a start, we will explicitly indicate `private` or `public` for all our methods and fields.
 
-```Java
-// Circle v0.2
+```Java title="Circle v0.2"
 class Circle {
   private double x;
   private double y;
@@ -64,8 +63,8 @@ In summary, the two access modifiers are shown below:
 
 | Acessed from | `private` | `public` |
 |--------------|-----------|----------|
-| _inside the class_ | :material-check: | :material-check: |
-| _outside the class_ | :material-close: | :material-check: |
+| _Inside the class_ | :material-check: | :material-check: |
+| _Outside the class_ | :material-close: | :material-check: |
 
 ## Constructors
 
@@ -75,8 +74,7 @@ A method that initializes an object is called a _constructor_.
 
 A constructor method is a special method within the class.  It cannot be called directly but is invoked automatically when an object is instantiated.   In Java, a constructor method _has the same name as the class_ and _has no return type_.  A constructor can take in arguments just like other functions.  Let's add a constructor to our `Circle` class:
 
-```Java
-// Circle v0.3
+```Java title="Circle v0.3"
 class Circle {
   private double x;
   private double y;
@@ -104,18 +102,18 @@ Circle c = new Circle(0.0, 0.5, 10.0);
 
 ### Default Constructor
 
-Our original circle v0.1 does not have constructor.  If there is no constructor given, then a default constructor is added automatically at compile time.  The default constructor has no parameter and has no code written for the body.  In the case of circle v0.1, the default constructor would be the following.
+Our original `Circle` v0.1 does not have any constructor.  If there is no constructor given, then a default constructor is added automatically at compile time.  The default constructor has no parameter and has no code written for the body.  In the case of `Circle` v0.1, the default constructor would be the following:
 
 ```Java
 Circle() {
 }
 ```
 
-Notice the condition "_if no constructor is given at all_".  Therefore, if there is at least one constructor written, then the default constructor will not be added automatically.
+Notice the condition "_if no constructor is given at all_".  If at least one constructor is provided, Java will not add the default constructor automatically.
 
 
 ## The `this` Keyword
 
-The code above also introduces the `this` keyword.  `this` is a reference variable that refers back to self, and is used to distinguish between two variables of the same name.  In the example above, `this.x = x` means we want to set the field `x` of this object to the parameter `x` passed into the constructor.
+The code above also introduces the `this` keyword.  `this` is a reference variable that refers back to the calling object itself.    It can be used to distinguish between two variables of the same name.  In the example above, `this.x = x` means we want to set the field `x` of this object to the parameter `x` passed into the constructor.
 
-Now that you have been introduced to `this`, we have also updated the method body of `getArea` and replaced `r` with `this.r`.  Although there is nothing syntactically incorrect about using `r`, sticking to the idiom of referring to members through the `this` reference makes the code easier to understand to readers.  We are making it explicit that we are referring to a field in the class, rather than a local variable or a parameter.
+Now that you have been introduced to `this`, we have also updated the method body of `getArea` and replaced `r` with `this.r`.  Although there is nothing syntactically wrong with using just `r`, sticking to the idiom of referring to members through the `this` reference makes the code easier to understand for readers.  The `this` reference makes it explicit that the expression is referring to a field in the class, rather than a local variable or a parameter.

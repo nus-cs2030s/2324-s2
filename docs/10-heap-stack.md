@@ -4,7 +4,7 @@
 
     After taking this unit, students should:
 
-    - understand when memory are allocated/deallocated from the heap vs. from the stack
+    - understand when memory is allocated/deallocated from the heap and from the stack
     - understand the concept of call stack in JVM
 
 
@@ -19,13 +19,13 @@ The Java Virtual Machine (JVM) manages the memory of Java programs while its byt
 
 Since the concepts of heap and stack are common to all execution environments (either based on bytecode or machine code), we will focus on them here.
 
-The _heap_ is the region in memory where all objects are allocated in and stored, while the _stack_ is the region where all variables (including primitive types and object references) are allocated in and stored.
+The _heap_ is the region in memory where all objects are allocated and stored, while the _stack_ is the region where all variables (including primitive types and object references) are allocated and stored.
 
 ### Stack
 
 The stack contains variables.  Please note that instance and class fields are **not** variables.  As such, fields are not in the stack.
 
-Recall that the same variable names can exist in the program as long as they are in different methods.  This means that the variables are contained within the _call frames_.  Call frames are created when we invoke a method and are removed when the method finished.
+Recall that the same variable names can exist in the program as long as they are in different methods.  This means that the variables are contained within the _call frames_.  Call frames are created when we invoke a method and are removed when the method completes.
 
 Like a "stack of books" where we can only take the book at the top and can only put more books at the top, the call frames in the stack can only be added or removed from the top.  This behavior is also called Last-In First-Out (LIFO).  In other words, the last element that is inserted (i.e., Last-In) is the first element to be removed (i.e., First-Out).
 
@@ -35,7 +35,7 @@ Like a "stack of books" where we can only take the book at the top and can only 
 
 The heap stores dynamically allocated objects.  To put it simply, whenever you use the keyword `new`, a new object is created in the heap.
 
-Unlike the stack, there is no concept of LIFO.  So, an object can persist across multiple method invocation.  This also means that an object can be shared between multiple method invocations.
+Unlike the stack, there is no concept of LIFO.  So, an object can persist across multiple method invocations.  This also means that an object can be shared between multiple method invocations.
 
 An object in the heap contains the following information:
 
@@ -58,13 +58,13 @@ Line 1 declares a variable `p`.  When the JVM executes this line of code, it all
 
 Line 2 creates a new `Point` object.  When the JVM executes this line of code, it (i) allocates some memory space for a `Point` object on the heap, (ii) invokes the constructor, and (iii) returns the reference to the newly allocated memory space back.  The returned memory address of this memory space becomes the reference of the object and is assigned to the variable `p`.
 
-This is shown in the figures below in 3 steps.  Note that we assume that the code snippet above is in the static method called `main`.  Although technically there should be a parameter in the call frame of `main` usually called `args` due to the typical main method `public static void main(String[] args)`, we will often omit this because the name and values are unknown.
+This is shown in the figures below in three steps.  Note that we assume that the code snippet above is in the static method called `main`.  Although technically there should be a parameter in the call frame of `main` usually called `args` due to the typical main method `public static void main(String[] args)`, we will often omit this because the name and values are unknown.
 
-Notice the crucial difference between the static method `main` and the constructor.  Static method does not have the keyword `this`.  On the other hand, non-static methods including constructor has the keyword `this`.
+Note the crucial difference between the static method `main` and the constructor.  A static method does not have `this` in its call frame.  On the other hand, non-static methods, including constructors, have `this` in their call frames.
 
-Although we mentioned that `this` is a keyword, it behaves mostly like a variable[^1].  As such, we have its representation in the stack.  Further note that the parameters are ordered with the leftmost parameter appears at the bottom of the call frame after the keyword `this` (if any).
+Although we mentioned that `this` is a keyword, it behaves mostly like a variable[^1].  As such, we have its representation in the stack.  Further, note that the parameters are ordered with the leftmost parameter appearing at the bottom of the call frame after the keyword `this` (if any).
 
-[^1]: It can also behaves like a function/method in a sense that it can be invoked (_e.g.,_ `this(..)`).  In this case, the keyword `this` represents the constructor of the current class.  We will illustrate more of this on the topic of overloading.
+[^1]: It can also behave like a function/method in the sense that it can be invoked (_e.g.,_ `this(..)`).  In this case, the keyword `this` represents the constructor of the current class.  We will illustrate more of this on the topic of overloading.
 
 === "After Line 1"
     ![003a](figures/SH/003a.png)
@@ -91,9 +91,9 @@ Although we mentioned that `this` is a keyword, it behaves mostly like a variabl
 
     ---
 
-Note that we use the symbol ∅ to indicate that the variable is not yet initialized.  Java differentiate between uninitialized variables and variables initialized to `null`.  Uninitialized variables cannot be used.  Further note that uninitialized fields have default values but not uninitialized variables.
+Note that we use the symbol ∅ to indicate that the variable is not yet initialized.  Java differentiates between uninitialized variables and variables initialized to `null`.  Uninitialized variables cannot be used.  Further, note that uninitialized fields have default values but not uninitialized variables.
 
-Also, we will often simplify the presentation.  First, we will omit the memory address (e.g., 9048ab50).  The arrow from the variable `p` containing the value 9048ab50 to an object located at 9048ab50 is already an abstraction of this.  Furthermore, we do not know where the actual address will be and it will be different on different run.  So, we can omit both memory addresses stored in the variable and of the object.
+Also, we will often simplify the presentation.  First, we will omit the memory address (e.g., 9048ab50).  The arrow from the variable `p` containing the value 9048ab50 to an object located at 9048ab50 is already an abstraction of this.  Furthermore, we do not know where the actual address will be and it will be different on different runs.  So, we can omit both memory addresses stored in the variable and of the object.
 
 Secondly, we are often interested only in the snapshot of the stack and heap diagram at a particular moment.  As such, the intermediate call frames (e.g., Point constructor) that are inserted and then removed can be omitted.  Only the final effect matters.
 
@@ -124,7 +124,7 @@ center.moveto(2, 2);
 
 In this example, we have three variables, `c`, `center`, and `radius`.  Lines 1-3 declare the variables, and as a result, we have three variables allocated on the stack.  Again, we assume that the code is in the static method `main`.  Do note the order of these variables in the stack.  Since we declared `c` first, it is located at the bottom of the stack.
 
-Recall that for object references, they are initialized to `null`.  Primitive type variables (e.g., `radius`) are initialized to 0.0 because it is of type `double`.  If it is an `int`, then it will be initialized to 0 instead,
+Recall that, object references are initialized to `null`.  Primitive type variables (e.g., `radius`) are initialized to 0.0 because it is of type `double`.  If it is an `int`, then it will be initialized to 0 instead,
 
 === "After Lines 1-3"
     ![005a](figures/SH/005a.png)
@@ -146,7 +146,7 @@ There is a clear example of aliasing here.  Note that the field `c` of variable 
 
 In this case, the expression `c.c` consists of two arrows.  The first is from variable `c` to the object `Circle`.  The second is from the field `c` to the object `Point`.  On the other hand, the variable `center` is pointing directly to the object `Point`.
 
-We can also see that after Line 7, although the changes is done via `center.moveTo(..)`, the same object referenced by the expression `c.c` can see this change.
+We can also see that after Line 7, although the changes are done via `center.moveTo(..)`, the same object referenced by the expression `c.c` can see this change.
 
 
 ### Call Stack
@@ -176,11 +176,12 @@ p1.distanceTo(p2);
 ```
 
 After declaring `p1` and `p2` and creating both objects, we have:
+
 ![006a](figures/SH/006a.png)
 
 When `distanceTo` is called, the JVM creates a _stack frame_ for this instance method call.  This stack frame is a region of memory that tentatively contains (i) the `this` reference, (ii) the method arguments, and (iii) local variables within the method, among other things[^2][^3].  When a class method is called, the stack frame does not contain the `this` reference.
 
-[^2]: This is not that different from how an OS handles function call in a machine code, as you will see in CS2100/CS2106.
+[^2]: This is not that different from how an OS handles function calls in a machine code, as you will see in CS2100/CS2106.
 [^3]: The other things are JVM implementation independent and not relevant to our discussion here.
 
 ![006b](figures/SH/006b.png)
@@ -189,7 +190,7 @@ You can see that the _references_ to the objects `p1` and `p2` are copied onto t
 Within the method, any modification done to `this` would change the object referenced to by `p1`, and any change made to `q` would change the object referenced to by `p2` as well.
 After the method returns, the stack frame for that method is destroyed.
 
-Let's consider a new `move` method for the class `Point` that has two parameters `(double x, double y)` and moves the `x` and `y` cordinates of the `Point`.
+Let's consider a new `move` method for the class `Point` that has two parameters `(double x, double y)` and moves the `x` and `y` coordinates of the `Point`.
 
 ```Java
 class Point {
@@ -216,7 +217,7 @@ double y = 5;
 p1.move(x, y);
 ```
 
-Again, we create a stack frame, copy the reference to object `p1` into `this`, copy `x` from the calling method to `x` the argument within the method, copy `y` from the calling method to `y` the argument within the method.
+Again, we create a stack frame, copy the reference to object `p1` into `this`, copy `x` from the calling method to `x` the argument within the method, and copy `y` from the calling method to `y` the argument within the method.
 
 === "After Lines 1-2"
     ![007a](figures/SH/007a.png)
@@ -238,7 +239,7 @@ Again, we create a stack frame, copy the reference to object `p1` into `this`, c
 
     ---
 
-What is important here is that, as `x` and `y` are primitive types instead of references, we copy the values onto the stack.  If we change `x` or `y` within `move`, the `x` and `y` of the calling function will not change.  This behavior is the same as you would expect in C.  However, unlike in C where you can pass in a pointer to a variable, you cannot pass in a reference to a primitive type in any way in Java.  If you want to pass in a variable of primitive type into a method and have its value changed, you will have to use a _wrapper class_.  The details of how to do this are left as an exercise.
+What is important here is that, as `x` and `y` are primitive types instead of references, we copy the values onto the stack.  If we change `x` or `y` within `move`, the `x` and `y` of the calling function will not change.  This behavior is the same as you would expect in C.  However, unlike in C where you can pass in a pointer to a variable, you cannot pass in a reference to a primitive type in any way in Java.  If you want to pass a variable of primitive type into a method and have its value changed, you will have to use a _wrapper class_.  The details of how to do this are left as an exercise.
 
 ## Summary
 
@@ -246,6 +247,6 @@ To summarize, Java uses _call by value_ for primitive types, and _call by refere
 
 [^4]: Alternatively, you can think of Java as always using _call by value_.  It's just that the value of a reference is, in fact, just a reference.
 
-If we made multiple nested method calls, as we usually do, the stack frames get stacked on top of each other. 
+If we make multiple nested method calls, as we usually do, the stack frames get stacked on top of each other. 
 
-__One final note:__ the memory allocated on the stack is deallocated when a method returns.  The memory allocated on the heap, however, stays there as long as there is a reference to it (either from another object or from a variable in the stack).  Unlike C or C++, in Java, you do not have to free the memory allocated to objects.  The JVM runs a _garbage collector_  that checks for unreferenced objects on the heap and cleans up the memory automatically.
+__One final note:__ the memory allocated on the stack is deallocated when a method returns.  The memory allocated on the heap, however, stays there as long as there is a reference to it (either from another object or from a variable in the stack).  Unlike C or C++, in Java, you do not have to free the memory allocated to objects.  The JVM runs a _garbage collector_ that checks for unreferenced objects on the heap and cleans up the memory automatically.
