@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
 
 <!-- CHANGE TITLE -->
-<title>CS2030S AY22/23 S2 Lecture 2</title>
+<title>CS2030S AY23/24 S2 Lecture 2</title>
 <meta charset="utf-8">
 </head>
 <body>
@@ -22,18 +22,14 @@ class: middle, center
 
 ## Lecture 2
 
-### 16 January 2023
+### 22 January 2024
 ---
 class: middle,left
 
 ## Announcements:
 
 - Self Diagnostic Quiz 2 (out after the lecture)
-- Problem Set 0 (out after the lecture)
-- Lab 0 (out later this week)
-- Unix clinics this week
-- Vim Workshop
-- No need to install anything!
+
 
 ---
 class: middle,left
@@ -100,6 +96,22 @@ public Circle(double x, double y, double r) {
     this.r = r;
 }
 ```]
+---
+class: middle
+
+## Accessors and Mutators 
+
+.small[```Java
+public double getR() {
+	return this.r;
+}
+
+public void setR(double r) {
+	this.r = r;
+}
+```
+]
+
 ---
 class: middle,left
 
@@ -273,12 +285,12 @@ class: bottom
 .tiny[
 Version: v1.0
 
-Last Updated: Sat Jan 14 12:00:00 +08 2023
+Last Updated: Sat Jan 21 12:00:00 +08 2024
 ]
 </textarea>
 
-<script src="https://remarkjs.com/downloads/remark-latest.min.js">
-</script>
+<script src="https://thisisadi.yoga/remark/js/remark.js" type="text/javascript"></script>
+<script src="https://thisisadi.yoga/remark/plugins/qanvas/init.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
 <script src="javascripts/counter.js">
 </script>
@@ -293,9 +305,12 @@ var slideshow = remark.create({
     navigation: {
 	    scroll: false
 	},
+	qanvas: {
+  		pensize: 2
+	},
 	ratio: '16:9',
 	highlightStyle: 'ir-black',
-    slideNumberFormat: 'CS2030S AY22/23 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
+    slideNumberFormat: 'CS2030S AY23/24 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
 });
  // Setup MathJax
   MathJax.Hub.Config({
