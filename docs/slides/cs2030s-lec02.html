@@ -214,13 +214,23 @@ Reminder:  Subtyping is Reflexive and Transitive
 ---
 class: middle,wide
 
-## Run-Time Type
+## Subtyping with Reference Types
 
 If `ColoredCircle` $<:$ `Circle`
 
 .small[```Java
 ColoredCircle c = new Circle(p, 0); // error
 Circle c = new ColoredCircle(p, 0, blue); // OK
+```]
+
+---
+class: middle,wide
+
+## Compile-Time Type vs. Run-Time Type
+
+.small[```Java
+Circle c = new ColoredCircle(p, 0, blue);
+c = new Circle(p, 0);
 ```]
 
 ---
