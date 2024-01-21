@@ -55,7 +55,8 @@ nav:
       - Lessons: 'vim/quick-lessons.md'
       - Tips: 'vim/tips.md'
       - Plugins: 'vim/plugins.md'
-      - Cheat Sheet: 'vim/cheatsheet.md'
+  - Lab Assignments: 
+    - General Information: 'lab.md'
   # - Java Guide: 
   #      - Coding Style: 'style.md'
   #      - JavaDoc : 'javadoc.md'
