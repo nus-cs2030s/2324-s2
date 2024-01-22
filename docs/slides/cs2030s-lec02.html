@@ -26,7 +26,7 @@ class: middle, center
 ---
 class: middle,left
 
-## Announcements:
+### Announcements:
 
 - Self Diagnostic Quiz 2 (out after the lecture)
 - Lab 0
@@ -36,7 +36,7 @@ class: middle,left
 
 ---
 class: middle
-## The CS2030S Ticketing System™
+### The CS2030S Ticketing System™
 
 [https://mysoc.nus.edu.sg/app/cs2030s](https://mysoc.nus.edu.sg/app/cs2030s)
 
@@ -74,9 +74,18 @@ Almost daily until 29 Jan, at 2 - 3 PM, in AS6 #05-10 Meeting Room 6.
 Please book an appointment via Canvas Calendar.
 
 ---
+class:middle
+
+### Vim Bootcamp
+
+Saturday, Jan 27, 2024 at 10:00AM on Zoom. 
+
+Meeting link is on Canvas.
+
+---
 class: middle,left
 
-## Topics to cover today:
+### Topics to cover today:
 
 - Information Hiding, Tell Don't Ask
 - Class fields and methods
@@ -105,12 +114,12 @@ class Circle {
 ---
 class: top,center
 
-## Abstraction Barrier
+### Abstraction Barrier
 
 ---
 class: middle,left
 
-## Information Hiding
+### Information Hiding
 
 New Java syntax: _access modifiers_
 
@@ -129,7 +138,7 @@ this.x = x;
 ---
 class: middle,left
 
-## Constructor
+### Constructor
 
 .small[```Java
 public Circle(double x, double y, double r) {
@@ -141,7 +150,7 @@ public Circle(double x, double y, double r) {
 ---
 class: middle
 
-## Accessors and Mutators 
+### Accessors and Mutators 
 
 .small[```Java
 public double getR() {
@@ -170,7 +179,7 @@ boolean isInCircle = ((x - cX) * (x - cX) +
 ---
 class: middle,left
 
-## Tell, Don't Ask
+### Tell, Don't Ask
 
 .small[```Java
 boolean isInCircle = c.contains(x, y);
@@ -188,14 +197,14 @@ c.contains(x, y);
 ---
 class: middle,left
 
-## Class Fields and Methods
+### Class Fields and Methods
 
 Java keyword `static`
 
 ---
 class: middle,left
 
-## Class Fields
+### Class Fields
 
 .tiny[```Java
 class Math {
@@ -209,7 +218,7 @@ class Math {
 ---
 class: middle,left
 
-## Class Methods
+### Class Methods
 
 .small[```Java
 public static int getNumOfCircles() {
@@ -220,7 +229,7 @@ public static int getNumOfCircles() {
 ---
 class: middle, left
 
-## `main`
+### `main`
 
 .small[```Java
 public static void main(String[] args) {
@@ -229,27 +238,26 @@ public static void main(String[] args) {
 ```
 ]
 ---
-class: top,center
+class: middle,center
 
-## Composition
+### Composition
 
 ### Models the "has-a" relationship
 
 ---
 class: middle,center
 
-
-# Stack and Heap
+## Stack and Heap
 
 ---
 class: top,center
 
-## Aliasing
+### Aliasing
 
 ---
 class: middle,center
 
-## Inheritance
+### Inheritance
 
 ### Models the "is-a" relationship
 
@@ -258,7 +266,7 @@ In Java, we use the `extends` keyword.
 ---
 class: middle
 
-## Our first subtyping rule for Reference Types
+### Our first subtyping rule for Reference Types
 
 If `S` inherits from `T`, then `S` $<:$ `T`.
 
@@ -267,7 +275,7 @@ Reminder:  Subtyping is Reflexive and Transitive
 ---
 class: middle,wide
 
-## Subtyping with Reference Types
+### Subtyping with Reference Types
 
 If `ColoredCircle` $<:$ `Circle`
 
@@ -279,7 +287,7 @@ Circle c = new ColoredCircle(p, 0, blue); // OK
 ---
 class: middle,wide
 
-## Compile-Time Type vs. Run-Time Type
+### Compile-Time Type vs. Run-Time Type
 
 .small[```Java
 Circle c = new ColoredCircle(p, 0, blue);
@@ -289,12 +297,12 @@ c = new Circle(p, 0);
 ---
 class: middle,wide
 
-## Ok, but what is at the top of this class hierarchy?
+### Ok, but what is at the top of this class hierarchy?
 
 ---
 class: middle,center
 
-## java.lang.Object
+### java.lang.Object
 
 ### The mother of all classes!
 
@@ -303,7 +311,7 @@ Now a chance to have a look at the [java documentation!](https://docs.oracle.com
 ---
 class: middle,center
 
-## java.lang.Object
+### java.lang.Object
 
 We will discuss two methods:
 
@@ -314,20 +322,20 @@ We will discuss two methods:
 ---
 class: middle,center
 
-## Method Signature
+### Method Signature
 
 The method name, type of arguments, order of arguments, and number of arguments.
 
 ---
 class: middle,center
 
-## Overriding
+### Overriding
 
 `@Override`
 ---
 class: middle,left
 
-## Topics covered today:
+### Topics covered today:
 
 - Information Hiding, Tell Don't Ask
 - Class fields and methods
@@ -341,7 +349,7 @@ class: middle,left
 ---
 class: middle
 
-# Reminders:
+### Reminders:
 
 - Do the Self-Diagnostic Quiz!
 - Follow the module policies
@@ -351,7 +359,7 @@ class: middle
 ---
 class: middle
 
-# Reminders:
+### Reminders:
 
 - Practice Quizzes on Vim and PE
 - The CS2030S Ticketing System™
@@ -361,7 +369,7 @@ class: middle
 ---
 class: middle
 
-# Reminders:
+### Reminders:
 
 Don't just **read** the examples given... have a **play** around with them. Try changing something and see what happens.
 
