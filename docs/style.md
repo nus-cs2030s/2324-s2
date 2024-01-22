@@ -30,7 +30,7 @@ Many major companies enforce coding styles, and some have published them.  For C
     
         This option is already included in the `~/.vimrc` file if you follow the [Vim setup guide](vim/setup.md). In fact, we recommend you follow the [Vim setup guide](vim/setup.md) instead and don't manually manage your own version of your `~/.vimrc` file.
 
-        Most other source code editors have similar configuration.  
+        Most other source code editors have similar configurations.  
 
 2. Exactly one blank line after import statements and exactly one top-level (_i.e., non-nested_) class.
 
@@ -42,7 +42,7 @@ Many major companies enforce coding styles, and some have published them.  For C
 
 6. Use "[Egyptian brackets](https://en.wikipedia.org/wiki/Indentation_style#K&R_style)": 
 
-    - Opening brace have no line break before; but has line break after
+    - Opening brace has no line break before; but has a line break after
     - Closing brace has a line break before; and has a line break after (_except when there is `else` or comma following a closing brace_).
 
     !!! success "Good Example"
@@ -87,7 +87,7 @@ Many major companies enforce coding styles, and some have published them.  For C
         set shiftwidth=2
         set autoindent
         set smartindent
-        " For Java: enabling this includes Java-specific indentation settings that handles annotations like @Override
+        " For Java: enabling this includes Java-specific indentation settings that handle annotations like @Override
         filetype plugin indent on
         ```
 
@@ -98,7 +98,7 @@ Many major companies enforce coding styles, and some have published them.  For C
     
         These options are already included in the `~/.vimrc` file if you follow the [Vim setup guide](vim/setup.md). In fact, we recommend you follow the [Vim setup guide](vim/setup.md) instead and don't manually manage your own version of your `~/.vimrc` file.
     
-        Most other source code editors have similar configuration.  
+        Most other source code editors have similar configurations.  
 
 8. Each statement is followed by a line break, no matter how short the statement is.
 
@@ -152,7 +152,7 @@ Many major companies enforce coding styles, and some have published them.  For C
 
 10. There should be a blank line between constructors, methods, nested classes and static initializers.  Blank lines can be used between fields to create logical groupings.
 
-11. White space should separate Java keywords from parenthesis and braces, and be added on both sides of binary operators (_`+`, `-`, `/`, etc_) as well as `:` in enhanced for-loop.  Space should also appears before and after `//` comments
+11. White space should separate Java keywords from parenthesis and braces, and be added on both sides of binary operators (_`+`, `-`, `/`, etc_) as well as `:` in enhanced for-loop.  Space should also appear before and after `//` comments
 
     !!! success "Good Example"
 
@@ -205,7 +205,7 @@ Many major companies enforce coding styles, and some have published them.  For C
         String args[];
         ```
 
-14. Switch statement always include a `default` case.
+14. Switch statements always include a `default` case.
 
 15. One annotation per line.
 
@@ -254,7 +254,7 @@ Many major companies enforce coding styles, and some have published them.  For C
           */
         ```
 
-18. Class modifier appears in the following order:
+18. Class modifiers appear in the following order:
 
     ```Java
     public protected private abstract default static final transient volatile synchronized native strictfp
@@ -272,20 +272,22 @@ Many major companies enforce coding styles, and some have published them.  For C
         static public void main(String[] args)
         ```
 
-19. Class names are writte in UpperCamelCase, method names and field names in lowerCamelCase, constant names in ALL_CAPS_SNAKE_CASE.  Type parameters in single capital letter.
+19. Class names are written in UpperCamelCase; method names and field names in lowerCamelCase; and constant names in ALL_CAPS_SNAKE_CASE.  Type parameters in single capital letters.
 
 20. Caught exceptions should not be ignored.
 
-21. Static fields and methods must be accessed with class name.
+21. Static fields and methods must be accessed with their corresponding class names.
 
 ## Using `checkstyle`
 
-To automatically check for style violation, we use a tool call [`checkstyle`](http://checkstyle.org).
+To automatically check for style violations, we use a tool called [`checkstyle`](http://checkstyle.org).
 
-To run, 
+Example of how to run:
 
 ```
 java -jar ~cs2030s/bin/checkstyle.jar -c ~cs2030s/bin/cs2030_checks.xml *.java 
 ```
+
+The labs and exams may have different stylecheck configurations.  See the corresponding instructions in the labs/exam papers.
 
 Hint: put the command into a `bash` script so that you do not need to type such a long string all the time.
