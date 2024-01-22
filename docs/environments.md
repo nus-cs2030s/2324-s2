@@ -126,9 +126,11 @@ You can use the following command on your local computer to generate a pair of k
 ssh-keygen -t rsa
 ```
 
-This command will generate two keys, a private key `id_rsa`, and a public key `id_rsa.pub`.  Keep the private key `id_rsa` on your local machine in the hidden `~/.ssh` directory and copy the public key `id_rsa.pub` to your account on PE `pe111`.
+This command will generate two keys, a private key `id_rsa`, and a public key `id_rsa.pub`.  {++You will be prompted for a passphrase.  This is the passphrase to protect your private key on your local computer.  You can enter an empty passphrase (at the cost of weaker security) to avoid being prompted for the passphrase whenever you access the private key[^1].++} 
 
-There are two methods to do this:
+Keep the private key `id_rsa` on your local machine in the hidden `~/.ssh` directory and copy the public key `id_rsa.pub` to your account on PE `pe111`.
+
+There are two methods to do this.  {++You only need to apply one of them.++}
 
 ### Method 1: Using `ssh-copy-id`
 
@@ -142,7 +144,7 @@ You will be prompted to enter your password for the PE host.  After this step is
 
 ### Method 2: Using `scp`
 
-First, use `scp` to copy the public key `id_rsa.pub` from your local machine to your home directory on PE `pe111`.  
+First, use `scp` to copy the public key `id_rsa.pub` from your local machine to your home directory on PE `pe111`.
 
 On `pe111`, run
 
@@ -152,7 +154,7 @@ cat id_rsa.pub >> ~/.ssh/authorized_keys
 
 Make sure that the permission for `.ssh` both on the local machine and on PE is set to `700` and the files `id_rsa` on the local machine and `authorized_keys` on the remote machine are set to `600`.  See the guide on using [`ls`](unix/essentials.md#ls-list-content-of-a-directory) and [`chmod`](unix/essentials.md#file-permission-management) if you are unsure how to do this.
 
-Once set up, you need not enter your password every time you run `ssh` or `scp`.  
+Once set up, you need not enter your password every time you run `ssh` or `scp`.
 
 ## Stability of Network Connection
     
@@ -173,3 +175,5 @@ screen -r
 ```
 
 to resume your previous session.
+
+[^1]: Alternatively you can read more about setting up `ssh-agent` with a passphrase for better security.

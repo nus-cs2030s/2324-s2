@@ -5,6 +5,7 @@
 1. You should already have your SoC Unix account, cluster access, and SoC VPN set up, and be able to `ssh` into one of the PE hosts.  If you are not able to do this, please look at the guide on [programming environments](environments.md).
 2. You should feel comfortable running basic UNIX commands.  If you have not gone through the UNIX guide and got your hands dirty, please [look at the guide and play with the various basic Unix commands](unix/essentials.md).
 3. You should already have a GitHub account and can log into [GitHub.com](https://www.github.com).
+4. {++You know how to create and edit a file in Vim++}
 
 ## Purpose
 
