@@ -90,10 +90,10 @@ Sometimes we need to comment out a whole block of code in C for testing purposes
 
 - Place the cursor on the first line of the block of code you want to comment on.
 - ++0++ to jump to the beginning of the line
-- ++shift+v++ enter visual mode
+- {++ ++ctrl+v++ enter visual block mode (if your terminal intercepts ++ctrl+v++ as paste, try ++ctrl+q++). ++}
 - Use the arrow key to select the block of code you want to comment on.
 - ++shift+i++ to insert at the beginning of the line (here, since we already selected the block, we will insert at the beginning of every selected)
-- ++slash++++slash++ to insert the C comment character (you will see it inserted in the current line, but don't worry)
+- ++slash++++slash++ to insert the C/Java comment character (you will see it inserted in the current line, but don't worry)
 - ++escape++ to escape from the visual code.
 
 To uncomment,
