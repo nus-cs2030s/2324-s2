@@ -55,6 +55,33 @@ Use CTRL-w CTRL-w to navigate between windows.
 
 Or you can open the file in a new tab with `:tabf Event.java`.  Use `gt` to navigate between tabs.
 
+## Looking for Things
+
+When reading code, we often need to look for a specific variable, method, or type.  For instance, you might wonder, what a method does, or which line sets a field to `null`.  In such scenarios, it is useful to ask Vim to search for it, rather than just scrolling through the code and eyeballing it yourself.
+
+### Searching for a String in the Current File
+
+To search for a string, type, in NORMAL mode, `/` followed by the string you are looking for.  The cursor will jump to the first occurrence of the string after the current cursor.  
+
+You can use `n` or `N` to jump to the next or previous occurrence of the string respectively.
+
+Another useful key is `#` or `*`, already mentioned above, for searching the current word the cursor is under.
+
+### Searching for a String Across Files
+
+Sometimes it is useful to search across all Java files for an identifier.
+
+You can do this through the `grep` command.  For example,
+
+```
+:grep Circle *.java
+```
+
+would search for all `Circle` occurrences in all the files with the suffix `.java`.
+
+After this, you can type `:cn` or `:cp` to jump to the next and previous results, even if it is in different files.  
+
+If there are too many matches and you only want to go to a specific one, use `:copen` to open up the list of matches in a separate window, then select the specific match that you wish to jump to.
 
 ## Moving Things Around
 
@@ -148,13 +175,32 @@ Let's say that you have a type in the file `Rectangel.java`.  You have named you
 
 The command `:%s/Rectangel/Rectangle/g` should replace all occurances for you.
 
+## Typing Long Java Names
+
+It is a good habit to give meaningful names to the variables, methods, and types in our programs.  To avoid cryptic names such as `noc`, it is recommended that we use English words, such as `numOfCustomers`.  Such names can get very long.  Even if you are a master in naming and avoid such long names in your own code, you will inevitably use Java libraries with long names.  Having a long name has several disadvantages.  First, it takes more keystrokes to type.  Second, it increases the likelihood of typos. 
+
+Here are two useful tricks that can save you from typing long names.
+
+### Auto-completion
+
+You can type CTRL-P or CTRL-N in NORMAL mode to auto-complete a word.  So you only need to type the long name the first time.  Subsequently, type the prefix and auto-complete.  
+
+### Abbreviation
+
+You can setup a temporary abbreviation in your `~/.vimrc`.  Example
+```
+ab noc numOfCustomers
+```
+
+After the configuration is read, you only need to type `noc` in your code and it will be automatically expanded to `numOfCustomers`.
+
 ## Compiling without Leaving Vim
 
 During development, we go through many iterations of the edit-compile-test cycles.  It would save time if we could do so without leaving Vim.  
 
 ### TERMINAL mode
 
-It is often useful to split your Vim window to open up a terminal, by the `:terminal` command.  From the terminal, you can run `javac` to compile and `java` to test.  You can either CTRL-w CTRL-w to switch back to edit your code, or CTRL-D to close the terminal.
+It is often useful to split your Vim window to open up a terminal, by the `:terminal` command.  From the terminal, you can run `javac` to compile and `java` to test.  You can either CTRL-w CTRL-w to switch back to edit your code or CTRL-D to close the terminal.
 
 ### Invoking Shell Commands
 
