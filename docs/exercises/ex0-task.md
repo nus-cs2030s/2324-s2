@@ -18,7 +18,7 @@ The link to accept the exercise is posted on Canvas and is not available publicl
 ```
 to retrieve the skeleton code.
 
-## Background: Estimating Pi using Monte Carlo Method
+## Background: Estimating Pi using the Monte Carlo Method
 
 The Monte Carlo method for estimating the value of $\pi$ is as follows.  We have a square of width $2r$, and within it, a circle with a radius of $r$.
 
@@ -72,7 +72,7 @@ Point: new at (-3.14, 1.59).. ok
 
     As an aside, note that we actually do not need to explicitly compile `Point.java`.  Since `Test1.java` refers to the `Point` class, `javac` is smart enough to compile `Point.java` if `Point.class` is not found, or recompile `Point.java` if it is newer than `Point.class`.
 
-    However, sometimes Java can get confused (example, if some class files are removed by hand).  It is recommended that students recompile every file that has been edited explicitly, instead of letting Java figure out which file should be recompiled.
+    However, sometimes Java can get confused (e.g. if some class files are removed by hand).  It is recommended that students recompile every file that has been edited explicitly, instead of letting Java figure out which file should be recompiled.
 
     A simple, brute-force, way to recompile all the Java files:
 
@@ -80,7 +80,7 @@ Point: new at (-3.14, 1.59).. ok
     user@pe111:~/lab0-github-username$ javac *.java
     ```
 
-    This only works all the Java files can be compiled without error, of course.
+    This only works when all the Java files can be compiled without error, of course.
 
 ## The `Circle` class
 
@@ -161,13 +161,14 @@ RandomPoint: reset seed to 10 and generate a new point.. ok
 
 ### Ex0
 
-`Ex0` is the main program to solve the problem above.  The `main` method is provided.  It includes the method to read in the number of points and the seed from the standard input and to print the estimated pi value.
+`Ex0` is the main program to solve the problem above.  The `main` method is provided.  It includes the method to read the number of points and the seed from the standard input and to print the estimated pi value.
 
-The method `estimatePi` is incomplete.  Determine how you should declare `estimatePi`, then complete the body by generating random points and count how many fall under the given circle.
+The method `estimatePi` is incomplete.  Determine how you should declare `estimatePi`, then complete the body by generating random points and counting how many fall under the given circle.
 
-Use a circle centered at (0.5,0.5) with radius 0.5 for this purpose. Use `long` and `double` within `estimatePi` for computation to ensure that you have the right precision.
+Use a circle centered at (0.5,0.5) with a radius of 0.5 for this purpose. Use `long` and `double` within `estimatePi` for computation to ensure that you have the right precision.
 
-Tip: In Java, using `/` on two integers result in an integer division.  Make sure one of the operand of `/` is a floating point number if you intend to use `/` for floating point division.
+!!! Tip "Integer vs. Floating Point Division"
+    In Java and many other languages, using `/` on two integers results in an integer division.  Make sure one of the operands of `/` is a floating point number if you intend to use `/` for floating point division.
 
 To compile `Ex0`, 
 ```
@@ -181,14 +182,17 @@ user@pe111:~/lab0-github-username$ java Ex0
 
 The program will pause, waiting for inputs from keyboards.  Enter two numbers. The first is the number of points. The second is the seed.
 
-To avoid repeatedly enter the same input to test, you can enter the two numbers into a text file, say, `TEST`, and then run
-```
+To avoid repeatedly entering the same inputs to test, you can enter the two numbers into a text file, say, `TEST`, and then run
+
+```Shell
 user@pe111:~/lab0-github-username$ java Ex0 < TEST
 ```
 
+If you are not sure that `<` means, read more [input/output direction here](https://nus-cs2030s.github.io/2324-s2/unix/essentials.html#standard-inputoutput).
+
 Sample inputs and outputs have been provided and can be found under the `inputs` and `outputs` directory.
 
-To test your implementation of `Ex0`, automatically against the test data given in `inputs` and `outputs`,
+To test your implementation of `Ex0` automatically against the test data given in `inputs` and `outputs`,
 ```
 ./test.sh Ex0
 ```
@@ -205,7 +209,7 @@ Exception in thread "main" java.lang.IllegalAccessError: failed to access class 
         at Test1.main(Test1.java:5)
 ```
 
-**Why:** Java code needs to be compiled before you run.  So the correct sequence is first compile using `javac`,
+**Why:** Java code needs to be compiled before you run.  So the correct sequence is to, first, compile using `javac`,
 
 ```
 username@pe111:~/lab0-github-username$ javac Test1.java
@@ -238,6 +242,6 @@ username@pe111:~/lab0-github-username$ javac *.java
 RandomPoint.java:12: error: constructor Point in class Point cannot be applied to given types;
 ```
 
-**Why** The constructor for the subclass should call the constructor of the super class.  See the example given in the notes on `ColoredCircle` and `Circle`.
+**Why** The constructor for the subclass should invoke the constructor of the superclass.  See the example given in the notes on `ColoredCircle` and `Circle`.
 
 If the constructor of the superclass is not called explicitly, Java tries to call the default constructor of the superclass without any argument.  If no such constructor is defined, the error above is generated.
