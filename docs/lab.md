@@ -93,6 +93,8 @@ The School of Computing has more than 350 computers in various programming labs 
 
 The exercise is released sometime before Thursday 8 AM, with a deadline (usually Tuesday night in the following week) given.  You must submit each exercise before the deadline to receive your achievement badge.
 
+No late submission is accepted for all CS2030S formative assessments, include lab exercises.  Students, however, are given the leeway to miss 10% of all exercise marks.
+
 ## General Advice
 
 You are advised to (i) spend some time thinking before you begin coding, (ii) practice incremental coding, and (iii) test your programs thoroughly.
