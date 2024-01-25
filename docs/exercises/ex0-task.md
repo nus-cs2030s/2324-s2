@@ -1,6 +1,6 @@
 # Exercise 0: Circle and Point
 
-- Deadline: 31 January 2024, Wednesday, 23:59 SST
+- Deadline: 30 January 2024, Tuesday, 23:59 SST
 - Difficulty Level: 1
 
 ## Prerequisites
@@ -18,18 +18,16 @@ The link to accept the exercise is posted on Canvas and is not available publicl
 ```
 to retrieve the skeleton code.
 
-## Background: Estimating Pi using the Monte Carlo Method
+## Overview: Estimating Pi using the Monte Carlo Method
 
 The Monte Carlo method for estimating the value of $\pi$ is as follows.  We have a square of width $2r$, and within it, a circle with a radius of $r$.
-
 We randomly generate $k$ points within the square.  We count how many points fall within the circle.  Suppose $n$ points out of $k$ fall within the circle.
-
 Since the area of the square is $4r^2$ and the area of the circle is $\pi r^2$, the ratio between them is $\pi/4$.  The ratio $n/k$ should therefore be $\pi/4$, and $\pi$ can be estimated as $4n/k$.
 
 
 ## Skeleton Files for Exercise 0
 
-In this directory, you should see the following files:
+After you accept and retrieve the skeleton code, you should see the following files:
 
 - Skeleton Java files: `Point.java`, `RandomPoint.java`, `Circle.java`, `Ex0.java`
 
@@ -68,7 +66,7 @@ Point: new at (0, 0).. ok
 Point: new at (-3.14, 1.59).. ok
 ```
 
-!!! Tip: Re-compiling Files that Changed
+!!! Tips "Re-compiling Files that Changed"
 
     As an aside, note that we actually do not need to explicitly compile `Point.java`.  Since `Test1.java` refers to the `Point` class, `javac` is smart enough to compile `Point.java` if `Point.class` is not found, or recompile `Point.java` if it is newer than `Point.class`.
 
@@ -88,7 +86,7 @@ Most of the `Circle` class has been written for you.  You need to complete the m
 
 Some simple tests are provided in the file `Test2.java`.  These test cases are not exhaustive and you are encouraged to test your `Circle` class extensively.
 
-```
+```Shell
 user@pe111:~/lab0-github-username$ javac Test2.java
 user@pe111:~/lab0-github-username$ java Test2
 Circle: new at (0, 0) with radius 4).. ok
@@ -101,7 +99,7 @@ Circle centered at (2, -3) with radius 0.5 does not contain (1.8, -4).. ok
 
 ## The `RandomPoint` class
 
-To estimate pi using the method above, we need to use a random number generation.  A random number generator is an entity that spews up one random number after another.  We, however, cannot generate a truly random number algorithmically.  We can only generate a pseudo-random number.  A pseudo-random number generator can be initialized with a _seed_.  A pseudo-random number generator, when initialized with the same seed, always produces the same sequence of (seemingly random) numbers.
+To estimate $\pi$ using the method above, we need to use a random number generation.  A random number generator is an entity that spews up one random number after another.  We, however, cannot generate a truly random number algorithmically.  We can only generate a pseudo-random number.  A pseudo-random number generator can be initialized with a _seed_.  A pseudo-random number generator, when initialized with the same seed, always produces the same sequence of (seemingly random) numbers.
 
 Java provides a class `java.util.Random` that encapsulates a pseudo-random number generator. We can create a random number generator with a seed of 1:
 
@@ -134,14 +132,16 @@ Using a fixed seed is important for testing since the execution of the program w
 `RandomPoint` is a subclass of `Point` that represents a randomly generated point.  The random number generator that generates a random point has a default seed of 1.  There is a public method `setSeed()` that we can use to update the seed. Here is how it can be used:
 
 To generate a new point,
-```
+
+```Java
 Point p = new RandomPoint(minX, maxX, minY, maxY); 
 ```
 
 `minX`, `minY`, `maxX`, `maxY` represent the minimum and maximum possible x and y values respectively, for each randomly generated point.
 
 To set the random seed,
-```
+
+```Java
 RandomPoint.setSeed(10);
 ```
 
@@ -149,7 +149,7 @@ Tip: What are the fields and methods that should be associated with the class `R
 
 Some simple tests are provided in the file `Test3.java`.  These test cases are not exhaustive and you are encouraged to test your `RandomPoint` class extensively.
 
-```
+```Shell
 user@pe111:~/lab0-github-username$ javac Test3.java
 user@pe111:~/lab0-github-username$ java Test3
 RandomPoint: is a subtype of Point.. ok
@@ -171,12 +171,14 @@ Use a circle centered at (0.5,0.5) with a radius of 0.5 for this purpose. Use `l
     In Java and many other languages, using `/` on two integers results in an integer division.  Make sure one of the operands of `/` is a floating point number if you intend to use `/` for floating point division.
 
 To compile `Ex0`, 
-```
+
+```Shell
 user@pe111:~/lab0-github-username$ javac Ex0.java
 ```
 
 To run `Ex0` and enter the input manually, run
-```
+
+```Shell
 user@pe111:~/lab0-github-username$ java Ex0
 ```
 
@@ -193,8 +195,9 @@ If you are not sure that `<` means, read more [input/output direction here](http
 Sample inputs and outputs have been provided and can be found under the `inputs` and `outputs` directory.
 
 To test your implementation of `Ex0` automatically against the test data given in `inputs` and `outputs`,
-```
-./test.sh Ex0
+
+```Shell
+user@pe111:~/lab0-github-username$ ./test.sh Ex0
 ```
 
 ## Common Mistakes
@@ -205,19 +208,23 @@ To test your implementation of `Ex0` automatically against the test data given i
 
 ```
 username@pe111:~/lab0-github-username$ java Test1.java
-Exception in thread "main" java.lang.IllegalAccessError: failed to access class CS2030STest from class Test1 (CS2030STest is in unnamed module of loader 'app'; Test1 is in unnamed module of loader com.sun.tools.javac.launcher.Main$MemoryClassLoader @782663d3)
+Exception in thread "main" java.lang.IllegalAccessError: failed
+to access class CS2030STest from class Test1 (CS2030STest is
+in unnamed module of loader 'app'; Test1 is in unnamed module
+of loader com.sun.tools.javac.launcher.Main$MemoryClassLoader
+@782663d3)
         at Test1.main(Test1.java:5)
 ```
 
 **Why:** Java code needs to be compiled before you run.  So the correct sequence is to, first, compile using `javac`,
 
-```
+```Shell
 username@pe111:~/lab0-github-username$ javac Test1.java
 ```
 
 and then run using `java`
 
-```
+```Shell
 username@pe111:~/lab0-github-username$ java Test1
 ```
 
@@ -228,7 +235,8 @@ username@pe111:~/lab0-github-username$ java Test1
 **Why**: Java code needs to be compiled before you run.  You need to compile the files that you have changed first before they can take effect.
 
 After you have made changes to multiple files, the easiest way to recompile everything is:
-```
+
+```Shell
 username@pe111:~/lab0-github-username$ javac *.java
 ```
 
@@ -242,6 +250,6 @@ username@pe111:~/lab0-github-username$ javac *.java
 RandomPoint.java:12: error: constructor Point in class Point cannot be applied to given types;
 ```
 
-**Why** The constructor for the subclass should invoke the constructor of the superclass.  See the example given in the notes on `ColoredCircle` and `Circle`.
+**Why:** The constructor for the subclass should invoke the constructor of the superclass.  See the example given in the notes on `ColoredCircle` and `Circle`.
 
 If the constructor of the superclass is not called explicitly, Java tries to call the default constructor of the superclass without any argument.  If no such constructor is defined, the error above is generated.

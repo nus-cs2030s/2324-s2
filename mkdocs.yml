@@ -54,11 +54,13 @@ nav:
       - Setup: 'vim/setup.md'
       - Lessons: 'vim/quick-lessons.md'
       - Tips: 'vim/tips.md'
+      - New Tips: 'vim/operations.md'
       - Plugins: 'vim/plugins.md'
     - Java Guide: 
       - Coding Style: 'style.md'
-  - Lab Assignments: 
-    - General Information: 'lab.md'
+  - Exercises: 
+    - General Guide: 'lab.md'
+    - Exercise 0: 'exercises/ex0-task.md'
   #      - JavaDoc : 'javadoc.md'
 theme: 
   name: material
