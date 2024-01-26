@@ -60,8 +60,8 @@ You will need to come back to this class and add other methods later.  For now, 
 Some simple tests are provided in the file `Test1.java`. Note that these test cases are not exhaustive and you are encouraged to test your `Point` class on your own.  Proceed to the next class if you are convinced your `Point` class is correct.
 
 ```
-user@pe111:~/lab0-github-username$ javac Test1.java
-user@pe111:~/lab0-github-username$ java Test1
+user@pe111:~/ex0-github-username$ javac Test1.java
+user@pe111:~/ex0-github-username$ java Test1
 Point: new at (0, 0).. ok
 Point: new at (-3.14, 1.59).. ok
 ```
@@ -75,7 +75,7 @@ Point: new at (-3.14, 1.59).. ok
     A simple, brute-force, way to recompile all the Java files:
 
     ```Shell
-    user@pe111:~/lab0-github-username$ javac *.java
+    user@pe111:~/ex0-github-username$ javac *.java
     ```
 
     This only works when all the Java files can be compiled without error, of course.
@@ -87,8 +87,8 @@ Most of the `Circle` class has been written for you.  You need to complete the m
 Some simple tests are provided in the file `Test2.java`.  These test cases are not exhaustive and you are encouraged to test your `Circle` class extensively.
 
 ```Shell
-user@pe111:~/lab0-github-username$ javac Test2.java
-user@pe111:~/lab0-github-username$ java Test2
+user@pe111:~/ex0-github-username$ javac Test2.java
+user@pe111:~/ex0-github-username$ java Test2
 Circle: new at (0, 0) with radius 4).. ok
 Circle centered at (0, 0) with radius 4 contains (0, 0).. ok
 Circle centered at (0, 0) with radius 4 does not contain (4, 3).. ok
@@ -150,8 +150,8 @@ Tip: What are the fields and methods that should be associated with the class `R
 Some simple tests are provided in the file `Test3.java`.  These test cases are not exhaustive and you are encouraged to test your `RandomPoint` class extensively.
 
 ```Shell
-user@pe111:~/lab0-github-username$ javac Test3.java
-user@pe111:~/lab0-github-username$ java Test3
+user@pe111:~/ex0-github-username$ javac Test3.java
+user@pe111:~/ex0-github-username$ java Test3
 RandomPoint: is a subtype of Point.. ok
 RandomPoint: generate a new point with default seed.. ok
 RandomPoint: generate a new point with seed 10.. ok
@@ -173,13 +173,13 @@ Use a circle centered at (0.5,0.5) with a radius of 0.5 for this purpose. Use `l
 To compile `Ex0`, 
 
 ```Shell
-user@pe111:~/lab0-github-username$ javac Ex0.java
+user@pe111:~/ex0-github-username$ javac Ex0.java
 ```
 
 To run `Ex0` and enter the input manually, run
 
 ```Shell
-user@pe111:~/lab0-github-username$ java Ex0
+user@pe111:~/ex0-github-username$ java Ex0
 ```
 
 The program will pause, waiting for inputs from keyboards.  Enter two numbers. The first is the number of points. The second is the seed.
@@ -187,7 +187,7 @@ The program will pause, waiting for inputs from keyboards.  Enter two numbers. T
 To avoid repeatedly entering the same inputs to test, you can enter the two numbers into a text file, say, `TEST`, and then run
 
 ```Shell
-user@pe111:~/lab0-github-username$ java Ex0 < TEST
+user@pe111:~/ex0-github-username$ java Ex0 < TEST
 ```
 
 If you are not sure that `<` means, read more [input/output direction here](https://nus-cs2030s.github.io/2324-s2/unix/essentials.html#standard-inputoutput).
@@ -197,7 +197,7 @@ Sample inputs and outputs have been provided and can be found under the `inputs`
 To test your implementation of `Ex0` automatically against the test data given in `inputs` and `outputs`,
 
 ```Shell
-user@pe111:~/lab0-github-username$ ./test.sh Ex0
+user@pe111:~/ex0-github-username$ ./test.sh Ex0
 ```
 
 ## Common Mistakes
@@ -207,7 +207,7 @@ user@pe111:~/lab0-github-username$ ./test.sh Ex0
 **Symptom**: You encounter the error below.
 
 ```
-username@pe111:~/lab0-github-username$ java Test1.java
+username@pe111:~/ex0-github-username$ java Test1.java
 Exception in thread "main" java.lang.IllegalAccessError: failed
 to access class CS2030STest from class Test1 (CS2030STest is
 in unnamed module of loader 'app'; Test1 is in unnamed module
@@ -219,13 +219,13 @@ of loader com.sun.tools.javac.launcher.Main$MemoryClassLoader
 **Why:** Java code needs to be compiled before you run.  So the correct sequence is to, first, compile using `javac`,
 
 ```Shell
-username@pe111:~/lab0-github-username$ javac Test1.java
+username@pe111:~/ex0-github-username$ javac Test1.java
 ```
 
 and then run using `java`
 
 ```Shell
-username@pe111:~/lab0-github-username$ java Test1
+username@pe111:~/ex0-github-username$ java Test1
 ```
 
 ### 2. Changes to Code Not Taking Effect
@@ -237,7 +237,7 @@ username@pe111:~/lab0-github-username$ java Test1
 After you have made changes to multiple files, the easiest way to recompile everything is:
 
 ```Shell
-username@pe111:~/lab0-github-username$ javac *.java
+username@pe111:~/ex0-github-username$ javac *.java
 ```
 
 `*` is a wildcard that pattern-match any string.
