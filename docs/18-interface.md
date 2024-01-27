@@ -1,9 +1,11 @@
 # Unit 18: Interface
 
-After taking this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand interface as a type for modeling "can do" behavior
-- understand the subtype-supertype relationship between a class and its interfaces
+    After taking this unit, students should:
+
+    - understand interface as a type for modeling "can do" behavior
+    - understand the subtype-supertype relationship between a class and its interfaces
 
 ## Modeling Behavior
 
@@ -32,9 +34,9 @@ To resolve this, we will look at an abstraction that models what can an entity d
 
 The abstraction to do this is called an _interface_.  An interface is also a type and is declared with the keyword `interface`.
 
-Since an interface models what an entity can do, the name usually ends with the -able suffix[^1] .
+Since an interface models what an entity can do, the name usually ends with the -able suffix[^1].
 
-Suppose we want to create a type that supports the` getArea()` method, be it a shape, a geographical region, or a real estate property.  Let's call it `GetAreable`:
+Now, suppose we want to create a type that supports the` getArea()` method, be it a shape, a geographical region, or a real estate property.  Let's call it `GetAreable`:
 ```Java
 interface GetAreable {
   public abstract double getArea();
@@ -53,7 +55,7 @@ Now, for every class that we wish to be able to call `getArea()` on, we tell Jav
 For instance,
 ```Java
 abstract class Shape implements GetAreable {
-  private int numOfAxesOfSymmetry ;
+  private int numOfAxesOfSymmetry;
 
   public boolean isSymmetric() {
     return numOfAxesOfSymmetry > 0;
@@ -67,16 +69,16 @@ We can have a concrete class implementing an interface too.
 
 ```Java
 class Flat extends RealEstate implements GetAreable {
-	private int numOfRooms;
-	private String block;
-	private String street;
-	private int floor;
-	private int unit;
+  private int numOfRooms;
+  private String block;
+  private String street;
+  private int floor;
+  private int unit;
 
-	@Override
-	public double getArea() {
-		:
-	}
+  @Override
+  public double getArea() {
+      :
+  }
 }
 ```
 
@@ -149,8 +151,9 @@ class AI extends A implements I{
 }
 ```
 
-The lesson here is that when we are using typecasting, we are telling the compiler that *we know best*, and therefore it will not warn us or stop us from making bad decisions. It is important to always be sure when you use an explicit typecast.
+The lesson here is that when we are using typecasting, we are telling the compiler that *we know best*, and therefore it may not warn us or stop us from making bad decisions[^2]. It is important to always be sure when ever you use an explicit typecast.
 
+[^2]: The compiler will still throw an error if it can prove our program has a typecast that will not work. However, if a typecast has the possibility of working, it will permit it (as in our interface example).
 
 ## Impure Interfaces
 
@@ -158,8 +161,8 @@ As we mentioned at the beginning of this module, it is common for software requi
 
 Suppose that, after we define that `GetAreable` interface, other developers in the team starts to write classes that implement this interface.  One fine day, we realize that we need to add more methods into the `getAreable`.  Perhaps we need methods `getSqFt()` and `getMeter2()` in the interface.  But, one cannot simply change the interface and add these abstract methods now.  The other developers will have to change their classes to add the implementation of two methods, or else their code would not compile!
 
-This is what happened to the Java language when they transitted from version 7 to version 8.  The language needed to add a bunch of useful methods to standard interfaces provided by the Java library, but doing so would break existing code in the 1990s that rely on these interfaces.
+This is what happened to the Java language when they transitioned from version 7 to version 8.  The language needed to add a bunch of useful methods to standard interfaces provided by the Java library, but doing so would break existing code in the 1990s that rely on these interfaces.
 
-The solution that Java came up with is the allow an interface to provide a default implementation of methods that all implementation subclasses will inherit (unless they override).  A method with default implementation is tagged with the `default` keyword.  This leads to a less elegant situation where an `interface` has some abstract methods and some non-abstract default methods.  In CS2030S, we refer to this as _impure interfaces_ and it is a pain to explain since it breaks our clean distinction between a class and an interface.  _We prefer not to talk about it_ -- but it is there in Java 8 and up.
+The solution that Java came up with is the allow an interface to provide a default implementation of methods that all implementation subclasses will inherit (unless they override).  A method with default implementation is tagged with the `default` keyword.  This leads to a less elegant situation where an `interface` has some abstract methods and some non-abstract default methods.  In CS2030S, we refer to these as _impure interfaces_ and it is a pain to explain since it breaks our clean distinction between a class and an interface.  _We prefer not to talk about it_ -- but it is there in Java 8 and up.
 
-[^1]: Although in recent Java releases, this is less common.    
+[^1]: Although in recent Java releases, this is less common.

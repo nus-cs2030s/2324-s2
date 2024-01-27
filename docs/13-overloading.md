@@ -1,9 +1,11 @@
 # Unit 13: Overloading
 
-After reading this unit, students should
+!!! abstract "Learning Objectives"
 
-- understand what is overloading
-- understand how to create overloaded methods
+    After reading this unit, students should
+
+    - understand what is overloading
+    - understand how to create overloaded methods
 
 ## Method overloading
 
@@ -21,7 +23,7 @@ public int add(int x, int y) {
 }
 
 public int add(int x, int y, int z) {
-  return x + y;
+  return x + y + z;
 }
 ```
 
@@ -47,17 +49,17 @@ class Circle {
 
   public boolean contains(Point p) {
     return false;
-	// TODO: Left as an exercise
+    // TODO: Left as an exercise
   }
 
   public boolean contains(double x, double y) {
     return false;
-	// TODO: Left as an exercise
+    // TODO: Left as an exercise
   }
 
   @Override
   public String toString() {
-	  return "{ center: " + this.c + ", radius: " + this.r + " }";
+    return "{ center: " + this.c + ", radius: " + this.r + " }";
   }
 }
 ```
@@ -68,12 +70,12 @@ Recall that overloading requires changing the order, number, and/or type of para
 ```Java
   public boolean contains(double x, double y) {
     return false;
-	// TODO: Left as an exercise
+    // TODO: Left as an exercise
   }
 
   public boolean contains(double y, double x) {
     return false;
-	// TODO: Left as an exercise
+    // TODO: Left as an exercise
   }
 ```
 
