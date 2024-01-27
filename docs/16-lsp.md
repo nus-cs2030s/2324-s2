@@ -1,10 +1,12 @@
 # Unit 16: Liskov Substitution Principle
 
-After this unit, the student should:
+!!! abstract "Learning Objectives"
 
-- understand the type of bugs that reckless developers can introduce when using inheritance and polymorphism
-- understand the Liskov Substitution Principle and thus be aware that not all IS-A relationships should be modeled with inheritance
-- know how to explicitly disallow inheritance when writing a class or disallow overriding with the `final` keyword
+    After this unit, the student should:
+
+    - understand the type of bugs that reckless developers can introduce when using inheritance and polymorphism
+    - understand the Liskov Substitution Principle and thus be aware that not all IS-A relationships should be modeled with inheritance
+    - know how to explicitly disallow inheritance when writing a class or disallow overriding with the `final` keyword
 
 ## The Responsibility When Using Inheritance
 
@@ -17,10 +19,10 @@ It thus becomes a developer's responsibility to ensure that any inheritance with
 
 This is consistent with the definition of subtyping, $S <: T$, but spelled out more formally.
 
-Let's consider the following example method, `Module::marksToGrade`, which takes in the marks of a student and returns the grade 'A', 'B', 'C', or 'F' as a `char`.  How `Module::marksToGrade` is implemented is not important.  Let's look at how it is used.
+Let's consider the following example method, `Course::marksToGrade`, which takes in the marks of a student and returns the grade 'A', 'B', 'C', or 'F' as a `char`.  How `Course::marksToGrade` is implemented is not important.  Let's look at how it is used.
 
 ```Java
-void displayGrade(Module m, double marks) {
+void displayGrade(Course m, double marks) {
   char grade = m.marksToGrade(marks);
   if (grade == 'A')) {
 	  System.out.println("well done");
@@ -34,16 +36,16 @@ void displayGrade(Module m, double marks) {
 }
 ```
 
-Now, suppose that one day, someone comes along and create a new class `CSCUModule` that inherits from `Module`, and overrides `marksToGrade`
-s that it now returns only 'S' and 'U'.  Since `CSCUModule` is a subclass of `Module`, we can pass an instance to `displayGrade`:
+Now, suppose that one day, someone comes along and create a new class `CSCUCourse` that inherits from `Course`, and overrides `marksToGrade`
+s that it now returns only 'S' and 'U'.  Since `CSCUCourse` is a subclass of `Course`, we can pass an instance to `displayGrade`:
 
 ```
-displayGrade(new CSCUModule("GEQ1000", 100));
+displayGrade(new CSCUCourse("GEQ1000", 100));
 ```
 
 and suddenly `displayGrade` is displaying `retake again` even if the student is scoring 100 marks.
 
-We are violating the LSP here.  The object `m` has the following property: `m.marksToGrade` always returns something from the set { `'A'`, `'B'`, `'C'`, `'F'` }, that the method `displayGrade` depends on explicitly.  The subclass `CSCUModule` violated that and makes `m.marksToGrade` returns `'S'` or `'U'`, sabotaging `displayGrade` and causing it to fail.
+The example above shows that we are violating the LSP unintentionally. The object `m` has the following property: `m.marksToGrade` always returns something from the set { `'A'`, `'B'`, `'C'`, `'F'` }, that the method `displayGrade` depends on explicitly.  The subclass `CSCUCourse` violated that and makes `m.marksToGrade` returns `'S'` or `'U'`, sabotaging `displayGrade` and causing it to fail.
 
 LSP cannot be enforced by the compiler[^1]. The properties of an object have to be managed and agreed upon among programmers.  A common way is to document these properties as part of the code documentation.
 
@@ -53,7 +55,7 @@ LSP cannot be enforced by the compiler[^1]. The properties of an object have to 
 
 Another way to develop an intuition of the LSP is through the lens of testing. When we write a method, we may want to introduce test cases to check that our method is working correctly. These test cases are designed based on the _specification_ of our method and not its implementation details[^2]. That is, we test based on the expected inputs and resultant outputs.
 
-[^2]: The test cases we are describing here are known as black-box tests and you will encounter these in later modules at NUS. We will not go into any further details in this module.
+[^2]: The test cases we are describing here are known as black-box tests and you will encounter these in later courses at NUS. We will not go into any further details in this course.
 
 Let's look at an example. We would like to model a restaurant booking system for a restaurant chain. Consider the following `Restaurant` class.  Every restaurant in the chain opens at 12 pm and closes at 10 pm, and has a singular method `canMakeReservation` which allows us to check if the restaurant is available for reservations at a certain `time`.  **The requirement given is that, the system must be able to process a reservation during its opening hours.**
 
@@ -76,10 +78,11 @@ The method `canMakeReservation` returns `true` when the argument passed in to `t
 ```Java
 Restaurant r = new Restaurant();
 r.canMakeReservation(1200) == true; // Is true, therefore test passes
+  : // test for other hours between 1200 - 2200
 r.canMakeReservation(2200) == true; // Is true, therefore test passes
 ``` 
 
-Note that these are simple `jshell` tests, in software engineering modules you will learn better ways to design and formalise these tests.
+Note that these are simple `jshell` tests, in software engineering courses you will learn better ways to design and formalise these tests.
 
 We can now rephrase our LSP in terms of testing. A _subclass_ should not break the expectations set by the _superclass_. If a class `B` is substitutable for a parent class `A` then it should be able to pass all test cases of the parent class `A`. If it does not, then it is not substitutable and the LSP is violated. 
 
@@ -101,11 +104,12 @@ public class LunchRestaurant extends Restaurant {
   }
 }
 ```
-As `LunchRestaurant` $<:$ `Restaurant`, we can point our variable `r` to a new instance of `LunchRestaurant` and run the test cases of the parent class, as can be seen in the code below.
+`LunchRestaurant` does not take reservation during peak hours (i.e., 1200 to 1400). As `LunchRestaurant` $<:$ `Restaurant`, we can point our variable `r` to a new instance of `LunchRestaurant` and run the test cases of the parent class, as can be seen in the code below.
 
 ```Java
 Restaurant r = new LunchRestaurant();
 r.canMakeReservation(1200) == true; // Is false, therefore test fails
+  : // test for other hours between 1200 - 2200
 r.canMakeReservation(2200) == true; // Is true, therefore test passes
 ``` 
 
@@ -128,10 +132,13 @@ Similarly, as `DigitalReadyRestaurant` $<:$ `Restaurant`, we can point our varia
 ```Java
 Restaurant r = new DigitalReadyRestaurant();
 r.canMakeReservation(1200) == true; // Is true, therefore test passes
+  : // test for other hours between 1200 - 2200
 r.canMakeReservation(2200) == true; // Is true, therefore test passes
 ``` 
 
 Both test cases pass.  In fact, all test cases that pass for `Restaurant` would pass for `DigitalReadyRestaurant`.  Therefore `DigitalReadyRestaurant` is substitutable for `Restaurant`. Anywhere we can use an object of type `Restaurant`, we can use `DigitalReadyRestaurant` without breaking any previously written code.
+
+We can now rephrase our LSP in terms of testing. A _subclass_ should not break the expectations set by the _superclass_. If a class `B` is substitutable for a parent class `A` then it should be able to pass all test cases of the parent class `A`. If it does not, then it is not substitutable and the LSP is violated. 
 
 ## Preventing Inheritance and Method Overriding
 
@@ -139,7 +146,7 @@ Sometimes, it is useful for a developer to explicitly prevent a class to be inhe
 
 ```Java
 final class Circle {
-	:
+    :
 }
 ```
 
@@ -148,9 +155,15 @@ Alternatively, we can allow inheritance but still prevent a specific method from
 For instance,
 ```Java
 class Circle {
-   :
+    :
   public final boolean contains(Point p) {
-	:
+      :
   }
 }
 ```
+
+We have now seen that the `final` keyword can be used in three places:
+
+1. In a class declaration to prevent inheritance.
+2. In a method declaration to prevent overriding.
+3. In a field declaration to prevent re-assignment.

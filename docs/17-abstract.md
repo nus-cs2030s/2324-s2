@@ -1,11 +1,13 @@
 # Unit 17: Abstract Class
 
-After this lecture, students should:
+!!! abstract "Learning Objectives"
 
-- be familiar with the concept of an abstract class
-- know the use of the Java keyword `abstract` and the constraints that come with it
-- understand the usefulness of defining and using an abstract class
-- understand what makes a class concrete
+    After this lecture, students should:
+
+    - be familiar with the concept of an abstract class
+    - know the use of the Java keyword `abstract` and the constraints that come with it.
+    - understand the usefulness of defining and using an abstract class
+    - understand what makes a class concrete
 
 ## High-Level Abstraction
 
@@ -66,9 +68,9 @@ double findLargest(Circle[] array) {
 double findLargest(Object[] array) {
   double maxArea = 0;
   for (Object curr : array) {
-	double area = curr.getArea();
+    double area = curr.getArea();
     if (area > maxArea) {
-	  maxArea = area;
+      maxArea = area;
     }
   }
   return maxArea;
@@ -88,9 +90,9 @@ With the new `Shape` class, we can rewrite `findLargest` as:
 double findLargest(Shape[] array) {
   double maxArea = 0;
   for (Shape curr : array) {
-	double area = curr.getArea();
+    double area = curr.getArea();
     if (area > maxArea) {
-	  maxArea = area;
+      maxArea = area;
     }
   }
   return maxShape;
@@ -102,9 +104,9 @@ which now not only works for an array of `Square`, `Rectangle`, `Circle`, etc bu
 Let's actually write out our new `Shape` class:
 ```Java
 class Shape {
-	public double getArea() {
-		// ?
-	}
+  public double getArea() {
+    // what is an area of an unknown shape?
+  }
 }
 ```
 
@@ -122,7 +124,7 @@ class Circle extends Shape {
 
   /**
    * Create a circle centered on Point c with given radius r
-  */
+   */
   public Circle(Point c, double r) {
     this.c = c;
     this.r = r;
@@ -140,7 +142,7 @@ class Circle extends Shape {
    * Return true if the given point p is within the circle.
    */
   public boolean contains(Point p) {
-	// TODO: Left as an exercise
+    // TODO: Left as an exercise
     return false;
   }
 
@@ -149,7 +151,7 @@ class Circle extends Shape {
    */
   @Override
   public String toString() {
-	  return "{ center: " + this.c + ", radius: " + this.r + " }";
+    return "{ center: " + this.c + ", radius: " + this.r + " }";
   }
 
   /**
@@ -160,7 +162,7 @@ class Circle extends Shape {
     if (obj instanceof Circle) {
       Circle circle = (Circle) obj;
       return (circle.c.equals(this.c) && circle.r == this.r);
-	}
+    }
   }
 }
 ```
@@ -170,9 +172,9 @@ Notably, since our `Shape` is a highly abstract entity, it does not have any fie
 One solution is make `Shape::getArea()` returns 0.
 ```Java
 class Shape {
-	public double getArea() {
-		return 0;
-	}
+  public double getArea() {
+    return 0;
+  }
 }
 ```
 
@@ -209,17 +211,26 @@ Note that our simple example of `Shape` only encapsulates one abstract method.  
 To illustrate this, consider
 ```Java
 abstract class Shape {
-	private int numOfAxesOfSymmetry ;
+  private int numOfAxesOfSymmetry ;
 
-	public boolean isSymmetric() {
-		return numOfAxesOfSymmetry > 0;
-	}
+  public boolean isSymmetric() {
+    return numOfAxesOfSymmetry > 0;
+  }
 
-	abstract public double getArea();
+  abstract public double getArea();
 }
 ```
 
 `Shape::isSymmetric` is a concrete method but the class is still abstract since `Shape::getArea()` is abstract.
+
+!!! note "Rule for Abstract Class"
+    Note that the rule for abstract class is not symmetric.
+    
+    > A class with __at least one__ abstract method must be declared abstract.
+    
+    On the other hand,
+    
+    > An abstract class __may have no__ abstract method.
 
 ## Concrete Classes
 

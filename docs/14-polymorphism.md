@@ -1,19 +1,22 @@
 # Unit 14: Polymorphism
 
-After reading this unit, students should
+!!! abstract "Learning Objectives"
 
-- understand dynamic binding and polymorphism
-- be aware of the `equals` method and the need to override it to customize the equality test
-- understand when narrowing type conversion and type casting are allowed
+    After reading this unit, students should
+
+    - understand polymorphism
+    - be aware of dynamic binding
+    - be aware of the `equals` method and the need to override it to customize the equality test
+    - understand when narrowing type conversion and type casting are allowed
 
 ## Taking on Many Forms
 
 Method overriding enables _polymorphism_, the fourth and the last pillar of OOP, and arguably the most powerful one.  It allows us to change how existing code behaves, without changing a single line of the existing code (or even having access to the code).
 
-Consider the function `say` below:
+Consider the function `say(Object)` below:
 ```Java
 void say(Object obj) {
-	System.out.println("Hi, I am " + obj.toString());
+  System.out.println("Hi, I am " + obj.toString());
 }
 ```
 
@@ -25,15 +28,15 @@ Circle c = new Circle(p, 4);
 say(c);
 ```
 
-When executed, `say` will first print `Hi, I am (0.0, 0.0)`, followed by `Hi, I am { center: (0.0, 0.0), radius: 4.0 }`.  _We are invoking the overriding `Point::toString` in the first call, and `Circle::toString` in the second call_.  The same method invocation `obj.toString()` causes two different methods to be called in two separate invocations!
+When executed, `say` will first print `Hi, I am (0.0, 0.0)`, followed by `Hi, I am { center: (0.0, 0.0), radius: 4.0 }`.  _We are invoking the overriding `Point::toString()` in the first call, and `Circle::toString()` in the second call_.  The same method invocation `obj.toString()` causes two different methods to be called in two separate invocations!
 
 In biology, polymorphism means that an organism can have many different forms.  Here, the variable `obj` can have many forms as well.  Which method is invoked is decided _during run-time_, depending on the run-time type of the `obj`.  This is called _dynamic binding_ or _late binding_ or _dynamic dispatch_.
 
-Before we get into this in more detail, let consider overriding `Object::equals`.
+Before we get into this in more detail, let's consider overriding `Object::equals(Object)`.
 
 ## The `equals` method
 
-`Object::equals` compares if two object references refer to the same object.  Suppose we have:
+`Object::equals(Object)` compares if two object references refer to the same object.  Suppose we have:
 
 ```Java
 Circle c0 = new Circle(new Point(0, 0), 10);
@@ -43,7 +46,7 @@ Circle c2 = c1;
 
 `c2.equals(c1)` returns `true`, but `c0.equals(c1)` returns `false`.  Even though `c0` and `c1` are _semantically_ the same, they refer to the two different objects.
 
-To compare if two circles are _semantically_ the same, we need to override this method[^1].  
+To compare if two circles are _semantically_ the same, we need to override this method[^1].  After all, Java does not know what what it means for two circles to be equal, so we have to define it.
 
 [^1]: If we override `equals()`, we should generally override `hashCode()` as well, but let's leave that for another lesson on another day.
 
@@ -60,7 +63,7 @@ class Circle {
 
   /**
    * Create a circle centered on Point c with given radius r
-  */
+   */
   public Circle(Point c, double r) {
     this.c = c;
     this.r = r;
@@ -78,7 +81,7 @@ class Circle {
    */
   public boolean contains(Point p) {
     return false;
-	// TODO: Left as an exercise
+    // TODO: Left as an exercise
   }
 
   /**
@@ -86,7 +89,7 @@ class Circle {
    */
   @Override
   public String toString() {
-	  return "{ center: " + this.c + ", radius: " + this.r + " }";
+    return "{ center: " + this.c + ", radius: " + this.r + " }";
   }
 
   /**
@@ -118,18 +121,18 @@ All these complications would go away, however, if we define `Circle::equals` to
 
 ```Java
 class Circle {
-	 :
+    :
   /**
    * Return true the object is the same circle (i.e., same center, same radius).
    */
   @Override
   public boolean equals(Circle circle) {
-      return (circle.c.equals(this.c) && circle.r == this.r);
+    return (circle.c.equals(this.c) && circle.r == this.r);
   }
 }
 ```
 
-This version of `equals` however, does not override `Object::equals`.  Since we hinted to the compiler that we meant this to be an overriding method, using `@Override`, the compiler will give us an error.  This is not treated as method overriding, since the signature for `Circle::equals` is different from `Object::equals`.
+This version of `equals` however, does not override `Object::equals(Object)`.  Since we hinted to the compiler that we meant this to be an overriding method, using `@Override`, the compiler will give us an error.  This is not treated as method overriding, since the method signature for `Circle::equals(Circle)` is different from `Object::equals(Object)`.
 
 Why then is overriding important?  Why not just leave out the line `@Override` and live with the non-overriding, one-line, `equals` method above?
 
@@ -137,7 +140,7 @@ Why then is overriding important?  Why not just leave out the line `@Override` a
 
 Let's consider the following example.  Suppose we have a general `contains` method that takes in an array of objects.  The array can store any type of objects: `Circle`, `Square`, `Rectangle`, `Point`, `String`, etc.  The method `contains` also takes in a target `obj` to search for, and returns true if there is an object in `array` that equals to `obj`.
 
-```Java
+```Java hl_lines="4"
 // version 0.1 (with polymorphism)
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
@@ -149,9 +152,11 @@ boolean contains(Object[] array, Object obj) {
 }
 ```
 
-With overriding and polymorphism, the magic happens in Line 4 -- depending on the run-time type of `curr`, the corresponding, customized version of `equals` is called to compare against `obj`.  
+With overriding and polymorphism, the magic happens in Line 4 -- depending on the run-time type of `curr`, the corresponding, customized version of `equals` is called to compare against `obj`.   So if the run-time type of `curr` is `Circle`, then we will invoke `Circle::equals(Object)` and if the run-time type of `curr` is `Point`, then we will invoke `Point::equals(Object)`.  This, of course, assumes that `Object::equals(Object)` is overridden in both classes.
 
-However, if `Circle::equals` takes in a `Circle` as the parameter, the call to `equals` inside the method `contains` would not invoke `Circle::equals`.  It would invoke `Object::equals` instead due to the matching method signature, and we can't search for `Circle` based on semantic equality.  
+However, if `Circle::equals(Object)` takes in a `Circle` as the parameter, the call to `equals` inside the method `contains` would not invoke `Circle::equals(Circle)`.  It would invoke `Object::equals(Object)` instead due to the matching method signature, and we can't search for `Circle` based on semantic equality.
+
+Why is this the case?  Look closely at how the method is invoked: `curr.equals(obj)`.  Here, we can see that the parameter we are passing is `obj`.  The _compile-time_ type of `obj` is `Object` as seen from the parameter declaration at Line 2.  So at compile-time, we only know that its type is `Object`.
 
 To have a generic `contains` method without polymorphism and overriding, we will have to do something like this:
 ```Java
