@@ -11,13 +11,12 @@
 
 ## High-Level Abstraction
 
-Recall that the concept of abstraction involves hiding away unnecessary complexity and details so that programmers do not have to bogged down with the nitty-gritty.  
+Recall that the concept of abstraction involves hiding away unnecessary complexity and details so that programmers do not have to be bogged down with the nitty-gritty.  
 
 When we code, we should, as much as possible, try to work with the higher-level abstraction, rather than the detailed version.  Following this principle would allow us to write code that is general and extensible, by taking full advantage of inheritance and polymorphism.
 
 Take the following example which you have seen,
-```Java
-// version 0.1 (with polymorphism)
+```Java title="v0.2 with Polymorphism"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (curr.equals(obj)) {
@@ -28,11 +27,10 @@ boolean contains(Object[] array, Object obj) {
 }
 ```
 
-The function above is very general.  We do not assume and do not need to know, about the details of the items being stored or search.  All we required is that the `equals` method compared if two objects are equal.
+The function above is very general.  We do not assume and do not need to know, about the details of the items being stored or searched.  All we required is that the `equals` method compared if two objects are equal.
 
-In contrast, someone whose mind focuses on finding a circle, might write something like this:
-```Java
-// version 0.3 (for Circle)
+In contrast, someone whose mind focuses on finding a circle might write something like this:
+```Java title="v0.3 for Circle only"
 boolean contains(Circle[] array, Circle circle) {
   for (Circle curr : array) {
     if (curr.equals(circle)) {
@@ -42,14 +40,14 @@ boolean contains(Circle[] array, Circle circle) {
   return false;
 }
 ```
-which serves the purpose, but is not general enough.  The only method used is `equals`, which `Circle` inherits/overrides from `Object` so that using `Circle` for this function is too constraining.  We can reuse this for any other subclasses of Circle, but not other classes.
+
+which serves the purpose, but is not general enough.  The only method used is `equals`, which `Circle` inherits/overrides from `Object` so using `Circle` for this function is too constraining.  We can reuse this for any other subclasses of Circle, but not other classes.
 
 ## Abstracting Circles
 
 Now, let's consider the following function, which finds the largest area among the circles in a given array:
 
-```Java
-// version 0.1
+```Java title="v0.1 with Circle"
 double findLargest(Circle[] array) {
   double maxArea = 0;
   for (Circle curr : array) {
@@ -62,9 +60,9 @@ double findLargest(Circle[] array) {
 }
 ```
 
-`findLargest` suffers from the same specificity as the version 0.3 of `contains`.  It only works for `Circle` and its subclasses only.  Can we make this more general?  We cannot replace `Circle` with `Object`,
-```Java
-// version 0.2
+`findLargest` suffers from the same specificity as version 0.3 of `contains`.  It only works for `Circle` and its subclasses.  Can we make this more general?  We cannot replace `Circle` with `Object`,
+
+```Java title="v0.2 with Object"
 double findLargest(Object[] array) {
   double maxArea = 0;
   for (Object curr : array) {
@@ -76,6 +74,7 @@ double findLargest(Object[] array) {
   return maxArea;
 }
 ```
+
 since `getArea` is not defined for a generic object (e.g., what does `getArea` of a string mean?).  
 
 To allow us to apply `findLargest` to a more generic object, we have to create a new type -- something more specific than `Object` that supports `getArea()`, yet more general than `Circle`.
@@ -85,8 +84,8 @@ To allow us to apply `findLargest` to a more generic object, we have to create a
 Let's create a new class called `Shape`, and redefine our `Circle` class as a subclass of `Shape`. We can now create other shapes, `Square`, `Rectangle`, `Triangle`, etc, and define the `getArea` method for each of them.
 
 With the new `Shape` class, we can rewrite `findLargest` as:
-```Java
-// version 0.3
+
+```Java title="v0.3 with Shape"
 double findLargest(Shape[] array) {
   double maxArea = 0;
   for (Shape curr : array) {
@@ -102,6 +101,7 @@ double findLargest(Shape[] array) {
 which now not only works for an array of `Square`, `Rectangle`, `Circle`, etc but also an array containing multiple shapes!
 
 Let's actually write out our new `Shape` class:
+
 ```Java
 class Shape {
   public double getArea() {
@@ -111,8 +111,8 @@ class Shape {
 ```
 
 and rewrite our `Circle`:
-```Java hl_lines="7 22"
-// version 0.8
+
+```Java title="v0.8" hl_lines="6 23"
 import java.lang.Math;
 
 /**
@@ -169,7 +169,8 @@ class Circle extends Shape {
 
 Notably, since our `Shape` is a highly abstract entity, it does not have any fields.  One question that arises is, how are we going to write `Shape::getArea()`?   We cannot compute the area of a shape unless we know what sort of shape it is.  
 
-One solution is make `Shape::getArea()` returns 0.
+One solution is to make `Shape::getArea()` return 0.
+
 ```Java
 class Shape {
   public double getArea() {
@@ -193,6 +194,7 @@ To declare an abstract class in Java, we add the `abstract` keyword to the `clas
 An `abstract` method cannot be implemented and therefore should not have any method body.
 
 This is how we implement `Shape` as an abstract class.
+
 ```Java
 abstract class Shape {
 	abstract public double getArea();
@@ -223,14 +225,7 @@ abstract class Shape {
 
 `Shape::isSymmetric` is a concrete method but the class is still abstract since `Shape::getArea()` is abstract.
 
-!!! note "Rule for Abstract Class"
-    Note that the rule for abstract class is not symmetric.
-    
-    > A class with __at least one__ abstract method must be declared abstract.
-    
-    On the other hand,
-    
-    > An abstract class __may have no__ abstract method.
+Note that the rule for declaring an abstract class is not symmetric.  A class with _at least one_ abstract method must be declared abstract.  On the other hand, an abstract class _may have no_ abstract method.
 
 ## Concrete Classes
 

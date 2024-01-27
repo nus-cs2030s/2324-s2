@@ -44,14 +44,13 @@ Circle c1 = new Circle(new Point(0, 0), 10);
 Circle c2 = c1;
 ```
 
-`c2.equals(c1)` returns `true`, but `c0.equals(c1)` returns `false`.  Even though `c0` and `c1` are _semantically_ the same, they refer to the two different objects.
+`c2.equals(c1)` returns `true`, but `c0.equals(c1)` returns `false`.  Even though `c0` and `c1` are _semantically_ the same, they refer to two different objects.
 
-To compare if two circles are _semantically_ the same, we need to override this method[^1].  After all, Java does not know what what it means for two circles to be equal, so we have to define it.
+To compare if two circles are _semantically_ the same, we need to override this method[^1].  After all, Java does not know what it means for two circles to be equal, so we have to define it.
 
 [^1]: If we override `equals()`, we should generally override `hashCode()` as well, but let's leave that for another lesson on another day.
 
-```Java hl_lines="42-52"
-// version 0.7
+```Java title="Circle v0.7" hl_lines="41-51"
 import java.lang.Math;
 
 /**
@@ -109,8 +108,8 @@ class Circle {
 This is more complicated than `toString`.  There are a few new concepts involved here:
 
 - `equals` takes in a parameter of compile-time type `Object`.  It only makes sense if we compare (during run-time) a circle with another circle.  So, we first check if the run-time type of `obj` is a subtype of `Circle`.  This is done using the `instanceof` operator.  The operator returns `true` if `obj` has a run-time type that is a subtype of `Circle`.
-- To compare `this` circle with the given circle, we have to access the center `c` and radius `r`.  But if we access `obj.c` or `obj.r`, the compiler will complain.  As far as the compiler is concerned, `obj` has the compile-time type `Object`, and there is no such fields `c` and `r` in the class `Object`!  This is why, after assuring that the run-time type of `obj` is a subtype of `Circle`, we assign `obj` to another variable `circle` that has the compile-time type `Circle`.  We finally check if the two centers are equal (again, `Point::equals` is left as an exercise) and the two radii are equal[^2].
-- The statement that assigns `obj` to `circle` involves _type casting_.  We mentioned before that Java is strongly typed and so it is very strict about type conversion.  Here, Java allows type casting from type $T$ to $S$ if $S <: T$. [^3]: This is called _narrowing type conversion_.  Unlike widening type conversion, which is always allowed and always correct, a _narrowing type conversion_ requires explicit typecasting and validation during run-time.  If we do not ensure that `obj` has the correct run-time type, casting can lead to a run-time error (which if you [recall](01-compiler.md), is bad).
+- To compare `this` circle with the given circle, we have to access the center `c` and radius `r`.  But if we access `obj.c` or `obj.r`, the compiler will complain.  As far as the compiler is concerned, `obj` has the compile-time type `Object`, and there is no such fields `c` and `r` in the class `Object`!  This is why, after assuring that the run-time type of `obj` is a subtype of `Circle`, we assign `obj` to another variable `circle` that has the compile-time type `Circle`.  We finally check if the two centers are equal (again, `Point::equals` is left as an exercise) and if the two radii are equal[^2].
+- The statement that assigns `obj` to `circle` involves _type casting_.  We mentioned before that Java is strongly typed, so it is very strict about type conversion.  Here, Java allows type casting from type $T$ to $S$ if $S <: T$. [^3]: This is called _narrowing type conversion_.  Unlike widening type conversion, which is always allowed and always correct, a _narrowing type conversion_ requires explicit typecasting and validation during run-time.  If we do not ensure that `obj` has the correct run-time type, casting can lead to a run-time error (which if you [recall](01-compiler.md), is bad).
 
 [^2]: The right way to compare two floating-point numbers is to take their absolute difference and check if the difference is small enough.  We are sloppy here to keep the already complicated code a bit simpler.  You shouldn't do this in your code.
 
@@ -132,16 +131,15 @@ class Circle {
 }
 ```
 
-This version of `equals` however, does not override `Object::equals(Object)`.  Since we hinted to the compiler that we meant this to be an overriding method, using `@Override`, the compiler will give us an error.  This is not treated as method overriding, since the method signature for `Circle::equals(Circle)` is different from `Object::equals(Object)`.
+This version of `equals`, however, does not override `Object::equals(Object)`.  Since we hinted to the compiler that we meant this to be an overriding method, using `@Override`, the compiler will give us an error.  This is not treated as method overriding, since the method signature for `Circle::equals(Circle)` is different from `Object::equals(Object)`.
 
 Why then is overriding important?  Why not just leave out the line `@Override` and live with the non-overriding, one-line, `equals` method above?
 
 ## The Power of Polymorphism
 
-Let's consider the following example.  Suppose we have a general `contains` method that takes in an array of objects.  The array can store any type of objects: `Circle`, `Square`, `Rectangle`, `Point`, `String`, etc.  The method `contains` also takes in a target `obj` to search for, and returns true if there is an object in `array` that equals to `obj`.
+Let's consider the following example.  Suppose we have a general `contains` method that takes in an array of objects.  The array can store any type of object: `Circle`, `Square`, `Rectangle`, `Point`, `String`, etc.  The method `contains` also takes in a target `obj` to search for, and returns true if there is an object in `array` that equals to `obj`.
 
-```Java hl_lines="4"
-// version 0.1 (with polymorphism)
+```Java title="v0.1 without Polymorphism" hl_lines="3"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (curr.equals(obj)) {
@@ -159,8 +157,7 @@ However, if `Circle::equals(Object)` takes in a `Circle` as the parameter, the c
 Why is this the case?  Look closely at how the method is invoked: `curr.equals(obj)`.  Here, we can see that the parameter we are passing is `obj`.  The _compile-time_ type of `obj` is `Object` as seen from the parameter declaration at Line 2.  So at compile-time, we only know that its type is `Object`.
 
 To have a generic `contains` method without polymorphism and overriding, we will have to do something like this:
-```Java
-// version 0.2 (without polymorphism)
+```Java title="v0.2 with Polymorphism"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (obj instanceof Circle) {
@@ -184,4 +181,4 @@ boolean contains(Object[] array, Object obj) {
 
 which is not scalable since every time we add a new class, we have to come back to this method and add a new branch to the `if-else` statement!
 
-As this example has shown, polymorphism allows us _to write succinct code that is future proof_.  By dynamically deciding which method implementation to execute during run-time, the implementer can write short yet very general code that works for existing classes as well as new classes that might be added in the future by the client, without even the need to re-compile!
+As this example has shown, polymorphism allows us _to write succinct code that is future-proof_.  By dynamically deciding which method implementation to execute during run-time, the implementer can write short yet very general code that works for existing classes as well as new classes that might be added in the future by the client, without even the need to re-compile!

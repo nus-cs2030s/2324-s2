@@ -63,7 +63,7 @@ abstract class Shape implements GetAreable {
 }
 ```
 
-The `Shape` class will now have a `public abstract double getArea()` thanks to it implementing the `GetAreable` interface.
+The `Shape` class will now have a `public abstract double getArea()` thanks to the implementation of the `GetAreable` interface.
 
 We can have a concrete class implementing an interface too.
 
@@ -85,8 +85,7 @@ class Flat extends RealEstate implements GetAreable {
 For a class to implement an interface and be concrete, it has to override all abstract methods from the interface and provide an implementation to each, just like the example above.  Otherwise, the class becomes abstract.
 
 With the `GetAreable` interface, we can now make our function `findLargest` even more general.
-```Java
-// version 0.3
+```Java title="v0.3"
 double findLargest(GetAreable[] array) {
   double maxArea = 0;
   for (GetAreable curr : array) {
@@ -113,7 +112,7 @@ In the example above, `Flat` <: `GetAreable` and `Flat` <: `RealEstate`.
 
 ## Casting using an Interface
 
-Like any type in Java, it is also possible cast using an Interface. Lets consider an interface `I` and two classes `A` and `B`. Note that `A` does not implement `I`
+Like any type in Java, it is also possible to cast a variable to an interface type. Let's consider an interface `I` and two classes `A` and `B`. Note that `A` does not implement `I`
 
 ```Java
 interface I {
@@ -136,14 +135,14 @@ I i1 = new B(); // Compiles, widening type conversion
 I i2 = (I) new A(); // Also compiles?
 ```
 
-Note that even though `A` does not implement `I`, the Java compiler allows this code to compile. Constrast this with casting between classes which have no subtype relationship:
+Note that even though `A` does not implement `I`, the Java compiler allows this code to compile. Contrast this with casting between classes that have no subtype relationship:
 
 ```Java
 A a = (A) new B(); // Does not compile
 B a = (B) new A(); // Does not compile
 ```
 
-How do we explain this? Well, the Java compiler will not let us cast, when it is provable that it won't work, i.e. casting between two classes which have no subtype relationship. However, for interfaces, there is the *possibility* that a subclass *could* implement the interface and therefore Java allows it to compile. Consider one such potential subclass `AI`:
+How do we explain this? Well, the Java compiler does not let us cast when it is provable that it will not work, i.e. casting between two classes that have no subtype relationship. However, for interfaces, there is the *possibility* that a subclass *could* implement the interface and therefore Java allows it to compile. Consider one such potential subclass `AI`:
 
 ```Java
 class AI extends A implements I{
@@ -151,15 +150,15 @@ class AI extends A implements I{
 }
 ```
 
-The lesson here is that when we are using typecasting, we are telling the compiler that *we know best*, and therefore it may not warn us or stop us from making bad decisions[^2]. It is important to always be sure when ever you use an explicit typecast.
+The lesson here is that when we are using typecasting, we are telling the compiler that *we know best*, and therefore it may not warn us or stop us from making bad decision[^2]. It is important to always be sure whenever you use an explicit typecast.
 
 [^2]: The compiler will still throw an error if it can prove our program has a typecast that will not work. However, if a typecast has the possibility of working, it will permit it (as in our interface example).
 
 ## Impure Interfaces
 
-As we mentioned at the beginning of this module, it is common for software requirements, and their design, to continuously evolve.  But once we define an interface, it is difficult to change.
+As we mentioned at the beginning of this module, it is common for software requirements, and their design, to continuously evolve.  Once we define an interface that is exposed beyond the abstraction barrier, however, it is difficult to change that interface.
 
-Suppose that, after we define that `GetAreable` interface, other developers in the team starts to write classes that implement this interface.  One fine day, we realize that we need to add more methods into the `getAreable`.  Perhaps we need methods `getSqFt()` and `getMeter2()` in the interface.  But, one cannot simply change the interface and add these abstract methods now.  The other developers will have to change their classes to add the implementation of two methods, or else their code would not compile!
+Suppose that, after we define that `GetAreable` interface, other developers in the team start to write classes that implement this interface.  One fine day, we realized that we need to add more methods to the `getAreable`.  Perhaps we need methods `getSqFt()` and `getMeter2()` in the interface.  But, one cannot simply change the interface and add these abstract methods now.  The other developers would have to change their classes to add the implementation of two methods, or else their code would not compile!
 
 This is what happened to the Java language when they transitioned from version 7 to version 8.  The language needed to add a bunch of useful methods to standard interfaces provided by the Java library, but doing so would break existing code in the 1990s that rely on these interfaces.
 

@@ -4,7 +4,7 @@
 
     After this unit, the student should:
 
-    - understand the two step process that Java uses to determine which method implementation will be executed when a method is invoked
+    - understand the two-step process that Java uses to determine which method implementation will be executed when a method is invoked
     - understand that Class Methods do not support dynamic binding
 
 ## How does Dynamic Binding work?
@@ -41,13 +41,15 @@ Let's generalize the compile-time type of the target to $C$.  To determine the m
 
 In the example above, we look at the class `Object`, and there is only one method called `equals`.  The method can be correctly invoked with one argument of type `Object`.
 
-What if there are multiple methods that can correctly accept the argument?  In this case, we choose the _most specific_ one.  Intuitively, a method $M$ is more specific than method $N$ if the arguments to $M$ can be passed to $N$ without compilation error.  For example, let's say a class `Circle` implements:
+What if more than one methods can correctly accept the argument?  In this case, we choose the _most specific_ one.  Intuitively, a method $M$ is more specific than method $N$ if the arguments to $M$ can be passed to $N$ without compilation error.  For example, let's say a class `Circle` implements:
+
 ```Java
 boolean equals(Circle c) { .. }
 
 @Override
 boolean equals(Object c) { .. }
 ```
+
 Then, `equals(Circle)` is more specific than `equals(Object)`.  Every `Circle` is an `Object`, but not every `Object` is a `Circle`. Let's try to understand this using our definition of "more specific" above.
 
 Consider the second part of the definition, _"if the arguments to $M$ can be passed to $N$ without compilation error"_. We need to find which arguments can be accepted by the methods we wish to compare.  In the case of `equals(Circle)`, it can accept `Circle` (and all its subclasses).  On the other hand, for `equals(Object)`, it can accept `Object` and all its subclasses including `Circle`.
@@ -66,10 +68,9 @@ In the example above, the method descriptor `boolean equals(Object)` will be sto
 
 During execution, when a method is invoked, the method descriptor from Step 1 is first retrieved.  Then, the run-time type of the target is determined.  Let the run-time type of the target be $R$.  Java then looks for an accessible method with the matching descriptor in $R$.  If no such method is found, the search will continue up the class hierarchy, first to the parent class of $R$, then to the grand-parent class of $R$, and so on, until we reach the root `Object`.  The first method implementation with a matching method descriptor found will be the one executed.
 
-For example, let's consider again the invocation in the highlighted line below again:
+For example, let's consider the invocation in the highlighted line below again:
 
-```Java hl_lines="3"
-// version 0.1 (with polymorphism)
+```Java title="v0.1 without Polymorphism" hl_lines="3"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (curr.equals(obj)) {

@@ -9,13 +9,13 @@
 
 ## Method overloading
 
-In the previous unit, we introduced _method overriding_. That is, when a subclass defines an instance method with the same _method descriptor_ as an instance method in the parent class.
+In the previous unit, we introduced _method overriding_ -- when a subclass defines an instance method with the same _method descriptor_ as an instance method in the parent class.
 
 In contrast, _method overloading_ is when we have two or more methods in the same class with the same name but a differing _method signature_[^1]. In other words, we create an overloaded method by changing the type, order, and number of parameters of the method but keeping the method name identical. 
 
 [^1]: Note that this is not the same as the _method descriptor_. You can not overload a method by changing the return type.
 
-Lets consider an `add` method which allows us to add two numbers, and returns the result. What if we would like to create an `add` method to sum up three numbers?
+Let's consider an `add` method which allows us to add two numbers, and returns the result. What if we would like to create an `add` method to sum up three numbers?
 
 ```Java
 public int add(int x, int y) {
@@ -29,9 +29,9 @@ public int add(int x, int y, int z) {
 
 In the example above, the methods `add(int, int)` and `add(int, int, int)` are overloaded. They have the same name but a different number of parameters. We can see that this allows us to write methods to handle differing inputs. 
 
-Now lets consider our `Circle` class again. Our `Circle::contains(Point)` method allows us to check if a `Point` is within the radius of the current instance of the `Circle`. We would like to create a new method `Circle::contains(double, double)` which will allow us to check if an `x` and `y` co-ordinate (another valid representation of a point) is within our circle.
+Now let's consider our `Circle` class again. Our `Circle::contains(Point)` method allows us to check if a `Point` is within the radius of the current instance of the `Circle`. We would like to create a new method `Circle::contains(double, double)` which will allow us to check if an (`x`, `y`) coordinate (another valid representation of a point) is within our circle.
 
-```Java
+```Java title="Circle with Overloading `contains` Method"
 import java.lang.Math;
 
 class Circle {
@@ -79,11 +79,11 @@ Recall that overloading requires changing the order, number, and/or type of para
   }
 ```
 
-These two methods have the same method signature, and therefore `contains(double, double)` and `contains(double, double)` are not distinct methods. They are not overloaded, and therefore this above example will not compile.
+These two methods have the same method signature, and therefore `contains(double, double)` and `contains(double, double)` are not distinct methods. They are not overloaded, and therefore this example above will not compile.
 
 As it is also a method, it is possible to overload the class _constructor_ as well. As in the example below, we can see an overloaded constructor which gives us a handy way to instantiate a `Circle` object that is the unit circle.
 
-```Java
+```Java title="Circle with Overloaded Constructor"
 class Circle {
   private Point c; 
   private double r;

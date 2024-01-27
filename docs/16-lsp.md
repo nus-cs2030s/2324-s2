@@ -36,8 +36,7 @@ void displayGrade(Course m, double marks) {
 }
 ```
 
-Now, suppose that one day, someone comes along and create a new class `CSCUCourse` that inherits from `Course`, and overrides `marksToGrade`
-s that it now returns only 'S' and 'U'.  Since `CSCUCourse` is a subclass of `Course`, we can pass an instance to `displayGrade`:
+Now, suppose that one day, someone comes along and creates a new class `CSCUCourse` that inherits from `Course`, and overrides `marksToGrade` so that it now returns only 'S' and 'U'.  Since `CSCUCourse` is a subclass of `Course`, we can pass an instance to `displayGrade`:
 
 ```
 displayGrade(new CSCUCourse("GEQ1000", 100));
@@ -45,7 +44,7 @@ displayGrade(new CSCUCourse("GEQ1000", 100));
 
 and suddenly `displayGrade` is displaying `retake again` even if the student is scoring 100 marks.
 
-The example above shows that we are violating the LSP unintentionally. The object `m` has the following property: `m.marksToGrade` always returns something from the set { `'A'`, `'B'`, `'C'`, `'F'` }, that the method `displayGrade` depends on explicitly.  The subclass `CSCUCourse` violated that and makes `m.marksToGrade` returns `'S'` or `'U'`, sabotaging `displayGrade` and causing it to fail.
+The example above shows that we are violating the LSP unintentionally. The object `m` has the following property: `m.marksToGrade` always returns something from the set { `'A'`, `'B'`, `'C'`, `'F'` }, that the method `displayGrade` depends on explicitly.  The subclass `CSCUCourse` violated that and made `m.marksToGrade` return `'S'` or `'U'`, sabotaging `displayGrade` and causing it to fail.
 
 LSP cannot be enforced by the compiler[^1]. The properties of an object have to be managed and agreed upon among programmers.  A common way is to document these properties as part of the code documentation.
 
@@ -57,7 +56,7 @@ Another way to develop an intuition of the LSP is through the lens of testing. W
 
 [^2]: The test cases we are describing here are known as black-box tests and you will encounter these in later courses at NUS. We will not go into any further details in this course.
 
-Let's look at an example. We would like to model a restaurant booking system for a restaurant chain. Consider the following `Restaurant` class.  Every restaurant in the chain opens at 12 pm and closes at 10 pm, and has a singular method `canMakeReservation` which allows us to check if the restaurant is available for reservations at a certain `time`.  **The requirement given is that, the system must be able to process a reservation during its opening hours.**
+Let's look at an example. We would like to model a restaurant booking system for a restaurant chain. Consider the following `Restaurant` class.  Every restaurant in the chain opens at 12 PM and closes at 10 PM, and has a singular method `canMakeReservation` which allows us to check if the restaurant is available for reservations at a certain `time`.  **The requirement given is that the system must be able to process a reservation during its opening hours.**
 
 ```Java
 public class Restaurant {
@@ -73,7 +72,7 @@ public class Restaurant {
 }
 ```
 
-The method `canMakeReservation` returns `true` when the argument passed in to `time` is between 12 pm and 10 pm. Let's think about how we would test this method.  Two important edge cases to test is to check if the method returns true for the stated restaurant opening and closing hours.
+The method `canMakeReservation` returns `true` when the argument passed into `time` is between 12 PM and 10 PM. Let's think about how we would test this method.  Two important edge cases to test are to check if the method returns true for the stated restaurant opening and closing hours.
 
 ```Java
 Restaurant r = new Restaurant();
@@ -82,11 +81,11 @@ r.canMakeReservation(1200) == true; // Is true, therefore test passes
 r.canMakeReservation(2200) == true; // Is true, therefore test passes
 ``` 
 
-Note that these are simple `jshell` tests, in software engineering courses you will learn better ways to design and formalise these tests.
+Note that these are simple `jshell` tests, in software engineering courses you will learn better ways to design and formalize these tests.
 
-We can now rephrase our LSP in terms of testing. A _subclass_ should not break the expectations set by the _superclass_. If a class `B` is substitutable for a parent class `A` then it should be able to pass all test cases of the parent class `A`. If it does not, then it is not substitutable and the LSP is violated. 
+We can now rephrase our LSP in terms of testing. A _subclass_ should not break the expectations set by the _superclass_. If a class `B` is substitutable for a parent class `A` then it should be able to pass all test cases of the parent class `A`. If it does not, then it is not substitutable and the LSP is violated.
 
-Lets now consider two subclasses of `Restaurant`, `LunchRestaurant` and `DigitalReadyRestaurant`. Our `LunchRestaurant` does not take reservations during peak hours (12 to 2 pm).
+Let's now consider two subclasses of `Restaurant`, `LunchRestaurant` and `DigitalReadyRestaurant`. Our `LunchRestaurant` does not take reservations during peak hours (12 to 2 pm).
 
 ```Java
 public class LunchRestaurant extends Restaurant {
@@ -104,7 +103,8 @@ public class LunchRestaurant extends Restaurant {
   }
 }
 ```
-`LunchRestaurant` does not take reservation during peak hours (i.e., 1200 to 1400). As `LunchRestaurant` $<:$ `Restaurant`, we can point our variable `r` to a new instance of `LunchRestaurant` and run the test cases of the parent class, as can be seen in the code below.
+
+`LunchRestaurant` does not take reservations during peak hours (i.e., 1200 to 1400). As `LunchRestaurant` $<:$ `Restaurant`, we can point our variable `r` to a new instance of `LunchRestaurant` and run the test cases of the parent class, as can be seen in the code below.
 
 ```Java
 Restaurant r = new LunchRestaurant();
@@ -115,7 +115,7 @@ r.canMakeReservation(2200) == true; // Is true, therefore test passes
 
 Whilst the second test passes, the first test does not since it falls within the peak lunch hour.  Therefore `LunchRestaurant` is not substitutable for `Restaurant` and the LSP is violated.  We have changed the expectation of the method in the child class.
 
-Let's suppose the restaurant chain starts to roll out online reservation system for a subset of its restaurants.  These restaurants can take reservations any time.    
+Let's suppose the restaurant chain starts to roll out an online reservation system for a subset of its restaurants.  These restaurants can take reservations at any time.    
 We create a subclass `DigitalReadyRestaurant`, as follows:
 
 ```Java
@@ -127,6 +127,7 @@ public class DigitalReadyRestaurant extends Restaurant {
   }
 }
 ```
+
 Similarly, as `DigitalReadyRestaurant` $<:$ `Restaurant`, we can point our variable `r` to a new instance of `DigitalReadyRestaurant` and run the test cases of the parent class, as can be seen in the code below.
 
 ```Java
@@ -142,7 +143,7 @@ We can now rephrase our LSP in terms of testing. A _subclass_ should not break t
 
 ## Preventing Inheritance and Method Overriding
 
-Sometimes, it is useful for a developer to explicitly prevent a class to be inherited.  Not allowing inheritance would make it much easier to argue for the correctness of programs, something that is important when it comes to writing secure programs.  Both the two java classes you have seen, `java.lang.Math` and `java.lang.String`, cannot be inherited from.  In Java, we use the keyword `final` when declaring a class to tell Java that we ban this class from being inherited.
+Sometimes, it is useful for a developer to explicitly prevent a class from being inherited.  Not allowing inheritance would make it much easier to argue for the correctness of programs, something that is important when it comes to writing secure programs.  The two Java classes you have seen, `java.lang.Math` and `java.lang.String`, cannot be inherited from.  In Java, we use the keyword `final` when declaring a class to tell Java that we ban this class from being inherited.
 
 ```Java
 final class Circle {
