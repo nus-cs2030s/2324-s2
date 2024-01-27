@@ -50,11 +50,11 @@ To compare if two circles are _semantically_ the same, we need to override this 
 
 [^1]: If we override `equals()`, we should generally override `hashCode()` as well, but let's leave that for another lesson on another day.
 
-```Java title="Circle v0.7" hl_lines="41-51"
+```Java title="Circle v0.7a with Overriding equals" hl_lines="41-51"
 import java.lang.Math;
 
 /**
- * A Circle object encapsulates a circle on a 2D plane.  
+ * A Circle object encapsulates a circle on a 2D plane.
  */
 class Circle {
   private Point c;   // the center
@@ -118,7 +118,7 @@ This is more complicated than `toString`.  There are a few new concepts involved
 
 All these complications would go away, however, if we define `Circle::equals` to take in a `Circle` as a parameter, like this:
 
-```Java
+```Java title="Circle v0.7b with Overriding equals"
 class Circle {
     :
   /**
@@ -131,7 +131,7 @@ class Circle {
 }
 ```
 
-This version of `equals`, however, does not override `Object::equals(Object)`.  Since we hinted to the compiler that we meant this to be an overriding method, using `@Override`, the compiler will give us an error.  This is not treated as method overriding, since the method signature for `Circle::equals(Circle)` is different from `Object::equals(Object)`.
+This version of `equals`, however, does not override `Object::equals(Object)`.  Since we hinted to the compiler that we meant this to be an overriding method, using `@Override`, the compiler will give us an error.  This method is not treated as method overriding, since the method signature for `Circle::equals(Circle)` is different from `Object::equals(Object)`.
 
 Why then is overriding important?  Why not just leave out the line `@Override` and live with the non-overriding, one-line, `equals` method above?
 
@@ -139,7 +139,7 @@ Why then is overriding important?  Why not just leave out the line `@Override` a
 
 Let's consider the following example.  Suppose we have a general `contains` method that takes in an array of objects.  The array can store any type of object: `Circle`, `Square`, `Rectangle`, `Point`, `String`, etc.  The method `contains` also takes in a target `obj` to search for, and returns true if there is an object in `array` that equals to `obj`.
 
-```Java title="v0.1 without Polymorphism" hl_lines="3"
+```Java title="contains v0.1 with Polymorphism" hl_lines="3"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (curr.equals(obj)) {
@@ -150,14 +150,14 @@ boolean contains(Object[] array, Object obj) {
 }
 ```
 
-With overriding and polymorphism, the magic happens in Line 4 -- depending on the run-time type of `curr`, the corresponding, customized version of `equals` is called to compare against `obj`.   So if the run-time type of `curr` is `Circle`, then we will invoke `Circle::equals(Object)` and if the run-time type of `curr` is `Point`, then we will invoke `Point::equals(Object)`.  This, of course, assumes that `Object::equals(Object)` is overridden in both classes.
+With overriding and polymorphism, the magic happens in Line 3 -- depending on the run-time type of `curr`, the corresponding, customized version of `equals` is called to compare against `obj`.   So if the run-time type of `curr` is `Circle`, then we will invoke `Circle::equals(Object)` and if the run-time type of `curr` is `Point`, then we will invoke `Point::equals(Object)`.  This, of course, assumes that `Object::equals(Object)` is overridden in both classes.
 
-However, if `Circle::equals(Object)` takes in a `Circle` as the parameter, the call to `equals` inside the method `contains` would not invoke `Circle::equals(Circle)`.  It would invoke `Object::equals(Object)` instead due to the matching method signature, and we can't search for `Circle` based on semantic equality.
+However, if `Circle::equals(Object)` takes in a `Circle` as the parameter, the call to `equals` inside the method `contains` would not invoke `Circle::equals(Circle)`.  It would invoke `Object::equals(Object)` instead due to the matching method signature, and we cannot search for `Circle` based on semantic equality.
 
 Why is this the case?  Look closely at how the method is invoked: `curr.equals(obj)`.  Here, we can see that the parameter we are passing is `obj`.  The _compile-time_ type of `obj` is `Object` as seen from the parameter declaration at Line 2.  So at compile-time, we only know that its type is `Object`.
 
 To have a generic `contains` method without polymorphism and overriding, we will have to do something like this:
-```Java title="v0.2 with Polymorphism"
+```Java title="contains v0.2 without Polymorphism"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (obj instanceof Circle) {
@@ -181,4 +181,4 @@ boolean contains(Object[] array, Object obj) {
 
 which is not scalable since every time we add a new class, we have to come back to this method and add a new branch to the `if-else` statement!
 
-As this example has shown, polymorphism allows us _to write succinct code that is future-proof_.  By dynamically deciding which method implementation to execute during run-time, the implementer can write short yet very general code that works for existing classes as well as new classes that might be added in the future by the client, without even the need to re-compile!
+As this example has shown, polymorphism allows us _to write succinct code that is future-proof_.  By dynamically deciding which method implementation to execute during run-time, the implementer can write short yet very general code that works for existing classes as well as new classes that might be added in the future by the client, without even the need to re-compile.

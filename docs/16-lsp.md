@@ -6,7 +6,7 @@
 
     - understand the type of bugs that reckless developers can introduce when using inheritance and polymorphism
     - understand the Liskov Substitution Principle and thus be aware that not all IS-A relationships should be modeled with inheritance
-    - know how to explicitly disallow inheritance when writing a class or disallow overriding with the `final` keyword
+    - know how to explicitly disallow inheritance (for a class) or disallow overriding (for a method) with the `final` keyword
 
 ## The Responsibility When Using Inheritance
 
@@ -14,8 +14,8 @@ As you have seen in [Unit 14](14-polymorphism.md), polymorphism is a powerful to
 
 As Ben Parker (aka Uncle Ben) said, "With great power, comes great responsibility."   The client must use overriding and inheritance carefully.  Since they can affect how existing code behaves, they can easily break existing code and introduce bugs.  Since the client may not have access to the existing code behind the abstraction barrier, it is often tricky to trace and debug.  Furthermore, the implementer would not appreciate it if their code was working perfectly until one day, someone overriding a method causes their code to fail, even without the implementer changing anything in their code.
 
-Ensuring this responsibility cannot be done by the compiler, unfortunately.  
-It thus becomes a developer's responsibility to ensure that any inheritance with method overriding does not introduce bugs to existing code.  This brings us to the _Liskov Substitution Principle_ (LSP), which says: "Let $\phi(x)$ be a property provable about objects $x$ of type $T$. Then $\phi(y)$ should be true for objects $y$ of type $S$ where $S <: T$."   
+Ensuring this responsibility cannot be done by the compiler, unfortunately.
+It thus becomes a developer's responsibility to ensure that any inheritance with method overriding does not introduce bugs to existing code.  This brings us to the _Liskov Substitution Principle_ (LSP), which says: "Let $\phi(x)$ be a property provable about objects $x$ of type $T$. Then $\phi(y)$ should be true for objects $y$ of type $S$ where $S <: T$."
 
 This is consistent with the definition of subtyping, $S <: T$, but spelled out more formally.
 
@@ -25,13 +25,13 @@ Let's consider the following example method, `Course::marksToGrade`, which takes
 void displayGrade(Course m, double marks) {
   char grade = m.marksToGrade(marks);
   if (grade == 'A')) {
-	  System.out.println("well done");
+	System.out.println("well done");
   else if (grade == 'B') {
-	  System.out.println("good");
+	System.out.println("good");
   else if (grade == 'C') {
-	  System.out.println("ok");
+	System.out.println("ok");
   } else {
-	  System.out.println("retake again");
+	System.out.println("retake again");
   }
 }
 ```
@@ -79,7 +79,7 @@ Restaurant r = new Restaurant();
 r.canMakeReservation(1200) == true; // Is true, therefore test passes
   : // test for other hours between 1200 - 2200
 r.canMakeReservation(2200) == true; // Is true, therefore test passes
-``` 
+```
 
 Note that these are simple `jshell` tests, in software engineering courses you will learn better ways to design and formalize these tests.
 
@@ -111,11 +111,11 @@ Restaurant r = new LunchRestaurant();
 r.canMakeReservation(1200) == true; // Is false, therefore test fails
   : // test for other hours between 1200 - 2200
 r.canMakeReservation(2200) == true; // Is true, therefore test passes
-``` 
+```
 
 Whilst the second test passes, the first test does not since it falls within the peak lunch hour.  Therefore `LunchRestaurant` is not substitutable for `Restaurant` and the LSP is violated.  We have changed the expectation of the method in the child class.
 
-Let's suppose the restaurant chain starts to roll out an online reservation system for a subset of its restaurants.  These restaurants can take reservations at any time.    
+Let's suppose the restaurant chain starts to roll out an online reservation system for a subset of its restaurants.  These restaurants can take reservations at any time.
 We create a subclass `DigitalReadyRestaurant`, as follows:
 
 ```Java
@@ -135,16 +135,17 @@ Restaurant r = new DigitalReadyRestaurant();
 r.canMakeReservation(1200) == true; // Is true, therefore test passes
   : // test for other hours between 1200 - 2200
 r.canMakeReservation(2200) == true; // Is true, therefore test passes
-``` 
+```
 
 Both test cases pass.  In fact, all test cases that pass for `Restaurant` would pass for `DigitalReadyRestaurant`.  Therefore `DigitalReadyRestaurant` is substitutable for `Restaurant`. Anywhere we can use an object of type `Restaurant`, we can use `DigitalReadyRestaurant` without breaking any previously written code.
 
-We can now rephrase our LSP in terms of testing. A _subclass_ should not break the expectations set by the _superclass_. If a class `B` is substitutable for a parent class `A` then it should be able to pass all test cases of the parent class `A`. If it does not, then it is not substitutable and the LSP is violated. 
+We can now rephrase our LSP in terms of testing. A _subclass_ should not break the expectations set by the _superclass_. If a class `B` is substitutable for a parent class `A` then it should be able to pass all test cases of the parent class `A`. If it does not, then it is not substitutable and the LSP is violated.
 
 ## Preventing Inheritance and Method Overriding
 
 Sometimes, it is useful for a developer to explicitly prevent a class from being inherited.  Not allowing inheritance would make it much easier to argue for the correctness of programs, something that is important when it comes to writing secure programs.  The two Java classes you have seen, `java.lang.Math` and `java.lang.String`, cannot be inherited from.  In Java, we use the keyword `final` when declaring a class to tell Java that we ban this class from being inherited.
 
+For example, to prevent `Circle` from being inherited,
 ```Java
 final class Circle {
     :
@@ -153,7 +154,7 @@ final class Circle {
 
 Alternatively, we can allow inheritance but still prevent a specific method from being overridden, by declaring a method as `final`.  Usually, we do this on methods that are critical for the correctness of the class.
 
-For instance,
+For instance, to prevent `contains` from being overridden,
 ```Java
 class Circle {
     :

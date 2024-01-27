@@ -2,7 +2,7 @@
 
 !!! abstract "Learning Objectives"
 
-    After this lecture, students should:
+    After this unit, students should:
 
     - be familiar with the concept of an abstract class
     - know the use of the Java keyword `abstract` and the constraints that come with it.
@@ -11,12 +11,12 @@
 
 ## High-Level Abstraction
 
-Recall that the concept of abstraction involves hiding away unnecessary complexity and details so that programmers do not have to be bogged down with the nitty-gritty.  
+Recall that the concept of abstraction involves hiding away unnecessary complexity and details so that programmers do not have to be bogged down with the nitty-gritty.
 
 When we code, we should, as much as possible, try to work with the higher-level abstraction, rather than the detailed version.  Following this principle would allow us to write code that is general and extensible, by taking full advantage of inheritance and polymorphism.
 
 Take the following example which you have seen,
-```Java title="v0.2 with Polymorphism"
+```Java title="contains v0.1 with Polymorphism"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (curr.equals(obj)) {
@@ -30,7 +30,7 @@ boolean contains(Object[] array, Object obj) {
 The function above is very general.  We do not assume and do not need to know, about the details of the items being stored or searched.  All we required is that the `equals` method compared if two objects are equal.
 
 In contrast, someone whose mind focuses on finding a circle might write something like this:
-```Java title="v0.3 for Circle only"
+```Java title="contains v0.3 for Circle only"
 boolean contains(Circle[] array, Circle circle) {
   for (Circle curr : array) {
     if (curr.equals(circle)) {
@@ -41,13 +41,13 @@ boolean contains(Circle[] array, Circle circle) {
 }
 ```
 
-which serves the purpose, but is not general enough.  The only method used is `equals`, which `Circle` inherits/overrides from `Object` so using `Circle` for this function is too constraining.  We can reuse this for any other subclasses of Circle, but not other classes.
+The version above serves the purpose, but is not general enough.  The only method used is `equals`, which `Circle` inherits/overrides from `Object` so using `Circle` for this function is too constraining.  We can reuse this for any other subclasses of Circle, but not other classes.
 
 ## Abstracting Circles
 
 Now, let's consider the following function, which finds the largest area among the circles in a given array:
 
-```Java title="v0.1 with Circle"
+```Java title="findLargest v0.1 with Circle"
 double findLargest(Circle[] array) {
   double maxArea = 0;
   for (Circle curr : array) {
@@ -62,7 +62,7 @@ double findLargest(Circle[] array) {
 
 `findLargest` suffers from the same specificity as version 0.3 of `contains`.  It only works for `Circle` and its subclasses.  Can we make this more general?  We cannot replace `Circle` with `Object`,
 
-```Java title="v0.2 with Object"
+```Java title="findLargest v0.2 with Object"
 double findLargest(Object[] array) {
   double maxArea = 0;
   for (Object curr : array) {
@@ -75,7 +75,7 @@ double findLargest(Object[] array) {
 }
 ```
 
-since `getArea` is not defined for a generic object (e.g., what does `getArea` of a string mean?).  
+since `getArea` is not defined for a generic object (e.g., what does `getArea` of a string mean?).
 
 To allow us to apply `findLargest` to a more generic object, we have to create a new type -- something more specific than `Object` that supports `getArea()`, yet more general than `Circle`.
 
@@ -85,7 +85,7 @@ Let's create a new class called `Shape`, and redefine our `Circle` class as a su
 
 With the new `Shape` class, we can rewrite `findLargest` as:
 
-```Java title="v0.3 with Shape"
+```Java title="findLargest v0.3 with Shape"
 double findLargest(Shape[] array) {
   double maxArea = 0;
   for (Shape curr : array) {
@@ -98,7 +98,7 @@ double findLargest(Shape[] array) {
 }
 ```
 
-which now not only works for an array of `Square`, `Rectangle`, `Circle`, etc but also an array containing multiple shapes!
+This version not only works for an array of `Square`, `Rectangle`, `Circle`, etc but also an array containing multiple shapes!
 
 Let's actually write out our new `Shape` class:
 
@@ -112,11 +112,11 @@ class Shape {
 
 and rewrite our `Circle`:
 
-```Java title="v0.8" hl_lines="6 23"
+```Java title="Circle v0.8 extending from Shape" hl_lines="6 23"
 import java.lang.Math;
 
 /**
- * A Circle object encapsulates a circle on a 2D plane.  
+ * A Circle object encapsulates a circle on a 2D plane.
  */
 class Circle extends Shape {
   private Point c;   // the center
@@ -167,7 +167,7 @@ class Circle extends Shape {
 }
 ```
 
-Notably, since our `Shape` is a highly abstract entity, it does not have any fields.  One question that arises is, how are we going to write `Shape::getArea()`?   We cannot compute the area of a shape unless we know what sort of shape it is.  
+Notably, since our `Shape` is a highly abstract entity, it does not have any fields.  One question that arises is, how are we going to write `Shape::getArea()`?   We cannot compute the area of a shape unless we know what sort of shape it is.
 
 One solution is to make `Shape::getArea()` return 0.
 
@@ -181,7 +181,7 @@ class Shape {
 
 This is not ideal.  It is easy for someone to inherit from `Shape`, but forget to override `getArea()`.  If this happens, then the subclass will have an area of 0.  Bugs ensue.
 
-As we usually do in CS2030S, we want to exploit programming language constructs and the compiler to check and catch such errors for us.
+As we usually do in CS2030S, we want to exploit programming language constructs and rely on the compiler to check and catch such errors for us.
 
 ## Abstract Methods and Classes
 
@@ -189,7 +189,7 @@ This brings us to the concept of _abstract classes_.  An abstract class in Java 
 
 The `Shape` class above makes a good abstract class since we do not have enough details to implement `Shape::getArea`.
 
-To declare an abstract class in Java, we add the `abstract` keyword to the `class` declaration.  To make a method abstract, we add the keyword `abstract` when we declare the method.  
+To declare an abstract class in Java, we add the `abstract` keyword to the `class` declaration.  To make a method abstract, we add the keyword `abstract` when we declare the method.
 
 An `abstract` method cannot be implemented and therefore should not have any method body.
 
@@ -197,7 +197,7 @@ This is how we implement `Shape` as an abstract class.
 
 ```Java
 abstract class Shape {
-	abstract public double getArea();
+  abstract public double getArea();
 }
 ```
 
@@ -208,7 +208,7 @@ Shape s = new Shape();
 
 would result in an error.
 
-Note that our simple example of `Shape` only encapsulates one abstract method.  An abstract class can contain multiple fields and multiple methods.  Not all the methods have to be abstract.  As long as one of them is abstract, the class becomes abstract.  
+Note that our simple example of `Shape` only encapsulates one abstract method.  An abstract class can contain multiple fields and multiple methods.  Not all the methods have to be abstract.  As long as one of them is abstract, the class becomes abstract.
 
 To illustrate this, consider
 ```Java
@@ -223,10 +223,10 @@ abstract class Shape {
 }
 ```
 
-`Shape::isSymmetric` is a concrete method but the class is still abstract since `Shape::getArea()` is abstract.
+`Shape::isSymmetric()` is a concrete method but the class is still abstract since `Shape::getArea()` is abstract.
 
 Note that the rule for declaring an abstract class is not symmetric.  A class with _at least one_ abstract method must be declared abstract.  On the other hand, an abstract class _may have no_ abstract method.
 
 ## Concrete Classes
 
-We call a class that is not abstract as a _concrete class_.  A concrete class cannot have any abstract method.  Thus, any subclass of `Shape` must override `getArea()` to supply its own implementation.
+We call a class that is not abstract as a _concrete class_.  A concrete class cannot have any abstract method.  Thus, any concrete subclass of `Shape` must override `getArea()` to supply its own implementation.
