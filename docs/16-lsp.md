@@ -22,8 +22,8 @@ This is consistent with the definition of subtyping, $S <: T$, but spelled out m
 Let's consider the following example method, `Course::marksToGrade`, which takes in the marks of a student and returns the grade 'A', 'B', 'C', or 'F' as a `char`.  How `Course::marksToGrade` is implemented is not important.  Let's look at how it is used.
 
 ```Java
-void displayGrade(Course m, double marks) {
-  char grade = m.marksToGrade(marks);
+void displayGrade(Course c, double marks) {
+  char grade = c.marksToGrade(marks);
   if (grade == 'A')) {
 	System.out.println("well done");
   else if (grade == 'B') {
