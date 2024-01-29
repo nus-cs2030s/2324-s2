@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
 
 <!-- CHANGE TITLE -->
-<title>CS2030S AY22/23 S2 Lecture 3</title>
+<title>CS2030S AY23/24 S2 Lecture 3</title>
 <meta charset="utf-8">
 </head>
 <body>
@@ -22,31 +22,24 @@ class: middle, center
 
 ## Lecture 3
 
-### 23 January 2023
----
-class: middle, center
-
-## Happy Chinese New Year!
-
-### Gong Xi Fa Cai
-
+### 29 January 2024
 ---
 class: middle
 
 ### Announcements
 
 .small[
-- Recitations and Labs start this week
+- Recitations and Lab Sessions start this week
 - Problem Set 1 will be released on Canvas later today.  Read and try it out before your recitation.
-- Lab 0 is already out, try it if you have not done so already.
-- Self Diagnostic Quiz 3 deadline is Friday. Plenty of time :)
-- Two Practice Quizzes for PE and Vim
+- Exercise 0 is already out, try it if you have not done so already.
+- Exercise 1 will come out.
+- Reminder: Self Diagnostic Quiz 3
+- First Catch-Up Session this Saturday
 ]
-
 ---
 class: middle,left
 
-## Quick Recap
+### Quick Recap
 
 - Inheritance
 - Overridden methods (toString)
@@ -56,7 +49,7 @@ class: middle,left
 ---
 class: middle,left
 
-## Topics covered today:
+### Topics covered today:
 
 - Overloading
 - Polymorphism
@@ -67,6 +60,47 @@ class: middle,left
 
 (Unit 13 to Unit 18)
 ---
+class: middle,wide
+
+### Subtyping with Reference Types
+
+If `ColoredCircle` $<:$ `Circle`
+
+.small[```Java
+ColoredCircle c = new Circle(p, 0); // error
+Circle c = new ColoredCircle(p, 0, blue); // OK
+```]
+
+---
+class: middle,wide
+
+### Passing arguments to methods
+
+.tiny[```Java
+public boolean circleMethod(Circle c) { .. }
+public boolean coloredCircleMethod(ColoredCircle c) { .. }
+```]
+
+If `ColoredCircle` $<:$ `Circle`
+
+.small[```Java
+Circle c = new Circle(p, 0);
+ColoredCircle cc = new ColoredCircle(p, 0, blue);
+
+circleMethod(cc); // OK
+coloredCircleMethod(c); // error
+```]
+
+---
+class: middle,wide
+
+### Compile-Time Type vs. Run-Time Type
+
+.small[```Java
+Circle c = new ColoredCircle(p, 0, blue);
+c = new Circle(p, 0);
+```]
+---
 class: middle,center
 
 # Overloading
@@ -75,8 +109,6 @@ Methods with the same name but a differing method signature
 
 ---
 class: middle,left
-
-# Overloading
 
 .small[
 ```Java
@@ -254,9 +286,14 @@ We choose the _most specific_ one.
 ---
 class: middle,left
 
-## Most specific?
+### Most specific?
 
-A method $M$ is more specific than method $N$ if the arguments to $M$ can be passed to $N$ without compilation error. 
+A method $M$ is more specific than a method $N$ if the arguments to $M$ can be passed to $N$ without compilation error. 
+
+---
+class: middle,left
+
+The method `equals(Circle)` is more specific than the method `equals(Object)` if the arguments to `equals(Circle)` can be passed to `equals(Object)` without compilation error. 
 
 ---
 Consider the `Circle` class with two `equals` methods:
@@ -283,6 +320,16 @@ class: middle,left, wide
 - The method descriptor from Step 1 is retrieved
 - The run-time type of the target `curr` is determined
 - Java then looks for an accessible method with the matching descriptor in that class.
+
+Continued...
+
+---
+class: middle,left, wide
+
+### Step 2: At run-time
+
+`curr.equals(obj)`
+
 - If no such method is found, the search will continue up the class hierarchy.
 - The first matching descriptor will be the one that is executed
 
@@ -296,40 +343,40 @@ The method to invoke is resolved statically during compile time.
 ---
 class: middle,center
 
-# Liskov Substitution Principle (LSP)
+## Liskov Substitution Principle (LSP)
 
 Let $\phi(x)$ be a property provable about objects $x$ of type $T$. Then $\phi(y)$ should be true for objects $y$ of type $S$ where $S <: T$.
 
 ---
 class: middle,center
 
-# Liskov Substitution Principle (LSP)
+## Liskov Substitution Principle (LSP)
 
 If $S$ is a subclass of $T$, then an object of type $T$ can be replaced by that of type $S$ without changing the _desirable property_ of the program
 ---
 class: middle,center
 
-# Liskov Substitution Principle (LSP)
+## Liskov Substitution Principle (LSP)
 
 A _subclass_ should not break the expectations set by the _superclass_
 
 ---
 class: middle,center
 
-# Substitution
+## Substitution
 
 We can only substitute with an instance of the same _type_ or a _subtype_.
 ---
 class: middle,center
 
-##Still too abstract? 
+### Still too abstract? 
 
 Let's look at an example...
 
 ---
 class: middle,center
 
-## How can we prevent people inheriting from our code?
+### How can we prevent people inheriting from our code?
 
 We can use the java keyword `final`
 
@@ -359,23 +406,6 @@ class: middle,center
 ## Abstract Classes
 
 _A class that cannot be instantiated_
-
----
-class: middle
-
-.small[
-```Java
-abstract class Shape {
-    private int numOfAxesOfSymmetry ;
-
-    public boolean isSymmetric() {
-        return numOfAxesOfSymmetry > 0;
-    }
-
-    abstract public double getArea();
-}
-```
-]
 
 ---
 class: middle
@@ -445,9 +475,11 @@ double findLargest(GetAreable[] array) {
 ---
 class: middle, center
 
-If a class $C$ implements an interface $I$
+### Another rule for Reference Types
 
-then $C <: I$ 
+If a class `C` implements an interface `I`
+
+then `C` $<:$ `I` 
 
 ---
 class: middle
@@ -469,8 +501,10 @@ class: middle
 
 ### Reminders
 
-- Play with the code given in the notes.
-- Lab 1, Problem Set 1, Self-Diagnostic Quiz 3
+- Recitations and Lab Sessions start this week
+- Play with the code given in the notes
+- Exercise 1, Problem Set 1, Self-Diagnostic Quiz 3
+- First Catch-Up Session this Saturday
 
 ---
 class: bottom
@@ -478,12 +512,12 @@ class: bottom
 .tiny[
 Version: v1.0
 
-Last Updated: Sun Jan 22 12:00:00 +08 2023
+Last Updated: Sun Jan 27 20:00:00 +08 2024
 ]
 </textarea>
 
-<script src="https://remarkjs.com/downloads/remark-latest.min.js">
-</script>
+<script src="https://thisisadi.yoga/remark/js/remark.js" type="text/javascript"></script>
+<script src="https://thisisadi.yoga/remark/plugins/qanvas/init.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
 <script src="javascripts/counter.js">
 </script>
@@ -498,9 +532,12 @@ var slideshow = remark.create({
     navigation: {
 	    scroll: false
 	},
+  qanvas: {
+  		pensize: 2
+	},
 	ratio: '16:9',
 	highlightStyle: 'ir-black',
-  slideNumberFormat: 'CS2030S AY22/23 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
+  slideNumberFormat: 'CS2030S AY23/24 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
 });
  // Setup MathJax
   MathJax.Hub.Config({
