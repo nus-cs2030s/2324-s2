@@ -1,6 +1,6 @@
 # Exercise 0: Circle and Point
 
-- Deadline: 30 January 2024, Tuesday, 23:59 SST
+- Deadline: 30 January 2024, Tuesday, 23:59 SGT
 - Difficulty Level: 1
 
 ## Prerequisites
