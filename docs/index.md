@@ -7,3 +7,4 @@ You can explore the links on the menu on the left, or search for keywords in the
 ### Other Web Resources
 - [Canvas](https://canvas.nus.edu.sg/courses/52799/)
 - [Ed](https://edstem.org/us/courses/50692/discussion/)
+- [CS2030S Ticketing System](https://mysoc.nus.edu.sg/app/cs2030s)
