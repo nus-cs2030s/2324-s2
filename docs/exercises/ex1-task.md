@@ -199,4 +199,20 @@ Use `vim -d` to compare your output with the expected output.
 vim -d OUT outputs/Ex1.3.out
 ```
 
+## Style (Optional)
 
+Make sure that your code following our [coding style](../style.md) is optional for Exercise 1.  If you would like to keep your code neat, tidy, and adhere to the CS2030S style, you can run 
+
+```
+java -jar ~cs2030s/bin/checkstyle.jar -c ex1_style.xml *.java
+```
+
+You should see the following output, with nothing in between the two lines.  Any style errors would appear in between the two.
+```
+Starting audit...
+Audit done.
+```
+
+## Documentation (Optional)
+
+Documenting your code with Javadoc is optional for Exercise 1.  It is, however, always a good practice to include comments to help readers understand your code.
