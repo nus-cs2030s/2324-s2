@@ -1,9 +1,11 @@
 # Unit 20: Run-Time Class Mismatch
 
-After taking this unit, students should:
+!!! abstract "Learning Objectives"
 
-- Understand the need for narrowing type conversion and type casting when writing code that depends on higher-level abstraction
-- Understand the possibility of encountering run-time errors if typecasting is not done properly.
+    After taking this unit, students should:
+
+    - understand the need for narrowing type conversion and type casting when writing code that depends on higher-level abstraction
+    - understand the possibility of encountering run-time errors if typecasting is not done properly
 
 We have seen in [Unit 18](18-interface.md) how we can write code that is reusable and general by making our code dependent on types at a higher-level of abstraction.  Our main example is the following `findLargest` method, which takes in an array of objects that support the `getArea` method, and returns the largest area among these objects.
 

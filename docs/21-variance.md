@@ -1,9 +1,11 @@
 # Unit 21: Variance
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand the definition of the variance of types: covariant, contravariant, and invariant.
-- be aware that the Java array is covariant and how it could lead to run-time errors that cannot be caught during compile time.
+    After taking this unit, students should:
+
+    - understand the definition of the variance of types: covariant, contravariant, and invariant
+    - be aware that the Java array is covariant and how it could lead to run-time errors that cannot be caught during compile time
 
 Both the methods `findLargest` and `contains` takes in an array of reference types as parameters:
 ```Java
@@ -34,11 +36,11 @@ boolean contains(Object[] array, Object obj) {
 
 What are some possible arrays that we can pass into these methods?  Let's try this:
 ```Java
-Object[] objArray = new Object[] { new Integer(1), new Integer(2) };
-Integer[] intArray = new Integer[] { new Integer(1), new Integer(2) };
+Object[] objArray = new Object[] { Integer.valueOf(1), Integer.valueOf(2) };
+Integer[] intArray = new Integer[] { Integer.valueOf(1), Integer.valueOf(2) };
 
-contains(objArray, new Integer(1)); // ok
-contains(intArray, new Integer(1)); // ok
+contains(objArray, Integer.valueOf(1)); // ok
+contains(intArray, Integer.valueOf(1)); // ok
 ```
 
 Line 4 is not surprising since the type for `objArray` matches that of parameter `array`.  Line 5, however, shows that it is possible to assign an instance with run-time type `Integer[]` to a variable with compile-time type `Object[]`.
@@ -76,7 +78,7 @@ By making array covariant, however, Java opens up the possibility of run-time er
 Consider the following code:
 ```Java
 Integer[] intArray = new Integer[2] {
-  new Integer(10), new Integer(20)
+  Integer.valueOf(10), Integer.valueOf(20)
 };
 Object[] objArray;
 objArray = intArray;

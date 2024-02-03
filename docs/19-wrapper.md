@@ -1,9 +1,11 @@
 # Unit 19: Wrapper Class
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- be aware that Java provides wrapper classes around the primitive types
-- be aware that Java will transparently and automatically box and unbox between primitive types and their corresponding wrapper classes
+    After this unit, students should:
+
+    - be aware that Java provides wrapper classes around the primitive types
+    - be aware that Java will transparently and automatically box and unbox between primitive types and their corresponding wrapper classes
 
 ## Writing General Code for Primitive Types
 
@@ -36,11 +38,24 @@ boolean contains(int[] array, int obj) {
 
 ## Making Primitive Types Less Primitive
 
-Java provides wrapper classes for each of its primitive types.  A _wrapper class_ is a class that encapsulates a _type_, rather than fields and methods.  The wrapper class for `int` is called `Integer`, for `double` is called `Double`, etc.  A wrapper class can be used just like every other class in Java and behave just like every other class in Java.  In particular, they are reference types and their instances can be created with `new`; instances are stored on the heap, etc.  
+Java provides wrapper classes for each of its primitive types.  A _wrapper class_ is a class that encapsulates a _type_, rather than fields and methods.  The wrapper class for `int` is called `Integer`, for `double` is called `Double`, etc. There is a wrapper class for all of the Java primitives.
+
+| Primitive | Wrapper     |
+|-----------|-------------|
+| `byte`    | `Byte`      |
+| `short`   | `Short`     |
+| `int`     | `Integer`   |
+| `long`    | `Long`      |
+| `float`   | `Float`     |
+| `double`  | `Double`    |
+| `char`    | `Character` |
+| `boolean` | `Boolean`   |
+
+ A wrapper class can be used just like every other class in Java and behave just like every other class in Java.  In particular, they are reference types and their instances can be created with `new`; instances are stored on the heap, etc.  
 
 For instance,
-```
-Integer i = new Integer(4);
+```java
+Integer i = Integer.valueOf(4);
 int j = i.intValue();
 ```
 
@@ -50,12 +65,14 @@ With the wrapper type, we can reuse our `contains` method that takes in an `Obje
 
 All primitive wrapper class objects are _immutable_ -- once you create an object, it cannot be changed.
 
+
+
 ## Auto-boxing and Unboxing
 
 As conversion back-and-forth between a primitive type and its wrapper class is pretty common, Java provides a feature called auto-boxing/unboxing to perform type conversion between primitive type and its wrapper class.
 
 For instance,
-```
+```java
 Integer i = 4;
 int j = i;
 ```
@@ -66,30 +83,36 @@ The first statement is an example of auto-boxing, where the primitive value `int
 
 Since the wrapper classes allow us to write flexible programs, why not use them all the time and forget about primitive types?
 
-The answer: performance. Because using an object comes with the cost of allocating memory for the object and collecting garbage afterward, it is less efficient than primitive types.   
+The answer: _performance_. Because using an object comes with the cost of allocating memory for the object and then cleaning up the memory after we have finished using the object, it is less efficient than primitive types.   
 
 Consider the following two programs:
 
 ```Java
-Double sum;
-for (int i = 0; i < Integer.MAX_VALUE; i++)
-{
-    sum += i;
+Double sum = 0.0;
+for (int i = 0; i < Integer.MAX_VALUE; i++) {
+  sum += i;
 }
 ```
 
 vs.
 
 ```Java
-double sum;
-for (int i = 0; i < Integer.MAX_VALUE; i++)
-{
-    sum += i;
+double sum = 0.0;
+for (int i = 0; i < Integer.MAX_VALUE; i++) {
+  sum += i;
 }
 ```
 
-The second one can be about 2 times faster. 
-All primitive wrapper class objects are immutable -- once you create an object, it cannot be changed. Thus, every time the sum in the first example above is updated, a new `Double` object gets created.
-Due to autoboxing and unboxing, the cost of creating objects becomes hidden and is often forgotten.
+In the table below are four sample runs of the two programs with the timing in _milliseconds_. The program that uses `double` is a lot faster than the one that uses the wrapper class `Double`.  
 
-The Java API in fact, provides multiple versions of the same method, one for all the reference types using `Object`, and one for each of the primitive types.  This decision leads to multiple versions of the same code, but with the benefits of better performance.  See the [Arrays](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Arrays.html) class for instance.
+| Run | Using `Double` | Using `double` |
+|-----|----------------|----------------|
+| 1 | 7888 ms | 1860 ms |
+| 2 | 7763 ms | 1862 ms |
+| 3 | 7737 ms | 1864 ms |
+| 4 | 7733 ms | 1863 ms |
+| ___Average___ | ___7780.25 ms___ | ___1862.25 ms___ |
+
+As all primitive wrapper class objects are immutable, every time the sum in the first example above is updated, a new `Double` object gets created. Due to autoboxing and unboxing, the cost of creating objects becomes hidden and is often forgotten.
+
+The Java API in fact, provides multiple versions of the same method, one for all the reference types using `Object`, and one for each of the primitive types.  This decision does lead to multiple versions of the same code, but this trade-off comes with the benefit of better performance.  See the [Arrays](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Arrays.html) class for instance.

@@ -1,12 +1,14 @@
 # Unit 22: Exceptions
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand about handling java exceptions and how to use the `try`-`catch`-`finally` blocks
-- understand the hierarchy of exception classes and the difference between checked and unchecked exceptions
-- be able to create their own exceptions
-- understand the control flow of exceptions
-- be aware of good practices for exception handling
+    After taking this unit, students should:
+
+    - understand about handling java exceptions and how to use the `try`-`catch`-`finally` blocks
+    - understand the hierarchy of exception classes and the difference between checked and unchecked exceptions
+    - be able to create their own exceptions
+    - understand the control flow of exceptions
+    - be aware of good practices for exception handling
 
 One of the nuances of programming is having to write code to deal with exceptions and errors. Consider writing a method that reads in a single integer value from a file.  Here are some things that could go wrong:
 
@@ -18,7 +20,7 @@ One of the nuances of programming is having to write code to deal with exception
 
 In C, we usually have to write code like this:
 
-```C
+```C hl_lines="1 13"
 fd = fopen(filename,"r");
 if (fd == NULL) {
   fprintf(stderr, "Unable to open file. ");
@@ -77,16 +79,19 @@ Let's look at the example more carefully.  The general syntax for `try`-`catch`-
 
 ```Java
 try {
-	// do something
+  // do something
 } catch (an exception parameter) {
-    // handle exception
+  // handle exception
 } finally {
-	// clean up code
-	// regardless of there is an exception or not
+  // clean up code
+  // regardless of there is an exception or not
 }
 ```
 
+### `try` Block
+
 In the example above, we have the `try` block:
+
 ```Java
 try {
   reader = new FileReader(filename);
@@ -109,9 +114,25 @@ catch (FileNotFoundException e) {
 }
 ```
 
+### `catch` Block
+
 The error handling comes under the `catch` clauses, each handling a different type of exception.  In Java, exceptions are instances that are a subtype of the `Exception` class.  Information about an exception is encapsulated in an exception instance and is "passed" into the `catch` block.  In the example above, `e` is the variable containing an exception instance.
 
-With the exception, we no longer rely on a special return value from a function nor a global variable to indicate exceptions.
+The catch blocks are checked in the order they appear in our program. The first catch block that has an exception type compatible with the type of the thrown exception (i.e. a subtype) is selected to handle the exception. This means the actual type of the exception object must be the same as, or a subclass of, the exception type specified in the catch block. Consider if we have `ExceptionX` <: `ExceptionY` and we have the following `catch` block:
+
+```Java
+  :
+} catch(ExceptionY e) {
+  // handle ExceptionY
+} catch(ExceptionX e) {
+  // handle ExceptionX
+}
+  :
+```
+
+As such, we will never execute the second catch as `ExceptionX` will already be caught by `catch(ExceptionY e) { .. }`.  Indeed, the Java compiler will prevent this issue with a compilation error.
+
+Now with the exception, we no longer rely on a special return value from a function nor a global variable to indicate exceptions.
 
 ```Java
   :
@@ -121,12 +142,14 @@ finally {
 }
 ```
 
-Finally, we have the optional `finally` clause for house-keeping tasks.  Here, we close the `scanner` if it is opened.
+### `finally` Block
+
+_Finally_, we have the optional `finally` clause for house-keeping tasks.  Here, we close the `scanner` if it is opened.
 
 In cases where the code to handle the exceptions is the same, you can avoid repetition by combining multiple exceptions into one catch statement:
 ```Java
 catch (FileNotFoundException | InputMismatchException | NoSuchElementException e) {
-	System.err.println(e);
+  System.err.println(e);
 }
 ```
 
@@ -136,11 +159,15 @@ The `try`-`catch`-`finally` blocks above show you how to _handle_ exceptions.  L
 
 We need to do two things.  First, we need to declare that the construct is throwing an exception, with the `throws` keyword.  Second, we have to create a new `IllegalArgumentException` object and throw it to the caller with the `throw` keywords.
 
-```Java
+```Java hl_lines="5 7"
+class Circle {
+  private Point c;
+  private double r;
+
   public Circle(Point c, double r) throws IllegalArgumentException {
-	if (r < 0) {
-	  throw new IllegalArgumentException("radius cannot be negative.");
-	}
+    if (r < 0) {
+      throw new IllegalArgumentException("radius cannot be negative.");
+    }
     this.c = c;
     this.r = r;
   }
@@ -157,6 +184,11 @@ try {
 	System.err.println("Illegal arguement:" + e.getMessage());
 }
 ```
+
+
+!!! warning "`throw` vs `throws`"
+    The keyword `throws` is used in method declaration.  The keyword `throw` is use to actually throw exceptions.
+
 
 ## Checked vs Unchecked Exceptions
 
@@ -362,7 +394,7 @@ public void m2() throws E2 {
 }
 ```
 
-### Do not catch-them-all!
+### Do NOT catch-them-all!
 
 Sometimes, you just want to focus on the main logic of the program and get it working instead of dealing with the exceptions. Since Java uses checked exceptions, it forces you to handle the exceptions, or else your code will not compile. One way to quickly get around this is to write:
 
@@ -377,7 +409,7 @@ catch (Exception e) {
 
 to stop the compiler from complaining.  **DO NOT DO THIS.**  Since `Exception` is the superclass of all exceptions, every exception that is thrown, checked or unchecked, is now silently ignored!  You will not be able to figure out if something is wrong with your program.  This practice is such a bad practice that there is a name for it -- this is called _Pokemon Exception Handling_.
 
-### Overreacting
+### Do NOT Overreact
 
 Do not exit a program just because of an exception. This would prevent the calling function from cleaning up their resources. Worse, do not exit a program silently.
 
@@ -390,7 +422,7 @@ catch (Exception e) {
 }
 ```
 
-### Do Not Break Abstraction Barrier
+### Do NOT Break the Abstraction Barrier
 
 Sometimes, letting the calling method handle the exception causes the implementation details to be leaked, and make it harder to change the implementation later.
 
@@ -422,7 +454,7 @@ The caller will have to change their exception handling code accordingly.
 
 We should, as much as possible, handle the implementation-specific exceptions within the abstraction barrier.
 
-### Do NOT Use Exception As a Control Flow Mechanism
+### Do NOT use Exception as a Control Flow Mechanism
 
 This is probably the most commonly seen mistakes among new programmers.  Exceptions are meant to handle unexpected errors, not to handle the logic of your program.  Consider the following snippet:
 
