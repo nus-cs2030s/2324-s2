@@ -9,8 +9,7 @@
 
 We have seen in [Unit 18](18-interface.md) how we can write code that is reusable and general by making our code dependent on types at a higher level of abstraction.  Our main example is the following `findLargest` method, which takes in an array of objects that support the `getArea` method and returns the largest area among these objects.
 
-```Java
-// version 0.3
+```Java title="findLargest v0.4 with GetAreable"
 double findLargest(GetAreable[] array) {
   double maxArea = 0;
   for (GetAreable curr : array) {
@@ -27,8 +26,7 @@ The method served our purpose well, but it is NOT a very well-designed method.  
 
 Let's write our `findLargest` method to find which object has the largest area instead.  
 
-```Java hl_lines="2 4 9 12"
-// version 0.4
+```Java title="findLargest v0.5 with GetAreable (Finding the Largest Object)" hl_lines="1 3 8 11"
 GetAreable findLargest(GetAreable[] array) {
   double maxArea = 0;
   GetAreable maxObj = null;
@@ -56,7 +54,7 @@ Circle c1 = findLargest(circles); // error
 Circle c2 = (Circle) findLargest(circles); // ok
 ```
 
-The return type of `findLargest` (version 0.4) is now `GetAreable`.  On Line 6 above, we assign the return object with a compile-time type of `GetAreable` to `ga`, which also has `GetAreable` as its compile-time type.  Since the variable `ga` is of type `GetAreable`, however, it is not very useful.  Recall that `GetAreable` is an interface with only one method `getArea`.  We cannot use it as a circle.
+The return type of `findLargest` (version 0.5) is now `GetAreable`.  On Line 6 above, we assign the return object with a compile-time type of `GetAreable` to `ga`, which also has `GetAreable` as its compile-time type.  Since the variable `ga` is of type `GetAreable`, however, it is not very useful.  Recall that `GetAreable` is an interface with only one method `getArea`.  We cannot use it as a circle.
 
 On Line 7, we try to return the return object to a variable with compile-time type `Circle`.  This line, however, causes a compile-time error.  Since `Circle` <: `GetAreable`, this is a narrowing type conversion and thus is not allowed (See [Unit 14](14-polymorphism.md)).  We will have to make an explicit cast of the result to `Circle` (on Line 8).  Only with casting, our code can compile and we get a reference with a compile-time type of `Circle`.
 
