@@ -8,8 +8,8 @@
     - be aware that the Java array is covariant and how it could lead to run-time errors that cannot be caught during compile time
 
 Both the methods `findLargest` and `contains` takes in an array of reference types as parameters:
-```Java
-// version 0.4
+
+```Java title="findLargest v0.5 with GetAreable (Finding the Largest Object)"
 GetAreable findLargest(GetAreable[] array) {
   double maxArea = 0;
   GetAreable maxObj = null;
@@ -22,8 +22,9 @@ GetAreable findLargest(GetAreable[] array) {
   }
   return maxObj;
 }
+```
 
-// version 0.1 (with polymorphism)
+```Java title="contains v0.1 with Polymorphism"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (curr.equals(obj)) {
