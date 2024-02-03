@@ -208,8 +208,8 @@ An unchecked exception, if not caught, will propagate automatically down the sta
 
 For instance, the following toy program would result in `IllegalArgumentException` being thrown out of `main` and displayed to the user.
 
-```Java
-class Toy {
+```Java title="Throwing Unchecked IllegalArgumentException"
+class Main {
   static void createCircles() {
 	int radius = 10;
 	for (int i = 0; i <= 11; i++) {
@@ -224,9 +224,8 @@ class Toy {
 
 A checked exception, on the other hand, must be handled.  Consider the following example:
 
-```Java
-// version 0.1 (won't compile)
-class Toy {
+```Java title="Checked Exception v0.1 (Compilation Error)"
+class Main {
   static FileReader openFile(String filename) {
     return new FileReader(filename);
   }
@@ -237,9 +236,8 @@ class Toy {
 ```
 
 This program won't compile because the checked exception `FileNotFoundException` is not handled.  As the example we have seen, we could handle it in `openFile`.  In this case, `openFile` does not throw any exception.
-```Java
-// version 0.2 (handle where exception occur)
-class Toy {
+```Java title="Checked Exception v0.2 (Handled In-Situ)" hl_lines="3 5-7"
+class Main {
   static FileReader openFile(String filename) {
 	try {
 	  return new FileReader(filename);
@@ -254,9 +252,8 @@ class Toy {
 ```
 
 Alternatively, `openFile` can pass the buck to the caller instead of catching it.  
-```Java
-// version 0.3 (passing exception to caller)
-class Toy {
+```Java title="Checked Exception v0.3 (Passed to Caller)" hl_lines="2 6 8-10"
+class Main {
   static FileReader openFile(String filename) throws FileNotFoundException {
 	return new FileReader(filename);
   }
@@ -273,8 +270,7 @@ class Toy {
 Sometimes the caller is a better place to handle the exception.  Where an exception should be handled is a design decision.  We will see some considerations for this later in this unit.
 
 What should not happen is the following:
-```Java
-// version 0.4 (pass exception to user)
+```Java title="Checked Exception v0.4 (Passed to User)" hl_lines="2 5"
 class Toy {
   static FileReader openFile(String filename) throws FileNotFoundException {
 	return new FileReader(filename);
