@@ -4,13 +4,13 @@
 
     After taking this unit, students should:
 
-    - understand about handling java exceptions and how to use the `try`-`catch`-`finally` blocks
+    - understand the handling of Java exceptions and how to use the `try`-`catch`-`finally` blocks
     - understand the hierarchy of exception classes and the difference between checked and unchecked exceptions
-    - be able to create their own exceptions
+    - be able to create new types of exceptions
     - understand the control flow of exceptions
     - be aware of good practices for exception handling
 
-One of the nuances of programming is having to write code to deal with exceptions and errors. Consider writing a method that reads in a single integer value from a file.  Here are some things that could go wrong:
+One of the nuances of programming is having to write code to deal with exceptions and errors. Consider writing a method that reads a single integer value from a file.  Here are some things that could go wrong:
 
 - The file to read from may not exist
 - The file to read from exists, but you may not have permission to read it
@@ -46,11 +46,11 @@ if (scanned == EOF) {
 }
 ```
 
-Out of the lines above, only TWO lines correspond to the actual task of opening and reading in a file, the others are for exception checking/handling.  The actual tasks are interspersed between exception checking code, which makes reading and understanding the logic of the code difficult.
+Out of the lines above, only TWO lines correspond to the actual task of opening and reading in a file, the others are for exception checking/handling.  The actual tasks are interspersed between exception-checking code, which makes reading and understanding the logic of the code difficult.
 
 The examples above also have to return different values to the calling method, because the calling method may have to do something to handle the errors. Note that the POSIX API has a global variable `errno` that signifies the detailed error. First, we have to check for different `errno` values and react accordingly (we can use `perror`, but that has its limits). Second, `errno` is global, and using a global variable is a bad practice.  In fact, the code above might not work because `fprintf` in Line 3 might have changed `errno`.
 
-Finally, there is the issue of having to repeatedly clean up after an error -- here we `fclose` the file if there is an error reading, twice. It is easy to forget to do so if we have to do this in multiple places.  Furthermore, if we need to perform a more complex clean up, then we would end up with lots of repeated code.
+Finally, there is the issue of having to repeatedly clean up after an error -- here we `fclose` the file if there is an error reading, twice. It is easy to forget to do so if we have to do this in multiple places.  Furthermore, if we need to perform a more complex cleanup, then we would end up with lots of repeated code.
 
 Many modern programming languages support exceptions as a programming construct.  In Java, this is done with `try`, `catch`, `finally` keywords, and a hierarchy of `Exception` classes.  The `try`/`catch`/`finally` keywords group statements that check/handle errors together making code easier to read. The Java equivalent to the above is:
 
@@ -144,7 +144,7 @@ finally {
 
 ### `finally` Block
 
-_Finally_, we have the optional `finally` clause for house-keeping tasks.  Here, we close the `scanner` if it is opened.
+_Finally_, we have the optional `finally` clause for housekeeping tasks.  Here, we close the `scanner` if it is opened.
 
 In cases where the code to handle the exceptions is the same, you can avoid repetition by combining multiple exceptions into one catch statement:
 ```Java
@@ -187,7 +187,7 @@ try {
 
 
 !!! warning "`throw` vs `throws`"
-    The keyword `throws` is used in method declaration.  The keyword `throw` is use to actually throw exceptions.
+    The keyword `throws` is used in the method declaration.  The keyword `throw` is used to throw exceptions.
 
 
 ## Checked vs Unchecked Exceptions
@@ -285,9 +285,9 @@ class Toy {
 }
 ```
 
-In the code above, every method passes the buck around.  No one takes the responsibility to handle it and the user ends up with the exception.  The ugly internals of the program (such as the call stack) is then revealed to the user.
+In the code above, every method passes the buck around.  No one takes the responsibility to handle it and the user ends up with the exception.  The ugly internals of the program (such as the call stack) are then revealed to the user.
 
-_A good program always handle checked exception gracefully_ and hide the details from the users.  
+_A good program always handles checked exception gracefully_ and hides the details from the users.  
 
 ## Control Flow of Exceptions
 
@@ -339,9 +339,9 @@ In a normal (no exception) situation, the control flow looks like this:
 
 The statements in the try block are executed, followed by the statements in the `finally` block.
 
-Now, let's suppose something went wrong deep inside the nested call, in `m4()`. One of the statement executes `throw new E2();`, which causes the execution in `m4()` to stop. JVM now looks for the block of code that catches `E2`, going down the call stack, until it can find a place where the exception is handled. In this example, we suppose that none of `m1()`-`m4()` handles (i.e., `catch`) the exception. Thus, JVM then jumps to the code that handles `E2`. Finally, JVM executes the `finally` block.
+Now, let's suppose something went wrong deep inside the nested call, in `m4()`. One of the statements executes `throw new E2();`, which causes the execution in `m4()` to stop. JVM now looks for the block of code that catches `E2`, going down the call stack, until it can find a place where the exception is handled. In this example, we suppose that none of `m1()`-`m4()` handles (i.e., `catch`) the exception. Thus, JVM then jumps to the code that handles `E2`. Finally, JVM executes the `finally` block.
 
-Note that the `finally` block is always executed even when return or throw is called in a catch block.
+Note that the `finally` block is always executed even when `return` or `throw` is called in a catch block.
 
 ![control flow](figures/exceptions/exceptions.003.png)
 
@@ -377,7 +377,7 @@ When you override a method that throws a checked exception, the overriding metho
 
 ### Catch Exceptions to Clean Up
 
-While it is convenient to just pass the buck and let the calling method deals with exceptions ("Hey! Not my problem!"), it is not always responsible to do so. Consider the example earlier, where `m1()`, `m2()`, and `m3()` do not handle exception `E2`. Let's say that `E2` is a checked exception, and it is possible to react to this and let the program continues properly. Also, suppose that `m2()` allocated some system resources (e.g., temporary files, network connections) at the beginning of the method, and deallocated the resources at the end of the method. By not handling the exception, the code that deallocates these resources does not get called when an exception occurs.  It is better for `m2()` to catch the exception, handle the resource deallocation in a `finally` block. If there is a need for the calling methods to be aware of the exception, `m2()` can always re-throw the exception:
+While it is convenient to just pass the buck and let the calling method deal with exceptions ("Hey! Not my problem!"), it is not always responsible to do so. Consider the example earlier, where `m1()`, `m2()`, and `m3()` do not handle exception `E2`. Let's say that `E2` is a checked exception, and it is possible to react to this and let the program continue properly. Also, suppose that `m2()` allocated some system resources (e.g., temporary files, network connections) at the beginning of the method, and deallocated the resources at the end of the method. By not handling the exception, the code that deallocates these resources does not get called when an exception occurs.  It is better for `m2()` to catch the exception and handle the resource deallocation in a `finally` block. If there is a need for the calling methods to be aware of the exception, `m2()` can always re-throw the exception:
 
 ```Java
 public void m2() throws E2 {
@@ -456,7 +456,7 @@ We should, as much as possible, handle the implementation-specific exceptions wi
 
 ### Do NOT use Exception as a Control Flow Mechanism
 
-This is probably the most commonly seen mistakes among new programmers.  Exceptions are meant to handle unexpected errors, not to handle the logic of your program.  Consider the following snippet:
+This is probably the most commonly seen mistake among new programmers.  Exceptions are meant to handle unexpected errors, not to handle the logic of your program.  Consider the following snippet:
 
 ```Java
 if (obj != null) {

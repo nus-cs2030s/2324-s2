@@ -9,7 +9,7 @@
 
 ## Writing General Code for Primitive Types
 
-We have seen the following general code that takes in an array of `Object` objects, and searches if another object `obj` is in the given `array`.
+We have seen the following general code that takes in an array of `Object` objects and searches if another object `obj` is in the given `array`.
 
 ```Java
 // version 0.1 (with polymorphism)
@@ -51,7 +51,7 @@ Java provides wrapper classes for each of its primitive types.  A _wrapper class
 | `char`    | `Character` |
 | `boolean` | `Boolean`   |
 
- A wrapper class can be used just like every other class in Java and behave just like every other class in Java.  In particular, they are reference types and their instances can be created with `new`; instances are stored on the heap, etc.  
+ A wrapper class can be used just like every other class in Java and behave just like every other class in Java.  In particular, they are reference types, their instances can be created with `new` and stored on the heap, etc.  
 
 For instance,
 ```java
@@ -69,7 +69,7 @@ All primitive wrapper class objects are _immutable_ -- once you create an object
 
 ## Auto-boxing and Unboxing
 
-As conversion back-and-forth between a primitive type and its wrapper class is pretty common, Java provides a feature called auto-boxing/unboxing to perform type conversion between primitive type and its wrapper class.
+As conversion back-and-forth between a primitive type and its wrapper class is pretty common, Java provides a feature called auto-boxing/unboxing to perform type conversion between a primitive type and its wrapper class.
 
 For instance,
 ```java

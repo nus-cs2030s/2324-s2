@@ -43,7 +43,7 @@ contains(objArray, Integer.valueOf(1)); // ok
 contains(intArray, Integer.valueOf(1)); // ok
 ```
 
-Line 4 is not surprising since the type for `objArray` matches that of parameter `array`.  Line 5, however, shows that it is possible to assign an instance with run-time type `Integer[]` to a variable with compile-time type `Object[]`.
+Line 4 is not surprising since the type for `objArray` matches that of the parameter `array`.  Line 5, however, shows that it is possible to assign an instance with run-time type `Integer[]` to a variable with compile-time type `Object[]`.
 
 ## Variance of Types
 
@@ -51,7 +51,7 @@ So far, we have established the subtype relationship between classes and interfa
 
 The _variance of types_ refers to how the subtype relationship between complex types relates to the subtype relationship between components.
 
-Let $C(S)$ corresponds to some complex type based on type $S$.  An array of type $S$ is an example of a complex type.
+Let $C(S)$ correspond to some complex type based on type $S$.  An array of type $S$ is an example of a complex type.
 
 We say a complex type is:
 
