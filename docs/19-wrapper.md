@@ -11,8 +11,7 @@
 
 We have seen the following general code that takes in an array of `Object` objects and searches if another object `obj` is in the given `array`.
 
-```Java
-// version 0.1 (with polymorphism)
+```Java title="contains v0.1 with Polymorphism"
 boolean contains(Object[] array, Object obj) {
   for (Object curr : array) {
     if (curr.equals(obj)) {
@@ -24,8 +23,8 @@ boolean contains(Object[] array, Object obj) {
 ```
 
 Through polymorphism and overriding of the `equals` method, we can make sure that it is general enough to work on any reference type.  But what about primitive types?  Do we need to write a separate function for each primitive type, like this?
-```Java
-// version 0.4 (for int, a primitive type)
+
+```Java title="contains v0.4 for int"
 boolean contains(int[] array, int obj) {
   for (int curr : array) {
     if (curr == obj) {
