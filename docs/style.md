@@ -334,6 +334,6 @@ Example of how to run:
 java -jar ~cs2030s/bin/checkstyle.jar -c ~cs2030s/bin/cs2030_checks.xml *.java
 ```
 
-The labs and exams may have different stylecheck configurations.  See the corresponding instructions in the labs/exam papers.
+The exercises and exams may have different stylecheck configurations.  See the corresponding instructions in the exercises/exam papers.
 
 Hint: put the command into a `bash` script so that you do not need to type such a long string all the time.
