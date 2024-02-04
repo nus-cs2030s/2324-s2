@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
 
 <!-- CHANGE TITLE -->
-<title>CS2030S AY22/23 S2 Lecture 4</title>
+<title>CS2030S AY23/24 S2 Lecture 4</title>
 <meta charset="utf-8">
 </head>
 <body>
@@ -22,21 +22,22 @@ class: middle, center
 
 ## Lecture 4
 
-### 30 January 2023
+### 5 February 2024
 ---
 class: middle
 
 ### Announcments
 
 - Office Hours are up!
-
+- Problem Set 2
+- Next Monday Lecture is a Recording
 ---
 class: middle
 
-### Lab 2
+### Exercise 2
 
-- Builds on Lab 1. 
-- Released on Thursday as per normal (2 Feb, Thursday)
+- Builds on Exercise 1. 
+- Released early on Wednesday (7 Feb) due to CNY
 
 ---
 class: middle,left
@@ -65,7 +66,7 @@ class: middle,center
 ## Wrapper Classes
 
 ---
-class: middle,wide
+class: middle, wide
 
 .small[
 ```Java
@@ -87,7 +88,7 @@ class: middle,left
 ## Wrapper Classes are Reference Types!
 
 ```Java
-Integer i = new Integer(4);
+Integer i = Integer.valueOf(4);
 int j = i.intValue();
 ```
 
@@ -283,15 +284,84 @@ class: middle,center
 ## Best Practices for Exception Handling
 
 ---
+class: middle
+
+### Do use catching exceptions to clean up
+
+.tiny[```Java
+public void m2() throws E2 {
+  try {
+    // setup resources
+    m3();
+  }
+  catch (E2 e) {
+    throw e;
+  }
+  finally {
+    // clean up resources
+  }
+}
+```]
+
+---
 background-image: url(figures/cs2030s-lec04/catch-them-all.png)
+
+
+---
+class: middle
+
+### Do NOT catch-them-all!
+
+```Java
+try {
+  // your code
+}
+catch (Exception e) {
+  // do nothing
+}
+```
+
+---
+class: middle
+
+### Do NOT use Exception as a Control Flow Mechanism
+
+```Java
+try {
+  obj.doSomething();
+} catch (NullPointerException e) {
+  doTheOtherThing();
+}
+```
+
+---
+class: middle
+
+### Do NOT Overreact
+
+```Java
+try {
+  // your code
+}
+catch (Exception e) {
+  System.exit(0); 
+}
+```
 
 ---
 class: middle,left
 
 ### Reminders
 
-- Be sure to do you quizzes!
+- Be sure to do your quizzes!
 - Remember: Play with the examples we give you :)
+
+---
+class: middle,left
+
+If I don't see you beforehand:
+
+## Happy Lunar New Year!
 
 ---
 
@@ -300,7 +370,7 @@ class: bottom
 .tiny[
 Version: v1.0
 
-Last Updated: Sat Jan 28 20:00:00 +08 2023
+Last Updated: Sat Feb 03 20:00:00 +08 2024
 ]
 </textarea>
 
@@ -322,7 +392,7 @@ var slideshow = remark.create({
 	},
 	ratio: '16:9',
 	highlightStyle: 'ir-black',
-  slideNumberFormat: 'CS2030S AY22/23 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
+  slideNumberFormat: 'CS2030S AY23/24 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
 });
  // Setup MathJax
   MathJax.Hub.Config({
