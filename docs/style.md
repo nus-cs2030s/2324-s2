@@ -64,7 +64,8 @@ Many major companies enforce coding styles, and some have published them.  For C
 
         Most other source code editors have similar configurations.
 
-1. Line wrap should be done with 4 spaces. 
+1. Each line is limited to 100 characters in length.  
+    line into multiple lines to enhance readability, this is called _line wrapping_.  When you do so, each continuation line is indented at least 4 spaces from the original line.
 
     !!! success "Good Example"
 
@@ -96,6 +97,9 @@ Many major companies enforce coding styles, and some have published them.  For C
             }
         }
         ```
+
+    !!! note "80 vs 100"
+        While we prefer lines to be limited to 80, we are OK if the length is up to 100.  Any longer, however, will be frowned upon.
 
 
 1. Indent comments at the same level as the surrounding code.  For multiple comments, align `*` with the previous line.
@@ -204,7 +208,7 @@ Many major companies enforce coding styles, and some have published them.  For C
 
 1. Exactly one blank line after `import` statements.
 
-2. Each statement is followed by a line break, no matter how short the statement is.
+1. Each statement is followed by a line break, no matter how short the statement is.
 
     !!! success "Good Example"
 
@@ -219,42 +223,7 @@ Many major companies enforce coding styles, and some have published them.  For C
         x++; i++;
         ```
 
-3. Each line is limited to 80 characters in length.  You can break a long
-    line into multiple lines to enhance readability, this is called _line wrapping_.  When you do so, each continuation line is indented at least 4 spaces from the original line.
-
-    !!! success "Good Example"
-
-        ```Java
-        System.out.println("Daenerys of the House Targaryen," +
-            "the First of Her Name, The Unburnt, Queen of the Andals," +
-            "the Rhoynar and the First Men, Queen of Meereen," +
-            "Khaleesi of the Great Grass Sea, Protector of the Realm," +
-            "Lady Regnant of the Seven Kingdoms, Breaker of Chains and" +
-            "Mother of Dragon");
-        ```
-
-        Note the 4 spaces indentation at line 2 to line 6.
-
-    !!! failure "Bad Example"
-
-        ```Java
-        System.out.println("Daenerys of the House Targaryen, the First of Her Name, The Unburnt, Queen of the Andals, the Rhoynar and the First Men, Queen of Meereen, Khaleesi of the Great Grass Sea, Protector of the Realm, Lady Regnant of the Seven Kingdoms, Breaker of Chains and Mother of Dragon");
-        ```
-
-        ```Java
-        System.out.println("Daenerys of the House Targaryen, the First of" +
-        " Her Name, The Unburnt, Queen of the Andals, the Rhoynar and the" +
-        " First Men, Queen of Meereen, Khaleesi of the Great Grass Sea, P" +
-        "rotector of the Realm, Lady Regnant of the Seven Kingdoms, Break" +
-        "er of Chains and Mother of Dragon");
-        ```
-
-        This bad example omitted the 4 spaces indentations.
-
-    !!! note "80 vs 100"
-        While we prefer lines to be limited to 80, we are OK if the length is up to 100.  Any longer, however, will be frowned upon.
-
-3. There should be a blank line between constructors, methods, nested classes and static initializers.  Blank lines can be used between fields to create logical groupings.
+1. There should be a blank line between constructors, methods, nested classes and static initializers.  Blank lines can be used between fields to create logical groupings.
 
 ## Identifies
 
