@@ -1,11 +1,13 @@
 # Unit 24: Type Erasure
 
-After taking this unit, students are expected to:
+!!! abstract "Learning Objectives"
 
-- understand that generics are implemented with type erasure in Java
-- understand that type information is not fully available during run-time when generics are used, and problems that this could cause
-- be aware that arrays and generics don't mix well in Java
-- know the terms reifiable type and heap pollution.
+    After taking this unit, students are expected to:
+
+    - understand that generics are implemented with type erasure in Java
+    - understand that type information is not fully available during run-time when generics are used, and problems that this could cause
+    - be aware that arrays and generics don't mix well in Java
+    - know the terms reifiable type and heap pollution.
 
 ## Implementing Generics
 
@@ -23,16 +25,16 @@ class Pair {
   private Object second;
 
   public Pair(Object first, Object second) {
-	  this.first = first;
-	  this.second = second;
+    this.first = first;
+    this.second = second;
   }
 
-  Object getFirst() {
-	  return this.first;
+  public Object getFirst() {
+    return this.first;
   }
 
-  Object getSecond() {
-	  return this.second;
+  public Object getSecond() {
+    return this.second;
   }
 }
 ```
@@ -44,16 +46,16 @@ class Pair<S,T> {
   private T second;
 
   public Pair(S first, T second) {
-	  this.first = first;
-	  this.second = second;
+    this.first = first;
+    this.second = second;
   }
 
-  S getFirst() {
-	  return this.first;
+  public S getFirst() {
+    return this.first;
   }
 
-  T getSecond() {
-	  return this.second;
+  public T getSecond() {
+    return this.second;
   }
 }
 ```
@@ -122,3 +124,11 @@ The following is illegal as well:
 new Pair<S,T>[2];
 new T[2];
 ```
+
+However, given a generic type `T`, the following is allowed:
+
+```Java
+T[] array;
+```
+
+In summary, generic array _declaration_ is fine but generic array _instantiation_ is not.

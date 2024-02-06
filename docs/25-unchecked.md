@@ -1,14 +1,16 @@
 # Unit 25: Unchecked Warnings
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- be aware of how to use generics with an array
-- be aware of unchecked warnings that compilers can give when we are using generics
-- be able to make arguments why a piece of code is type-safe for simple cases
-- know how to suppress warnings from compilers
-- be aware of the ethics when using the @SuppressWarnings("unchecked") annotation
-- know what is a raw type
-- be aware that raw types should never never be used in modern Java
+    After this unit, students should:
+
+    - be aware of how to use generics with an array
+    - be aware of unchecked warnings that compilers can give when we are using generics
+    - be able to make arguments why a piece of code is type-safe for simple cases
+    - know how to suppress warnings from compilers
+    - be aware of the ethics when using the @SuppressWarnings("unchecked") annotation
+    - know what is a raw type
+    - be aware that raw types should never never be used in modern Java
 
 ## Creating Arrays with Type Parameters
 
@@ -28,13 +30,13 @@ ArrayList<Object> objList = pairList;  // error
 
 Using `ArrayList` instead of arrays only _gets around_ the problem of mixing arrays and generics, as a user.  `ArrayList` is implemented with an array internally after all.  As computing students, especially computer science students, it is important to know how to implement your own data structures instead of using ones provided by Java or other libraries.  
 
-Let's try to build one:
+Let's try to build one and to minimise confusion let's call it `Seq<T>`:
 ```Java
 // version 0.1
-class Array<T> {
+class Seq<T> {
   private T[] array;
 
-  Array(int size) {
+  public Seq(int size) {
     this.array = (T[]) new Object[size];
   }
 
@@ -52,25 +54,25 @@ class Array<T> {
 }
 ```
 
-This generic class is a wrapper around an array of type `T`.  Recall that we can't `new T[]` directly.  On Line 6, to get around this restriction, we `new` an `Object` array instead, and cast it to an array of `T[]` instead.
+This generic class is a wrapper around an array of type `T`.  Recall that we can't instantiate a generic type directly (i.e. `new T[]`).  On Line 6, to get around this restriction, we instantiate (`new`) an `Object` array instead, and then cast it to an array of `T[]` instead.
 
 The code now compiles, but we receive the following message:
 ```
-$ javac Array.java
-Note: Array.java uses unchecked or unsafe operations.
+$ javac Seq.java
+Note: Seq.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 ```
 
 Let's do what the compiler tells us, and compile with the `-Xlint:unchecked" flags.
 ```
-$ javac -Xlint:unchecked Array.java
-Array.java:6: warning: [unchecked] unchecked cast
+$ javac -Xlint:unchecked Seq.java
+Seq.java:6: warning: [unchecked] unchecked cast
     array = (T[]) new Object[size];
                   ^
   required: T[]
   found:    Object[]
   where T is a type-variable:
-    T extends Object declared in class Array
+    T extends Object declared in class Seq
 1 warning
 ```
 
@@ -88,22 +90,22 @@ Since `array` is an array of `Object` instances and Java array is covariant, the
 
 Consider the following:
 ```Java
-Array<String> array = new Array<String>(4);
-Object[] objArray = array.getArray();
+Seq<String> seq = new Seq<String>(4);
+Object[] objArray = seq.getArray();
 objArray[0] = 4;
-array.get(0);  // ClassCastException
+seq.get(0);  // ClassCastException
 ```
 
 The last line would generate a `ClassCastException`, exactly a scenario that the compiler has warned us.
 
-It is now up to us humans to change our code so that the code is safe.  Suppose we remove the `getArray` method from the `Array` class,
+It is now up to us humans to change our code so that the code is safe.  Suppose we remove the `getArray` method from the `Seq` class,
 
 ```Java
 // version 0.2
-class Array<T> {
+class Seq<T> {
   private T[] array;
 
-  Array(int size) {
+  public Seq(int size) {
     this.array = (T[]) new Object[size];
   }
 
@@ -117,7 +119,7 @@ class Array<T> {
 }
 ```
 
-Can we prove that our code is type-safe?  In this case, yes.  Since `array` is declared as `private`, the only way someone can put something into the `array` is through the `Array::set` method[^1].  `Array::set` only put items of type `T` into `array`.  So the only type of objects we can get out of `array` must be of type `T`.  So we, as humans, can see that casting `Object[]` to `T[]` is type-safe.
+Can we prove that our code is type-safe?  In this case, yes.  Since `array` is declared as `private`, the only way someone can put something into the `array` is through the `Seq::set` method[^1].  `Seq::set` only put items of type `T` into `array`.  So the only type of objects we can get out of `array` must be of type `T`.  So we, as humans, can see that casting `Object[]` to `T[]` is type-safe.
 
 [^1]: Another win for information hiding!
 
@@ -129,16 +131,16 @@ is safe, we can thank the compiler for its warning and assure the compiler that 
 
 ```Java
 // version 0.3
-class Array<T> {
+class Seq<T> {
   private T[] array;
 
-  Array(int size) {
+  public Seq(int size) {
 	// The only way we can put an object into array is through
 	// the method set() and we only put object of type T inside.
 	// So it is safe to cast `Object[]` to `T[]`.
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     T[] a = (T[]) new Object[size];
-	this.array = a;
+    this.array = a;
   }
 
   public void set(int index, T item) {
@@ -163,32 +165,32 @@ Note that since `@SuppressWarnings` cannot apply to an assignment but only to de
 
 Another common scenario where we can get an unchecked warning is the use of _raw types_.  A raw type is a generic type used without type arguments.  Suppose we do:
 ```Java
-Array a = new Array(4);
+Seq s = new Seq(4);
 ```
 
-The code would compile perfectly.  We are using the generic `Array<T>` as a raw type `Array`.  Java allows this code to compile for backward compatibility.  This is anyway what the code looks like after type erasure and how we would write the code in Java before version 5.   Without a type argument, the compiler can't do any type checking at all.  We are back to the uncertainty that our code could bomb with `ClassCastException` after it ships.
+The code would compile perfectly.  We are using the generic `Seq<T>` as a raw type `Seq`.  Java allows this code to compile for backward compatibility.  This is anyway what the code looks like after type erasure and how we would write the code in Java before version 5.   Without a type argument, the compiler can't do any type checking at all.  We are back to the uncertainty that our code could bomb with `ClassCastException` after it ships.
 
 Mixing raw types with paramterized types can also lead to errors.  Consider:
 ```Java
-Array<String> a = new Array<String>(4);
-populateArray(a);
-String s = a.get(0);
+Seq<String> s = new Seq<String>(4);
+populateSeq(s);
+String str = s.get(0);
 ```
 
-where the method `populateArray` uses raw types:
+where the method `populateSeq` uses raw types:
 ```Java
-void populateArray(Array a) {
-	a.set(0, 1234);
+void populateSeq(Seq s) {
+	s.set(0, 1234);
 }
 ```
 
 Since we use raw types in this method, the compiler can't help us.  It will warn us:
 ```
-Array.java:24: warning: [unchecked] unchecked call to set(int,T) as a member of the raw type Array
-    a.set(0, 1234);
+Seq.java:24: warning: [unchecked] unchecked call to set(int,T) as a member of the raw type Seq
+    s.set(0, 1234);
          ^
   where T is a type-variable:
-    T extends Object declared in class Array
+    T extends Object declared in class Seq
 1 warning
 ```
 
