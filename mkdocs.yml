@@ -62,6 +62,7 @@ nav:
     - General Guide: 'lab.md'
     - Exercise 0: 'exercises/ex0-task.md'
     - Exercise 1: 'exercises/ex1-task.md'
+    - Exercise 2: 'exercises/ex2-task.md'
   #      - JavaDoc : 'javadoc.md'
 theme: 
   name: material
