@@ -1,10 +1,12 @@
 # Unit 23: Generics
 
-After taking this unit, students should:
+!!! abstract "Learning Objectives"
 
-- know how to define and instantiate a generic type and a generic method
-- be familiar with the term parameterized types, type arguments, type parameters
-- appreciate how generics can reduce duplication of code and improve type safety
+    After taking this unit, students should:
+
+    - know how to define and instantiate a generic type and a generic method
+    - be familiar with the term parameterized types, type arguments, type parameters
+    - appreciate how generics can reduce duplication of code and improve type safety
 
 ## The `Pair` class
 
@@ -16,16 +18,16 @@ class IntPair {
   private int second;
 
   public IntPair(int first, int second) {
-	  this.first = first;
-	  this.second = second;
+    this.first = first;
+    this.second = second;
   }
 
   int getFirst() {
-	  return this.first;
+    return this.first;
   }
 
   int getSecond() {
-	  return this.second;
+    return this.second;
   }
 }
 ```
@@ -34,17 +36,17 @@ This class can be used, for instance, in a function that returns two `int` value
 
 ```Java
 IntPair findMinMax(int[] array) {
-	int min = Integer.MAX_VALUE;  // stores the min
-	int max = Integer.MIN.VALUE; // stores the max
-	for (int i : array) {
-		if (i < min)  {
-			min = i;
-		}
-		if (i > max) {
-			max = i;
-		}
-	}
-	return new IntPair(min, max);
+  int min = Integer.MAX_VALUE;  // stores the min
+  int max = Integer.MIN.VALUE;  // stores the max
+  for (int i : array) {
+    if (i < min)  {
+      min = i;
+    }
+    if (i > max) {
+      max = i;
+    }
+  }
+  return new IntPair(min, max);
 }
 ```
 
@@ -57,16 +59,16 @@ class Pair {
   private Object second;
 
   public Pair(Object first, Object second) {
-	  this.first = first;
-	  this.second = second;
+    this.first = first;
+    this.second = second;
   }
 
   Object getFirst() {
-	  return this.first;
+    return this.first;
   }
 
   Object getSecond() {
-	  return this.second;
+    return this.second;
   }
 }
 ```
@@ -102,16 +104,16 @@ class Pair<S,T> {
   private T second;
 
   public Pair(S first, T second) {
-	  this.first = first;
-	  this.second = second;
+    this.first = first;
+    this.second = second;
   }
 
-  S getFirst() {
-	  return this.first;
+  public S getFirst() {
+    return this.first;
   }
 
-  T getSecond() {
-	  return this.second;
+  public T getSecond() {
+    return this.second;
   }
 }
 ```
@@ -143,7 +145,7 @@ Just like you can pass a parameter of a method to another method, we can pass th
 
 ```Java
 class DictEntry<T> extends Pair<String,T> {
-	 :
+    :
 }
 ```
 
@@ -155,15 +157,15 @@ Methods can be parameterized with a type parameter as well.  Consider the `conta
 
 ```Java
 class A {
-	// version 0.1 (with polymorphism)
-	public static boolean contains(Object[] array, Object obj) {
-	  for (Object curr : array) {
-		if (curr.equals(obj)) {
-		  return true;
-		}
-	  }
-	  return false;
-	}
+  // version 0.1 (with polymorphism)
+  public static boolean contains(Object[] array, Object obj) {
+    for (Object curr : array) {
+      if (curr.equals(obj)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 ```
 
@@ -177,15 +179,15 @@ Searching for an integer within an array of strings is a futile attempt!  Let's 
 
 ```Java
 class A {
-	// version 0.4 (with generics)
-	public static <T> boolean contains(T[] array, T obj) {
-	  for (T curr : array) {
-		if (curr.equals(obj)) {
-		  return true;
-		}
-	  }
-	  return false;
-	}
+  // version 0.4 (with generics)
+  public static <T> boolean contains(T[] array, T obj) {
+    for (T curr : array) {
+      if (curr.equals(obj)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 ```
 
@@ -207,19 +209,19 @@ Let's now try to apply our newly acquired trick to fix the issue with `findLarge
 
 ```Java
 class A {
-	// version 0.4
-	public static GetAreable findLargest(GetAreable[] array) {
-	  double maxArea = 0;
-	  GetAreable maxObj = null;
-	  for (GetAreable curr : array) {
-		double area = curr.getArea();
-		if (area > maxArea) {
-		  maxArea = area;
-		  maxObj = curr;
-		}
-	  }
-	  return maxObj;
-	}
+  // version 0.4
+  public static GetAreable findLargest(GetAreable[] array) {
+    double maxArea = 0;
+    GetAreable maxObj = null;
+    for (GetAreable curr : array) {
+      double area = curr.getArea();
+      if (area > maxArea) {
+        maxArea = area;
+        maxObj = curr;
+      }
+    }
+    return maxObj;
+  }
 }
 ```
 
@@ -227,19 +229,19 @@ Let's try to make this method generic, by forcing the return type to be the same
 
 ```Java
 class A {
-	// version 0.4
-	public static <T> T findLargest(T[] array) {
-		double maxArea = 0;
-		T maxObj = null;
-		for (T curr : array) {
-			double area = curr.getArea();
-			if (area > maxArea) {
-				maxArea = area;
-				maxObj = curr;
-			}
-		}
-		return maxObj;
-	}
+  // version 0.4
+  public static <T> T findLargest(T[] array) {
+    double maxArea = 0;
+    T maxObj = null;
+    for (T curr : array) {
+      double area = curr.getArea();
+      if (area > maxArea) {
+        maxArea = area;
+        maxObj = curr;
+      }
+    }
+    return maxObj;
+  }
 }
 ```
 
@@ -249,19 +251,19 @@ Since we intend to use `findLargest` only in classes that implement the `GetArea
 
 ```Java
 class A {
-	// version 0.5
-	public static <T extends GetAreable> T findLargest(T[] array) {
-		double maxArea = 0;
-		T maxObj = null;
-		for (T curr : array) {
-			double area = curr.getArea();
-			if (area > maxArea) {
-				maxArea = area;
-				maxObj = curr;
-			}
-		}
-		return maxObj;
-	}
+  // version 0.5
+  public static <T extends GetAreable> T findLargest(T[] array) {
+    double maxArea = 0;
+    T maxObj = null;
+    for (T curr : array) {
+      double area = curr.getArea();
+      if (area > maxArea) {
+        maxArea = area;
+        maxObj = curr;
+      }
+    }
+    return maxObj;
+  }
 }
 ```
 
@@ -277,21 +279,21 @@ class Pair<S extends Comparable<S>,T> implements Comparable<Pair<S,T>> {
   private T second;
 
   public Pair(S first, T second) {
-	  this.first = first;
-	  this.second = second;
+    this.first = first;
+    this.second = second;
   }
 
-  S getFirst() {
-	  return this.first;
+  public S getFirst() {
+    return this.first;
   }
 
-  T getSecond() {
-	  return this.second;
+  public T getSecond() {
+    return this.second;
   }
 
   @Override
   public int compareTo(Pair<S,T> s1) {
-	  return this.first.compareTo(s1.first);
+    return this.first.compareTo(s1.first);
   }
 
   @Override
