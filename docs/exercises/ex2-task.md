@@ -1,7 +1,7 @@
 # Exercise 2: Simulation 2
 
 - Deadline: 14 February 2023, Wednesday, 23:59 SGT
-- Difficulty Level: 4
+- Difficulty Level: 5
 
 ## Prerequisite:
 
