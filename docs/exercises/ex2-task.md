@@ -164,7 +164,7 @@ You can automatically test your code against all the given inputs/outputs as wel
 
 The expected outputs are given in the `outputs` directory. You can compare `OUT` with the expected output with `diff` or `vim`.  Using `vim`,
 ```Shell
-vim -d OUT output/Ex2.1.out
+vim -d OUT outputs/Ex2.1.out
 ```
 
 will open both files and highlight the differences.
