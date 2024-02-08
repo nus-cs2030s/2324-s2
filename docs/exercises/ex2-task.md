@@ -100,7 +100,7 @@ boolean b = q.enq("a1");
 
 // Remove a string from the queue.  `Queue::deq` returns an 
 // `Object`, so narrowing type conversion is needed.  Returns 
-// `null` is queue is empty.
+// `null` if queue is empty.
 String s = (String) q.deq();
 
 // Returns the string representation of the queue (showing 
