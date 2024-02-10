@@ -37,7 +37,7 @@ This class can be used, for instance, in a function that returns two `int` value
 ```Java
 IntPair findMinMax(int[] array) {
   int min = Integer.MAX_VALUE;  // stores the min
-  int max = Integer.MIN.VALUE;  // stores the max
+  int max = Integer.MIN_VALUE;  // stores the max
   for (int i : array) {
     if (i < min)  {
       min = i;

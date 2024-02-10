@@ -100,7 +100,7 @@ boolean b = q.enq("a1");
 
 // Remove a string from the queue.  `Queue::deq` returns an 
 // `Object`, so narrowing type conversion is needed.  Returns 
-// `null` is queue is empty.
+// `null` if queue is empty.
 String s = (String) q.deq();
 
 // Returns the string representation of the queue (showing 
@@ -164,7 +164,7 @@ You can automatically test your code against all the given inputs/outputs as wel
 
 The expected outputs are given in the `outputs` directory. You can compare `OUT` with the expected output with `diff` or `vim`.  Using `vim`,
 ```Shell
-vim -d OUT output/Ex2.1.out
+vim -d OUT outputs/Ex2.1.out
 ```
 
 will open both files and highlight the differences.
