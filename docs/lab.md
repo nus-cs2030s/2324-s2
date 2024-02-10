@@ -70,7 +70,7 @@ Your submission will earn an achievement badge, which can be one of the followin
 
 - **Excellent** Compiles without warning or style errors.  Pass all test cases.
 - **Good** Compiles with one or more warnings or style errors.  Pass all test cases.
-- **Need Improvement** Fail at least one test case.
+- **Need Improvement** Fail at least one test case {++ including internal test cases ++}
 - **N/A** Late submission; Submitted skeleton only; No submission; Submitted non-compilable code.
 
 The difficulty level of each exercise and the achievement level will determine your exercise grade.
