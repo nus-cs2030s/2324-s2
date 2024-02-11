@@ -10,7 +10,7 @@
 
 ## The `Pair` class
 
-Sometimes it is useful to have a lightweight class to bundle a pair of variables together.  One could, for instance, write a method that returns two values.  The example defines a class `IntPair` that bundles two `int` variables together. This is a utility class with no semantics nor methods associated with it and so, we did not attempt to hide the implementation details.
+Sometimes it is useful to have a lightweight class to bundle a pair of variables together.  One could, for instance, write a method that returns two values.  The example defines a class `IntPair` that bundles two `int` variables together. This is a utility class with no semantics or methods associated with it.  So, we did not attempt to hide the implementation details.
 
 ```Java
 class IntPair {
@@ -53,7 +53,7 @@ IntPair findMinMax(int[] array) {
 We could similarly define a pair class for two doubles (`DoublePair`), two booleans (`BooleanPair`), etc.  In other situations, it is useful to define a pair class that bundles two variables of two different types, say, a `Customer` and a `ServiceCounter`; a `String` and an `int`; etc.  
 
 We should not, however, create one class for each possible combination of types.  A better idea is to define a class that stores two `Object` references:
-```Java
+```Java title="Pair v0.1 with Object"
 class Pair {
   private Object first;
   private Object second;
@@ -73,7 +73,7 @@ class Pair {
 }
 ```
 
-At the cost of using a [wrapper class](19-wrapper.md) in place of primitive types, we get a single class that can be used to store any type of values.  
+At the cost of using a [wrapper class](19-wrapper.md) in place of primitive types, we get a single class that can be used to store any type of value.  
 
 You might recall that we used a similar approach for our [`contains` method](14-polymorphism.md) to implement a general _method_ that works for any type of object.  Here, we are using this approach for a general _class_ that encapsulates any type of object.
 
@@ -98,7 +98,7 @@ In Java and many other programming languages, the mechanism to do this is called
 
 Let's see how we can do this for `Pair`:
 
-```Java
+```Java title="Pair v0.2 with Generics"
 class Pair<S,T> {
   private S first;
   private T second;
@@ -155,9 +155,8 @@ We define a generic class called `DictEntry<T>` with a single type parameter `T`
 
 Methods can be parameterized with a type parameter as well.  Consider the `contains` method, which we now put within a class for clarity.
 
-```Java
+```Java title="contains v0.1 (with Polymorphism)
 class A {
-  // version 0.1 (with polymorphism)
   public static boolean contains(Object[] array, Object obj) {
     for (Object curr : array) {
       if (curr.equals(obj)) {
@@ -177,9 +176,8 @@ A.contains(strArray, 123);
 
 Searching for an integer within an array of strings is a futile attempt!  Let's constrain the type of the object to search for to be the same as the type of the array.  We can make this type the parameter to this method:
 
-```Java
+```Java title="contains v0.5 with Generics"
 class A {
-  // version 0.4 (with generics)
   public static <T> boolean contains(T[] array, T obj) {
     for (T curr : array) {
       if (curr.equals(obj)) {
@@ -205,11 +203,10 @@ The code above won't compile since the compiler expects the second argument to a
 
 ## Bounded Type Parameters
 
-Let's now try to apply our newly acquired trick to fix the issue with `findLargest`.  Recall that we have the following `findLargest` method (which we now put into an ad hoc class just for clarity), which [requires us to perform a narrowing type conversion](20-casting.md) to cast from `GetAreable` and possibly leading to a run-time error.
+Let's now try to apply our newly acquired trick to fix the issue with `findLargest`.  Recall that we have the following `findLargest` method (which we now put into an ad hoc class just for clarity), which [requires us to perform a narrowing type conversion](20-casting.md) to cast from `GetAreable` and possibly lead to a run-time error.
 
-```Java
+```Java title="findLargest v0.5 with GetAreable"
 class A {
-  // version 0.4
   public static GetAreable findLargest(GetAreable[] array) {
     double maxArea = 0;
     GetAreable maxObj = null;
@@ -227,9 +224,8 @@ class A {
 
 Let's try to make this method generic, by forcing the return type to be the same as the type of the elements in the input array,
 
-```Java
+```Java title="findLargest v0.6 with Generics"
 class A {
-  // version 0.4
   public static <T> T findLargest(T[] array) {
     double maxArea = 0;
     T maxObj = null;
@@ -245,13 +241,12 @@ class A {
 }
 ```
 
-The code above won't compile, since the compiler cannot be sure that it can find the method `getArea()` in type `T`.  In contrast, when we run `contains`, we had no issue since we are invoking the method `equals`, which exists in any reference type in Java.
+The code above won't compile, since the compiler cannot be sure that it can find the method `getArea()` in type `T`.  In contrast, when we run `contains`, we have no issue since we are invoking the method `equals`, which exists in any reference type in Java.
 
-Since we intend to use `findLargest` only in classes that implement the `GetAreable` interface and supports the `getArea()` method, we can put a constraint on `T`.  We can say that `T` must be a subtype of `GetAreable` when we specify the type parameter:
+Since we intend to use `findLargest` only in classes that implement the `GetAreable` interface and support the `getArea()` method, we can put a constraint on `T`.  We can say that `T` must be a subtype of `GetAreable` when we specify the type parameter:
 
-```Java
+```Java title="findLargest v0.7 with Generics and Bounded Type Parameter"
 class A {
-  // version 0.5
   public static <T extends GetAreable> T findLargest(T[] array) {
     double maxArea = 0;
     T maxObj = null;
@@ -273,7 +268,7 @@ We can use bounded type parameters for declaring generic classes as well.  For i
 
 Suppose we want to compare two `Pair` instances, by comparing the first element in the pair, we could do the following:
 
-```Java
+```Java title="Pair v0.3 with Generics and Bounded Type Parameters"
 class Pair<S extends Comparable<S>,T> implements Comparable<Pair<S,T>> {
   private S first;
   private T second;
@@ -306,23 +301,23 @@ class Pair<S extends Comparable<S>,T> implements Comparable<Pair<S,T>> {
 Let's look at what it means:
 
 - We declared `Pair` to be a generic type of two type parameters: the first one `S` is bounded and must be a subtype of `Comparable<S>`.  This bound is self-referential, but it is intuitive -- we say that `S` must be comparable to itself, which is common in many use cases.
-- Since we want to compare two `Pair` instances, we make `Pair` implements the `Comparable` interface too, passing in `Pair<S,T>` as the type argument to `Comparable`.
+- Since we want to compare two `Pair` instances, we make `Pair` implement the `Comparable` interface too, passing in `Pair<S,T>` as the type argument to `Comparable`.
 
 Let's see this in action with [`Arrays::sort`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Arrays.html#sort(java.lang.Object%5B%5D)) method, which sorts an array based on the ordering defined by `compareTo`.
 
 ```Java
-    Object[] array = new Object[] {
-      new Pair<String,Integer>("Alice", 1),
-      new Pair<String,Integer>("Carol", 2),
-      new Pair<String,Integer>("Bob", 3),
-      new Pair<String,Integer>("Dave", 4),
-    };
+Object[] array = new Object[] {
+  new Pair<String,Integer>("Alice", 1),
+  new Pair<String,Integer>("Carol", 2),
+  new Pair<String,Integer>("Bob", 3),
+  new Pair<String,Integer>("Dave", 4),
+};
 
-    java.util.Arrays.sort(array);
+java.util.Arrays.sort(array);
 
-    for (Object o : array) {
-      System.out.println(o);
-    }
+for (Object o : array) {
+  System.out.println(o);
+}
 ```
 
 You will see the pairs are sorted by the first element.

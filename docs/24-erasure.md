@@ -17,9 +17,9 @@ For instance, in C#, every instantiation of a generic type causes new code to be
 
 Java takes a _code sharing_ approach, instead of creating a new type for every instantiation, it chooses to _erase_ the type parameters and type arguments during compilation (after type checking, of course).  Thus, there is only one representation of the generic type in the generated code, representing all the instantiated generic types, regardless of the type arguments.  
 
-Part of the reason to do this is for compatibility with the older version of Java.  Java introduces generics only from version 5 onwards.  Prior to version 5, one has to use `Object` to implement classes that are general enough to works on multiple types, similar to what we did with `Pair` here:
+Part of the reason to do this is for compatibility with the older version of Java.  Java introduces generics only from version 5 onwards.  Prior to version 5, one has to use `Object` to implement classes that are general enough to work on multiple types, similar to what we did with `Pair` here:
 
-```Java
+```Java title="Pair v0.1 with Object"
 class Pair {
   private Object first;
   private Object second;
@@ -40,7 +40,7 @@ class Pair {
 ```
 
 The Java type erasure process transforms:
-```Java
+```Java title="Pair v0.2 with Generics"
 class Pair<S,T> {
   private S first;
   private T second;
@@ -112,7 +112,7 @@ Heap pollution is dangerous, as now, we will get a `ClassCastException` when we 
 String str = pairArray[0].getFirst();
 ```
 
-The example above shows why generics and arrays don't mix well together.  An array is what is called _reifiable_ type -- a type where full type information is available during run-time.  It is because Java array is reifiable that the Java run-time can check what we store into the array matches the type of the array and throw an `ArrayStoreException` at us if there is a mismatch.  Java generics, however, is not reifiable due to type erasure.  Java designers have decided not to mix the two.
+The example above shows why generics and arrays don't mix well together.  An array is what is called _reifiable_ type -- a type where full type information is available during run-time.  It is because the Java array is reifiable that the Java run-time can check what we store into the array matches the type of the array and throw an `ArrayStoreException` at us if there is a mismatch.  Java generics, however, is not reifiable due to type erasure.  Java designers have decided not to mix the two.
 
 The hypothetical code above actually is not a valid Java syntax.  We can't compile this line:
 ```Java
