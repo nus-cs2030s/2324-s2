@@ -125,6 +125,7 @@ If we are sure (and only if we are sure) that the line
 ```
     array = (T[]) new Object[size];
 ```
+
 is safe, we can thank the compiler for its warning and assure the compiler that everything is going to be fine.  We can do so with the `@SuppressWarning("unchecked")` annotation.
 
 ```Java title="Seq&lt;T&gt; v0.3 with @SuppressWarnings"
