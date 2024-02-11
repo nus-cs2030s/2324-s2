@@ -39,7 +39,7 @@ void displayGrade(Course c, double marks) {
 Now, suppose that one day, someone comes along and creates a new class `CSCUCourse` that inherits from `Course`, and overrides `marksToGrade` so that it now returns only 'S' and 'U'.  Since `CSCUCourse` is a subclass of `Course`, we can pass an instance to `displayGrade`:
 
 ```
-displayGrade(new CSCUCourse("GEQ1000", 100));
+displayGrade(new CSCUCourse("GEQ1000"), 100);
 ```
 
 and suddenly `displayGrade` is displaying `retake again` even if the student is scoring 100 marks.
