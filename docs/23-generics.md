@@ -53,6 +53,7 @@ IntPair findMinMax(int[] array) {
 We could similarly define a pair class for two doubles (`DoublePair`), two booleans (`BooleanPair`), etc.  In other situations, it is useful to define a pair class that bundles two variables of two different types, say, a `Customer` and a `ServiceCounter`; a `String` and an `int`; etc.  
 
 We should not, however, create one class for each possible combination of types.  A better idea is to define a class that stores two `Object` references:
+
 ```Java title="Pair v0.1 with Object"
 class Pair {
   private Object first;
@@ -155,7 +156,7 @@ We define a generic class called `DictEntry<T>` with a single type parameter `T`
 
 Methods can be parameterized with a type parameter as well.  Consider the `contains` method, which we now put within a class for clarity.
 
-```Java title="contains v0.1 (with Polymorphism)
+```Java title="contains v0.1 (with Polymorphism)"
 class A {
   public static boolean contains(Object[] array, Object obj) {
     for (Object curr : array) {
