@@ -169,7 +169,7 @@ class A {
 }
 ```
 
-While using this method does not involve narrowing type conversion and type casting, it is a little to general -- it allows us to call `contains` in a nonsensical way, like this:
+While using this method does not involve narrowing type conversion and type casting, it is a little to general &mdash; it allows us to call `contains` in a nonsensical way, like this:
 ```Java
 String[] strArray = new String[] { "hello", "world" };
 A.contains(strArray, 123);
@@ -301,7 +301,7 @@ class Pair<S extends Comparable<S>,T> implements Comparable<Pair<S,T>> {
 
 Let's look at what it means:
 
-- We declared `Pair` to be a generic type of two type parameters: the first one `S` is bounded and must be a subtype of `Comparable<S>`.  This bound is self-referential, but it is intuitive -- we say that `S` must be comparable to itself, which is common in many use cases.
+- We declared `Pair` to be a generic type of two type parameters: the first one `S` is bounded and must be a subtype of `Comparable<S>`.  This bound is self-referential, but it is intuitive &mdash; we say that `S` must be comparable to itself, which is common in many use cases.
 - Since we want to compare two `Pair` instances, we make `Pair` implement the `Comparable` interface too, passing in `Pair<S,T>` as the type argument to `Comparable`.
 
 Let's see this in action with [`Arrays::sort`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Arrays.html#sort(java.lang.Object%5B%5D)) method, which sorts an array based on the ordering defined by `compareTo`.

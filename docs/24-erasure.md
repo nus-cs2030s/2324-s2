@@ -112,7 +112,7 @@ Heap pollution is dangerous, as now, we will get a `ClassCastException` when we 
 String str = pairArray[0].getFirst();
 ```
 
-The example above shows why generics and arrays don't mix well together.  An array is what is called _reifiable_ type -- a type where full type information is available during run-time.  It is because the Java array is reifiable that the Java run-time can check what we store into the array matches the type of the array and throw an `ArrayStoreException` at us if there is a mismatch.  Java generics, however, is not reifiable due to type erasure.  Java designers have decided not to mix the two.
+The example above shows why generics and arrays don't mix well together.  An array is what is called _reifiable_ type &mdash; a type where full type information is available during run-time.  It is because the Java array is reifiable that the Java run-time can check what we store into the array matches the type of the array and throw an `ArrayStoreException` at us if there is a mismatch.  Java generics, however, is not reifiable due to type erasure.  Java designers have decided not to mix the two.
 
 The hypothetical code above actually is not a valid Java syntax.  We can't compile this line:
 ```Java

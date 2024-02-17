@@ -60,7 +60,7 @@ We have mentioned that classes model real-world entities in OOP.  The compositio
 
 ## Example: `Cylinder`
 
-Now let's build up another layer of abstraction and construct a 3D object -- a cylinder.  A cylinder has a circle as its base and has a height value.  Using composition, we can construct a `Cylinder` class:
+Now let's build up another layer of abstraction and construct a 3D object &mdash; a cylinder.  A cylinder has a circle as its base and has a height value.  Using composition, we can construct a `Cylinder` class:
 
 ```Java
 class Cylinder {

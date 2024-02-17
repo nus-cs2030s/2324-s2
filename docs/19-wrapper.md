@@ -60,9 +60,9 @@ int j = i.intValue();
 
 The code snippet above shows how we can convert a primitive `int` value to a wrapper instance `i` of type `Integer`, and how the `intValue` method can retrieve the `int` value from an `Integer` instance.  
 
-With the wrapper type, we can reuse our `contains` method that takes in an `Object` array as a parameter to operate on an array of integers -- we just need to pass our integers into the method in an `Integer` array instead of an `int` array.
+With the wrapper type, we can reuse our `contains` method that takes in an `Object` array as a parameter to operate on an array of integers &mdash; we just need to pass our integers into the method in an `Integer` array instead of an `int` array.
 
-All primitive wrapper class objects are _immutable_ -- once you create an object, it cannot be changed.
+All primitive wrapper class objects are _immutable_ &mdash; once you create an object, it cannot be changed.
 
 
 

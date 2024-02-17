@@ -38,7 +38,7 @@ A user can navigate around the directory tree.  The _current working directory_ 
 
 The current working directory is referred to with the symbol `.` in `bash`.
 
-[^2]: Not exactly true -- since Unix is designed to be flexible, even the root and the home directory can be changed!  But let's not worry about that for now since there is no good reason to do that as a beginner.
+[^2]: Not exactly true &mdash; since Unix is designed to be flexible, even the root and the home directory can be changed!  But let's not worry about that for now since there is no good reason to do that as a beginner.
 
 ### Parent Directory
 
@@ -146,7 +146,7 @@ Entering `cd` alone (without argument) brings you back to your home directory.
 
 ### `rmdir`: ReMove a subDIRectory
 
-`rmdir` removes a subDIRectory in the current directory -- note that a directory must be empty before it can be removed.
+`rmdir` removes a subDIRectory in the current directory &mdash; note that a directory must be empty before it can be removed.
 
 The command
 
@@ -285,7 +285,7 @@ Here, you can see that we have moved `foo.txt` over to the current directory.
 
 ### `rm`: ReMove files
 
-We can use `rm` to remove files.  Be careful with this command -- files deleted cannot be restored.  There is no trash or recycled bin like in Mac or Windows.
+We can use `rm` to remove files.  Be careful with this command &mdash; files deleted cannot be restored.  There is no trash or recycled bin like in Mac or Windows.
 
 ```bash
 $ ls
@@ -466,7 +466,7 @@ $ cat test.count
        1      11      64 test.txt
 ```
 
-The first command redirects the output from `wc` to a file named `test.count`, so you do not see anything printed to the output anymore.  We can check by running `cat` on the new file `test.count` -- indeed the original output from `wc` is now stored in the file `test.count`.
+The first command redirects the output from `wc` to a file named `test.count`, so you do not see anything printed to the output anymore.  We can check by running `cat` on the new file `test.count` &mdash; indeed the original output from `wc` is now stored in the file `test.count`.
 
 If we repeat the command `wc test.txt > test.count` again, you can see that the file has been
 overwritten with the output from `wc` again.  But if we replace `>` with `>>`, a new line is concatenated into `test.count`.   So the file now has two lines.
@@ -496,9 +496,9 @@ $ cat < test.txt
 This is a test file for learning Unix file management commands.
 ```
 
-Note the slight difference in the output format of the second `wc` above -- it no longer prints the file name since from `wc` points of view, it is read from the standard input and not from a file, so it is not aware of the file named `test.txt`
+Note the slight difference in the output format of the second `wc` above &mdash; it no longer prints the file name since from `wc` points of view, it is read from the standard input and not from a file, so it is not aware of the file named `test.txt`
 
-In most CS programming assignments, however, to keep things simple, you will be asked to read from the standard input only, so the `<` is a great time-saver -- you do not have to repeatedly type in the same input data over and over from the keyboard.  You can just save the input data in a file, then redirect it to standard input with the `<` operator.
+In most CS programming assignments, however, to keep things simple, you will be asked to read from the standard input only, so the `<` is a great time-saver &mdash; you do not have to repeatedly type in the same input data over and over from the keyboard.  You can just save the input data in a file, then redirect it to standard input with the `<` operator.
 
 ## Other Useful Online Tools
 

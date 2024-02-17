@@ -75,7 +75,7 @@ A.<Shape>contains(circleArray, shape); // compilation error
 A.<Circle>contains(circleArray, shape); // compilation error
 ```
 
-Thus, with our current implementation, we can't look for a shape (which may be a circle) in an array of circles, even though this is something reasonable that a programmer might want to do.  This constraint is due to the invariance of generics -- while we avoided the possibility of run-time errors by avoiding covariance arrays, our methods have become less general.
+Thus, with our current implementation, we can't look for a shape (which may be a circle) in an array of circles, even though this is something reasonable that a programmer might want to do.  This constraint is due to the invariance of generics &mdash; while we avoided the possibility of run-time errors by avoiding covariance arrays, our methods have become less general.
 
 Let's see how we can fix this with bounded type parameters first.  We can introduce another type parameter, say `S`, to remove the constraints that the type of the array must be the same as the type of the object to search for.  I.e., we change from
 ```Java

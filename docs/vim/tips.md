@@ -112,7 +112,7 @@ To uncomment,
 :%s/oldWord/newWord/gc
 ```
 
-`:` enters the command mode.  `%` means apply to the whole document, `s` means substitute, `g` means global (otherwise, only the first occurrence of each line is replaced). `c` is optional -- adding it cause `vim` to confirm with you before each replacement  
+`:` enters the command mode.  `%` means apply to the whole document, `s` means substitute, `g` means global (otherwise, only the first occurrence of each line is replaced). `c` is optional &mdash; adding it cause `vim` to confirm with you before each replacement  
 
 ### Shell Command
 

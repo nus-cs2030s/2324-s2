@@ -10,7 +10,7 @@
 
 Like many other Unix programs, you can configure your preferences by creating an `rc` (run commands) file in your home directory.  These `rc` files will be read by the corresponding programs and executed line-by-line as if the text is entered into the program through a keyboard.  You can view an `rc` file as a script that will be executed automatically whenever a program starts.
 
-For `vim`, the `rc` file is called `.vimrc`.  The dot (_i.e._, `.`) in the front of the file name carries a special meaning in Unix.  It means that this file is hidden -- you won't see it when you `ls`.  Hiding the run command files prevent your home directory from being cluttered.  To tell `ls` to show the hidden files, use the `-a` flag
+For `vim`, the `rc` file is called `.vimrc`.  The dot (_i.e._, `.`) in the front of the file name carries a special meaning in Unix.  It means that this file is hidden &mdash; you won't see it when you `ls`.  Hiding the run command files prevent your home directory from being cluttered.  To tell `ls` to show the hidden files, use the `-a` flag
 
 ```Bash
 $ ls -a

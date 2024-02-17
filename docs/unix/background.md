@@ -25,7 +25,7 @@ CLI evolves from teletypes machines where users would interact with the computer
 
 ## Why CLI over GUI?
 
-Since CLI is designed to be economical, CLI is much more efficient and productive to use, in particular when we are interacting with a remote computer over the network -- sending text back and forth is much more efficient than sending graphical elements over the network.  Each character takes up to two bytes, but each pixel alone takes up 3 bytes of data.
+Since CLI is designed to be economical, CLI is much more efficient and productive to use, in particular when we are interacting with a remote computer over the network &mdash; sending text back and forth is much more efficient than sending graphical elements over the network.  Each character takes up to two bytes, but each pixel alone takes up 3 bytes of data.
 
 Another reason why using CLI is faster and more productive is that user can keep their hands on the keyboard at all times and does _not_ need to switch frequently between keyboard and mouse._  While research has shown that GUI and mouse are great for casual users, for software developers that need to type on the keyboard most of the time, having to switch between keyboard and mouse is a productivity-killer.
 
@@ -96,7 +96,7 @@ The following lists some of the most useful control sequences to know:
 
 
 !!! warning "++control+z++ vs. ++control+c++"
-    A common mistake for new students is to hit ++control+z++ frequently if something goes wrong with their program -- this behavior could lead to multiple suspended programs (which still occupy resources such as memory on the computer).  The right sequence to use is ++control+c++ -- which terminates the program (and frees up the resources).
+    A common mistake for new students is to hit ++control+z++ frequently if something goes wrong with their program &mdash; this behavior could lead to multiple suspended programs (which still occupy resources such as memory on the computer).  The right sequence to use is ++control+c++ &mdash; which terminates the program (and frees up the resources).
 
 !!! warning "++control+s++ accidents"
     Since ++control+s++ is used as the "save" shortcut in non-Unix environment, many students accidentally hit this control sequence, causing their terminal to freeze.  Don't panic if this happens.  Just hit ++control+q++ and things will be back to normal.

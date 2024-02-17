@@ -35,11 +35,11 @@ T t = a.get(0);
 
 Then everywhere in our code where we use `t`, we should be able to replace it with `a.get(0)`, and the behavior of the code should still be the same. This behavior is only guaranteed if `a.get(0)` has no side effects (such as modifying a field or print something to the standard output).
 
-To be able to reason about our code using the mathematical reasoning techniques we are familiar with, it is important to write our code as if we are writing mathematical functions -- our methods should be free of side effects and our code should be referentially transparent.  Our program is then just a sequence of functions, chained and composed together.  To achieve this, functions need to be a _first class citizen_ in our program, so that we can assign functions to a variable, pass it as parameters, return a function from another function, etc, just like any other variable.
+To be able to reason about our code using the mathematical reasoning techniques we are familiar with, it is important to write our code as if we are writing mathematical functions &mdash; our methods should be free of side effects and our code should be referentially transparent.  Our program is then just a sequence of functions, chained and composed together.  To achieve this, functions need to be a _first class citizen_ in our program, so that we can assign functions to a variable, pass it as parameters, return a function from another function, etc, just like any other variable.
 
 ## Pure Functions
 
-Ideally, methods in our programs should behave the same as functions in mathematics.  Given an input, the function computes and returns an output.  A _pure_ function does nothing else -- it does not print to the screen, write to files, throw exceptions, change other variables, modify the values of the arguments, etc.  That is, a pure function does not cause any _side effect_.  
+Ideally, methods in our programs should behave the same as functions in mathematics.  Given an input, the function computes and returns an output.  A _pure_ function does nothing else &mdash; it does not print to the screen, write to files, throw exceptions, change other variables, modify the values of the arguments, etc.  That is, a pure function does not cause any _side effect_.  
 
 Here are two examples of pure functions:
 
@@ -288,7 +288,7 @@ The technique that translates a general $n$-ary function to a sequence of $n$ un
 !!! note "Curry"
     Currying is not related to food but rather is named after computer scientist Haskell Curry, who popularized the technique.
 
-How is currying useful?  Consider `add(1, 1)` -- we have to have both arguments available at the same time to compute the function.  With currying, we no longer have to.  We can evaluate the different arguments at a different time (as `incr` example above).  This feature is useful in cases where some arguments are not available until later.  We can _partially apply_ a function first.  This is also useful if one of the arguments does not change often, or is expensive to compute.  We can save the partial results as a function and continue applying later.  We can dynamically create functions as needed, save them, and invoke them later.
+How is currying useful?  Consider `add(1, 1)` &mdash; we have to have both arguments available at the same time to compute the function.  With currying, we no longer have to.  We can evaluate the different arguments at a different time (as `incr` example above).  This feature is useful in cases where some arguments are not available until later.  We can _partially apply_ a function first.  This is also useful if one of the arguments does not change often, or is expensive to compute.  We can save the partial results as a function and continue applying later.  We can dynamically create functions as needed, save them, and invoke them later.
 
 ## Lambda as Closure
 
@@ -300,7 +300,7 @@ Transformer<Point, Double> dist = origin::distanceTo;
 
 the variable `origin` is captured by the lambda expression `dist`.  Just like in local and anonymous classes, a captured variable must be either explicitly declared as `final` or is effectively final.
 
-A lambda expression stores more than just the function to invoke -- it also stores the data from the environment where it is defined.  We call such a construct that stores a function together with the enclosing environment a _closure_.
+A lambda expression stores more than just the function to invoke &mdash; it also stores the data from the environment where it is defined.  We call such a construct that stores a function together with the enclosing environment a _closure_.
 
 Being able to save the current execution environment, and then continue to compute it later, adds new power to how we can write our program.  We can make our code cleaner with fewer parameters to pass around and less duplicated code.  We can separate the logic to do different tasks in a different part of our program easier.
 

@@ -35,7 +35,7 @@ public static <T> Loggable<T> of(T value) {
 
 The logger is initialized with empty side information (e.g., empty string as a log message).
 
-Now, let's consider the lambda that we wish to pass into `flatMap`  -- such a lambda takes in a value, compute it, and wrap it in a "new" monad, together with the correponding side information.  For instance,
+Now, let's consider the lambda that we wish to pass into `flatMap`  &mdash; such a lambda takes in a value, compute it, and wrap it in a "new" monad, together with the correponding side information.  For instance,
 
 ```Java
 Loggable<Integer> incrWithLog(int x) {
@@ -50,7 +50,7 @@ Loggable.of(4).flatMap(x -> incrWithLog(x))
 
 should just result in the same value exactly as calling `incrWithLog(4)`.  So, we expect that, after calling the above, we have a `Loggable` with a value 5 and a log message of `"incr 4"`.
 
-Our `of` method should not do anything extra to the value and side information -- it should simply wrap the value 4 into the `Loggable`.  Our `flatMap` method should not do anything extra to the value and the side information, it should simply apply the given lambda expression to the value.
+Our `of` method should not do anything extra to the value and side information &mdash; it should simply wrap the value 4 into the `Loggable`.  Our `flatMap` method should not do anything extra to the value and the side information, it should simply apply the given lambda expression to the value.
 
 Now, suppose we take an instance of `Loggable`, called `logger`, that has already been operated on one or more times with `flatMap`, and contain some side information.  What should we expect when we call:
 ```Java

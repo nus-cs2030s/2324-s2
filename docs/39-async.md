@@ -15,11 +15,11 @@ Consider the situation where we have a series of tasks that we wish to execute _
 - When Task A is done, we take the result from Task A, and pass it to Tasks B, C, and D.
 - We want Task B and C to complete before we pass their results to Task E.  
 
-We also want to handle exceptions gracefully -- if one of the tasks encounters an exception, the other tasks not dependent on it should still be completed.
+We also want to handle exceptions gracefully &mdash; if one of the tasks encounters an exception, the other tasks not dependent on it should still be completed.
 
-Implementing the above using `Thread` requires careful coordination.  Firstly, there are no methods in `Thread` that return a value.  We need the threads to communicate through shared variables.  Secondly, there is no mechanism to specify the execution order and dependencies among them -- which thread to start after another thread completes.  Finally, we have to consider the possibility of exceptions in each of our tasks.
+Implementing the above using `Thread` requires careful coordination.  Firstly, there are no methods in `Thread` that return a value.  We need the threads to communicate through shared variables.  Secondly, there is no mechanism to specify the execution order and dependencies among them &mdash; which thread to start after another thread completes.  Finally, we have to consider the possibility of exceptions in each of our tasks.
 
-Another drawback of using `Thread` is its overhead -- the creation of `Thread` instances takes up some resources in Java.  As much as possible, we should reuse our `Thread` instances to run multiple tasks.  For instance, the same `Thread` instance could have run Tasks A, B, and E in the example above.  Managing the `Thread` instances itself and deciding which `Thread` instance should run which `Thread` is a gigantic undertaking.
+Another drawback of using `Thread` is its overhead &mdash; the creation of `Thread` instances takes up some resources in Java.  As much as possible, we should reuse our `Thread` instances to run multiple tasks.  For instance, the same `Thread` instance could have run Tasks A, B, and E in the example above.  Managing the `Thread` instances itself and deciding which `Thread` instance should run which `Thread` is a gigantic undertaking.
 
 ## A Higher-Level Abstraction
 
@@ -80,7 +80,7 @@ We can then run `foo(x).get()` to wait for all the concurrent tasks to complete 
 
 ## The `CompletableFuture` Monad
 
-Let's now examine the `CompletableFuture` monad in more detail.  A key property of `CompletableFuture` is whether the value it promises is ready -- i.e., the tasks that it encapsulates has _completed_ or not.
+Let's now examine the `CompletableFuture` monad in more detail.  A key property of `CompletableFuture` is whether the value it promises is ready &mdash; i.e., the tasks that it encapsulates has _completed_ or not.
 
 ### Creating a `CompletableFuture`
 

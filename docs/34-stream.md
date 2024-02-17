@@ -62,7 +62,7 @@ An _intermediate_ operation on stream returns another `Stream`.  Java provides `
 
 ### FlatMapping a Stream
 
-You have seen `flatMap` for `Box<T>`, `Maybe<T>` and `Lazy<T>`.  The method `flatMap` in `Stream` behaves similarly -- it takes a lambda expression that transforms every element in the stream into another stream.  The resulting stream of streams is then flattened and concatenated together.  
+You have seen `flatMap` for `Box<T>`, `Maybe<T>` and `Lazy<T>`.  The method `flatMap` in `Stream` behaves similarly &mdash; it takes a lambda expression that transforms every element in the stream into another stream.  The resulting stream of streams is then flattened and concatenated together.  
 
 For instance,
 ```Java
@@ -77,13 +77,13 @@ Stream.of("hello\nworld", "ciao\nmondo", "Bonjour\nle monde", "Hai\ndunia")
 
 ### Stateful and Bounded Operations
 
-Some intermediate operations are stateful -- they need to keep track of some states to operate.  Two examples are `sorted` and `distinct`.
+Some intermediate operations are stateful &mdash; they need to keep track of some states to operate.  Two examples are `sorted` and `distinct`.
 
 `sorted` returns a stream with the elements in the stream sorted.  Without argument, it sorts according to the natural order as defined by implementing the `Comparable` interface.  You can also pass in a `Comparator` to tell `sorted` how to sort.
 
 `distinct` returns a stream with only distinct elements in the stream. 
 
-`distinct` and `sorted` are also known as `bounded` operations, since they should only be called on a finite stream -- calling them on an infinite stream is a bad idea!
+`distinct` and `sorted` are also known as `bounded` operations, since they should only be called on a finite stream &mdash; calling them on an infinite stream is a bad idea!
 
 ### Truncating an Infinite List
 
@@ -130,7 +130,7 @@ return result
 
 Note that there are constraints on the identity and accumulation function, which are placed due to the potential parallelization of `reduce`.   We will revisit this operation later.
 
-Java also overloaded `reduce` with two other versions -- a simpler one (with `null` identity) and a more complex one, which supports a different returned type than the type of the elements in the stream.   You can read the [java API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#reduce(T,java.util.function.BinaryOperator)) for details.
+Java also overloaded `reduce` with two other versions &mdash; a simpler one (with `null` identity) and a more complex one, which supports a different returned type than the type of the elements in the stream.   You can read the [java API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#reduce(T,java.util.function.BinaryOperator)) for details.
 
 ### Element Matching
 

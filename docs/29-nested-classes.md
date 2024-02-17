@@ -194,7 +194,7 @@ void sortNames(List<String> names) {
 
 Will `sort` sorts in ascending order or descending order?
 
-To avoid confusing code like this, Java only allows a local class to access variables that are explicitly declared `final` or implicitly final (or _effectively_ final).  An implicitly final variable cannot be re-assigned after initialization.  Therefore, Java saves us from such a hair-pulling situation and disallows such code -- `ascendingOrder` is not effectively final so the code above does not compile.
+To avoid confusing code like this, Java only allows a local class to access variables that are explicitly declared `final` or implicitly final (or _effectively_ final).  An implicitly final variable cannot be re-assigned after initialization.  Therefore, Java saves us from such a hair-pulling situation and disallows such code &mdash; `ascendingOrder` is not effectively final so the code above does not compile.
 
 
 **Breaking the Limitation of Effectively `final`.** &nbsp;&nbsp; The limitation of effectively final only happen because the value is of a primitive type.  So, if we captures the value and forbids re-assigning the value, there is nothing we can do to change primitive value.
@@ -263,4 +263,4 @@ names.sort(cmp);
 
 Line 1 above looks just like what we do when we instantiate a class, except that we are instantiating an interface with a `{ .. }` body.
 
-An anonymous class is just like a local class, it captures the variables of the enclosing scope as well -- the same rules to variable access as local classes applies.
+An anonymous class is just like a local class, it captures the variables of the enclosing scope as well &mdash; the same rules to variable access as local classes applies.

@@ -150,7 +150,7 @@ java QueueTest
 
 ### 2. Create a generic `Seq<T>` class
 
-Let's call the class that encapsulates the counter `BankCounter` (you may name it differently).  We have been using an array to store the `BankCounter` objects. In Exercise 3, you should replace that with a generic wrapper around an array.  In other words, we want to replace `BankCounter[]` with `Seq<BankCounter>`.  You may build upon the `Seq<T>` class from the notes -- [Unit 25](https://nus-cs2030s.github.io/2324-s2/25-unchecked.html).
+Let's call the class that encapsulates the counter `BankCounter` (you may name it differently).  We have been using an array to store the `BankCounter` objects. In Exercise 3, you should replace that with a generic wrapper around an array.  In other words, we want to replace `BankCounter[]` with `Seq<BankCounter>`.  You may build upon the `Seq<T>` class from the notes &mdash; [Unit 25](https://nus-cs2030s.github.io/2324-s2/25-unchecked.html).
 
 The `Seq<T>` class you build must support the following:
 

@@ -124,7 +124,7 @@ hit ++control+d++ when you are done.
 
 ## Pipe Example
 
-To give you an example of how useful `|` is, here is a real example.  When processing the registration of the workshop, I have quite a few registrations that are duplicates -- students registered more than once.  I need a quick way to count how many unique registrants are there.
+To give you an example of how useful `|` is, here is a real example.  When processing the registration of the workshop, I have quite a few registrations that are duplicates &mdash; students registered more than once.  I need a quick way to count how many unique registrants are there.
 So I keep the student ID of all registrants in a file called `ID`.  For instance, the file `ID` contains (not real data, of course)
 
 ```
@@ -226,7 +226,7 @@ We only need to use the keys colored in pink.  And since these keys are concentr
 
 We can even minimize the movement of our fingers in several ways by typing less.  We have seen several ways where we have achieved these:
 
-- Unix commands are named economically -- they are often only a few characters long.
+- Unix commands are named economically &mdash; they are often only a few characters long.
 - We can use ++tab++ to auto-complete a command or a file name.
 - We can use ++control+p++ or ++control+n++ to repeat a previous command.
 

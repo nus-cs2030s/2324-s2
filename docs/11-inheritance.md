@@ -55,7 +55,7 @@ Then, the client to `ColoredCircle` can just call `#!Java coloredCircle.getArea(
 
 Recall the concept of subtyping.  We say that $S <: T$ if any piece of code written for type $T$ also works for type $S$.
 
-Now, think about `ColoredCircle` and `Circle`.  If someone has written a piece of code that operates on `Circle` objects.  Do we expect the same code to work on `ColoredCircle`?  In this example, yes!  A `ColoredCircle` object should behave just like a circle -- we can calculate its area, calculate its circumference, check if two circles intersect, check if a point falls within the circle, etc.  The only difference, or more precisely, extension, is that it has a color, and perhaps has some methods related to this additional field.  So, `ColoredCircle` _is a subtype of_ `Circle`.
+Now, think about `ColoredCircle` and `Circle`.  If someone has written a piece of code that operates on `Circle` objects.  Do we expect the same code to work on `ColoredCircle`?  In this example, yes!  A `ColoredCircle` object should behave just like a circle &mdash; we can calculate its area, calculate its circumference, check if two circles intersect, check if a point falls within the circle, etc.  The only difference, or more precisely, extension, is that it has a color, and perhaps has some methods related to this additional field.  So, `ColoredCircle` _is a subtype of_ `Circle`.
 
 We now show you how we can introduce this subtype relationship in Java, using the `extends` keyword.  We can reimplement our `ColoredCircle` class this way:
 
@@ -72,7 +72,7 @@ class ColoredCircle extends Circle {
 
 We have just created a new type called `ColoredCircle` as a class that extends from `Circle`.  We call `Circle` the _parent class_ or _superclass_ of `ColoredCircle`; and `ColoredCircle` a _subclass_ of `Circle`.
 
-We also say that `ColoredCircle` _inherits_ from `Circle`, since all the public fields of `Circle` (center and radius) and public methods (like `getArea()`) are now accessible to `ColoredCircle`.  Just like a parent-child relationship in real life, however, anything private to the parent remains inaccessible to the child.  This privacy veil maintains the abstraction barrier of the parent from the child, and creates a bit of a tricky situation -- technically a child `ColoredCircle` object has a center and a radius, but it has no access to it!
+We also say that `ColoredCircle` _inherits_ from `Circle`, since all the public fields of `Circle` (center and radius) and public methods (like `getArea()`) are now accessible to `ColoredCircle`.  Just like a parent-child relationship in real life, however, anything private to the parent remains inaccessible to the child.  This privacy veil maintains the abstraction barrier of the parent from the child, and creates a bit of a tricky situation &mdash; technically a child `ColoredCircle` object has a center and a radius, but it has no access to it!
 
 Line 6 of the code above introduces another keyword in Java: `super`.  Here, we use `super` to call the constructor of the superclass, to initialize its center and radius (since the child has no direct access to these fields that it inherited).
 
@@ -117,7 +117,7 @@ void foo(Circle c, Point p) {
 }
 ```
 
-Since `Cylinder` is a subtype of `Point` according to the implementation above, the code above should still work also if we replace `Point` with a `Cylinder` (according to the semantics of subtyping).   But it gets weird -- what is the meaning of a `Circle` (in 2D) containing a Cylinder (in 3D)?  We could come up with a convoluted meaning that explains this, but it is likely not what the original implementer of `foo` expects.
+Since `Cylinder` is a subtype of `Point` according to the implementation above, the code above should still work also if we replace `Point` with a `Cylinder` (according to the semantics of subtyping).   But it gets weird &mdash; what is the meaning of a `Circle` (in 2D) containing a Cylinder (in 3D)?  We could come up with a convoluted meaning that explains this, but it is likely not what the original implementer of `foo` expects.
 
 The message here is this: _Use composition to model a has-a relationship; and inheritance for an is-a relationship_.  _Make sure inheritance preserves the meaning of subtyping_.  
 
