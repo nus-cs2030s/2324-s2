@@ -77,9 +77,9 @@ A.<Shape>contains(circleSeq, shape); // compilation error
 A.<Circle>contains(circleSeq, shape); // compilation error
 ```
 
-Thus, with our current implementation, we can't look for a shape (which may be a circle) in a sequence of circles, even though this is something reasonable that a programmer might want to do.  This constraint is due to the invariance of generics s while we avoided the possibility of run-time errors by avoiding the covariance of arrays, our methods have become less general.
+Thus, with our current implementation, we can't look for a shape (which may be a circle) in a sequence of circles, even though this is something reasonable that a programmer might want to do.  This constraint is due to the invariance of generics &mdash; while we avoided the possibility of run-time errors by avoiding the covariance of arrays, our methods have become less general.
 
-Let's see how we can fix this with bounded type parameters first.  We can introduce another type parameter, say `S`, to remove the constraints that the type of the sequence must be the same as the type of the object to search for.  I.e., we change from
+Let's see how we can fix this with bounded type parameters first.  We can introduce another type parameter, say `S`, to remove the constraints that the type of the sequence must be the same as the type of the object to search for,  i.e., we change from
 ```Java
   public static <T> boolean contains(Seq<T> seq, T obj) { .. }
 ```
@@ -231,7 +231,7 @@ The `copyTo` method of `Seq<Shape>` would allow a `Seq<Circle>` as an argument, 
 
 is not type-safe and could lead to `ClassCastException` during run-time.  
 
-Where can we copy our shapes into?  We can only copy them safely into a `Seq<Shape>`, `Seq<Object>`, `Seq<GetAreable>`, for instance.  In other words, into arrays containing `Shape` or supertype of `Shape`.  
+Where can we copy our shapes into?  We can only copy them safely into a `Seq<Shape>`, `Seq<Object>`, `Seq<GetAreable>`, for instance.  In other words, into sequences containing `Shape` or supertype of `Shape`.  
 
 We need a wildcard lower-bounded by `Shape`, and Java's syntax for this is `? super Shape`.  Using this new notation, we can replace the type for `dest` with:
 
@@ -363,7 +363,7 @@ void bar(Seq<Object> seq) {
 }
 ```
 
-Then, the method `bar` is restricted to _only_ takes in a `Seq<Object>` instance as argument.
+Then, the method `bar` is restricted to _only_ take in a `Seq<Object>` instance as argument.
 ```Java
 Seq<Circle> ac;
 Seq<String> as;

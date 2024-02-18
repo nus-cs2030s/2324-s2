@@ -139,7 +139,7 @@ Shape o = A.findLargest(new Seq<Circle>(0));
 
 We have a few more constraints to check:
 
-- Due to target typing, the returning type of `T` must be a subtype of `Shape` (i.e. `T <: Shape`)
+- Due to target typing, the return type of `T` must be a subtype of `Shape` (i.e. `T <: Shape`)
 - Due to the bound of the type parameter, `T` must be a subtype of `GetAreable` (i.e. `T <: GetAreable`)
 - `Seq<Circle>` must be a subtype of `Seq<? extends T>`, so `T` must be a supertype of `Circle` (i.e. `Circle <: T <: Object`)
 
