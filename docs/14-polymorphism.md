@@ -150,7 +150,7 @@ boolean contains(Object[] array, Object obj) {
 }
 ```
 
-With overriding and polymorphism, the magic happens in Line 3 -- depending on the run-time type of `curr`, the corresponding, customized version of `equals` is called to compare against `obj`.   So if the run-time type of `curr` is `Circle`, then we will invoke `Circle::equals(Object)` and if the run-time type of `curr` is `Point`, then we will invoke `Point::equals(Object)`.  This, of course, assumes that `Object::equals(Object)` is overridden in both classes.
+With overriding and polymorphism, the magic happens in Line 3 &mdash; depending on the run-time type of `curr`, the corresponding, customized version of `equals` is called to compare against `obj`.   So if the run-time type of `curr` is `Circle`, then we will invoke `Circle::equals(Object)` and if the run-time type of `curr` is `Point`, then we will invoke `Point::equals(Object)`.  This, of course, assumes that `Object::equals(Object)` is overridden in both classes.
 
 However, if `Circle::equals(Object)` takes in a `Circle` as the parameter, the call to `equals` inside the method `contains` would not invoke `Circle::equals(Circle)`.  It would invoke `Object::equals(Object)` instead due to the matching method signature, and we cannot search for `Circle` based on semantic equality.
 

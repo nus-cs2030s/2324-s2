@@ -16,7 +16,7 @@ held in August 2020.
 
 To edit our code, we need a proper editor.  Remember that, ideally, we want to keep our hands on the keyboard and keep ourselves "_in the zone_" with only the terminal, the keyboard, and ourselves, so we will use a terminal-based editor: no windows, no mouse, no arrow keys, no function keys.
 
-There are only two respectable, widely available text editors in Unix -- `vim` and `emacs`.  Which one is better has been an ongoing religious war, but for us in SoC, we use `vim`.
+There are only two respectable, widely available text editors in Unix &mdash; `vim` and `emacs`.  Which one is better has been an ongoing religious war, but for us in SoC, we use `vim`.
 
 !!! info "Reading Keyboard Keys"
     Keyboard keys are enclosed in a box like the following letter ++a++.  All keyboard keys are written in uppercase.  You are to press exactly that key without any other key.  So the letter ++a++ should give you the _lowercase_ "a" character.
@@ -38,7 +38,7 @@ There are only two respectable, widely available text editors in Unix -- `vim` a
 
 I have a few more things to say about using ++h++ ++j++ ++k++ ++l++ to replace the arrow keys:
 
-- It is not uncommon for applications to re-map other keys for movement.  Many first-person shooting games use ++w++ ++a++ ++s++ ++d++ for movement, for the same reason as `vim` -- it is close to the resting position of the left hand on the keyboard.
+- It is not uncommon for applications to re-map other keys for movement.  Many first-person shooting games use ++w++ ++a++ ++s++ ++d++ for movement, for the same reason as `vim` &mdash; it is close to the resting position of the left hand on the keyboard.
 
 - The use of ++h++ ++j++ ++k++ ++l++ for movement is more ubiquitous than you think.  In the Web version of Gmail, Facebook, and Reddit, for instance, you could use ++j++ and ++k++ to move up and down across posts.
 
@@ -73,12 +73,12 @@ In addition to being tedious, this is error-prone.  You might highlight one addi
 
 What we are used to doing is performing the action of deleting the words ourselves.  For `vim`, we do it differently.  We need to look for the word `also` and delete two words.  This translates to the command ++slash++ ++a++ ++l++ ++s++ ++o++ ++enter++ ++d++ ++2++ ++w++.
 
-- ++slash++ triggers a search.  This is an almost universal command -- try ++slash++ on Facebook (web) or on this page.
+- ++slash++ triggers a search.  This is an almost universal command &mdash; try ++slash++ on Facebook (web) or on this page.
 - ++a++ ++l++ ++s++ ++o++ ++enter++ tells `vim` what you want to search.
 After pressing ++enter++, your cursor should be placed at the beginning of `also`.
 - ++d++ ++2++ ++w++ tell `vim` to "delete two words".
 
-Instead of worrying about the actual actions to perform the deletion, we issue higher-level commands to describe what we want to do.  This is powerful since this is how our brain thinks -- "I need to insert this here, change this word to that, remove two lines, etc."  All these maps into commands in `vim`.  As a result, once you master `vim` basics, you can type as fast as you think[^3]!
+Instead of worrying about the actual actions to perform the deletion, we issue higher-level commands to describe what we want to do.  This is powerful since this is how our brain thinks &mdash; "I need to insert this here, change this word to that, remove two lines, etc."  All these maps into commands in `vim`.  As a result, once you master `vim` basics, you can type as fast as you think[^3]!
 
 A common pattern for `vim` command consists of three parts:
 
@@ -126,7 +126,7 @@ by that program.
 
 Besides enabling you to type as fast as you think with as few hand movements as possible, there are other reasons to use `vim`:
 
-- `vim` is installed by default in almost any Unix environment.  Imagine if you get called to a client-side to debug a Linux server, and you need to edit something -- you can rest assured that `vim` is there.
+- `vim` is installed by default in almost any Unix environment.  Imagine if you get called to a client-side to debug a Linux server, and you need to edit something &mdash; you can rest assured that `vim` is there.
 
 - `vim` is the only source code editor you need to learn and master.  It works for almost any programming language.  If you use IDE, you have to learn IntelliJ for Java, IDLE for Python, Visual Studio C++ for C++, etc.  This reason is also why VS Code has gained significant popularity in recent years.
 

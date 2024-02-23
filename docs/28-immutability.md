@@ -189,7 +189,7 @@ We made a few changes in the above:
 - We made the constructor for `Point` private so that one cannot call the constructor directly.
 - We provide a class factory method named `of` for the client to create a `Point` instance.  The `of` method returns the same instance `ORIGIN` every time `Point.of(0, 0)` is called.
 
-Such a design pattern is only safe when the class is immutable.  Consider the mutable version of `Point` -- calling `Point.of(0, 0).moveTo(1, 1)` would change every reference to the origin to (1, 1), causing chaos in the code!
+Such a design pattern is only safe when the class is immutable.  Consider the mutable version of `Point` &mdash; calling `Point.of(0, 0).moveTo(1, 1)` would change every reference to the origin to (1, 1), causing chaos in the code!
 
 ### Enabling Safe Sharing of Internals
 

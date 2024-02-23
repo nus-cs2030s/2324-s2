@@ -90,6 +90,6 @@ On Line 5 above, we set `objArray` (with a compile-time type of `Object[]`) to r
 
 On Line 6, we try to put a `String` object into the `Object` array.  Since `String` <: `Object`, the compiler allows this.  The compiler does not realize that at run-time, the `Object` array will refer to an array of `Integer`.  
 
-So we now have a perfectly compilable code, that will crash on us when it executes Line 6 -- only then would Java realize that we are trying to stuff a string into an array of integers!
+So we now have a perfectly compilable code, that will crash on us when it executes Line 6 &mdash; only then would Java realize that we are trying to stuff a string into an array of integers!
 
 This is an example of a type system rule that is unsafe.  Since the array type is an essential part of the Java language, this rule cannot be changed without ruining existing code.  We will see later how Java avoids this pitfall for other complex types (such as a list).

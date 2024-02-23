@@ -36,7 +36,7 @@ Many OO languages allow programmers to explicitly specify if a field or a method
 
 Such a mechanism to protect the abstraction barrier from being broken is called _data hiding_ or _information hiding_.  This protection is enforced by the _compiler_ at compile time.
 
-In our original `Circle` class (v0.1) in [Unit 4](04-encapsulation.md), we did not specify any access modifier -- this amounts to using the _default_ modifier, the meaning of which is not our concern right now[^1]  For a start, we will explicitly indicate `private` or `public` for all our methods and fields.
+In our original `Circle` class (v0.1) in [Unit 4](04-encapsulation.md), we did not specify any access modifier &mdash; this amounts to using the _default_ modifier, the meaning of which is not our concern right now[^1]  For a start, we will explicitly indicate `private` or `public` for all our methods and fields.
 
 ```Java title="Circle v0.2"
 class Circle {

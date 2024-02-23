@@ -9,7 +9,7 @@
 
 ## Method overloading
 
-In the previous unit, we introduced _method overriding_ -- when a subclass defines an instance method with the same _method descriptor_ as an instance method in the parent class.
+In the previous unit, we introduced _method overriding_ &mdash; when a subclass defines an instance method with the same _method descriptor_ as an instance method in the parent class.
 
 In contrast, _method overloading_ is when we have two or more methods in the same class with the same name but a differing _method signature_[^1]. In other words, we create an overloaded method by changing the type, order, and number of parameters of the method but keeping the method name identical.
 

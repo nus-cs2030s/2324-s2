@@ -149,7 +149,7 @@ Some exercises may explicitly disallow the use of certain syntax.  If the object
 
 While we encourage discussions among students for programming assignments, each student should be responsible for writing his/her own code and should give credit to others when appropriate.
 
-NUS and the School of Computing have a high standard of academic honesty and take any violation seriously. In the context of computing modules, source code plagiarism -- copying code from another source and attributing it as one's own code -- is a serious violation. Please read the page [Preventing Plagiarism](https://www.comp.nus.edu.sg/cug/plagiarism/) from the school's website to familiarize yourself with the policy.
+NUS and the School of Computing have a high standard of academic honesty and take any violation seriously. In the context of computing modules, source code plagiarism &mdash; copying code from another source and attributing it as one's own code &mdash; is a serious violation. Please read the page [Preventing Plagiarism](https://www.comp.nus.edu.sg/cug/plagiarism/) from the school's website to familiarize yourself with the policy.
 
 We adopt a "no mercy" policy when it comes to disciplinary action on plagiarism. Both parties, the student who copied, and the student who allowed others to copy, will be penalized equally.
 

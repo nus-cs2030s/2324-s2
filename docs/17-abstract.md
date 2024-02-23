@@ -77,7 +77,7 @@ double findLargest(Object[] array) {
 
 since `getArea` is not defined for a generic object (e.g., what does `getArea` of a string mean?).
 
-To allow us to apply `findLargest` to a more generic object, we have to create a new type -- something more specific than `Object` that supports `getArea()`, yet more general than `Circle`.
+To allow us to apply `findLargest` to a more generic object, we have to create a new type &mdash; something more specific than `Object` that supports `getArea()`, yet more general than `Circle`.
 
 ## Shape
 

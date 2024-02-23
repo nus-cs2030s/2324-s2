@@ -38,7 +38,7 @@ We assume that `Queue<T>` can be safely modified concurrently (i.e., it is threa
 
 Java implements a thread pool called `ForkJoinPool` that is fine-tuned for the fork-join model of recursive parallel execution.  
 
-The Fork-join model is essentially a parallel divide-and-conquer model of computation.  The general idea for the fork-join model is to solve a problem by breaking up the problem into identical problems but with smaller size (_fork_), then solve the smaller version of the problem recursively, then combine the results (_join_).   This repeats recursively until the problem size is small enough -- we have reached the base case and so we just solve the problem sequentially without further parallelization.
+The Fork-join model is essentially a parallel divide-and-conquer model of computation.  The general idea for the fork-join model is to solve a problem by breaking up the problem into identical problems but with smaller size (_fork_), then solve the smaller version of the problem recursively, then combine the results (_join_).   This repeats recursively until the problem size is small enough &mdash; we have reached the base case and so we just solve the problem sequentially without further parallelization.
 
 In Java, we can create a task that we can fork and join as an instance of abstract class `RecursiveTask<T>`.  `RecursiveTask<T>` supports the methods `fork()`, which submits a smaller version of the task for execution, and `join()` (which waits for the smaller tasks to complete and return).   `RecursiveTask<T>` has an abstract method `compute()`, which we, as the client, have to define to specify what computation we want to compute.
 

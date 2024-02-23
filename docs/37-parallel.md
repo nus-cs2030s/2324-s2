@@ -15,15 +15,15 @@ So far, the programs that we have written in CS2030S run _sequentially_.  What t
 
 ### What is Concurrency?
 
-A single-core processor can only execute one instruction at one time -- this means that only one _process_ (or less precisely speaking, one application) can run at any one time.  Yet, when we use the computer, it _feels_ as if we are running multiple processes at the same time.  The operating system, behind the scenes, is switching between the different processes, to give the user the illusion that they are running at the same time.
+A single-core processor can only execute one instruction at one time &mdash; this means that only one _process_ (or less precisely speaking, one application) can run at any one time.  Yet, when we use the computer, it _feels_ as if we are running multiple processes at the same time.  The operating system, behind the scenes, is switching between the different processes, to give the user the illusion that they are running at the same time.
 
 ![Concurrent](figures/parallel/concurrent.png)
 
-We can write a program so that it runs concurrently -- by dividing the computation into subtasks called _threads_. Such multi-thread programs are useful in two ways: (i) it allows us, the programmers, to separate unrelated tasks into threads, and write each thread separately; (ii) it improves the utilization of the processor.  For instance, if I/O is in one thread, and UI rendering is in another, then when the processor is waiting for I/O to complete, it can switch to the rendering thread to make sure that the slow I/O does not affect the responsiveness of UI.
+We can write a program so that it runs concurrently &mdash; by dividing the computation into subtasks called _threads_. Such multi-thread programs are useful in two ways: (i) it allows us, the programmers, to separate unrelated tasks into threads, and write each thread separately; (ii) it improves the utilization of the processor.  For instance, if I/O is in one thread, and UI rendering is in another, then when the processor is waiting for I/O to complete, it can switch to the rendering thread to make sure that the slow I/O does not affect the responsiveness of UI.
 
 ### What is Parallelism?
 
-While concurrency gives the illusion of subtasks running at the same time, parallel computing refers to the scenario where multiple subtasks are truly running at the same time -- either we have a processor that is capable of running multiple instructions at the same time, or we have multiple cores/processors and dispatch the instructions to the cores/processors so that they are executed at the same time.
+While concurrency gives the illusion of subtasks running at the same time, parallel computing refers to the scenario where multiple subtasks are truly running at the same time &mdash; either we have a processor that is capable of running multiple instructions at the same time, or we have multiple cores/processors and dispatch the instructions to the cores/processors so that they are executed at the same time.
 
 ![Parallel](figures/parallel/parallel.png)
 
@@ -77,7 +77,7 @@ Note that the task above is stateless and does not produce any side effects.  Fu
 
 ### How to Parallelize a Stream
 
-You have seen that adding `parallel()` to the pipeline of calls in a stream enables parallel processing of the stream.  Note that `parallel()` is a lazy operation -- it merely marks the stream to be processed in parallel.  As such, you can insert the call to `parallel()` anywhere in the pipeline after the _data source_ and before the _terminal operation_.
+You have seen that adding `parallel()` to the pipeline of calls in a stream enables parallel processing of the stream.  Note that `parallel()` is a lazy operation &mdash; it merely marks the stream to be processed in parallel.  As such, you can insert the call to `parallel()` anywhere in the pipeline after the _data source_ and before the _terminal operation_.
 
 !!! note "sequential()"
     There is a method `sequential()` which marks the stream to be process sequentially.  If you call both `parallel()` and `sequential()` in a stream,
@@ -135,7 +135,7 @@ list.parallelStream()
     .forEach(x -> result.add(x));
 ```
 
-The `forEach` lambda generates a side effect -- it modifies `result`.  `ArrayList` is what we call a non-thread-safe data structure.  If two threads manipulate it at the same time, an incorrect result may result.
+The `forEach` lambda generates a side effect &mdash; it modifies `result`.  `ArrayList` is what we call a non-thread-safe data structure.  If two threads manipulate it at the same time, an incorrect result may result.
 
 There are three ways to resolve this.  One, we can use the [`.collect`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#collect(java.util.function.Supplier,java.util.function.BiConsumer,java.util.function.BiConsumer)) method.
 ```Java
@@ -171,8 +171,8 @@ Stream.of(1,2,3,4).reduce(1, (x, y) -> x * y, (x, y) -> x * y);
 To allow us to run `reduce` in parallel, however, there are several rules that the `identity`, the `accumulator`, and the `combiner` must follow:
 
 - `combiner.apply(identity, i)` must be equal to `i`.
-- The `combiner` and the `accumulator` must be associative -- the order of applying must not matter.
-- The `combiner` and the `accumulator` must be compatible -- `combiner.apply(u, accumulator.apply(identity, t))` must equal to `accumulator.apply(u, t)`
+- The `combiner` and the `accumulator` must be associative &mdash; the order of applying must not matter.
+- The `combiner` and the `accumulator` must be compatible &mdash; `combiner.apply(u, accumulator.apply(identity, t))` must equal to `accumulator.apply(u, t)`
 
 The multiplication example above meetings the three rules:
     
