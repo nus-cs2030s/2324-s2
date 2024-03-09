@@ -1,8 +1,10 @@
 # Unit 28: Immutability
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- be able to create an immutable class
+    After this unit, students should:
+    
+    - be able to create an immutable class
 
 So far in this course, we have been focusing on three ways of dealing with software complexity: by encapsulating and hiding the complexity behind abstraction barriers, by using a language with a strong type system and adhering to the subtyping substitution principle, and applying the abstraction principles and reusing code written as functions, classes, and generics types.
 
