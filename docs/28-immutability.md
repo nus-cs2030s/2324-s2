@@ -3,6 +3,7 @@
 !!! abstract "Learning Objectives"
 
     After this unit, students should:
+
     - be able to create an immutable class
     - understand the usefulness of making classes immutable
 
@@ -162,7 +163,7 @@ Without this property, we have to trace through all the methods that we pass `c`
 
 Making a class immutable allows us to safely share instances of the class, therefore reducing the need to create multiple copies of the same object.  For instance, the origin (0, 0) is commonly used.  If the instance is immutable, we can just create and cache a single copy of the origin, and always return this copy when the origin is required.
 
-Let's modify our `Point`` class so that it creates a single copy of the origin and returns the same copy every time the origin is required.
+Let's modify our `Point` class so that it creates a single copy of the origin and returns the same copy every time the origin is required.
 
 ```Java
 final class Point {

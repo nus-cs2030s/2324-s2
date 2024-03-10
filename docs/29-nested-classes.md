@@ -153,14 +153,14 @@ class A {
 }
 ```
 
-We can declare variables of type `A.B` and `A.C`.
+We can declare variables of type `A.B` and `A.C`
 
 ```Java
 A.B b;  // ok
 A.C c;  // ok
 ```
 
-and initialize them like so.
+and initialize them like so
 
 ```Java
 A a = new A();
