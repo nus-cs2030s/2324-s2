@@ -3,12 +3,12 @@
 !!! abstract "Learning Objectives"
 
     After this unit, students should:
-    
     - be able to create an immutable class
+    - understand the usefulness of making classes immutable
 
-So far in this course, we have been focusing on three ways of dealing with software complexity: by encapsulating and hiding the complexity behind abstraction barriers, by using a language with a strong type system and adhering to the subtyping substitution principle, and applying the abstraction principles and reusing code written as functions, classes, and generics types.
+So far in this course, we have been focusing on three ways of dealing with software complexity: by encapsulating and hiding the complexity behind abstraction barriers, using a language with a strong type system and adhering to the subtyping substitution principle, and applying the abstraction principles and reusing code written as functions, classes, and generics types.
 
-Another useful strategy to reduce bugs when code complexity increases is to avoid change altogether.  This can be done by making our classes _immutable_. We create an instance of an immutable class, the instance _cannot have any visible changes outside its abstraction barrier_.  This means that every call of the instance's method must behave the same way throughout the lifetime of the instance.
+Another useful strategy to reduce bugs when code complexity increases is to _avoid_ change altogether.  This can be done by making our classes _immutable_. We create an instance of an immutable class, the instance _cannot have any visible changes outside its abstraction barrier_.  This means that every call of the instance's method must behave the same way throughout the lifetime of the instance.
 
 There are many advantages of why we want to make our class immutable when possible.  To start, let's revisit a common bug due to aliasing.  Recall the following example from [Unit 9](09-composition.md),  where we create two circles `c1` and `c2` centered at the origin (0, 0).
 ```Java
@@ -140,7 +140,7 @@ Now, `c1` moves to a new location, but `c2` remains unchanged.
 
 Compare our new immutable approach to the two approaches above. The first shares all the references and is bug-prone.  The second creates a new copy of the instance every time and is resource-intensive.  Our third approach, using immutable classes, allows us to share all the references until we need to modify the instance, in which case we make a copy.  Such a _copy-on-write_ semantic allows us to avoid aliasing bugs without creating excessive copies of objects.
 
-Note that the `final` keyword prevents assigning new value to the field.  Unfortunately, it does not prevent the field from being mutated.  So, to ensure that the classes we create are immutable, we have to ensure that the fields are themselves immutable.
+Note that the `final` keyword prevents assigning new values to the field.  Unfortunately, it does not prevent the field from being mutated.  So, to ensure that the classes we create are immutable, we have to ensure that the fields are themselves immutable.
 
 ## Advantages of Being Immutable
 
@@ -160,9 +160,9 @@ Without this property, we have to trace through all the methods that we pass `c`
 
 ### Enabling Safe Sharing of Objects
 
-Making a class immutable allows us to safely share instances of the class and therefore reducing the need to create multiple copies of the same object.  For instance, the origin (0, 0) is commonly used.  If the instance is immutable, we can just create and cache a single copy of the origin, and always return this copy when the origin is required.
+Making a class immutable allows us to safely share instances of the class, therefore reducing the need to create multiple copies of the same object.  For instance, the origin (0, 0) is commonly used.  If the instance is immutable, we can just create and cache a single copy of the origin, and always return this copy when the origin is required.
 
-Let modify our `Point` class so that it creates a single copy of the origin and returns the same copy every time the origin is required.
+Let's modify our `Point`` class so that it creates a single copy of the origin and returns the same copy every time the origin is required.
 
 ```Java
 final class Point {
@@ -195,26 +195,26 @@ Such a design pattern is only safe when the class is immutable.  Consider the mu
 
 ### Enabling Safe Sharing of Internals
 
-Immutable instances can also share their internals freely.  Consider an immutable implementation of our `Array<T>`, called `ImmutableArray<T>`.  Let's start with a simple version first.
+Immutable instances can also share their internals freely.  Consider an immutable implementation of our `Seq<T>`, called `ImmutableSeq<T>`.  Let's start with a simple version first.
 
 ```Java
 // version 0.1
-final class ImmutableArray<T> {
+final class ImmutableSeq<T> {
   private final T[] array;
 
   // Only items of type T goes into the array.
   @SafeVarargs
-  public static <T> ImmutableArray<T> of(T... items) {
+  public static <T> ImmutableSeq<T> of(T... items) {
     // We need to copy to ensure that it is truly immutable
     @SuppressWarnings("unchecked");
     T[] arr = (T[]) new Object[items.length];
-    for (int i=0; i<items.length; i++) {
+    for (int i = 0; i < items.length; i++) {
       arr[i] = items[i];
     }
-    return new ImmutableArray<>(arr);
+    return new ImmutableSeq<>(arr);
   }
 
-  private ImmutableArray(T[] a) {
+  private ImmutableSeq(T[] a) {
     this.array = a;
   }
 
@@ -229,10 +229,10 @@ There are a few things to note here.
 *Varargs* The parameter to the class factory method `of` has the form `T... items`.  The triple `.` notation is a Java syntax for a variable number of arguments of the same type (`T`).  Often called _varargs_, this is just syntactic sugar for passing in an array of items to a method.  The method is called _variadic method_.  We can then call `of` with a variable number of arguments, such as:
 
 ```Java
-ImmutableArray<Integer> a;
-a = ImmutableArray.of();
-a = ImmutableArray.of(1, 2, 3);
-a = ImmutableArray.of(1, 2, 3, 4, 5);
+ImmutableSeq<Integer> a;
+a = ImmutableSeq.of();
+a = ImmutableSeq.of(1, 2, 3);
+a = ImmutableSeq.of(1, 2, 3, 4, 5);
 ```
 
 **@SafeVarargs.** &nbsp; Since the varargs is just an array, and array and generics do not mix well in Java, the compiler would throw us an unchecked warning.  In this instance, however, we know that our code is safe because we never put anything other than items of type `T` into the array.  We can use the `@SafeVarargs` annotation to tell the compiler that we know what we are doing and this varargs is safe.
@@ -242,47 +242,47 @@ Notice that we removed the `set` method and there is no other way an external cl
 Now, suppose that we wish to support a `subarray` method, that returns a new array containing only a range of elements in the original array.  It behaves as follows:
 
 ```Java
-ImmutableArray<Integer> a = ImmutableArray.of(10, 20, 30, 40, 50, 60);
-ImmutableArray<Integer> b = a.subarray(2, 4); // b is [30, 40, 50]
+ImmutableSeq<Integer> a = ImmutableSeq.of(10, 20, 30, 40, 50, 60);
+ImmutableSeq<Integer> b = a.subarray(2, 4); // b is [30, 40, 50]
 b.get(0) // returns 30
-ImmutableArray<Integer> c = b.subarray(1, 2); // c is [40, 50]
+ImmutableSeq<Integer> c = b.subarray(1, 2); // c is [40, 50]
 c.get(1) // returns 50
 ```
 
-A typical way to implement `subarray` is to allocate a new `T[]` and copy the elements over.  This operation can be expensive if our `ImmutableArray` has millions of elements.  But, since our class is immutable and the internal field `array` is guaranteed not to mutate, we can safely let `b` and `c` refer to the same `array` from `a`, and only store the starting and ending index.
+A typical way to implement `subarray` is to allocate a new `T[]` and copy the elements over.  This operation can be expensive if our `ImmutableSeq` has millions of elements.  But, since our class is immutable and the internal field `array` is guaranteed not to mutate, we can safely let `b` and `c` refer to the same `array` from `a`, and only store the starting and ending index.
 
 ```Java
-class ImmutableArray<T> {
+class ImmutableSeq<T> {
   private final int start;
   private final int end;
   private final T[] array;
 
   @SafeVarargs
-  public static <T> ImmutableArray<T> of(T... items) {
+  public static <T> ImmutableSeq<T> of(T... items) {
     // We need to copy to ensure that it is truly immutable
     @SuppressWarnings("unchecked");
     T[] arr = (T[]) new Object[items.length];
-    for (int i=0; i<items.length; i++) {
+    for (int i = 0; i < items.length; i++) {
       arr[i] = items[i];
     }
-    return new ImmutableArray<>(arr, 0, items.length-1);
+    return new ImmutableSeq<>(arr, 0, items.length - 1);
   }
 
-  private ImmutableArray(T[] a, int start, int end) {
+  private ImmutableSeq(T[] a, int start, int end) {
     this.start = start;
     this.end = end;
     this.array = a;
   }
 
   public T get(int index) {
-    if (index < 0 || this.start + index > this.end) {
+    if (index < this.start || this.start + index > this.end) {
       throw new IllegalArgumentException("Index out of bound");
     }
     return this.array[this.start + index];
   }
 
-  public ImmutableArray<T> subarray(int start, int end) {
-     return new ImmutableArray<>(this.array, this.start + start, this.start + end);
+  public ImmutableSeq<T> subarray(int start, int end) {
+     return new ImmutableSeq<>(this.array, this.start + start, this.start + end);
   }
 }
 ```
@@ -293,7 +293,7 @@ We will explore concurrent execution of code towards the end of the module, but 
 
 ## Final &ne; Immutable
 
-When creating an immutable class, we need to be careful to distinguish between the keywords that helps us avoid accidentally making things easily mutable and the actual concept of immutable class.  For instance, it is _insufficient_ to simply declare all fields with `final` keywords.  Just because we cannot accidentally update the field, does not mean that the field is immutable.  Consider the same `Circle` above but with a getter for the center point and now imagine that the `Point` is mutable.
+When creating an immutable class, we need to be careful to distinguish between the keywords that help us avoid accidentally making things easily mutable and the actual concept of an immutable class.  For instance, it is _insufficient_ to simply declare all fields with `final` keywords.  Just because we cannot accidentally update the field, does not mean that the field is immutable.  Consider the same `Circle` above but with a getter for the center point and now imagine that the `Point` is mutable.
 
 ```java
 final class Circle {
@@ -323,7 +323,7 @@ Circle c = new Circle(new Point(0, 0), 1);
 c.getCenter().moveTo(1, 1); // assume mutable Point
 ```
 
-On the other hand, it is not even _necessary_ to use the `final` keyword to make an immutable class.  We simply have to have a class that prevents any and all kinds of sharing by copying all the parameters before assigning them into the fields and copying all return value.  Assume that all classes has a correctly implemented `clone()` method.  Then the following `Circle` is immutable even with getter and no `final` keyword on the fields.  We still need the `final` keyword on the class to disallow inheritance.
+On the other hand, it is not even _necessary_ to use the `final` keyword to make an immutable class.  We simply have to have a class that prevents any and all kinds of sharing by copying all the parameters before assigning them to the fields and copying all return values.  Assume that all classes have a correctly implemented `clone()` method.  Then the following `Circle` is immutable even with a getter and no `final` keyword on the fields.  We still need the `final` keyword on the class to disallow inheritance.
 
 ```java
 final class Circle {
@@ -346,4 +346,4 @@ final class Circle {
 }
 ```
 
-That is not to say that the `final` keyword is not important.  It helps accidental re-assignment and in some cases that is sufficient especially if the fields are of primitive type.  Once we have created one immutable class, we can then create other larger immutable classes by only using immutable classes as fields.
+That is not to say that the `final` keyword is not important.  It helps accidental re-assignment and in some cases, that is sufficient especially if the fields are of primitive type.  Once we have created one immutable class, we can then create other larger immutable classes by only using immutable classes as fields.
