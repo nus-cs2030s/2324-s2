@@ -26,14 +26,14 @@ class: middle, center
 ---
 class: middle
 
-# Back to Immutability
+## Back to Immutability
 
 ### Lets revisit our `Point` and `Circle`
 
 ---
 class: middle,center
 
-# Recall our problem with `aliasing`
+## Recall our problem with `aliasing`
 
 ---
 class: middle,wide
@@ -60,7 +60,14 @@ c1.moveTo(1, 1); // C2 not affected...
 ---
 class: middle,center
 
-# Introducing our immutable `Point` and `Circle`
+## Immutable Classes
+
+Cannot have any visible changes outside its abstraction barrier.
+
+---
+class: middle,center
+
+## Introducing our immutable `Point` and `Circle`
 
 ---
 class: middle, wide
@@ -74,23 +81,50 @@ c1.moveTo(1, 1); // c1 remains unchanged
 ---
 class: middle,center
 
-# Introducing
+### Ease of Understanding
 
-# `ImmutableSeq<T>`
+`Circle c = new Circle(new Point(0, 0), 1);`
+
+`foo(c);`
+
+`c` will always be the unit circle!
+---
+class: middle,center
+
+### Enabling Safe Sharing of Internals
+
+## `ImmutableSeq<T>`
 
 ---
 class: middle,center
 
-# `subSeq`
+# `subSequence`
+
+---
+class: middle, center
+
+### Enabling Safe Sharing of Objects
+
+`Box::empty()` or the Unit Circle
 
 ---
 class: middle
 
 ## Advantages
-### Ease of Understanding
-### Enabling Safe Sharing of Objects
-### Enabling Safe Sharing of Internals
-### Enabling Safe Concurrent Execution
+- Ease of Understanding
+- Enabling Safe Sharing of Objects
+- Enabling Safe Sharing of Internals
+- Enabling Safe Concurrent Execution
+
+---
+class: middle
+
+## Classes
+
+Encapsulating data (field) and functions (methods) together.
+Information hiding and tell, don't ask.
+
+But sometimes classes get way to big or general.
 
 ---
 class: middle,center
@@ -103,7 +137,7 @@ class: middle
 ### Inner classes
 ### Static nested classes
 ### Local classes
-### Anomymous classes
+### Anonymous classes
 ---
 class: top
 
