@@ -90,7 +90,7 @@ jshell> Maybe<Object> m = new Maybe<>();
 |                    ^-----------^
 ```
 
-- Both `None` and `Some<T>` inherit from `Maybe`<T>`.  Note that `None` is _not_ a generic class so you need to specify `Object` as the type argument to `Maybe<T>`.
+- Both `None` and `Some<T>` inherit from `Maybe<T>`.  Note that `None` is _not_ a generic class so you need to specify `Object` as the type argument to `Maybe<T>`.
 - `Some<T>` must be immutable.  
 - The types `None` and `Some<T>` are internal implementation details of `Maybe<T>` and must not be used directly.  For instance, clients must not be able to declare a variable of type `Maybe.Some<T>`.
 
