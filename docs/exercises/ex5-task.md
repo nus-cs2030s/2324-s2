@@ -39,7 +39,7 @@ public class Transfomer<T, R> {
 
 Finally, to compile your code, under your `ex5-username` directory, run:
 ```
-javac -Xlint:unchecked -Xlint:rawtypes cs2030s/fp/*java *java
+javac -Xlint:unchecked -Xlint:rawtypes cs2030s/fp/*.java *.java
 ```
 
 If you have set up everything correctly, you should be able to run the following in `jshell` from your `ex5-username` directory:
