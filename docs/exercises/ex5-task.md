@@ -429,3 +429,5 @@ The files `Test1.java`, `Test2.java`, etc., as well as `CS2030STest.java`, are p
 ## Following CS2030S Style Guide
 
 You should make sure that your code follows the [given Java style guide](https://nus-cs2030s.github.io/2324-s2/style.html)
+
+(if the file is missing, you can copy the one you used from Exercise 4 over)
