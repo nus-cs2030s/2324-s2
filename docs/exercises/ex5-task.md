@@ -192,7 +192,7 @@ You can test your code by running the `Test1.java` provided.  The following shou
 ```
 $ javac -Xlint:rawtypes Test1.java
 $ java Test1
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_checks.xml cs2030s/fp/*.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_style.xml cs2030s/fp/*.java
 ```
 
 ### Filter and Map (again!)
@@ -294,7 +294,7 @@ You can test your code by running the `Test2.java` provided.  The following shou
 ```
 $ javac -Xlint:rawtypes Test2.java
 $ java Test2
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_checks.xml cs2030s/fp/*.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_style.xml cs2030s/fp/*.java
 ```
 
 Remember to make your methods as flexible as they can be in the type that they accept.
@@ -338,7 +338,7 @@ You can test your code by running the `Test3.java` provided.  The following shou
 ```
 $ javac -Xlint:rawtypes Test3.java
 $ java Test3
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_checks.xml cs2030s/fp/*.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_style.xml cs2030s/fp/*.java
 ```
 
 
@@ -391,7 +391,7 @@ You can test your code by running the `Test4.java` provided.  The following shou
 ```
 $ javac -Xlint:rawtypes Test4.java
 $ java Test4
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_checks.xml cs2030s/fp/*.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_style.xml cs2030s/fp/*.java
 ```
 
 ## Using `Maybe`
@@ -417,8 +417,10 @@ Compile your edited `Ex5` class.  The following should compile without errors or
 ```
 $ javac -Xlint:rawtypes Ex5.java
 $ java Ex5
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_checks.xml Ex5.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex5_style.xml Ex5.java
 ```
+
+(if the file `ex5_style.xml` is missing, you can copy the one you used from Exercise 4 over)
 
 ## Files
 
@@ -430,4 +432,3 @@ The files `Test1.java`, `Test2.java`, etc., as well as `CS2030STest.java`, are p
 
 You should make sure that your code follows the [given Java style guide](https://nus-cs2030s.github.io/2324-s2/style.html)
 
-(if the file is missing, you can copy the one you used from Exercise 4 over)
