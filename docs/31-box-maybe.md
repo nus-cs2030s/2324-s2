@@ -5,7 +5,7 @@
     After this unit, students should appreciate:
 
     - the generality of the class `Box<T>` and `Maybe<T>`
-    - how passing in functions as parameter can lead to highly general abstractions
+    - how passing in functions as parameters can lead to highly general abstractions
     - how `Maybe<T>` preserves the "maybe null" semantics over a reference type by internalizing checks for `null`
 
 ## Lambda as a Cross-Barrier State Manipulator
@@ -49,13 +49,13 @@ class Box<T> {
 
 The method `map` takes in a lambda expression and allows us to arbitrarily apply a function to the item, while the method `filter` allows us to perform an arbitrary check on the property of the item.
 
-Methods such as these, which accept a function as a parameter, allows the client to manipulate the data behind the abstraction barrier without knowing the internals of the object.  Here, we are treating lambda expressions as "manipulators" that we can pass in behind the abstraction barrier and modify the internals arbitrarily for us, while the container or the box tries to maintain the semantics for us.
+Methods such as these, which accept a function as a parameter, allow the client to manipulate the data behind the abstraction barrier without knowing the internals of the object.  Here, we are treating lambda expressions as "manipulators" that we can pass in behind the abstraction barrier and modify the internals arbitrarily for us, while the container or the box tries to maintain the semantics for us.
 
 ## Maybe
 
 Let's now look at `Box<T>` in a slightly different light.  Let's rename it to `Maybe<T>`.  `Maybe<T>` is an _option type_, a common abstraction in programming languages (`java.util.Optional` in Java, `option` in Scala, `Maybe` in Haskell, `Nullable<T>` in C#, etc) that is a wrapper around a value that is either there or is `null`.  The `Maybe<T>` abstraction allows us to write code without mostly not worrying about the possibility that our value is missing.  When we call `map` on a value that is missing, nothing happens.
 
-Recall that we wish to write a program that is as close to pure mathematical functions as possible, a mathematical function always has a well-defined domain and codomain.  If we have a method that looks this like this:
+Recall that we wish to write a program that is as close to pure mathematical functions as possible, a mathematical function always has a well-defined domain and codomain.  If we have a method that looks like this:
 ```Java
 Counter c = bank.findCounter();
 ```

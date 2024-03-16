@@ -35,13 +35,13 @@ The reverse should be true as well.  Suppose we have a variable
 T t = s.get(0);
 ```
 
-Then everywhere in our code where we use `t`, we should be able to replace it with `s.get(0)`, and the behavior of the code should still be the same. This behavior is only guaranteed if `s.get(0)` has no side effects (such as modifying a field or print something to the standard output).
+Then everywhere in our code where we use `t`, we should be able to replace it with `s.get(0)`, and the behavior of the code should still be the same. This behavior is only guaranteed if `s.get(0)` has no side effects (such as modifying a field or printing something to the standard output).
 
 To be able to reason about our code using the mathematical reasoning techniques we are familiar with, it is important to write our code as if we are writing mathematical functions &mdash; our methods should be free of side effects and our code should be referentially transparent.  Our program is then just a sequence of functions, chained and composed together.  To achieve this, functions need to be a _first class citizen_ in our program, so that we can assign functions to a variable, pass it as parameters, return a function from another function, etc, just like any other variable.
 
 ## Pure Functions
 
-Ideally, methods in our programs should behave the same as functions in mathematics.  Given an input, the function computes and returns an output.  A _pure_ function does nothing else &mdash; it does not print to the screen, write to files, throw exceptions, change other variables, modify the values of the arguments, etc.  That is, a pure function does not cause any _side effect_.  
+Ideally, methods in our programs should behave the same as functions in mathematics.  Given an input, the function computes and returns an output.  A _pure_ function does nothing else &mdash; it does not print to the screen, write to files, throw exceptions, change other variables, modify the values of the arguments, etc.  That is, a pure function does not cause any _side effects_.  
 
 Here are two examples of pure functions:
 
@@ -83,7 +83,7 @@ In the OO paradigm, we commonly need to write methods that update the fields of 
 
 In computer science, we refer to the style of programming where we build a program from pure functions as _functional programming_ (FP). Examples of functional programming languages include Haskell, OCaml, Erlang, Clojure, F#, and Elixir.
 
-Many modern programming languages including Java, C++, Python, Rust, and Swift support this style of programming.  As these languages are not designed to be functional, we cannot build a program from only pure functions.  Java, for instance, is still an OO language at its core.  As such, we will refer to this style as _functional-style programming_.  We won't be able to write code consists of only pure functions in Java, but we can write methods that has no side effects and objects that are immutable, as much as possible.
+Many modern programming languages including Java, C++, Python, Rust, and Swift support this style of programming.  As these languages are not designed to be functional, we cannot build a program from only pure functions.  Java, for instance, is still an OO language at its core.  As such, we will refer to this style as _functional-style programming_.  We won't be able to write code consisting of only pure functions in Java, but we can write methods that has no side effects and objects that are immutable, as much as possible.
 
 ## Function as First-Class Citizen in Java
 
@@ -113,7 +113,7 @@ interface Transformer<T, R> {
 
 `Transformer<T, R>` is a generic interface with two type parameters: `T` is the type of the input, `R` is the type of the result.  It has one abstract method `R transform(T t)` that applies the function to a given argument.
 
-We can use this interface to write any function that takes in a value and return another value.  (Java has a similar interface called, unsurprisingly, [`java.util.function.Function<T, R>`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/function/Function.html)). For instance, a function that computes the square of an integer can be written as:
+We can use this interface to write any function that takes in a value and returns another value.  (Java has a similar interface called, unsurprisingly, [`java.util.function.Function<T, R>`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/function/Function.html)). For instance, a function that computes the square of an integer can be written as:
 ```Java
 new Transformer<Integer, Integer>() {
   @Override
@@ -123,8 +123,7 @@ new Transformer<Integer, Integer>() {
 };
 ```
 
-We can write a method `chain` that composes two given computations together and
-return the new computation:
+We can write a method `chain` that composes two given computations together and returns the new computation:
 ```Java
 // Use of PECS left as an exercise to the reader
 <T, R, S> Transformer<T,R> chain(Transformer<T,S> t1, Transformer<S,R> t2) {
@@ -205,8 +204,7 @@ The expressions above, including `x -> x * x`, are called _lambda expressions_. 
     Alonzo Church invented lambda calculus ($\lambda$-calculus) in 1936, before electronic computers, as a way to express computation.  In $\lambda$-calculus, all functions are anonymous.  The term lambda expression originated from there.
 
 ### Method Reference
-
-Lambda expression is useful for specifying a new anonymous method.  Sometimes, we want to use an existing method as a first-class citizen instead.
+A lambda expression is useful for specifying a new anonymous method.  Sometimes, we want to use an existing method as a first-class citizen instead.
 
 Recall the `distanceTo` method in `Point`, which takes in another point as a parameter and returns the distance between this point and the given point.
 
@@ -257,9 +255,9 @@ The last example shows that the same method reference expression can be interpre
 ## Curried Functions
 
 Mathematically, a function takes in only one value and returns one value (e.g., `square` above).  In programming, we often need to write functions that take in more than one argument (e.g., `add` above).
-Even though `Transformer` only supports function with a single parameter, we can build functions that take in multiple arguments.  Let's look at this mathematically first.  Consider a binary function $f: (X, Y) \rightarrow Z$.  We can introduce $F$ as a set of all functions $f': Y \rightarrow Z$, and rewrite $f$ as $f: X \rightarrow F$, or $f: X \rightarrow Y \rightarrow Z$.
+Even though `Transformer` only supports functions with a single parameter, we can build functions that take in multiple arguments.  Let's look at this mathematically first.  Consider a binary function $f: (X, Y) \rightarrow Z$.  We can introduce $F$ as a set of all functions $f': Y \rightarrow Z$, and rewrite $f$ as $f: X \rightarrow F$, or $f: X \rightarrow Y \rightarrow Z$.
 
-The arrow $\rightarrow$ is to be read from right-to-left.  So $f: X \rightarrow Y \rightarrow Z$ is equivalent to $f: X \rightarrow (Y \rightarrow Z)$.  But what does it actually mean?  It means that instead of having a function that takes in two arguments, we can instead have a function that takes in one argument (typically the first argument) and return another function to accept the second argument.
+The arrow $\rightarrow$ is to be read from right to left.  So $f: X \rightarrow Y \rightarrow Z$ is equivalent to $f: X \rightarrow (Y \rightarrow Z)$.  But what does it actually mean?  It means that instead of having a function that takes in two arguments, we can instead have a function that takes in one argument (typically the first argument) and returns another function to accept the second argument.
 
 A trivial example of this is the `add` method that adds two `int` values.
 ```Java
@@ -290,7 +288,7 @@ The technique that translates a general $n$-ary function to a sequence of $n$ un
 !!! note "Curry"
     Currying is not related to food but rather is named after computer scientist Haskell Curry, who popularized the technique.
 
-How is currying useful?  Consider `add(1, 1)` &mdash; we have to have both arguments available at the same time to compute the function.  With currying, we no longer have to.  We can evaluate the different arguments at a different time (as `incr` example above).  This feature is useful in cases where some arguments are not available until later.  We can _partially apply_ a function first.  This is also useful if one of the arguments does not change often, or is expensive to compute.  We can save the partial results as a function and continue applying later.  We can dynamically create functions as needed, save them, and invoke them later.
+How is currying useful?  Consider `add(1, 1)` &mdash; we have to have both arguments available at the same time to compute the function.  With currying, we no longer have to.  We can evaluate the different arguments at a different time (as the `incr` example above).  This feature is useful in cases where some arguments are not available until later.  We can _partially apply_ a function first.  This is also useful if one of the arguments does not change often, or is expensive to compute.  We can save the partial results as a function and continue applying it later.  We can dynamically create functions as needed, save them, and invoke them later.
 
 ## Lambda as Closure
 
@@ -304,6 +302,6 @@ the variable `origin` is captured by the lambda expression `dist`.  Just like in
 
 A lambda expression stores more than just the function to invoke &mdash; it also stores the data from the environment where it is defined.  We call such a construct that stores a function together with the enclosing environment a _closure_.
 
-Being able to save the current execution environment, and then continue to compute it later, adds new power to how we can write our program.  We can make our code cleaner with fewer parameters to pass around and less duplicated code.  We can separate the logic to do different tasks in a different part of our program easier.
+Being able to save the current execution environment, and then continue to compute it later, adds new power to how we can write our program.  We can make our code cleaner with fewer parameters to pass around and less duplicated code.  We can separate the logic to do different tasks in a different part of our program more easily.
 
 We will see more examples of this later.

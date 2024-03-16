@@ -4,7 +4,7 @@
 
     After this unit, students should understand:
 
-    - what is lazy evaluation and how lambda expression allows us to delay the execution of a computation
+    - what is lazy evaluation and how lambda expression allow us to delay the execution of a computation
     - how memoization and the `Lazy<T>` abstraction allows us to evaluate an expression exactly once.
 
 ## Lambda as Delayed Data
@@ -59,7 +59,7 @@ class Logger {
 }
 ```
 
-The `log` method checks the seriousness level of the message against the current log level, and only prints the message if the level of the message is the same or higher.  For instance, if the current log level is `WARNING`, then
+The `log` method checks the seriousness level of the message against the current log level and only prints the message if the level of the message is the same or higher.  For instance, if the current log level is `WARNING`, then
 
 ```Java
 Logger.log(Logger.LogLevel.INFO, 
@@ -70,7 +70,7 @@ will not get printed.
 
 However, regardless of whether the log message will be printed, the method `System.getProperty("user.name")` will be evaluated, which is wasteful.
 
-A better design for this case is to wrap the message `msg` within a lambda expression, so that it does not get evaluated eagerly when we pass it in as a parameter.  We can wrap the message with a `Producer<String>`.  The new `lazyLog` method would look like this:
+A better design for this case is to wrap the message `msg` within a lambda expression so that it does not get evaluated eagerly when we pass it in as a parameter.  We can wrap the message with a `Producer<String>`.  The new `lazyLog` method would look like this:
 
 ```Java
 // Version 0.2 (with Producer)
@@ -98,7 +98,7 @@ The method `System.getProperty("user.name")` is now lazily called, only if the m
 
 ## Memoization
 
-We have so far seen one way of being lazy, i.e., procrastinating our computation until we really need the data.  Another way of being lazy is not to repeat ourselves.  If we have computed the value of a function before, we can cache (or memoize) the value, keep it somewhere, so that we don't need to compute it again.  This is useful, of course, only if the function is pure &mdash; regardless of how many times we invoke the function, it always returns the same value, and invoking it has no side effects on the execution of the program.  Here, we see another important advantage of keeping our code pure and free of side effects &mdash; so that we can be lazy!
+We have so far seen one way of being lazy, i.e., procrastinating our computation until we really need the data.  Another way of being lazy is not to repeat ourselves.  If we have computed the value of a function before, we can cache (or memoize) the value, and keep it somewhere, so that we don't need to compute it again.  This is useful, of course, only if the function is pure &mdash; regardless of how many times we invoke the function, it always returns the same value, and invoking it has no side effects on the execution of the program.  Here, we see another important advantage of keeping our code pure and free of side effects &mdash; so that we can be lazy!
 
 While other languages such as Scala as native support for lazy variables, Java does not.  So let's build a simple one here.  (You will build a more sophisticated one in Lab 6) 
 
@@ -149,4 +149,4 @@ Lazy<String> loginMessage = new Lazy(
 Logger.lazyLog(Logger.LogLevel.INFO, loginMessage);
 ```
 
-If `loginMessage` is used in multiple places, memoization ensures that `System.getProperty("user.name")` and the concatenation of the strings are done only once.
+If `loginMessage` is used in multiple places, memoization ensures that `System.getProperty("user.name")` and the concatenation of the strings is done only once.
