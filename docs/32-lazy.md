@@ -1,9 +1,11 @@
 # Unit 32: Lazy Evaluation
 
-After this unit, students should understand:
+!!! abstract "Learning Objectives"
 
-- what is lazy evaluation and how lambda expression allows us to delay the execution of a computation
-- how memoization and the `Lazy<T>` abstraction allows us to evaluate an expression exactly once.
+    After this unit, students should understand:
+
+    - what is lazy evaluation and how lambda expression allows us to delay the execution of a computation
+    - how memoization and the `Lazy<T>` abstraction allows us to evaluate an expression exactly once.
 
 ## Lambda as Delayed Data
 

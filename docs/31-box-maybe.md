@@ -1,10 +1,12 @@
 # Unit 31: Box and Maybe
 
-After this unit, students should appreciate:
+!!! abstract "Learning Objectives"
 
-- the generality of the class `Box<T>` and `Maybe<T>`
-- how passing in functions as parameter can lead to highly general abstractions
-- how `Maybe<T>` preserves the "maybe null" semantics over a reference type by internalizing checks for `null`
+    After this unit, students should appreciate:
+
+    - the generality of the class `Box<T>` and `Maybe<T>`
+    - how passing in functions as parameter can lead to highly general abstractions
+    - how `Maybe<T>` preserves the "maybe null" semantics over a reference type by internalizing checks for `null`
 
 ## Lambda as a Cross-Barrier State Manipulator
 

@@ -1,13 +1,15 @@
 # Unit 30: Side Effect-Free Programming
 
-After this unit, students should be familiar with:
+!!! abstract "Learning Objectives"
 
-- the concept of functions as side-effect-free programming constructs and its relation to functions in mathematics.
-- understand the importance of writing code that is free of side effects
-- how functions can be first-class citizens in Java through using local anonymous class
-- how we can succinctly use a lambda expression or a method reference in place of using local anonymous class
-- how we can use currying to generalize to functions with higher arity
-- how we can create a closure with lambda and environment capture
+    After this unit, students should be familiar with:
+
+    - the concept of functions as side-effect-free programming constructs and its relation to functions in mathematics.
+    - understand the importance of writing code that is free of side effects
+    - how functions can be first-class citizens in Java through using local anonymous class
+    - how we can succinctly use a lambda expression or a method reference in place of using local anonymous class
+    - how we can use currying to generalize to functions with higher arity
+    - how we can create a closure with lambda and environment capture
 
 ## Functions
 
@@ -22,18 +24,18 @@ These two fundamental properties of mathematical functions allow us to solve equ
 Unfortunately, we can't always reason about our program the same way as we reason about mathematical functions.  For instance, consider the line:
 
 ```java
-a.get(0)
+s.get(0)
 ```
 
-where `a` is an instance of `Array<T>`.  Suppose we know that `a.get(0)` is 5 for some `a`.  When we reason about the behavior of our code, we cannot replace (mentally) every invocation of `a.get(0)` with the value 5.  This is because the array `a` may not be immutable and therefore `a.get(0)` cannot be guaranteed to be the same.  
+where `s` is an instance of `Seq<T>`.  Suppose we know that `s.get(0)` is 5 for some `s`.  When we reason about the behavior of our code, we cannot replace (mentally) every invocation of `s.get(0)` with the value 5.  This is because the sequence `s` may not be immutable and therefore `s.get(0)` cannot be guaranteed to be the same.  
 
 The reverse should be true as well.  Suppose we have a variable
 
 ```java
-T t = a.get(0);
+T t = s.get(0);
 ```
 
-Then everywhere in our code where we use `t`, we should be able to replace it with `a.get(0)`, and the behavior of the code should still be the same. This behavior is only guaranteed if `a.get(0)` has no side effects (such as modifying a field or print something to the standard output).
+Then everywhere in our code where we use `t`, we should be able to replace it with `s.get(0)`, and the behavior of the code should still be the same. This behavior is only guaranteed if `s.get(0)` has no side effects (such as modifying a field or print something to the standard output).
 
 To be able to reason about our code using the mathematical reasoning techniques we are familiar with, it is important to write our code as if we are writing mathematical functions &mdash; our methods should be free of side effects and our code should be referentially transparent.  Our program is then just a sequence of functions, chained and composed together.  To achieve this, functions need to be a _first class citizen_ in our program, so that we can assign functions to a variable, pass it as parameters, return a function from another function, etc, just like any other variable.
 
@@ -139,7 +141,7 @@ return the new computation:
 
 While we have achieved functions as first-class citizens in Java, the code is verbose and ugly.  Fortunately, there is a much cleaner syntax to write functions that applies to interfaces with a single abstract method.
 
-An interface in Java with only one abstract method is called a _functional interface_.  Both `Comparator` and `Transformer` are functional interfaces.  It is recommended that, if a programmer intends an interface to be a functional interface, they should annotate the interface with the `@FunctionalInterface` annotation.
+An interface in Java with _exactly_ one abstract method is called a _functional interface_.  Both `Comparator` and `Transformer` are functional interfaces.  It is recommended that, if a programmer intends an interface to be a functional interface, they should annotate the interface with the `@FunctionalInterface` annotation.
 
 ```Java
 @FunctionalInterface
