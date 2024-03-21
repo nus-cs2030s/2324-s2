@@ -321,7 +321,7 @@ jshell> Transformer<Integer, Integer> incr = x -> {
    ...>   System.out.println("x + 1");
    ...>   return x + 1;
    ...> }
-jshell> LazyList<Integer> l = l.generate(1000000, 0, incr);
+jshell> LazyList<Integer> l = LazyList.generate(1000000, 0, incr);
 jshell> l
 l ==> [0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ...
 jshell> l.indexOf(4);
