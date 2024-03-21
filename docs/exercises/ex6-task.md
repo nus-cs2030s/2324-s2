@@ -118,8 +118,7 @@ You can test your code by running the `Test1.java` provided.  The following shou
 $ javac cs2030s/fp/*java
 $ javac -Xlint:rawtypes Test1.java
 $ java Test1
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ~cs2030s/bin/cs2030_checks.xml Lazy.java
-$ javadoc -quiet -private -d docs cs2030s/fp/Lazy.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex6_style.xml *.java cs2030s/fp/*.java
 ```
 
 ## Map and FlatMap
@@ -174,8 +173,7 @@ You can test your code by running the `Test2.java` provided.  The following shou
 $ javac cs2030s/fp/*java
 $ javac -Xlint:rawtypes Test2.java
 $ java Test2
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ~cs2030s/bin/cs2030_checks.xml Lazy.java
-$ javadoc -quiet -private -d docs cs2030s/fp/Lazy.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex6_style.xml *.java cs2030s/fp/*.java
 ```
 
 ## Filter
@@ -228,8 +226,7 @@ You can test your code by running the `Test3.java` provided.  The following shou
 $ javac cs2030s/fp/*java
 $ javac -Xlint:rawtypes Test3.java
 $ java Test3
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ~cs2030s/bin/cs2030_checks.xml *.java
-$ javadoc -quiet -private -d docs cs2030s/fp/Lazy.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex6_style.xml *.java cs2030s/fp/*.java
 ```
 
 ## Combine
@@ -271,8 +268,7 @@ You can test your code by running the `Test4.java` provided.  The following shou
 $ javac cs2030s/fp/*java
 $ javac -Xlint:rawtypes Test4.java
 $ java Test4
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ~cs2030s/bin/cs2030_checks.xml Lazy.java
-$ javadoc -quiet -private -d docs cs2030s/fp/Lazy.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex6_style.xml *.java cs2030s/fp/*.java
 ```
 
 ## Lazy List
@@ -360,11 +356,10 @@ You can test your code by running the `Test5.java` provided.  The following shou
 $ javac cs2030s/fp/*java
 $ javac -Xlint:rawtypes Test5.java
 $ java Test5
-$ java -jar ~cs2030s/bin/checkstyle.jar -c ~cs2030s/bin/cs2030_checks.xml LazyList.java
-$ javadoc -quiet -private -d docs LazyList.java
+$ java -jar ~cs2030s/bin/checkstyle.jar -c ex6_style.xml LazyList.java
 ```
 
 
 ## Following CS2030S Style Guide
 
-You should make sure that your code follows the [given Java style guide](https://nus-cs2030s.github.io/2223-s2/style.html) and the [given Java documentation guide](https://nus-cs2030s.github.io/2223-s2/javadoc.html)
+You should make sure that your code follows the [given Java style guide](https://nus-cs2030s.github.io/2223-s2/style.html).
