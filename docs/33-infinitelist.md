@@ -1,8 +1,10 @@
-# Unit 33: Infinite list
+# Unit 33: Infinite List
 
-After this unit, students should understand:
+!!! abstract "Learning Objectives"
 
-- how infinite lists can be constructed using a lazy evaluation.
+    After this unit, students should understand:
+
+    - how infinite lists can be constructed using a lazy evaluation.
 
 ## Preliminary: An Eagerly Evaluated List
 

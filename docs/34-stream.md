@@ -1,9 +1,11 @@
 # Unit 34: Streams in Java
 
-After this unit, students should understand:
+!!! abstract "Learning Objectives"
 
-- how to use Java `Stream`.
-- the difference between Java `Stream` and `InfiniteList`.
+    After this unit, students should understand:
+
+    - how to use Java `Stream`.
+    - the difference between Java `Stream` and `InfiniteList`.
 
 
 ## Java API
