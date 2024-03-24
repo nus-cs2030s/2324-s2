@@ -129,7 +129,7 @@ l.get(2);               // 18
 
 ## An Infinite List
 
-Lazy evaluation allows us to delay the computation that produces data until the data is needed.  This powerful concept enables us to build computationally-efficient data structures.  We will focus on building a list with a possibly infinite number of elements &mdash; something that couldn't be done without lazy evaluation.  Any eager-evaluation-based solution will just run in an infinite loop if the list is infinitely long.  For instance,
+Lazy evaluation allows us to delay the computation that produces data until the data is needed.  This powerful concept enables us to build computationally efficient data structures.  We will focus on building a list with a possibly infinite number of elements &mdash; something that couldn't be done without lazy evaluation.  Any eager-evaluation-based solution will just run in an infinite loop if the list is infinitely long.  For instance,
 
 ```Java
 EagerList.iterate("", s -> s.length() >= 0, s -> s + "a"); // infinite loop
@@ -137,7 +137,7 @@ EagerList.iterate("", s -> s.length() >= 0, s -> s + "a"); // infinite loop
 
 Just as we saw in the previous unit, we can delay a computation by using the `Producer` functional interface (or anything equivalent).  Instead of doing `compute()` which is immediately evaluated when executed, we replace it with a `Producer` `() -> compute()`, which "stores" the computation in an instance of `Producer`, and we only call it when we invoke the `produce()` method.
 
-Instead of storing the head and tail of the list, we can think of an infinite list as consisting of two functions, the first is a function that generates head, and the second is a function that generates the tail.  Our `InfiniteList` looks like this:
+Instead of storing the head and tail of the list, we can think of an infinite list as consisting of two functions, the first is a function that generates the head, and the second is a function that generates the tail.  Our `InfiniteList` looks like this:
 
 ```Java
 class InfiniteList<T> {
@@ -200,7 +200,7 @@ Both the lists `ones` and `evens` are infinitely long, but due to lazy evaluatio
 
 ## Map
 
-Let's now write the lazy version of `map` as well:
+Let's now write the lazy version of the `map` method as well:
 
 ```Java
 public <R> InfiniteList<R> map(Transformer<? super T, ? extends R> mapper) {
@@ -292,7 +292,7 @@ InfiniteList<Integer> evens = InfiniteList.iterate(0, x -> x + 2); // 0, 2, 4, 6
 
 ![evens](figures/infinitelist/infinitelist.001.png)
 
-The figure above shows the objects created.  `evens` is an instance of `InfiniteList`, with two fields, `head` and `tail`, each pointing to an instance of `Producer<T>`.  The two instances of `Producer<T>` capture the variable `init`.  The `tail` additionally captures the variable `next`, which itself is an instance of `Transformer<T,T>`. 
+The figure above shows the objects created.  `evens` is an instance of `InfiniteList`, with two fields, `head` and `tail`, each pointing to an instance of `Producer<T>`.  The two instances of `Producer<T>` capture the variable `init`.  The `tail` additionally captures the variable `next`, which itself is an instance of `Transformer<T, T>`. 
 
 Next, let's look at what gets created on the heap when we run
 
@@ -302,7 +302,7 @@ InfiniteList<Integer> odds = evens.map(x -> x + 1); // 1, 3, 5, ...
 
 ![odds](figures/infinitelist/infinitelist.002.png)
 
-The figure above shows the objects added.  `odds` is an instance of `InfiniteList`, with two fields, `head` and `tail`, each pointing to an instance of `Producer<T>`.  The two instances of `Producer<T>` capture the local variable `this` and `mapper` of the method `map`.  `mapper` refers to an instance of `Transformer<T, T>`.  Since the method `map` of `evens` is called, the `this` reference refers to the object `evens`. 
+The figure above shows the objects added.  `odds` is an instance of `InfiniteList`, with two fields, `head` and `tail`, each pointing to an instance of `Producer<T>`.  The two instances of `Producer<T>` capture the local variables, `this` and `mapper`, of the method `map`.  `mapper` refers to an instance of `Transformer<T, T>`.  Since the method `map` of `evens` is called, the `this` reference refers to the object `evens`. 
 
 After calling 
 ```Java
@@ -313,11 +313,11 @@ We have the following objects set up.
 
 ![altEvens](figures/infinitelist/infinitelist.003.png)
 
-Let's now trace through what happens when we call `altEvens.head()`.  This method leads to the call `this.head().produce()`, where `this` refers to `altEvens`.  The call to `produce` invoked `mapper.transform(this.head.produce())` of the producer labelled 1 in the figure below.  This leads to `this.head.produce()` of this producer being called.  Within this producer, `this` refers to `odds`, and so `this.head.produce()` invoked `mapper.transform(this.head.produce())` of the producer labelled 2.   Now, `this` refers to `evens`, and `this.head.produce()` causes the producer `() -> init` (labelled 3) to produce 0.
+Let's now trace through what happens when we call `altEvens.head()`.  This method leads to the call `this.head().produce()`, where `this` refers to `altEvens`.  The call to `produce` invoked `mapper.transform(this.head.produce())` of the producer labeled 1 in the figure below.  This leads to `this.head.produce()` of this producer being called.  Within this producer, `this` refers to `odds`, and so `this.head.produce()` invoked `mapper.transform(this.head.produce())` of the producer labelled 2.   Now, `this` refers to `evens`, and `this.head.produce()` causes the producer `() -> `init` (labeled 3) to produce 0.
 
 ![altEvens](figures/infinitelist/infinitelist.004.png)
 
-The execution now returns to the invocation of `mapper.transform(this.head.produce())` and call `mapper.transform(0)` (labelled 4).  This returns the value 1, which we pass into the `mapper.transform(1)` (labelled 5).  The `mapper` is `x -> x * 2` so we have the result 2, which we return from `altEvens.head()`.
+The execution now returns to the invocation of `mapper.transform(this.head.produce())` and call `mapper.transform(0)` (labeled 4).  This returns the value 1, which we pass into the `mapper.transform(1)` (labeled 5).  The `mapper` is `x -> x * 2` so we have the result 2, which we return from `altEvens.head()`.
 
 This process shows a very different order of execution than `EagerList`.
 If we run, 
@@ -328,7 +328,7 @@ EagerList.iterate(0, x -> x < 10, x -> x + 2)
     .head();
 ```
 
-The method `iterate` generates all the elements first, then all the elements gets `map`-ed with `x -> x + 1`, then with `x -> x + 2`, and then the first element is retrieved.  
+The method `iterate` generates all the elements first, then all the elements get `map`-ed with `x -> x + 1`, then with `x -> x + 2`, and then the first element is retrieved.  
 
 When we run, 
 ```Java
@@ -353,7 +353,7 @@ Now, let's consider how we would filter an `InfiniteList`.  This is a bit tricki
   }
 ```
 
-There are two things wrong with this.  First,  Line 3 `cond.test(this.head())` is actually eager.  It computes the head to test if it passes the given condition.  Second, Line 6 is eager, it produces the tail to recursively filter it.
+There are two things wrong with this.  First,  Line 3 `cond.test(this.head()`)` is eager.  It computes the head to test if it passes the given condition.  Second, Line 6 is eager, it produces the tail to recursively filter it.
 
 To make `filter` lazy, we have to perform the test in the producer that produces the head. But if the test fails, we have to mark the head as filtered.
 
@@ -364,7 +364,7 @@ To make `filter` lazy, we have to perform the test in the producer that produces
   }
 ```
 
-In the code above, we use `null` to indicate that the `head` is filtered for simplicity.  It is not a good practice, however since `null` could be a valid value in an infinite list.
+In the code above, we use `null` to indicate that the `head` is filtered for simplicity.  It is not a good practice, however, since `null` could be a valid value in an infinite list.
 
 Putting the abuse of `null` aside, the possibility that the head produces a value that is filtered affects other methods. The methods `head` and `tail` have to be changed to:
 ```Java

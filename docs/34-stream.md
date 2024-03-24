@@ -19,9 +19,9 @@ Java provides its own version of functional interfaces that are comparable to ou
 | `BooleanCondition<T>::test`   | [`Predicate<T>::test`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html#test&#40;T&#41;)           |
 | `Producer<T>::produce`        | [`Supplier<T>::get`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html#get&#40;&#41;)                |
 | `Consumer<T>::consume`        | [`Consumer<T>::accept`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html#accept&#40;T&#41;)         |
-| `Transformer<T,R>::transform` | [`Function<T,R>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html#apply&#40;T&#41;)         |
-| `Transformer<T,T>::transform` | [`UnaruOp<T>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/UnaryOperator.html)                        |
-| `Combiner<S,T,R>::combine`    | [`BiFunction<S,T,R>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BiFunction.html#apply&#40;T,U&#41;) |
+| `Transformer<T, R>::transform` | [`Function<T, R>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html#apply&#40;T&#41;)         |
+| `Transformer<T, T>::transform` | [`UnaryOp<T>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/UnaryOperator.html)                        |
+| `Combiner<S, T, R>::combine`    | [`BiFunction<S, T, R>::apply`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BiFunction.html#apply&#40;T,U&#41;) |
 
 Besides, some of the abstractions we have built have similar counterparts in Java as well:
 
@@ -145,7 +145,7 @@ Stream also provides terminal operations for testing if the elements pass a give
 
 ## Consumed Once
 
-One of the greatest limitations of `Stream`, which does not apply to our `InfiniteList`, is that a stream can only be operated on once.  We cannot iterate through a stream multiple times.  Doing so would lead to an `IllegalStateException` being thrown.  We have to recreate the stream if we want to operate on the stream more than once.
+One of the greatest limitations of `Stream`, which does not apply to our `InfiniteList`, is that a stream can only be operated once.  We cannot iterate through a stream multiple times.  Doing so would lead to an `IllegalStateException` being thrown.  We have to recreate the stream if we want to operate on the stream more than once.
 
 Example,
 ```Java
@@ -169,7 +169,7 @@ boolean isPrime(int x) {
 }
 ```
 
-Let's see how we can rewrite this with `Stream`.  Due to the overhead of wrapper classes, Java provides specialized streams on primitives: `IntStream`, `LongStream`, and `DoubleStream`, with similar set of methods provided.  Since we are dealing with `int` here, we will use `IntStream`.  The code above can be rewritten as:
+Let's see how we can rewrite this with `Stream`.  Due to the overhead of wrapper classes, Java provides specialized streams on primitives: `IntStream`, `LongStream`, and `DoubleStream`, with a similar set of methods provided.  Since we are dealing with `int` here, we will use `IntStream`.  The code above can be rewritten as:
 
 ```Java
 boolean isPrime(int x) {
@@ -214,7 +214,7 @@ IntStream.iterate(2, x -> x+1)
 
 Notice how each of the four components matches neatly with one operation on stream!  
 
-With a stream, we no longer have to write loops, we have moved the iterations to within each operation in the stream.  We no longer need to maintain states and counters, they are done within each operation as needed as well.  This has another powerful implication: our code becomes more _declarative_, we only need to concern about what we want at each step, much less about how to do it.  Doing so makes our code more succinct and less bug-prone.
+With a stream, we no longer have to write loops, we have moved the iterations to within each operation in the stream.  We no longer need to maintain states and counters, they are done within each operation as needed as well.  This has another powerful implication: our code becomes more _declarative_, we only need to be concerned about what we want at each step, much less about how to do it.  Doing so makes our code more succinct and less bug-prone.
 
 ## Caution: Avoid Overusing Streams
 
