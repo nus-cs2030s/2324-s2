@@ -45,6 +45,11 @@ class EagerList<T> {
 ```
   
 ---
+class: middle, wide
+
+![:scale 100%](img/09_List_01.png)
+
+---
 class: middle
 
 .small[
@@ -72,6 +77,260 @@ class InfiniteList<T> {
 }
 ```
 ]
+
+---
+class: middle, wide
+
+.small[
+```java
+InfiniteList.iterate(0, x -> x + 2)  // 0, 2, 4, ...
+            .map(x -> x + 1)         // 1, 3, 5, ...
+            .map(x -> x * 2)         // 2, 6, 10, ... 
+            .head();                 // 2
+```
+]
+
+---
+class: middle, wide
+
+.small[
+```java
+InfiniteList<Integer> evens = 
+               InfiniteList.iterate(0, x -> x + 2); 
+  // 0, 2, 4, ...
+InfiniteList<Integer> odds = evens.map(x -> x + 1); 
+  // 1, 3, 5, ...
+InfiniteList<Integer> altEvens = odds.map(x -> x * 2); 
+  // 2, 6, 10, ... 
+altEvens.head(); 
+  // returns 2
+```
+]
+---
+class: middle, wide
+.small[
+```java
+IL<Integer> evens = IL.iterate(0, x -> x + 2); 
+```
+]
+![:scale 100%](img/09_diagram_01.png)
+---
+class: middle, wide
+.small[
+```java
+InfiniteList<Integer> odds = evens.map(x -> x + 1); 
+```
+]
+![:scale 100%](img/09_diagram_02.png)
+---
+class: middle, wide
+.small[
+```java
+InfiniteList<Integer> altEvens = odds.map(x -> x * 2); 
+```
+]
+![:scale 100%](img/09_diagram_03.png)
+---
+class: middle, wide
+
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_01.png)
+
+---
+class: middle, wide
+
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_02.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_03.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_04.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_05.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_06.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_07.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_08.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_09.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_10.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_11.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_12.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_13.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_14.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_15.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_16.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_17.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_18.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_19.png)
+
+---
+class: middle, wide
+.tiny[
+```Java
+InfiniteList.iterate(0, x -> x + 2).map(x -> x + 1).map(x -> x * 2).head();
+```
+]
+
+![:scale 100%](img/09_Head_20.png)
 
 ---
 class: middle 
@@ -185,7 +444,7 @@ remark.macros.scale = function (percentage) {
 	var url = this;
 	return '<img src="' + url + '" style="width: ' + percentage + '" />';
 };
-// ![:scale 50%](image.jpg)
+// ![:scale 100%](image.jpg)
 
 var slideshow = remark.create({
     navigation: {
