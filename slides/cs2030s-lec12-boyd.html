@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="stylesheets/cs1010.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
+
+<!-- CHANGE TITLE -->
+<title>CS2030S AY22/23 S2 Lecture 12</title>
+<meta charset="utf-8">
+</head>
+<body>
+<textarea id="source">
+class: middle, center
+
+## CS2030<sub>s</sub>
+
+### Programming Methodology II
+---
+class: middle, center
+
+## Lecture 12A
+
+### 10 April 2023
+
+---
+class: middle wide
+
+# Almost There :D
+
+---
+class: middle wide
+
+# Announcements 
+
+---
+class: middle wide
+
+### Lab 8
+
+- On `CompletableFuture`
+- Deadline: 14 April 2023, Friday, 23:59
+- No late penalty until: 18 April 2023, Tuesday, 23:59
+
+### No Self-Diagnostic Quiz this week
+
+---
+class: middle wide
+
+### Final Exam
+
+- 27 April 2023 at 9:00 AM
+- Scope: Everything
+- Duration: 2 hours
+- Pen and Paper
+- Open book (printed materials only)
+
+- Practice exams released after the Lecture
+
+---
+class: middle wide
+
+## Catch-up Session IV
+
+- Saturday, 10am - 12pm, Zoom
+- Question Link: https://pigeonhole.at/MONADIC
+
+## Course Feedback
+
+- https://blue.nus.edu.sg/blue/
+
+
+---
+class: middle,center
+
+![figures](figures/cs2030s-lec01/cs2030s-lec01.001.png)
+
+---
+class: middle
+
+Real-world software is complex, evolves continuously, and is a product of team work. 
+
+---
+class: middle
+
+CS2030S teaches you how to write better code, where "better" means:
+
+- more human-friendly
+- easier to change and maintain
+- fewer crashes
+
+through programming paradigms, idioms, and language design.
+
+---
+class: middle
+
+### Reducing Boiler Plates
+
+- Code becomes more succinct and easier to read
+- Change should happen only in one place
+
+---
+class: middle
+
+### The Abstraction Principle
+
+"Each significant piece of functionality in a program should be implemented in just one place in the source code. Where similar functions are carried out by distinct pieces of code, it is generally beneficial to combine them into one by abstracting out the varying parts." 
+
+-- _Benjamin C. Pierce_
+
+---
+class: middle,wide
+.smaller[
+```Java
+    String lastName = user.getLastName();
+    if (lastName == null) {
+      lastName = "";
+    } 
+    show(lastName.toUpperCase());
+
+    String firstName = user.getFirstName();
+    if (firstName == null) {
+      firstName = "";
+    }
+    show(firstName.toUpperCase());
+```
+]
+---
+class: middle,wide
+.smaller[
+```Java
+    PhoneNumber phoneNumber = user.getOfficeNumber();
+    if (phoneNumber == null) {
+      phoneNumber = user.getMainLineNumber();
+    }
+    save(phoneNumber.toString());
+
+    PhoneNumber mobileNumber = user.getMobileNumber();
+    if (mobileNumber == null) {
+      mobileNumber = user.getMainLineNumber();
+    }
+    save(mobileNumber.toString());
+```
+]
+
+---
+class: middle,wide
+.smaller[
+```java
+    int code;
+    Address addr = user.getAddress();
+    if (addr != null) {
+      if (addr.getCountry().equals("Singapore")) {
+        code = addr.getPostalCode();
+      } else {
+        code = 0;
+      }
+    } else {
+      code = 0;
+    }
+```
+]
+---
+class: middle
+.smaller[
+```Java
+  void handleName(String name) {
+    if (name == null) {
+      name = "";
+    } 
+    show(name.toUpperCase());
+  }
+
+  handleName(user.getLastName());
+  handleName(user.getFirstName());
+```
+]
+---
+class: middle
+.smaller[
+```Java
+  void handlePhoneNumber(User user, PhoneNumber num) {
+    if (num == null) {
+      num = user.getMainLineNumber();
+    } 
+    save(num.toString());
+  }
+
+  handlePhoneNumber(user, user.getOfficeNumber());
+  handlePhoneNumber(user, user.getMobileNumber());
+```
+]
+
+---
+class: middle, wide
+.tiny[
+```Java
+  public static <T> void handle(T item, Producer<T> p, Transformer<T,String> t, 
+      Consumer<String> c) {
+    if (item == null) {
+      item = p.produce();
+    } 
+    c.consume(t.transform(item));
+  }
+```
+]
+
+---
+class: middle, wide
+.tiny[
+```Java
+  public static void handleName(String name) {
+    handle(name, 
+        () -> "",
+        x -> x.toUpperCase(),
+        x -> show(x));
+  }
+
+  public static void handlePhoneNumber(User user, PhoneNumber number) {
+    handle(number, 
+        () -> user.getMainLineNumber(),
+        x -> x.toString(),
+        x -> save(x));
+  }
+```
+]
+
+---
+class: middle wide
+
+# Writing code that is Extensible
+
+---
+class: middle wide
+
+## Composition 
+
+Models the HAS-A relationship
+
+---
+class: middle wide
+
+## Inheritance 
+
+Models the IS-A relationship
+
+---
+class: middle wide
+
+## Polymorphism 
+_many forms_
+
+The ability of objects to take on many forms.
+
+---
+class: middle wide
+
+## Polymorphism 
+
+.tiny[
+```Java
+void say(Object obj) {
+    System.out.println("Hi, I am " + obj.toString());
+}
+
+Point p = new Point(0, 0);
+say(p);
+Circle c = new Circle(p, 4);
+say(c);
+```
+]
+---
+class: middle wide
+
+## Abstract Classes
+
+So general that it should not be instantiated.
+
+```Java
+abstract class Shape {
+    abstract public double getArea();
+}
+```
+---
+class: middle wide
+
+## In Python
+.tiny[
+```python
+from abc import ABC, abstractmethod
+class Shape:
+    @abstractmethod
+    def getArea(self):
+        pass
+ 
+class Circle(Shape):
+    def noofsides(self):
+        return ...
+```
+]
+---
+class: middle wide
+
+## Interfaces
+```Java
+interface GetAreable {
+	double getArea();
+}
+```
+---
+
+class: middle wide
+
+### A class can only inherit from one class (or abstract class).
+
+### A class can implement multiple interfaces.
+
+
+---
+
+class: middle wide
+
+## Minimizing the effect of changing implementation 
+
+When the client does not know the implementation details of a class/method, they are not dependent on the specific way it has been implemented.
+
+You can make a change to how something is computed and the client is none the wiser.
+
+---
+class: middle
+
+## Liskov Substitution Principle (LSP)
+
+If $S$ is a subclass of $T$, then an object of type $T$ can be replaced by that of type $S$ without changing the _desirable property_ of the program
+
+---
+
+class: middle
+
+## Substitutability _does not_ simply mean "has a subtype relationship". 
+
+Just because a class inherits from another class does not mean it is substitutable.
+---
+
+class: middle
+Recall our `Square` / `Rectangle` example from the recitation.
+
+Consider:
+```Java
+Rectangle r1 = new Rectangle(3,3);
+Rectangle r2 = new Square(3);
+r1.setHeight(2);
+r2.setHeight(2);
+```
+---
+class: middle,wide
+
+In `Rectangle`:
+
+```Java
+public void setHeight(double height) {
+	this.height = height;
+}
+```
+The desirable property of the method here is to change the height of rectangle. Nothing more, nothing less.
+
+---
+class: middle,wide
+
+In `Square`:
+```Java
+public void setHeight(double height) {
+	this.height = height;
+	this.length = height;
+}
+```
+We change both sides of the square. This has changed the desirable property of the method. Can't be substituted, but `Square` $<:$ `Rectangle`.
+
+---
+class: middle wide
+
+LSP is the L in SOLID. Although we do not cover SOLID in the module, it is good to know about. 
+
+---
+class: middle wide
+
+## Generics
+
+Allows us to write re-usable code and still maintain type safety
+
+---
+class: middle wide
+
+Recall our `Pair` class:
+
+.tiny[
+```Java
+class Pair {
+	private Object first;
+	private Object second;
+  
+	public Pair(Object first, Object second) {
+		this.first = first;
+		this.second = second;
+	}
+  
+	Object getFirst() {
+		return this.first;
+	}
+  
+	Object getSecond() {
+		return this.second;
+	}
+  }
+```
+]
+---
+
+class: middle wide
+
+and our `Pair<T>` class:
+
+.tiny[
+```Java
+class Pair<S,T> {
+	private S first;
+	private T second;
+  
+	public Pair(S first, T second) {
+		this.first = first;
+		this.second = second;
+	}
+
+	S getFirst() {
+		return this.first;
+	}
+  
+	T getSecond() {
+		return this.second;
+	}
+}
+```
+]
+
+---
+class: middle
+Things to remember about generics:
+- invariance
+- contravariance
+- covariance
+- PECS (producer extends, consumer super)
+- the effects of type erasure
+- Arrays and Generics are not BFFs
+
+---
+
+class: middle wide
+
+### Comments Comments Comments
+
+![figures](figures/cs2030s-lec12/motivation.jpg)
+
+---
+
+class: middle wide
+
+# The compiler is your friend!
+
+---
+class: middle wide
+Catching errors early (during compile time not during run time)
+
+Why is this preferrable? You can catch these problems before they mainfest themselves in the real world. i.e. Autopilot
+
+There are of course still errors that occur at run time.
+---
+class: middle wide
+
+## Type Safety
+
+The compiler uses checks that all of your types line up correctly and type inference to check that your code is type safe before letting you run it.
+
+---
+class: middle wide
+
+# Handling increasingly complex code
+
+---
+class: middle wide
+
+## Isolating the moving parts
+
+- Encapsulation
+- Information Hiding
+- Tell Don't Ask
+
+---
+## Encapsulation
+.tiny[
+```Java
+class Circle {
+	double x;
+	double y;
+	double r;
+  
+	double getArea() {
+	  return 3.141592653589793 * r * r;
+	}
+  }
+```
+]
+---
+class: middle wide
+
+## Information Hiding
+.tiny[
+```Java
+class Circle {
+	private double x;
+	private double y;
+	private double r;
+  
+	public double getArea() {
+	  return 3.141592653589793 * r * r;
+	}
+  }
+```
+]
+---
+class: middle wide
+
+## Tell, Don't Ask
+.tiny[
+```Java
+double cX = c.getX();
+double cY = c.getY();
+double r = c.getR();
+boolean isInCircle = ((x - cX) * (x - cX) + (y - cY) * (y - cY)) <= r * r;
+```
+]
+
+vs
+
+.tiny[
+```Java
+boolean isInCircle = c.contains(x, y);
+```
+]
+---
+class: middle wide
+
+"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live”
+
+__John Woods__
+
+---
+class: bottom
+
+.tiny[
+Version: v1.0
+
+Last Updated: Sun Apr 9 11:45:00 +08 2023
+]
+</textarea>
+
+<script src="https://remarkjs.com/downloads/remark-latest.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+<script src="javascripts/counter.js">
+</script>
+<script>
+remark.macros.scale = function (percentage) {
+	var url = this;
+	return '<img src="' + url + '" style="width: ' + percentage + '" />';
+};
+// ![:scale 50%](image.jpg)
+
+var slideshow = remark.create({
+    navigation: {
+	    scroll: false
+	},
+	ratio: '16:9',
+	highlightStyle: 'ir-black',
+  slideNumberFormat: 'CS2030S AY22/23 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
+});
+ // Setup MathJax
+  MathJax.Hub.Config({
+	  tex2jax: {
+		inlineMath: [['$', '$']],
+		// inlineMath: [['$', '$'], ['\\(', '\\)']],
+		displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+		skipTags: ['script', 'noscript', 'style', 'pre']
+	  }
+  });
+
+  MathJax.Hub.Configured();
+</script>
+</body>
+</html>
