@@ -1,9 +1,12 @@
 # Unit 36: Monad
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand what are functors and monads
-- understand the laws that a functor and monad must obey and be able to verify them
+    After this unit, students should:
+
+
+    - understand what are functors and monads
+    - understand the laws that a functor and monad must obey and be able to verify them
 
 ## Generalizing `Loggable<T>`
 
@@ -84,8 +87,8 @@ Recall that after we build our `Loggable` class, we were able to compose the fun
 
 ```Java
 Loggable.of(4)
-      .flatMap(x -> incrWithLog(x))
-      .flatMap(x -> absWithLog(x))
+        .flatMap(x -> incrWithLog(x))
+        .flatMap(x -> absWithLog(x))
 ```
 
 We should get the resulting value as `abs(incr(4))`, along with the appropriate log messages.
@@ -148,16 +151,16 @@ Suppose we have two methods `foo` and `bar`, both take in an `x` and perform a s
 ```Java
 Loggable<Integer> foo(int x) {
   return Loggable.of(x)
-      .flatMap(...)
-      .flatMap(...)
-        :
+                 .flatMap(...)
+                 .flatMap(...)
+                   :
   ;
 }
 Loggable<Integer> bar(int x) {
   return Loggable.of(x)
-      .flatMap(...)
-      .flatMap(...)
-        :
+                 .flatMap(...)
+                 .flatMap(...)
+                   :
   ;
 }
 ```

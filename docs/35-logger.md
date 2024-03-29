@@ -1,9 +1,10 @@
 # Unit 35: Loggable
 
-After this unit, students should understand:
+!!! abstract "Learning Objectives"
 
-- why we need `flatMap` operation.
+    After this unit, students should understand:
 
+    - why we need `flatMap` operation.
 
 So far in the class, we have seen very general abstractions that support the `flatMap` operation.  But, it is not clear where this operation comes from, why is it fundamental, nor why is it useful[^1]
 
@@ -120,7 +121,7 @@ There are many possible operations on `int`, and we do not want to add a method 
   }
 ```
 
-We can use it like:
+We can use it like this:
 ```Java
 Loggable.of(4).map(x -> incr(x)).map(x -> abs(x))
 ```
@@ -153,8 +154,8 @@ Loggable absWithLog(int x) {
 We can write:
 ```Java
 Loggable.of(4)
-    .flatMap(x -> incrWithLog(x))
-    .flatMap(x -> absWithLog(x))
+        .flatMap(x -> incrWithLog(x))
+        .flatMap(x -> absWithLog(x))
 ```
 
 to now compose the methods `incr` and `abs` together, along with the log messages!

@@ -1,110 +1,330 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>L10</title>
-    <link href="favicon.svg" rel="icon" type="image/png"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet">
-    <script type="text/JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/js/all.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    
-    <script>
-    var $j = jQuery.noConflict();
-    </script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.5/ace.js" integrity="sha512-wju2wMXmukx2760GKQBjykvRNeRY8LdMn6XnMPJQKRF7olV229IytqfkW9Z83lrdCVA168r4Ut4paNoRxJWoag==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <link href="css/basic.css" rel="stylesheet">
-    <link href="css/titles.css" rel="stylesheet">
-    <link href="css/layout.css" rel="stylesheet">
-    <link href="css/citation.css" rel="stylesheet">
-    <link href="css/table.css" rel="stylesheet">
-    <link href="css/font.css" rel="stylesheet">
-    <link href="css/print.css" rel="stylesheet">
-    <link href="css/animation.css" rel="stylesheet">
-    <link href="css/transition.css" rel="stylesheet">
-    <link href="css/idle.css" rel="stylesheet">
-    <link href="css/card.css" rel="stylesheet">
-    <link href="css/quiz.css" rel="stylesheet">
-    <link href="css/proof.css" rel="stylesheet">
-    <link href="css/list.css" rel="stylesheet">
-    <link href="css/iframe.css" rel="stylesheet">
-    <link href="css/sign.css" rel="stylesheet">
-    <link href="css/math.css" rel="stylesheet">
-  </head>
-  <body>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="stylesheets/cs1010.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
 
-    <script src="out/remark.js" type="text/javascript"></script>
-    <script src="js/area.js" type="text/javascript"></script>
-    <script src="js/href.js" type="text/javascript"></script>
-    <script src="js/editor.js" type="text/javascript"></script>
-    <script src="plugins/canvas/init.js" type="text/javascript"></script>
-    <script src="plugins/itools/init.js" type="text/javascript"></script>
-    <script src="plugins/tooltip/init.js" type="text/javascript"></script>
-    <script src="plugins/coder/init.js" type="text/javascript"></script>
-    <script src="plugins/toc/init.js" type="text/javascript"></script>
-    <script src="plugins/quizzes/init.js" type="text/javascript"></script>
-    <script src="plugins/unprint/init.js" type="text/javascript"></script>
-    <script src="plugins/anims/init.js" type="text/javascript"></script>
-    <script src="plugins/tbl/init.js" type="text/javascript"></script>
-    <script src="plugins/sublink/init.js" type="text/javascript"></script>
-    <script src="plugins/player/init.js" type="text/javascript"></script>
-    <script src="plugins/iframe/init.js" type="text/javascript"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/contrib/auto-render.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script type="text/javascript">
-      var renderMath = function() {
-        renderMathInElement(document.body, {delimiters: [
-            {left: "$$", right: "$$", display: true },
-            {left: "$" , right: "$" , display: false}
-        ]});
-      };
-      
-      const qna_mod     = '640558ddf5bacc61ab115b97';
-      const qna_topic   = '641fc787ecd6be36c9696ef2';
-      
-      window.$itools.push('question', 'Question', window.$itools.tool.qna(qna_mod, qna_topic, 125));
-      
-      var slideshow = remark.create({
-        base: '',
-        ratio: '16:9',
-        countIncrementalSlides: false,
-        highlightStyle: 'idle',
-        navigation: {
-          scroll: true,
-          touch: false,
-          click: false,
-        },
-        sourceUrl: 'md/L10.html',
-        tooltip: {
-          position: 'right',
-          size: 'large',
-          sep: '~@~'
-        },
-        anims: {
-          sep: '~@~'
-        },
-        canvas: {
-          layout: 'horizontal'
-        },
-        quizzes: {
-          poll: 'lc',
-          hide: true,
-          alt: true
-        }
-      }, function() {
-        renderMath();
-        initAhref();
-        initTextArea();
-        //editor("ex1_editor", {size:'12pt',mode:'ace/mode/java'});
-      });
-    </script>
-  </body>
+<!-- CHANGE TITLE -->
+<title>CS2030S AY23/24 S2 Lecture 10</title>
+<meta charset="utf-8">
+</head>
+<body>
+<textarea id="source">
+class: middle, center
+
+## CS2030<sub>s</sub>
+
+### Programming Methodology II
+---
+class: middle, center
+
+## Lecture 10
+
+### 1 April 2024
+---
+class: middle
+
+### Announcements
+
+- Labs are back on, Exercise 7 this week.
+- PE2 Information is Up. Please read it through.
+- CS2030S Feedback is now Open
+
+---
+class: middle
+
+### PE2 Scope
+
+- Up to Unit 36
+- Up to Exercise 6
+- Up to Recitation 9 / Problem Set 8
+
+---
+class: middle
+
+### What's next?
+
+- Next lectures: Async, Recap
+- Lab 8 on Async next week
+- PE2: Saturday, 13 Apr, 12 PM - 6 PM
+- Final: Thursday, 2 May, 1 PM - 3 PM
+
+---
+class: middle
+
+## Correction
+
+### Java Streams are *mutable*
+
+---
+class: middle
+
+### Function as cross-barrier state manipulator
+
+---
+class: middle
+
+```Java
+int incr(int x) {
+	return x + 1;
+}
+  
+int abs(int x) {
+	return x > 0 ? x : -x;
+}
+```
+---
+class: middle
+
+.small[
+```Java
+Pair<Integer,String> incrWithLog(int x) {
+	return Pair.of(incr(x), "incr " + x);
+}
+  
+Pair<Integer,String> absWithLog(int x) {
+	return Pair.of(abs(x), "abs " + x);
+}
+```
+]
+
+---
+class: middle
+.tiny[
+```Java
+Pair<Integer,String> incrWithLog(Pair<Integer,String> p) {
+	return Pair.of(incr(p.first), p.second + " incr " + p.first);
+}
+  
+Pair<Integer,String> absWithLog(Pair<Integer,String> p) {
+	return Pair.of(abs(p.first), p.second + " abs " + p.first);
+}
+```
+]
+---
+class: middle,center
+
+![of](img/10_monad.001.png)
+
+---
+class: middle,center
+
+![map](img/10_monad.002.png)
+
+---
+class: middle,center
+
+![flatMap](img/10_monad.003.png)
+
+---
+class: middle
+
+.smaller[
+```Java
+return Maybe.of(map.get(student))
+            .flatMap(map -> Maybe.of(map.get(module))
+            .flatMap(map -> Maybe.of(map.get(assessment)))
+            .orElse("No such entry");
+```
+]
+---
+class: middle,wide
+
+.smaller[
+```Java
+return Maybe.of(map.get(student))          .flatMap(map -> Maybe.of(map
+                   .get(module))            .flatMap(map -> Maybe.of(map
+                   .get(assessment)))      .orElse("No such entry");
+```
+]
+
+---
+class: middle,wide
+
+- `Maybe<T>`: item might be missing
+- `Lazy<T>`: item is evaluated on demand
+- `Loggable<T>`: item is logged
+- `InfiniteList<T>`: items in a lazily-evaluated list
+- `Array<T>`: items in an array
+- `Box<T>`: item in a box
+
+---
+class: middle,center
+
+### Left Identity Law
+
+`Monad.of(x).flatMap(y -> f(y))` 
+
+is equivalent to
+
+`f(x)`
+
+---
+class: middle,center
+
+![left](img/10_monad.004.png)
+
+
+---
+class: middle,center
+
+### Right Identity Law
+
+`monad.flatMap(y -> Monad.of(y))` 
+
+is equivalent to
+
+`monad`
+
+---
+class: middle,center
+
+![right](img/10_monad.005.png)
+
+---
+class: middle,center,wide
+
+### Associative Law
+
+`monad.flatMap(x -> f(x)).flatMap(x -> g(x))`
+
+is equivalent to
+
+`monad.flatMap(x -> f(x).flatMap(x -> g(x)))`
+
+---
+class: middle,center
+
+![associative](img/10_monad.006.png)
+
+---
+class: middle,center
+
+![associative](img/10_monad.007.png)
+
+---
+class: middle
+
+A monad has two methods `of` and `flatMap` and obeys the three laws above.
+
+---
+class: middle
+
+A functor has two methods `of` and `map` and obeys two laws.
+
+---
+class: middle,center
+
+`functor.map(x -> x)` 
+
+is just 
+
+`functor`
+
+---
+class: middle,center
+
+`functor.map(x -> f(x)).map(x -> g(x))` 
+
+is just 
+
+`functor.map(x -> g(f(x)))`
+
+---
+class: middle
+
+## Parallel and Concurrent Programming
+
+
+---
+class: middle
+
+# Parallel Streams
+
+Let's look at some examples...
+
+---
+class: middle
+
+# Considerations:
+
+- Interference
+- Stateful vs. Stateless
+- Side Effects
+
+---
+class: middle wide
+
+# Parallelising Reduce
+
+.small[
+```Java
+Stream.of(1,2,3,4).reduce(1, (x, y) -> x * y, 
+                                   (x, y) -> x * y);
+```
+]
+
+where the `identity` is `1`, the `combiner` is `(x, y) -> x * y`, and the `accumulator` is `(x, y) -> x * y`
+
+---
+class: middle wide
+
+# Parallelising Reduce
+
+- `combiner.apply(identity, i)` must be equal to `i`.
+
+- The `combiner` and the `accumulator` must be associative
+
+- The `combiner` and the `accumulator` must be compatible
+
+---
+class: middle wide
+
+# Performance of Parallel Streams
+
+---
+class: bottom
+
+.tiny[
+Version: v1.0
+
+Last Updated: Fri Mar 29 14:00:00 +08 2024
+]
+</textarea>
+
+<script src="https://remarkjs.com/downloads/remark-latest.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+<script src="javascripts/counter.js">
+</script>
+<script>
+remark.macros.scale = function (percentage) {
+	var url = this;
+	return '<img src="' + url + '" style="width: ' + percentage + '" />';
+};
+// ![:scale 50%](image.jpg)
+
+var slideshow = remark.create({
+    navigation: {
+	    scroll: false
+	},
+	ratio: '16:9',
+	highlightStyle: 'ir-black',
+    slideNumberFormat: 'CS2030S AY23/24 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
+});
+ // Setup MathJax
+  MathJax.Hub.Config({
+	  tex2jax: {
+		inlineMath: [['$', '$']],
+		// inlineMath: [['$', '$'], ['\\(', '\\)']],
+		displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+		skipTags: ['script', 'noscript', 'style', 'pre']
+	  }
+  });
+
+  MathJax.Hub.Configured();
+</script>
+</body>
 </html>
