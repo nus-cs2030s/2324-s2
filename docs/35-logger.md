@@ -8,7 +8,7 @@
 
 So far in the class, we have seen very general abstractions that support the `flatMap` operation.  But, it is not clear where this operation comes from, why is it fundamental, nor why is it useful[^1]
 
-In this unit, we are going to build a general abstraction step-by-step, get stuck at some point, and see how `flatMap` comes to our rescue, and hopefully, through this exercise, you will get some appreciation of `flatMap`.
+In this unit, we are going to build a general abstraction step-by-step, get stuck at some point, and see how `flatMap` comes to our rescue.  Hopefully, through this exercise, you will get some appreciation of `flatMap`.
 
 ## Function Composition
 
@@ -35,7 +35,7 @@ abs(incr(incr(5)));
 
 ## `Loggable` with `Pair`
 
-Suppose now we want to return not only an `int`, but some additional information related to the operation on `int`.  For instance, let's suppose we want to return a string describing the operation (for logging).  Java does not support returning multiple values, so let's return a `Pair`.
+Suppose now we want to return not only an `int` but some additional information related to the operation on `int`.  For instance, let's suppose we want to return a string describing the operation (for logging).  Java does not support returning multiple values, so let's return a `Pair`.
 
 ```Java
 Pair<Integer,String> incrWithLog(int x) {
@@ -47,13 +47,13 @@ Pair<Integer,String> absWithLog(int x) {
 }
 ```
 
-Now, we can't compose the methods as cleanly as before.  This is because the return value of `absWithLog` is a `Pair<Integer,String>` but `incrWithLog` accepts an `int` as its parameter.
+Now, we can't compose the methods as cleanly as before.  This is because the return value of `absWithLog` is a `Pair<Integer, String>` but `incrWithLog` accepts an `int` as its parameter.
 
 ```Java
 incrWithLog(absWithLog(-4));  // error
 ```
 
-We will need to change our methods to take in `Pair<Integer,String>` as the argument.
+We will need to change our methods to take in `Pair<Integer, String>` as the argument.
 
 ```Java
 Pair<Integer,String> incrWithLog(Pair<Integer,String> p) {
@@ -72,7 +72,7 @@ incrWithLog(absWithLog(Pair.of(-4, "")));
 
 ## `Loggable` Class
 
-Let's do it in a more OO-way, by writing a class to replace `Pair`.
+Let's do it in a more OO way, by writing a class to replace `Pair`.
 
 ```Java
 // version 0.1
@@ -103,7 +103,7 @@ class Loggable {
 }
 ```
 
-We can use the class above as:
+We can use the class above as follows:
 ```Java
 Loggable x = Loggable.of(4);
 Loggable z = x.incrWithLog().absWithLog();
@@ -130,7 +130,7 @@ We can still chain the methods together to compose them.
 
 But, `map` allows us to only apply the function to the value.  What should we do to the log messages?  Since the given lambda returns an int, it is not sufficient to tell us what message we want to add to the log.
 
-To fix this, we will need to pass in a lambda expression that takes in an integer, but return us a pair of integer and a string, in other words, return us a `Loggable`.  We call our new method `flatMap`.
+To fix this, we will need to pass in a lambda expression that takes in an integer but returns us a pair of an integer and a string.  In other words, it returns us a `Loggable`.  We call our new method `flatMap`.
 
 ```Java
   Loggable flatMap(Transformer<Integer,Loggable> transformer) {
@@ -139,7 +139,7 @@ To fix this, we will need to pass in a lambda expression that takes in an intege
   }
 ```
 
-By making `flatMap` takes in a lambda that returns a pair of integer and string, `Loggable` can rely on these lambda to tell it how to update the log messages.  Now, if we have methods like this:
+By making `flatMap` take in a lambda that returns a pair of an integer and a string, `Loggable` can rely on these lambda expressions to tell it how to update the log messages.  Now, if we have methods like this:
 
 ```Java
 Loggable incrWithLog(int x) {
@@ -190,4 +190,4 @@ class Loggable<T> {
 }
 ```
 
-[^1]: This note is inspired by [The Best Introduction to Monad](https://blog.jcoglan.com/2011/03/05/translation-from-haskell-to-javascript-of-selected-portions-of-the-best-introduction-to-monads-ive-ever-read/#). Another excellent notes on category theory is by [Bartosz Milewski](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/)
+[^1]: This note is inspired by [The Best Introduction to Monad](https://blog.jcoglan.com/2011/03/05/translation-from-haskell-to-javascript-of-selected-portions-of-the-best-introduction-to-monads-ive-ever-read/#). Another excellent note on category theory is by [Bartosz Milewski](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/)

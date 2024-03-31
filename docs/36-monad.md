@@ -15,7 +15,7 @@ We have just created a class `Loggable<T>` with a `flatMap` method that allows u
 - an `of` method to initialize the value and side information.
 - have a `flatMap` method to update the value and side information.
 
-Different classes above have different side information that is initialized, stored, and updated when we use the `of` and `flatMap` operations.  The class may also have other methods besides the two above.  Additionally, the methods may have different name.
+Different classes above have different side information that is initialized, stored, and updated when we use the `of` and `flatMap` operations.  The class may also have other methods besides the two above.  Additionally, the methods may have different names.
 
 | Container | Side-Information |
 | --------- | ---------------- |
@@ -23,7 +23,7 @@ Different classes above have different side information that is initialized, sto
 | `Lazy<T>` | The value has been evaluated or not |
 | `Loggable<T>` | The log describing the operations done on the value |
 
-These classes that we wrote follow certain patterns that make them well behaved when we create them with `of` and chain them with `flatMap`.  Such classes that are "well behaved" are examples of a programming construct called _monads_.  A monad must follow three laws, to behave well.  Let's examine the laws below.
+These classes that we wrote follow certain patterns that make them well-behaved when we create them with `of` and chain them with `flatMap`.  Such classes that are "well behaved" are examples of a programming construct called _monads_.  A monad must follow three laws, to behave well.  Let's examine the laws below.
 
 ## Identity Laws
 
@@ -38,7 +38,7 @@ public static <T> Loggable<T> of(T value) {
 
 The logger is initialized with empty side information (e.g., empty string as a log message).
 
-Now, let's consider the lambda that we wish to pass into `flatMap`  &mdash; such a lambda takes in a value, compute it, and wrap it in a "new" monad, together with the correponding side information.  For instance,
+Now, let's consider the lambda that we wish to pass into `flatMap`  &mdash; such a lambda takes in a value, computes it, and wraps it in a "new" monad, together with the corresponding side information.  For instance,
 
 ```Java
 Loggable<Integer> incrWithLog(int x) {
@@ -51,11 +51,11 @@ What should we expect when we take a fresh new monad `Loggable.of(4)` and call `
 Loggable.of(4).flatMap(x -> incrWithLog(x)) 
 ```
 
-should just result in the same value exactly as calling `incrWithLog(4)`.  So, we expect that, after calling the above, we have a `Loggable` with a value 5 and a log message of `"incr 4"`.
+should just result in the same value exactly as calling `incrWithLog(4)`.  So, we expect that, after calling the above, we have a `Loggable` with a value of 5 and a log message of `"incr 4"`.
 
 Our `of` method should not do anything extra to the value and side information &mdash; it should simply wrap the value 4 into the `Loggable`.  Our `flatMap` method should not do anything extra to the value and the side information, it should simply apply the given lambda expression to the value.
 
-Now, suppose we take an instance of `Loggable`, called `logger`, that has already been operated on one or more times with `flatMap`, and contain some side information.  What should we expect when we call:
+Now, suppose we take an instance of `Loggable`, called `logger`, that has already been operated on one or more times with `flatMap`, and contains some side information.  What should we expect when we call:
 ```Java
 logger.flatMap(x -> Loggable.of(x))
 ```
@@ -83,7 +83,7 @@ int absIncr(int x) {
 
 and call it `absIncr(x)`.  The effects should be exactly the same.  It does not matter if we group the functions together into another function before applying it to a value x.
 
-Recall that after we build our `Loggable` class, we were able to compose the functions `incr` and `abs` by chaining the `flatMap`:
+Recall that after we built our `Loggable` class, we were able to compose the functions `incr` and `abs` by chaining the `flatMap`:
 
 ```Java
 Loggable.of(4)
@@ -108,7 +108,7 @@ Loggable.of(4)
 
 The two expressions must have exactly the same effect on the value and its log message.
 
-This example leads us to the third law of monads: regardless of how we group that calls to `flatMap`, their behaviour must be the same.  This law is called the _associative law_.  More formally, it says:
+This example leads us to the third law of monads: regardless of how we group those calls to `flatMap``, their behavior must be the same.  This law is called the _associative law_.  More formally, it says:
 
 - `monad.flatMap(x -> f(x)).flatMap(x -> g(x))` must be the same as `monad.flatMap(x -> f(x).flatMap(y -> g(y)))`
 
@@ -144,9 +144,9 @@ class Loggable<T> {
 }
 ```
 
-Our `of` adds a little initialization message.  Our `flatMap` adds a little new line before appending with the given log message.  Now, our `Loggable<T>` is not that well behaved anymore.
+Our `of` adds a little initialization message.  Our `flatMap` adds a little new line before appending with the given log message.  Now, our `Loggable<T>` is not that well-behaved anymore.
 
-Suppose we have two methods `foo` and `bar`, both take in an `x` and perform a series of operations on `x`.  Both returns us a `Loggable` instance on the final value and its log.
+Suppose we have two methods `foo` and `bar`, both take in an `x` and perform a series of operations on `x`.  Both return us a `Loggable` instance on the final value and its log.
 
 ```Java
 Loggable<Integer> foo(int x) {
