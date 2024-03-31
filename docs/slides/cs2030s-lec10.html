@@ -180,8 +180,22 @@ class: middle,wide
 - `Lazy<T>`: item is evaluated on demand
 - `Loggable<T>`: item is logged
 - `InfiniteList<T>`: items in a lazily-evaluated list
-- `Array<T>`: items in an array
+- `Seq<T>`: items in an array
 - `Box<T>`: item in a box
+
+---
+class: middle,wide
+
+### Monads
+
+- `Maybe<T>`: item might be missing
+- `Lazy<T>`: item is evaluated on demand
+- `Loggable<T>`: item is logged
+
+---
+class: middle
+
+A monad has two methods `of` and `flatMap` and obeys the three laws on the next slides.
 
 ---
 class: middle,center
@@ -236,11 +250,6 @@ class: middle,center
 class: middle,center
 
 ![associative](img/10_monad.007.png)
-
----
-class: middle
-
-A monad has two methods `of` and `flatMap` and obeys the three laws above.
 
 ---
 class: middle
