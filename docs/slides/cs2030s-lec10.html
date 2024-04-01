@@ -29,8 +29,10 @@ class: middle
 ### Announcements
 
 - Labs are back on, Exercise 7 this week.
+- PE1 grading is out!
 - PE2 Information is Up. Please read it through.
-- CS2030S Feedback is now Open
+- Practice PE2 questions will be up later today.
+- CS2030S Feedback is now Open: https://blue.nus.edu.sg/blue/
 
 ---
 class: middle
@@ -180,8 +182,22 @@ class: middle,wide
 - `Lazy<T>`: item is evaluated on demand
 - `Loggable<T>`: item is logged
 - `InfiniteList<T>`: items in a lazily-evaluated list
-- `Array<T>`: items in an array
+- `Seq<T>`: items in an array
 - `Box<T>`: item in a box
+
+---
+class: middle,wide
+
+### Monads
+
+- `Maybe<T>`: item might be missing
+- `Lazy<T>`: item is evaluated on demand
+- `Loggable<T>`: item is logged
+
+---
+class: middle
+
+A monad has two methods `of` and `flatMap` and obeys the three laws on the next slides.
 
 ---
 class: middle,center
@@ -240,11 +256,6 @@ class: middle,center
 ---
 class: middle
 
-A monad has two methods `of` and `flatMap` and obeys the three laws above.
-
----
-class: middle
-
 A functor has two methods `of` and `map` and obeys two laws.
 
 ---
@@ -281,11 +292,55 @@ Let's look at some examples...
 ---
 class: middle
 
-# Considerations:
+## Considerations:
 
 - Interference
 - Stateful vs. Stateless
 - Side Effects
+
+---
+class: middle
+
+## Interference
+
+.tiny[
+```Java
+List<String> list = new ArrayList<>(List.of("Luke", "Leia", "Han"));
+	list.stream()
+		.peek(name -> {
+			 if (name.equals("Han")) {
+			   list.add("Chewie"); // they belong together
+			 }
+		  })
+		.forEach(i -> {});
+```]
+
+---
+class: middle
+
+## Stateful vs. Stateless
+
+.small[
+```Java
+Stream.generate(scanner::nextInt)
+    .map(i -> i + scanner.nextInt())
+    .forEach(System.out::println)
+```
+]
+---
+class: middle
+
+## Side Effects
+
+.tiny[
+```Java
+List<Integer> list = new ArrayList<>(
+    Arrays.asList(1,3,5,7,9,11,13,15,17,19));
+List<Integer> result = new ArrayList<>();
+list.parallelStream()
+    .filter(x -> isPrime(x))
+    .forEach(x -> result.add(x));
+```]
 
 ---
 class: middle wide
