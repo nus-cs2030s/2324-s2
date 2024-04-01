@@ -28,10 +28,10 @@ class: middle
 
 ### Announcements
 
+- PE1 grading is out.
 - Labs are back on, Exercise 7 this week.
-- PE1 grading is out!
 - PE2 Information is Up. Please read it through.
-- Practice PE2 questions will be up later today.
+- Practice PE2 questions are up.
 - CS2030S Feedback is now Open: https://blue.nus.edu.sg/blue/
 
 ---
@@ -41,7 +41,8 @@ class: middle
 
 - Up to Unit 36
 - Up to Exercise 6
-- Up to Recitation 9 / Problem Set 8
+- Up to Problem Set 8
+- Up to Lecture 10
 
 ---
 class: middle
@@ -49,7 +50,8 @@ class: middle
 ### What's next?
 
 - Next lectures: Async, Recap
-- Lab 8 on Async next week
+- Three more exercises
+- Two more problem sets
 - PE2: Saturday, 13 Apr, 12 PM - 6 PM
 - Final: Thursday, 2 May, 1 PM - 3 PM
 
@@ -65,8 +67,8 @@ class: middle,left
 
 ### Quick Recap
 
-- ImmutableList
-- Streams
+- InfiniteList (Immutable)
+- Java Streams (Mutable)
 
 ---
 class: middle,left
@@ -285,14 +287,14 @@ class: middle
 ---
 class: middle
 
-# Parallel Streams
+### Parallel Streams
 
 Let's look at some examples...
 
 ---
 class: middle
 
-## Considerations:
+### Considerations:
 
 - Interference
 - Stateful vs. Stateless
@@ -301,7 +303,7 @@ class: middle
 ---
 class: middle
 
-## Interference
+### Interference
 
 .tiny[
 ```Java
@@ -318,7 +320,7 @@ List<String> list = new ArrayList<>(List.of("Luke", "Leia", "Han"));
 ---
 class: middle
 
-## Stateful vs. Stateless
+### Stateful vs. Stateless
 
 .small[
 ```Java
@@ -330,7 +332,7 @@ Stream.generate(scanner::nextInt)
 ---
 class: middle
 
-## Side Effects
+### Side Effects
 
 .tiny[
 ```Java
@@ -345,7 +347,7 @@ list.parallelStream()
 ---
 class: middle wide
 
-# Parallelising Reduce
+### Parallelising Reduce
 
 .small[
 ```Java
@@ -359,7 +361,7 @@ where the `identity` is `1`, the `combiner` is `(x, y) -> x * y`, and the `accum
 ---
 class: middle wide
 
-# Parallelising Reduce
+### Parallelising Reduce
 
 - `combiner.apply(identity, i)` must be equal to `i`.
 
