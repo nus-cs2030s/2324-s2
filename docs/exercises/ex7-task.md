@@ -20,17 +20,6 @@ The following functional interfaces are already provided:
 
 Copy your implementation of `cs2030s.fp.Maybe` and `cs2030s.fp.Lazy` over before you start Exercise 7.  A skeleton for `InfiniteList<T>` is provided.
 
-You may add a new method `consumeWith` to `Maybe<T>` to help with solving this lab.
-```Java
-  /**
-   * If the value within this Maybe is missing, do nothing. 
-   * Otherwise, consume the value with the given consumer.
-   *
-   * @param consumer The consumer to consume the value 
-   */
-  public abstract void consumeWith(Consumer<? super T> consumer);
-```
-
 The files `Test1.java`, `Test2.java`, etc., as well as `CS2030STest.java`, are provided for testing.  You can edit them to add your test cases, but they will not be submitted.
 
 ## InfiniteList

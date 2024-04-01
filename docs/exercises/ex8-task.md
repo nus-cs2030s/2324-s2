@@ -21,19 +21,6 @@ Take note of the following constraints:
 
 Some conditional statements are now necessary.  In a situation where you can internalize the conditional statement in `Maybe<T>` or `Lazy<T>`, you should still do so.
 
-## Extending `Maybe<T>`
-
-You may add a new method `consumeWith` to `Maybe<T>` to help with solving this lab.
-```Java
-  /**
-   * If the value within this Maybe is missing, do nothing. 
-   * Otherwise, consume the value with the given consumer.
-   *
-   * @param consumer The consumer to consume the value 
-   */
-  public abstract void consumeWith(Consumer<? super T> consumer);
-```
-
 The files `Test1.java`, `Test2.java`, etc., as well as `CS2030STest.java`, are provided for testing.  You can edit them to add your test cases, but they will not be submitted.
 
 ## `sentinel` and `isSentinel`
