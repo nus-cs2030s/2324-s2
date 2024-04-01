@@ -67,6 +67,8 @@ nav:
     - Exercise 4: 'exercises/ex4-task.md'
     - Exercise 5: 'exercises/ex5-task.md'
     - Exercise 6: 'exercises/ex6-task.md'
+    - Exercise 7: 'exercises/ex7-task.md'
+    - Exercise 8: 'exercises/ex8-task.md'
 
   #      - JavaDoc : 'javadoc.md'
 theme: 
