@@ -1,110 +1,204 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>L11</title>
-    <link href="favicon.svg" rel="icon" type="image/png"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet">
-    <script type="text/JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/js/all.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    
-    <script>
-    var $j = jQuery.noConflict();
-    </script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.5/ace.js" integrity="sha512-wju2wMXmukx2760GKQBjykvRNeRY8LdMn6XnMPJQKRF7olV229IytqfkW9Z83lrdCVA168r4Ut4paNoRxJWoag==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <link href="css/basic.css" rel="stylesheet">
-    <link href="css/titles.css" rel="stylesheet">
-    <link href="css/layout.css" rel="stylesheet">
-    <link href="css/citation.css" rel="stylesheet">
-    <link href="css/table.css" rel="stylesheet">
-    <link href="css/font.css" rel="stylesheet">
-    <link href="css/print.css" rel="stylesheet">
-    <link href="css/animation.css" rel="stylesheet">
-    <link href="css/transition.css" rel="stylesheet">
-    <link href="css/idle.css" rel="stylesheet">
-    <link href="css/card.css" rel="stylesheet">
-    <link href="css/quiz.css" rel="stylesheet">
-    <link href="css/proof.css" rel="stylesheet">
-    <link href="css/list.css" rel="stylesheet">
-    <link href="css/iframe.css" rel="stylesheet">
-    <link href="css/sign.css" rel="stylesheet">
-    <link href="css/math.css" rel="stylesheet">
-  </head>
-  <body>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="stylesheets/cs1010.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
 
-    <script src="out/remark.js" type="text/javascript"></script>
-    <script src="js/area.js" type="text/javascript"></script>
-    <script src="js/href.js" type="text/javascript"></script>
-    <script src="js/editor.js" type="text/javascript"></script>
-    <script src="plugins/canvas/init.js" type="text/javascript"></script>
-    <script src="plugins/itools/init.js" type="text/javascript"></script>
-    <script src="plugins/tooltip/init.js" type="text/javascript"></script>
-    <script src="plugins/coder/init.js" type="text/javascript"></script>
-    <script src="plugins/toc/init.js" type="text/javascript"></script>
-    <script src="plugins/quizzes/init.js" type="text/javascript"></script>
-    <script src="plugins/unprint/init.js" type="text/javascript"></script>
-    <script src="plugins/anims/init.js" type="text/javascript"></script>
-    <script src="plugins/tbl/init.js" type="text/javascript"></script>
-    <script src="plugins/sublink/init.js" type="text/javascript"></script>
-    <script src="plugins/player/init.js" type="text/javascript"></script>
-    <script src="plugins/iframe/init.js" type="text/javascript"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/contrib/auto-render.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script type="text/javascript">
-      var renderMath = function() {
-        renderMathInElement(document.body, {delimiters: [
-            {left: "$$", right: "$$", display: true },
-            {left: "$" , right: "$" , display: false}
-        ]});
-      };
-      
-      const qna_mod     = '640558ddf5bacc61ab115b97';
-      const qna_topic   = '642a4424ebc0b5e9b58f1ecb';
-      
-      window.$itools.push('question', 'Question', window.$itools.tool.qna(qna_mod, qna_topic, 125));
-      
-      var slideshow = remark.create({
-        base: '',
-        ratio: '16:9',
-        countIncrementalSlides: false,
-        highlightStyle: 'idle',
-        navigation: {
-          scroll: true,
-          touch: false,
-          click: false,
-        },
-        sourceUrl: 'md/L11.html',
-        tooltip: {
-          position: 'right',
-          size: 'large',
-          sep: '~@~'
-        },
-        anims: {
-          sep: '~@~'
-        },
-        canvas: {
-          layout: 'horizontal'
-        },
-        quizzes: {
-          poll: 'lc',
-          hide: true,
-          alt: true
-        }
-      }, function() {
-        renderMath();
-        //editor("ex1_editor", {size:'12pt',mode:'ace/mode/java'});
-        initAhref();
-        initTextArea();
-      });
-    </script>
-  </body>
+<!-- CHANGE TITLE -->
+<title>CS2030S AY23/24 S2 Lecture 11</title>
+<meta charset="utf-8">
+</head>
+<body>
+<textarea id="source">
+class: middle, center
+
+## CS2030<sub>s</sub>
+
+### Programming Methodology II
+---
+class: middle, center
+
+## Lecture 11
+
+### 8 April 2024
+---
+class: middle
+
+### Announcements
+
+
+---
+class: middle, center
+
+## Threads
+
+---
+class: middle, center
+
+## `Thread`
+
+---
+class: middle, center
+
+## Synchronous Programming
+
+---
+class: middle, center
+
+## Asynchronous Programming
+
+---
+class: middle
+
+### Drawback of Programming with `Thread` Directly
+
+- Overhead
+- Exception handling?
+- Not easy to pass information around
+
+---
+class: middle wide
+
+.tiny[
+```Java
+int foo(int x) {
+    int a = taskA(x);
+    int b = taskB(a);
+    int c = taskC(a);
+    int d = taskD(a);
+    int e = taskE(b, c)
+    return e;
+}
+```
+]
+
+---
+class: middle wide
+
+.tiny[
+```Java
+Maybe<Integer> foo(int x) {
+    Maybe<Integer> a = Maybe.of(taskA(x));
+    Maybe<Integer> b = a.flatMap(i -> taskB(i));
+    Maybe<Integer> c = a.flatMap(i -> taskC(i));
+    Maybe<Integer> d = a.flatMap(i -> taskD(i));
+    Maybe<Integer> e = b.combine(c, (i, j) -> taskE(i, j));
+    return e;
+}
+```
+]
+
+---
+class: middle wide
+
+.tiny[
+```Java
+Lazy<Integer> foo(int x) {
+    Lazy<Integer> a = Lazy.of(taskA(x));
+    Lazy<Integer> b = a.flatMap(i -> taskB(i));
+    Lazy<Integer> c = a.flatMap(i -> taskC(i));
+    Lazy<Integer> d = a.flatMap(i -> taskD(i));
+    Lazy<Integer> e = b.combine(c, (i, j) -> taskE(i, j));
+    return e;
+}
+```
+]
+---
+class: middle, wide
+
+.tiny[
+```Java
+CompletableFuture<Integer> foo(int x) {
+    CompletableFuture<Integer> a = CompletableFuture.completedFuture(taskA(x));
+    CompletableFuture<Integer> b = a.thenComposeAsync(i -> taskB(i));
+    CompletableFuture<Integer> c = a.thenComposeAsync(i -> taskC(i));
+    CompletableFuture<Integer> d = a.thenComposeAsync(i -> taskD(i));
+    CompletableFuture<Integer> e = b.thenCombineAsync(c, (i, j) -> taskE(i, j));
+    return e;
+}
+```
+]
+
+---
+
+# Fork and Join
+
+
+A parallel divide-and-conquer model of computation.
+
+`fork()` (Divide a problem) then `join()` (Combine the results).
+
+---
+class: middle wide
+
+# ForkJoinPool
+
+A thread pool for using fork/join.
+
+---
+class: middle wide
+
+# Order matters. 
+
+For our Summer class:
+.tiny[
+```Java
+left.fork();
+right.fork();
+return right.join() + left.join();
+```
+]
+is more efficient than:
+.tiny[
+```Java
+left.fork();
+right.fork();
+return left.join() + right.join();
+```
+]
+---
+class: bottom
+
+.tiny[
+Version: v1.0
+
+Last Updated: Sat Apr 6 18:00:00 +08 2024
+]
+</textarea>
+
+<script src="https://remarkjs.com/downloads/remark-latest.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+<script src="javascripts/counter.js">
+</script>
+<script>
+remark.macros.scale = function (percentage) {
+	var url = this;
+	return '<img src="' + url + '" style="width: ' + percentage + '" />';
+};
+// ![:scale 50%](image.jpg)
+
+var slideshow = remark.create({
+    navigation: {
+	    scroll: false
+	},
+	ratio: '16:9',
+	highlightStyle: 'ir-black',
+    slideNumberFormat: 'CS2030S AY23/24 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
+});
+ // Setup MathJax
+  MathJax.Hub.Config({
+	  tex2jax: {
+		inlineMath: [['$', '$']],
+		// inlineMath: [['$', '$'], ['\\(', '\\)']],
+		displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+		skipTags: ['script', 'noscript', 'style', 'pre']
+	  }
+  });
+
+  MathJax.Hub.Configured();
+</script>
+</body>
 </html>
