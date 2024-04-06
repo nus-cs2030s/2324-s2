@@ -1,9 +1,11 @@
 # Unit 38: Threads
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand the behaviour of thread
-- be able to create a simple thread
+    Students should
+
+    - understand the behaviour of thread
+    - be able to create a simple thread
 
 ## Synchronous Programming
 
@@ -17,7 +19,7 @@ What if we want our program to do something while we wait for the method to retu
 
 ## Threads
 
-One way to achieve this is to use _threads_.  A thread is a single flow of execution in a program.  Since the beginning of this module, we have been writing single-thread programs, except for parallel streams in Unit 37.
+One way to achieve this is to use _threads_.  A thread is a single flow of execution in a program.  Since the beginning of this module, we have been writing single-thread programs, except for parallel streams in [Unit 37](37-parallel.md).
 
 Java provides a class called [`java.lang.Thread`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Thread.html) that we can use to encapsulate a function to run in a separate thread.  The following example how we can create and run two threads:
 
@@ -91,7 +93,7 @@ ForkJoinPool.commonPool-worker-3
 
 being printed.  This shows four concurrent threads running to reduce the stream of 1, 2, 3, 4 (including `main`).
 
-If you remove the `parallel()` call, then only `main` is printed, showing the reduction being done sequentially in a single thread.
+If you remove the `parallel()` call:
 
 ```Java
 Stream.of(1, 2, 3, 4)
@@ -99,6 +101,15 @@ Stream.of(1, 2, 3, 4)
         System.out.println(Thread.currentThread().getName()); 
         return x + y; 
       });
+```
+
+then only `main` is printed, showing the reduction being done sequentially in a single thread.
+
+```
+main
+main
+main
+main
 ```
 
 ### Sleep
@@ -135,4 +146,3 @@ Two more things to note:
 
 - The example above shows how we use `isAlive()` to periodically check if another thread is still running.
 - The program exits only after all the threads created run to their completion.
-
