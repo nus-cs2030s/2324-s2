@@ -1,9 +1,11 @@
 # Unit 39: Asynchronous Programming
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand the limitation of thread
-- understand and be able to use `CompletableFuture`
+    Students should
+
+    - understand the limitation of thread
+    - understand and be able to use `CompletableFuture`
 
 ## Limitations of `Thread`
 

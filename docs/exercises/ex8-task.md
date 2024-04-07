@@ -62,7 +62,7 @@ $.. ==> true
 
 ## `limit`, `toList`
 
-Now that we have a way to terminate an infinite list into a finite list, write a `limit` method that takes in a value `n` and truncates the `InfiniteList`<T>` to a finite list with at most `n` elements.
+Now that we have a way to terminate an infinite list into a finite list, write a `limit` method that takes in a value `n` and truncates the `InfiniteList<T>` to a finite list with at most `n` elements.
 Your `limit` method must not count elements that are filtered out by `filter`, if any.
 
 Now, provide a terminal `toList` method that collects the elements in the `InfiniteList<T>` into a `java.util.List`.  You may refer to `java.util.ArrayList` for methods that might be useful for implementing this method.

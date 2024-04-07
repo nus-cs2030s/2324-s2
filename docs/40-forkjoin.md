@@ -1,11 +1,13 @@
 # Unit 40: Fork and Join
 
-After this unit, students should:
+!!! abstract "Learning Objectives"
 
-- understand the task deque and work stealing
-- understand the behaviour of `fork` and `join` (and `compute`)
-- be able to order `fork` and `join` efficiently
-- be able to use `RecursiveTask`
+    Students should
+
+    - understand the task deque and work stealing
+    - understand the behaviour of `fork` and `join` (and `compute`)
+    - be able to order `fork` and `join` efficiently
+    - be able to use `RecursiveTask`
 
 ## Thread Pool
 
