@@ -4,7 +4,7 @@
 
     Students should
 
-    - understand the behaviour of thread
+    - understand the behaviour of threads
     - be able to create a simple thread
 
 ## Synchronous Programming
@@ -21,7 +21,7 @@ What if we want our program to do something while we wait for the method to retu
 
 One way to achieve this is to use _threads_.  A thread is a single flow of execution in a program.  Since the beginning of this module, we have been writing single-thread programs, except for parallel streams in [Unit 37](37-parallel.md).
 
-Java provides a class called [`java.lang.Thread`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Thread.html) that we can use to encapsulate a function to run in a separate thread.  The following example how we can create and run two threads:
+Java provides a class called [`java.lang.Thread`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Thread.html) that we can use to encapsulate a function to run in a separate thread.  The following example show how we can create and run two threads:
 
 ```Java
 new Thread(() -> {
@@ -39,11 +39,11 @@ new Thread(() -> {
 
 The `new Thread(..)` is our usual constructor to create a `Thread` instance.  The constructor takes a `Runnable` instance as an argument.  A `Runnable` is a functional interface with a method `run()` that takes in no parameter and returns `void`.
 
-With each `Thread` instance, we run `start()`, which causes the given lambda expression to run.  Note that `start()` returns immediately.  It _does not return_ only after the given lambda expression completes its execution.  This property differs from what we are used to, where a method blocks until the task given completes.   This is known as _asynchronous_ execution.
+With each `Thread` instance, we run `start()`, which causes the given lambda expression to run.  Note that `start()` returns immediately.  It _does not return_ only after the given lambda expression completes its execution.  This property differs from what we are used to, where a method blocks until the task given is completed.   This is known as _asynchronous_ execution.
 
 The two threads above now run in two separate sequences of execution.  The operating system has a scheduler that decides which threads to run when, and on which core (or which processor).  You might see different interleaving of executions every time you run the same program.
 
-Java provides more than one way to create a thread.  The `Thread` class also contains methods that we can use to query and control, in a finer grain manner, how the thread could be executed.
+Java provides more than one way to create a thread.  The `Thread` class also contains methods that we can use to query and control, in a finer-grain manner, how the thread could be executed.
 
 ### Names
 
@@ -140,7 +140,7 @@ while (findPrime.isAlive()) {
 } 
 ```
 
-In our examples, we often use `Thread.sleep()` in our methods to pretend that we are working hard on expensive computation to keep our examples simple.
+In our examples, we often use `Thread.sleep()` in our methods to pretend that we are working hard on expensive computations to keep our examples simple.
 
 Two more things to note:
 

@@ -40,9 +40,9 @@ We assume that `Queue<T>` can be safely modified concurrently (i.e., it is threa
 
 Java implements a thread pool called `ForkJoinPool` that is fine-tuned for the fork-join model of recursive parallel execution.  
 
-The Fork-join model is essentially a parallel divide-and-conquer model of computation.  The general idea for the fork-join model is to solve a problem by breaking up the problem into identical problems but with smaller size (_fork_), then solve the smaller version of the problem recursively, then combine the results (_join_).   This repeats recursively until the problem size is small enough &mdash; we have reached the base case and so we just solve the problem sequentially without further parallelization.
+The Fork-join model is essentially a parallel divide-and-conquer model of computation.  The general idea for the fork-join model is to solve a problem by breaking up the problem into identical problems but with a smaller size (_fork_), then solve the smaller version of the problem recursively, and then combine the results (_join_).   This repeats recursively until the problem size is small enough &mdash; we have reached the base case and so we just solve the problem sequentially without further parallelization.
 
-In Java, we can create a task that we can fork and join as an instance of abstract class `RecursiveTask<T>`.  `RecursiveTask<T>` supports the methods `fork()`, which submits a smaller version of the task for execution, and `join()` (which waits for the smaller tasks to complete and return).   `RecursiveTask<T>` has an abstract method `compute()`, which we, as the client, have to define to specify what computation we want to compute.
+In Java, we can create a task that we can fork and join as an instance of the abstract class `RecursiveTask<T>`.  `RecursiveTask<T>` supports the methods `fork()`, which submits a smaller version of the task for execution, and `join()` (which waits for the smaller tasks to complete and return).   `RecursiveTask<T>` has an abstract method `compute()`, which we, as the client, have to define to specify what computation we want to compute.
 
 Here is a simple `RecursiveTask<T>` that recursively sums up the content of an array:
 ```Java
@@ -84,7 +84,7 @@ Summer task = new Summer(0, array.length, array);
 int sum = task.compute();
 ```
 
-The line `task.compute()` above is just like another method invocation.  It causes the method `compute()` to be invoked, and if the array is big enough, two new `Summer` instances, `left` and `right`, to be created.  `left`.  We then call `left.fork()`, which adds the tasks to a thread pool so that one of the threads can call its `compute()` method.  We subsequently call `right.compute()` (which is a normal method call).  Finally, we call `left.join()`, which blocks until the computation of the recursive sum is completed and returned.  We add the result from `left` and `right` together and return the sum.
+The line `task.compute()` above is just like another method invocation.  It causes the method `compute()` to be invoked, and if the array is big enough, two new `Summer` instances, `left` and `right`, are created.  `left`.  We then call `left.fork()`, which adds the tasks to a thread pool so that one of the threads can call its `compute()` method.  We subsequently call `right.compute()` (which is a normal method call).  Finally, we call `left.join()`, which blocks until the computation of the recursive sum is completed and returned.  We add the result from `left` and `right` together and return the sum.
 
 There are other ways we can combine and order the execution of `fork()`, `compute()`, and `join()`.  Some are better than others.  We will explore more in the exercises.
 
@@ -95,9 +95,9 @@ Let's now explore the idea behind how Java manages the thread pool with fork-joi
 - Each thread has a deque[^1] of tasks.  
 - When a thread is idle, it checks its deque of tasks.  If the deque is not empty, it picks up a task at the head of the deque to execute (e.g., invoke its `compute()` method).  Otherwise, if the deque is empty, it picks up a task from the _tail_ of the deque of another thread to run.  The latter is a mechanism called _work stealing_.
 - When `fork()` is called, the caller adds itself to the _head_ of the deque of the executing thread.  This is done so that the most recently forked task gets executed next, similar to how normal recursive calls.
-- When `join()` is called, several cases might happen.  If the subtask to be joined hasn't been executed, its `compute()` method is called and the subtask is executed.  If the subtask to be joined has been completed (some other thread has stolen this and completed it), then the result is read, and `join()` returns.  If the subtask to be joined has been stolen and is being executed by another thread, then the current thread finds some other tasks to work on either in its local deque or steal another task from another deque.
+- When `join()` is called, several cases might happen.  If the subtask to be joined hasn't been executed, its `compute()` method is called and the subtask is executed.  If the subtask to be joined has been completed (some other thread has stolen this and completed it), then the result is read, and `join()` returns.  If the subtask to be joined has been stolen and is being executed by another thread, then the current thread either finds some other tasks to work on from its local deque, or steals another task from another deque.
 
-[^1]: A deque is a double-ended queue.  It behaves like both stack and queue.
+[^1]: A deque is a double-ended queue.  It behaves like both a stack and a queue.
 
 The beauty of the mechanism here is that the threads always look for something to do and they cooperate to get as much work done as possible.
 

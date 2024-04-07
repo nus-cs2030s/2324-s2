@@ -82,7 +82,7 @@ We can then run `foo(x).get()` to wait for all the concurrent tasks to complete 
 
 ## The `CompletableFuture` Monad
 
-Let's now examine the `CompletableFuture` monad in more detail.  A key property of `CompletableFuture` is whether the value it promises is ready &mdash; i.e., the tasks that it encapsulates has _completed_ or not.
+Let's now examine the `CompletableFuture` monad in more detail.  A key property of `CompletableFuture` is whether the value it promises is ready &mdash; i.e., the tasks that it encapsulates have been _completed_ or not.
 
 ### Creating a `CompletableFuture`
 
@@ -104,13 +104,13 @@ The usefulness of `CompletableFuture` comes from the ability to chain them up an
 
 The methods above run the given lambda expression in the same thread as the caller.  There is also an asynchronous version (`thenApplyAsync`, `thenComposeAsync`, `thenCombineAsync`), which may cause the given lambda expression to run in a different thread (thus more concurrency).
 
-`CompletableFuture` also has several methods that takes in `Runnable`.  These methods have no analogy in our lab but it is similar to `runAsync` above.
+`CompletableFuture` also has several methods that take in `Runnable``.  These methods have no analogy in our lab but it is similar to `runAsync` above.
 
 - `thenRun` takes in a `Runnable`.  It executes the `Runnable` after the current stage is completed.
-- `runAfterBoth` takes in another `CompletableFuture`[^1] and a `Runnable`.  It executes the `Runnable` after the current stage completes and the input `CompletableFuture` are completed.
-- `runAfterEither` takes in another `CompletableFuture`[^1] and a `Runnable`.  It executes the `Runnable` after the current stage completes or the input `CompletableFuture` are completed.
+- `runAfterBoth` takes in another `CompletableFuture`[^1] and a `Runnable`.  It executes the `Runnable` after the current stage completes and the input `CompletableFuture` is completed.
+- `runAfterEither` takes in another `CompletableFuture`[^1] and a `Runnable`.  It executes the `Runnable` after the current stage completes or the input `CompletableFuture` is completed.
 
-All of the methods that takes in `Runnable` return `CompletableFuture<Void>`.  Similarly, they also have the asynchronous version (`thenRunAsync`, `runAfterBothAsync`, `runAfterEitherAsync`).
+All of the methods that take in `Runnable`` return `CompletableFuture<Void>`.  Similarly, they also have the asynchronous version (`thenRunAsync`, `runAfterBothAsync`, `runAfterEitherAsync`).
 
 [^1]: Actually, this is a `CompletionStage` which is a supertype of `CompletableFuture`.
 
@@ -146,12 +146,12 @@ CompletableFuture<Integer> jth = CompletableFuture.supplyAsync(() -> findIthPrim
 
 These calls would launch two concurrent threads to compute the i-th and the j-th primes.   The method calls `supplyAsync` returns immediately without waiting for `findIthPrime` to complete.
 
-Next, we can say, that, when `ith` and `jth` complete, take the value computed by them, and take the difference.  We can use the `thenCombine` method:
+Next, we can say, that, when `ith` and `jth` are complete, take the value computed by them, and take the difference.  We can use the `thenCombine` method:
 ```Java
 CompletableFuture<Integer> diff = ith.thenCombine(jth, (x, y) -> x - y);
 ```
 
-This statement creates another `CompletableFuture` which runs asynchronously that will compute the difference between the two prime numbers.  At this point, we can move on to run other tasks, or if we just want to wait until the result is ready, we call
+This statement creates another `CompletableFuture` that runs asynchronously and computes the difference between the two prime numbers.  At this point, we can move on to run other tasks, or if we just want to wait until the result is ready, we call
 ```Java
 diff.join();
 ```
@@ -166,7 +166,7 @@ One of the advantages of using `CompletableFuture<T>` instead of `Thread` to han
 
 Suppose we have a computation inside a `CompletableFuture<T>` that might throw an exception.  Since the computation is asynchronous and could run in a different thread, the question of which thread should catch and handle the exception arises.  `CompletableFuture<T>` keeps things simpler by storing the exception and passing it down the chain of calls, until `join()` is called.  `join()` might throw `CompletionException` and whoever calls `join()` will be responsible for handling this exception.  The `CompletionException` contains information on the original exception.
 
-For instance, the code below would throw a `CompletionException` with a `NullPointerException` contains within it.
+For instance, the code below would throw a `CompletionException` with a `NullPointerException` contained within it.
 
 ```Java
 CompletableFuture.<Integer>supplyAsync(() -> null)
@@ -174,7 +174,7 @@ CompletableFuture.<Integer>supplyAsync(() -> null)
                  .join();
 ```
 
-Suppose we want to continue chaining our tasks despite exceptions.  We can use the `handle` method, to handle the exception.  The `handle` method takes in a `BiFunction` (similar to `cs2030s.fp.Combiner`).  The first parameter to the `BiFunction` is the value, the second is the exception, the third is the return value.
+Suppose we want to continue chaining our tasks despite exceptions.  We can use the `handle` method, to handle the exception.  The `handle` method takes in a `BiFunction` (similar to `cs2030s.fp.Combiner`).  The first parameter of the `BiFunction` is the value, the second is the exception, and the third is the return value.
 
 Only one of the first two parameters is not `null`.  If the value is `null`, this means that an exception has been thrown.  Otherwise, the exception is `null`[^3].    
 
@@ -185,4 +185,4 @@ cf.thenApply(x -> x + 1)
   .join();
 ```
 
-[^3]: This is another instance where Java uses `null` to indicates a missing value.  We can't use `null` as a legit value due to this flawed design.
+[^3]: This is another instance where Java uses `null` to indicate a missing value.  We can't use `null` as a legitimate value due to this flawed design.
