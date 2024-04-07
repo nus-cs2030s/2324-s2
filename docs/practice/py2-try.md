@@ -12,7 +12,8 @@
 ## Background
 
 In Java, we handle exceptions with `try` and `catch`.  For example,
-```
+
+```Java
 Circle c;
 try {
   c = new Circle(point, radius);
@@ -22,13 +23,15 @@ try {
 ```
 
 When we code with the functional paradigm, however, we prefer to chain our operations and keep our functions pure.  A more functional way to write this block of code is to use the `Try` monad:
-```
+
+```Java
 Try<Circle> c = Try.of(() -> new Circle(point, radius))
 ```
 
 The `Try` monad is a way to encapsulate the result of the computation if it is successful, or the reason for failure if the computational failed.  We refer to these two possibilities as success and failure respectively.  In the example above, the `Try<Circle>` instance would contain the new circle if it is a success, or an `IllegalArgumentException` if it fails.
 
 The reason for failure can be encapsulated as an instance of the `Throwable` class.  This class is defined in the `java.lang` package and it is the parent class of `Exception` and `Error`.  A `Throwable` instance can be thrown and caught.  Note that:
+
  - `cs2030s.fp.Producer::produce` and `cs2030s.fp.Runnable::run` now throw a `Throwable`.
  - You don't need to call any methods or access any fields related to `Throwable` beyond catching, throwing, and converting to string.
 
@@ -235,7 +238,8 @@ The methods `map` and `flatMap` apply the given lambda to the value contained wi
 - `onFailure`: Return this instance if the calling `Try` instance is a success.  Consume the `Throwable` with a `Consumer` if it is a failure, and then either (i) return this instance if the consumer runs successfully, or (ii) return a failure instance containing the error/exception when consuming the `Throwable`.   
 
 For example, we can use `onFailure` to replace this snippet 
-```
+
+```Java
 Circle c;
 try {
   c = new Circle(point, radius);
@@ -250,13 +254,13 @@ Try<Circle> c = Try.of(() -> new Circle(point, radius))
                    .onFailure(System.err::println);
 ```
 
-
 We can also recover from the failure, by turning the `Try` into a success.  Write the following method:
 
 - `recover`: Return this instance if it is a success.  If this `Try` instance is a failure.  Apply the given `Transformer` to the `Throwable`, if the transformation is a success, return the resulting `Try`, otherwise, return a failure containing the error/exception when transforming the `Throwable`.
 
 For example, we can use `recover` to replace this snippet 
-```
+
+```Java
 Circle c;
 try {
   c = new Circle(point, radius);
@@ -266,13 +270,13 @@ try {
 ```
 
 with:
-```
+```Java
 Try<Circle> c = Try.of(() -> new Circle(point, radius))
                    .recover(e -> new Circle(point, 1));
 ```
 
 Study carefully how `onFailure` and `recover` can be used in the examples below:
-```
+```Java
 jshell> import cs2030s.fp.Consumer
 jshell> import cs2030s.fp.Producer
 jshell> import cs2030s.fp.Transformer
