@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
 
 <!-- CHANGE TITLE -->
-<title>CS2030S AY22/23 S2 Lecture 12</title>
+<title>CS2030S AY23/24 S2 Lecture 12</title>
 <meta charset="utf-8">
 </head>
 <body>
@@ -20,56 +20,27 @@ class: middle, center
 ---
 class: middle, center
 
-## Lecture 12A
+## Lecture 12
 
-### 10 April 2023
-
----
-class: middle wide
-
-# Almost There :D
+### 15 April 2024
 
 ---
 class: middle wide
 
-# Announcements 
+### Announcements 
 
----
-class: middle wide
-
-### Lab 8
-
-- On `CompletableFuture`
-- Deadline: 14 April 2023, Friday, 23:59
-- No late penalty until: 18 April 2023, Tuesday, 23:59
-
-### No Self-Diagnostic Quiz this week
+ - Exercise 8
+ - Catch Up Session IV
 
 ---
 class: middle wide
 
 ### Final Exam
 
-- 27 April 2023 at 9:00 AM
-- Scope: Everything
+- 2 May 2024 at 1:00 PM
+- Scope: Everything!
 - Duration: 2 hours
-- Pen and Paper
-- Open book (printed materials only)
-
-- Practice exams released after the Lecture
-
----
-class: middle wide
-
-## Catch-up Session IV
-
-- Saturday, 10am - 12pm, Zoom
-- Question Link: https://pigeonhole.at/MONADIC
-
-## Course Feedback
-
-- https://blue.nus.edu.sg/blue/
-
+- Closed book
 
 ---
 class: middle,center
@@ -225,6 +196,76 @@ class: middle, wide
   }
 ```
 ]
+---
+class: middle,wide
+.smaller[
+```Java
+    int code;
+    Address addr = user.getAddress();
+    if (addr != null) {
+      if (addr.getCountry().equals("Singapore")) {
+        code = addr.getPostalCode();
+      } else {
+        code = 0;
+      }
+    } else {
+      code = 0;
+    }
+```
+]
+---
+class: middle, wide
+.tiny[
+```Java
+  public static <T,R> void get(T item, BooleanCondition<T> bc, Transformer<T,R> t,
+      Producer<R> p) {
+    if (item != null) {
+	  if (bc.test(item)) {
+	 	return t.transform(item);
+	  } else {
+		return p.produce();
+	  }
+	}  else {
+	  return p.produce();
+	}
+  }
+```
+]
+
+---
+class: middle, wide
+.tiny[
+```Java
+  public static void handleName(String name) {
+    Optional.of(name)
+      .or(() -> Optional.of(""))
+      .map(s -> s.toUpperCase())
+      .ifPresent(s -> show(s));
+  }
+
+  public static void handlePhoneNumber(User user, PhoneNumber number) {
+    Optional.of(number)
+      .or(() -> Optional.of(user.getMainLineNumber()))
+      .map(p -> p.toString())
+      .ifPresent(s -> show(s));
+  }
+```
+]
+
+---
+class: middle, wide
+.smaller[
+```Java
+    int code = Optional.of(addr)
+      .filter(a -> a.getCountry().equals("Singapore"))
+      .map(a -> a.getPostalCode())
+      .orElse(0);
+```
+]
+
+---
+class: middle, center
+background-image: url(figures/memes/expand-mind-abstraction.jpg)
 
 ---
 class: middle wide
@@ -237,13 +278,6 @@ class: middle wide
 ## Composition 
 
 Models the HAS-A relationship
-
----
-class: middle wide
-
-## Inheritance 
-
-Models the IS-A relationship
 
 ---
 class: middle wide
@@ -380,7 +414,7 @@ We change both sides of the square. This has changed the desirable property of t
 ---
 class: middle wide
 
-LSP is the L in SOLID. Although we do not cover SOLID in the module, it is good to know about. 
+LSP is the L in SOLID. Although we do not cover this in the module, it is good to know about. 
 
 ---
 class: middle wide
@@ -442,6 +476,8 @@ class Pair<S,T> {
 }
 ```
 ]
+---
+background-image: url(figures/memes/bike-fall-raw-types.jpg)
 
 ---
 class: middle
@@ -457,15 +493,10 @@ Things to remember about generics:
 
 class: middle wide
 
-### Comments Comments Comments
-
-![figures](figures/cs2030s-lec12/motivation.jpg)
+# The compiler is your friend!
 
 ---
-
-class: middle wide
-
-# The compiler is your friend!
+background-image: url(figures/memes/drake-runtime-vs-compile-time.jpg)
 
 ---
 class: middle wide
@@ -548,6 +579,66 @@ boolean isInCircle = c.contains(x, y);
 ```
 ]
 ---
+class: middle
+
+## Minimizing the moving parts
+
+- Immutability
+- Pure functions
+
+---
+class: middle wide
+.tiny[
+```Java
+final class Point {
+    final private double x;
+    final private double y;
+
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Point moveTo(double x, double y) {
+        return new Point(x, y);
+    }
+}
+```
+]
+---
+class: middle wide
+.tiny[
+```Java
+final class Circle {
+    final private Point c;
+    final private double r;
+
+    public Circle (Point c, double r) {
+        this.c = c;
+        this.r = r;
+    }
+     :
+    public Circle moveTo(double x, double y) {
+        return new Circle(c.moveTo(x, y), r);
+    }
+}
+```
+]
+---
+class: middle wide
+.tiny[
+```Java
+Point p = new Point(0, 0);
+Circle c1 = new Circle(p, 1);
+Circle c2 = new Circle(p, 4);
+c1.moveTo(1, 1); // c1 remains unchanged
+```
+]
+
+Don't have the same issue with aliasing!
+
+Immutability makes our programs easier to reason about.
+---
 class: middle wide
 
 "Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live”
@@ -555,12 +646,223 @@ class: middle wide
 __John Woods__
 
 ---
+class: middle,center
+
+# Misc Paradigms and Topics
+
+---
+class: middle,center
+
+# Exceptions
+
+---
+class: middle,center
+
+## `try`-`catch`-`finally`
+
+---
+class: middle
+
+```Java
+try {
+  // do something
+} catch (an exception parameter) {
+  // handle exception
+} finally {
+  // clean up code
+  // even if no exception was thrown
+}
+```
+
+---
+class: middle,center
+
+## Exception Hierarchy
+
+---
+background-image: url(figures/cs2030s-lec04/exception/exception.004.png)
+
+---
+class: middle,center
+
+### Checked vs. Unchecked Exceptions
+### Do NOT Use Exception As a Control Flow Mechanism
+
+---
+class: middle
+
+## Asynchronous Programming
+
+Using the `CompletableFuture` class to create pipelines of computation that can be done asychronously.
+
+Known in other languages as Futures (python) or Promises (javascript/source)
+
+---
+class: middle
+
+## `Streams`
+
+Concentrate on what needs to be computed, don't worry about handling loops.
+
+The Java implementation of `InfiniteList`. You have also implemented streams in CS1101S.
+
+---
+class: middle,center
+
+Using stream in place of loops should make our code simpler, more elegant, and less bug-prone. 
+
+One should note that not all loops can be translated into stream elegantly. 
+
+A double-nested loop, for instance, stretches the elegance of streams. 
+
+A triple-nested loop should perhaps be best written as a loop with appropriate inner components written with lambdas and streams.
+
+---
+class: middle
+
+## `Lazy`
+
+Be *lazy*. Only do computation when we absolutely must do it, and only do it once!
+
+Other functional languages are lazy by default
+
+---
+class: middle, center
+
+# OOP vs FP
+
+---
+class: middle, center
+background-image: url(figures/memes/two-buttons-oop-vs-fp.jpg)
+
+---
+class: middle, center
+
+We are not telling you "OOP is better" or "FP is better"
+
+---
+class: middle, center
+
+"Here are different ways you can write your code.  Pick one that is best for you."
+
+---
+class: middle
+
+- Core strength of OOP is polymorphism (easy to extend)
+- Core strength of FP is referential transparency (easy to reason)
+
+---
+class: middle
+
+"OO programming is good, when you know what it is.  Functional programming is good, when you know what it is.  And functional OO programming is also good, once you know what it is" - Uncle Bob.
+
+---
+class: middle, center
+background-image: url(figures/memes/both-buttons-oop-vs-fp.jpg)
+
+---
+class: middle, center
+
+# Java vs. Other Languages
+
+---
+class: middle, center
+
+### Java is a nice OOP language, but a clunky FP language
+
+But, sometimes, you have no choice.
+
+---
+class: middle
+
+### If you have to use Java, consider other libraries with immutability collections and other monadic constructs
+
+- JOOL, Vavr, Fugue
+- Google Guava
+- Apache Commons
+- etc
+
+---
+class: middle
+
+### If you have other languages to choose from:
+
+- *Parallel/Concurrent*: Erlang, Go, etc
+- *Functional*: Haskell, Erlang, OCaml, F#, etc
+- *OO Functional*: JS, Kotlin, Scala, Groovy, Switft, etc, 
+
+---
+class: middle, center
+
+### What's Next After CS2030S?
+
+---
+class: middle, center
+
+### CS2103T Intro to Software Engineering
+
+(and other Software Engineering modules)
+
+---
+class: middle
+
+- work in teams
+- version control
+- program analysis
+-  :
+
+---
+class: middle, center
+
+### CS2104 Concepts of Programming Languages
+
+(and other Programming Language modules)
+
+---
+class: middle
+
+- pure functional languages
+- how to build a compiler
+- how to implement a language
+-   :
+
+---
+class: middle, center
+
+### CS3210 Parallel Computing
+### CS3211 Parallel and Concurrent Programming
+
+(and CS2106 Operating Systems before that)
+
+---
+class: middle
+
+- designing, programming, debugging multi-threaded programs
+- parallelization with GPU/CUDA
+-   :
+
+---
+class: middle
+
+CS2030S _has taught_ you how to write better code, where "better" means:
+
+- more human-friendly
+- easier to change and maintain
+- fewer crashes
+
+---
+class: middle,center
+
+## The End
+
+
+---
 class: bottom
 
 .tiny[
 Version: v1.0
 
-Last Updated: Sun Apr 9 11:45:00 +08 2023
+Last Updated: Tue Apr 10 10:00:00 +08 2022
 ]
 </textarea>
 
@@ -582,7 +884,7 @@ var slideshow = remark.create({
 	},
 	ratio: '16:9',
 	highlightStyle: 'ir-black',
-  slideNumberFormat: 'CS2030S AY22/23 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
+    slideNumberFormat: 'CS2030S AY23/24 S2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%current% / %total%',
 });
  // Setup MathJax
   MathJax.Hub.Config({
