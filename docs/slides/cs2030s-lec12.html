@@ -27,17 +27,44 @@ class: middle, center
 ---
 class: middle wide
 
-### Announcements 
-
-What's left?
-
- - Problem Set 9
- - Exercise 9
- - Catch Up Session IV (6pm - 8pm)
+# Almost There :D
 
 ---
 class: middle wide
 
+# Announcements 
+
+---
+class: middle wide
+
+### What's left?
+
+ - Problem Set 9
+ - Exercise 9
+ - Catch Up Session IV (Sat 6pm - 8pm)
+ - Final
+
+---
+class: middle wide
+
+### Exercise 9
+
+- On `CompletableFuture`
+- Deadline: Friday, 19 April 2024 at 23:59:59.
+- No late penalty until: Tuesday, 23 April, 2024 at 23:59:59
+
+### No Self-Diagnostic Quiz this week
+
+---
+class: middle wide
+
+### Catch-up Session IV
+
+- Saturday, 6pm - 8pm, Zoom
+- Question Link: https://pigeonhole.at/MONADIC
+
+---
+class: middle wide
 ### Final Exam
 
 - 2 May 2024 at 1:00 PM
@@ -45,6 +72,15 @@ class: middle wide
 - Duration: 2 hours
 - Closed book / Single A4 Sheet
 - No Calculator
+
+---
+class: middle wide
+### Course Feedback
+
+### We value your feedback!
+
+https://blue.nus.edu.sg/blue/
+
 
 ---
 class: middle,center
@@ -102,6 +138,21 @@ class: middle,wide
 ```
 ]
 ---
+class: middle
+.smaller[
+```Java
+  void handleName(String name) {
+    if (name == null) {
+      name = "";
+    } 
+    show(name.toUpperCase());
+  }
+
+  handleName(user.getLastName());
+  handleName(user.getFirstName());
+```
+]
+---
 class: middle,wide
 .smaller[
 ```Java
@@ -120,38 +171,6 @@ class: middle,wide
 ]
 
 ---
-class: middle,wide
-.smaller[
-```java
-    int code;
-    Address addr = user.getAddress();
-    if (addr != null) {
-      if (addr.getCountry().equals("Singapore")) {
-        code = addr.getPostalCode();
-      } else {
-        code = 0;
-      }
-    } else {
-      code = 0;
-    }
-```
-]
----
-class: middle
-.smaller[
-```Java
-  void handleName(String name) {
-    if (name == null) {
-      name = "";
-    } 
-    show(name.toUpperCase());
-  }
-
-  handleName(user.getLastName());
-  handleName(user.getFirstName());
-```
-]
----
 class: middle
 .smaller[
 ```Java
@@ -166,13 +185,12 @@ class: middle
   handlePhoneNumber(user, user.getMobileNumber());
 ```
 ]
-
 ---
 class: middle, wide
 .tiny[
 ```Java
-  public static <T> void handle(T item, Producer<T> p, Transformer<T,String> t, 
-      Consumer<String> c) {
+  public static <T> void handle(T item, Producer<T> p, 
+                                Transformer<T,String> t, Consumer<String> c) {
     if (item == null) {
       item = p.produce();
     } 
@@ -221,17 +239,17 @@ class: middle,wide
 class: middle, wide
 .tiny[
 ```Java
-  public static <T,R> void get(T item, BooleanCondition<T> bc, Transformer<T,R> t,
-      Producer<R> p) {
+  public static <T,R> void get(T item, BooleanCondition<T> bc, 
+                               Transformer<T,R> t, Producer<R> p) {
     if (item != null) {
-	  if (bc.test(item)) {
-	 	return t.transform(item);
-	  } else {
-		return p.produce();
-	  }
-	}  else {
+	    if (bc.test(item)) {
+	 	    return t.transform(item);
+	    } else {
+		    return p.produce();
+	    }
+	  }  else {
 	  return p.produce();
-	}
+	  }
   }
 ```
 ]
@@ -241,15 +259,15 @@ class: middle, wide
 .tiny[
 ```Java
   public static void handleName(String name) {
-    Optional.of(name)
-      .or(() -> Optional.of(""))
+    Maybe.of(name)
+      .or(() -> Maybe.of(""))
       .map(s -> s.toUpperCase())
       .ifPresent(s -> show(s));
   }
 
   public static void handlePhoneNumber(User user, PhoneNumber number) {
-    Optional.of(number)
-      .or(() -> Optional.of(user.getMainLineNumber()))
+    Maybe.of(number)
+      .or(() -> Maybe.of(user.getMainLineNumber()))
       .map(p -> p.toString())
       .ifPresent(s -> show(s));
   }
@@ -260,17 +278,12 @@ class: middle, wide
 class: middle, wide
 .smaller[
 ```Java
-    int code = Optional.of(addr)
+    int code = Maybe.of(addr)
       .filter(a -> a.getCountry().equals("Singapore"))
       .map(a -> a.getPostalCode())
       .orElse(0);
 ```
 ]
-
----
-class: middle, center
-background-image: url(figures/memes/expand-mind-abstraction.jpg)
-
 ---
 class: middle wide
 
@@ -282,6 +295,13 @@ class: middle wide
 ## Composition 
 
 Models the HAS-A relationship
+
+---
+class: middle wide
+
+## Inheritance 
+
+Models the IS-A relationship
 
 ---
 class: middle wide
@@ -350,9 +370,11 @@ interface GetAreable {
 
 class: middle wide
 
-### A class can only inherit from one class (or abstract class).
+- A class can only inherit from one class (or abstract class).
 
-### A class can implement multiple interfaces.
+- A class can implement multiple interfaces.
+
+- An interface can inherit from multiple interfaces.
 
 
 ---
@@ -361,9 +383,14 @@ class: middle wide
 
 ## Minimizing the effect of changing implementation 
 
-When the client does not know the implementation details of a class/method, they are not dependent on the specific way it has been implemented.
 
-You can make a change to how something is computed and the client is none the wiser.
+---
+
+class: middle wide
+
+When the client does not know the implementation details of a class/method: 
+ - they are not dependent on the specific way it has been implemented.
+ - you can make a change to how something is computed and the client is none the wiser.
 
 ---
 class: middle
@@ -417,8 +444,9 @@ We change both sides of the square. This has changed the desirable property of t
 
 ---
 class: middle wide
+## Spoilers for Software Eng: SOLID Principles
 
-LSP is the L in SOLID. Although we do not cover this in the module, it is good to know about. 
+LSP is the L. Although we do not cover this in the module, it is good to know about. 
 
 ---
 class: middle wide
@@ -481,9 +509,6 @@ class Pair<S,T> {
 ```
 ]
 ---
-background-image: url(figures/memes/bike-fall-raw-types.jpg)
-
----
 class: middle
 Things to remember about generics:
 - invariance
@@ -494,13 +519,16 @@ Things to remember about generics:
 - Arrays and Generics are not BFFs
 
 ---
+class: middle wide
 
+### Comments Comments Comments
+
+![figures](figures/cs2030s-lec12/motivation.jpg)
+
+---
 class: middle wide
 
 # The compiler is your friend!
-
----
-background-image: url(figures/memes/drake-runtime-vs-compile-time.jpg)
 
 ---
 class: middle wide
@@ -512,9 +540,14 @@ There are of course still errors that occur at run time.
 ---
 class: middle wide
 
+## Type Systems are Powerful
+
+---
+class: middle wide
+
 ## Type Safety
 
-The compiler uses checks that all of your types line up correctly and type inference to check that your code is type safe before letting you run it.
+The compiler checks that all of your types line up correctly and type inference to check that your code is type safe before letting you run it.
 
 ---
 class: middle wide
@@ -585,10 +618,14 @@ boolean isInCircle = c.contains(x, y);
 ---
 class: middle
 
-## Minimizing the moving parts
+### Minimizing the effect of moving parts
 
 - Immutability
+- Nested Encapsulation
+- Local Classes / Anonymous Classes / Lambdas
 - Pure functions
+- Higher Level Abstraction
+- Monads
 
 ---
 class: middle wide
@@ -642,12 +679,157 @@ c1.moveTo(1, 1); // c1 remains unchanged
 Don't have the same issue with aliasing!
 
 Immutability makes our programs easier to reason about.
+
 ---
-class: middle wide
+class: middle
 
-"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live”
+## Nested Encapsulation
 
-__John Woods__
+.tiny[
+```Java
+class Maybe<T> {
+    :
+  
+  private static class Some<T> extends Maybe<T> {
+      :
+  }
+  private static class None extends Maybe<Object> {
+      :
+  }
+}
+```
+]
+---
+class: middle, wide
+.small[
+```Java
+Transformer<Integer, Integer> sq = new Transformer<>() {
+	@Override
+	public Integer transform(Integer x) {
+	  return x * x;
+	}
+};
+```
+]
+---
+class: middle, wide
+.small[
+```Java
+Transformer<Integer, Integer> sq = x -> x * x;
+```
+]
+---
+class: middle
+
+## Pure Functions
+
+- deterministic
+- referential transparency
+- no side effects?
+
+---
+class: middlef
+
+## Side Effects
+
+Don't:
+- print to the screen
+- write to files
+- throw exceptions
+- change other variables
+- modify the values of the arguments
+---
+class: middle,wide
+
+### Building Higher Level Abstractions
+
+- `Maybe<T>`: item might be missing
+- `Lazy<T>`: item is evaluated on demand
+- `Loggable<T>`: item is logged
+- `InfiniteList<T>`: items in a lazily-evaluated list
+- `Seq<T>`: items in an array
+- `Box<T>`: item in a box
+
+---
+class: middle,wide
+
+### Monads
+
+- `Maybe<T>`: item might be missing
+- `Lazy<T>`: item is evaluated on demand
+- `Loggable<T>`: item is logged
+
+---
+class: middle
+
+A monad has two methods `of` and `flatMap` and obeys the three laws on the next slides.
+
+---
+class: middle,center
+
+### Left Identity Law
+
+`Monad.of(x).flatMap(y -> f(y))` 
+
+is equivalent to
+
+`f(x)`
+
+---
+class: middle,center
+
+### Right Identity Law
+
+`monad.flatMap(y -> Monad.of(y))` 
+
+is equivalent to
+
+`monad`
+
+---
+class: middle,center,wide
+
+### Associative Law
+
+`monad.flatMap(x -> f(x)).flatMap(x -> g(x))`
+
+is equivalent to
+
+`monad.flatMap(x -> f(x).flatMap(x -> g(x)))`
+
+---
+class: middle
+
+## `Streams`
+
+Concentrate on what needs to be computed, don't worry about handling loops.
+
+The Java implementation of `InfiniteList`. You have also implemented streams in CS1101S.
+
+---
+class: middle
+
+### Abstracting out iteration: `Streams`
+
+Using stream in place of loops should make our code simpler, more elegant, and less bug-prone. 
+
+---
+class: middle
+
+One should note that not all loops can be translated into stream elegantly. 
+
+ - A double-nested loop, for instance, stretches the elegance of streams. 
+
+ - A triple-nested loop should perhaps be best written as a loop with appropriate inner components written with lambdas and streams.
+
+---
+class: middle
+
+## `Lazy`
+
+Be *lazy*. Only do computation when we absolutely must do it, and only do it once!
+
+Other functional languages are lazy by default
 
 ---
 class: middle,center
@@ -700,44 +882,10 @@ class: middle
 Using the `CompletableFuture` class to create pipelines of computation that can be done asychronously.
 
 Known in other languages as Futures (python) or Promises (javascript/source)
-
----
-class: middle
-
-## `Streams`
-
-Concentrate on what needs to be computed, don't worry about handling loops.
-
-The Java implementation of `InfiniteList`. You have also implemented streams in CS1101S.
-
----
-class: middle,center
-
-Using stream in place of loops should make our code simpler, more elegant, and less bug-prone. 
-
-One should note that not all loops can be translated into stream elegantly. 
-
-A double-nested loop, for instance, stretches the elegance of streams. 
-
-A triple-nested loop should perhaps be best written as a loop with appropriate inner components written with lambdas and streams.
-
----
-class: middle
-
-## `Lazy`
-
-Be *lazy*. Only do computation when we absolutely must do it, and only do it once!
-
-Other functional languages are lazy by default
-
 ---
 class: middle, center
 
-# OOP vs FP
-
----
-class: middle, center
-background-image: url(figures/memes/two-buttons-oop-vs-fp.jpg)
+# OOP vs FP. Fight!
 
 ---
 class: middle, center
@@ -753,7 +901,7 @@ class: middle, center
 class: middle
 
 - Core strength of OOP is polymorphism (easy to extend)
-- Core strength of FP is referential transparency (easy to reason)
+- Core strength of FP is referential transparency (easy to reason about)
 
 ---
 class: middle
@@ -762,12 +910,13 @@ class: middle
 
 ---
 class: middle, center
-background-image: url(figures/memes/both-buttons-oop-vs-fp.jpg)
-
----
-class: middle, center
 
 # Java vs. Other Languages
+
+---
+class: middle,center
+
+![:scale 80%](img/languages.jpg)
 
 ---
 class: middle, center
@@ -803,7 +952,7 @@ class: middle, center
 ---
 class: middle, center
 
-### CS2103T Intro to Software Engineering
+### CS2103/T Intro to Software Engineering
 
 (and other Software Engineering modules)
 
@@ -853,6 +1002,179 @@ CS2030S _has taught_ you how to write better code, where "better" means:
 - more human-friendly
 - easier to change and maintain
 - fewer crashes
+- programming for people...
+
+---
+
+class: middle
+
+## People
+
+### It takes a village!
+
+---
+class: middle, wide
+
+### Lab Tutors
+
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:white;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{border-color:white;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-0lax{text-align:left;vertical-align:top}
+  </style>
+  <table class="tg">
+  <tbody>
+    <tr>
+      <td class="tg-0lax">Cheong Sze Kai, Brian</td>
+      <td class="tg-0lax">Kannan Annamalai</td>
+      <td class="tg-0lax">Zhang Puyu</td>
+      <td class="tg-0lax">Narita Yuhi</td>
+      <td class="tg-0lax">Muthukrishnan Santosh</td>
+      <td class="tg-0lax">Tey Cheng Jun</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Kok Chun Zhi</td>
+      <td class="tg-0lax">Keagan Pang Zhong Hon</td>
+      <td class="tg-0lax">Jiang Bowei</td>
+      <td class="tg-0lax">Alissa</td>
+      <td class="tg-0lax">Phinehas Faithful Tan</td>
+      <td class="tg-0lax">Kumar Prabhat</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Li Zhong Fu</td>
+      <td class="tg-0lax">Kurt Lee Yi Jie</td>
+      <td class="tg-0lax">Tan Hong Jun</td>
+      <td class="tg-0lax">Ryan Ong Wei Xian</td>
+      <td class="tg-0lax">Puri Virakarin</td>
+      <td class="tg-0lax">Sim Han Kiong</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Ryan Reno Lim</td>
+      <td class="tg-0lax">Kyal Sin Min Thet</td>
+      <td class="tg-0lax">Bach Le Tuan Khai</td>
+      <td class="tg-0lax">Aprup Kale</td>
+      <td class="tg-0lax">Rayner Toh Jing Xiang</td>
+      <td class="tg-0lax">Sumanth Yalamarty</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Shen Yi Cui</td>
+      <td class="tg-0lax">Lam Jiu Fong</td>
+      <td class="tg-0lax">Tung Zhi Yong Ian</td>
+      <td class="tg-0lax">Carsten Joe Ng</td>
+      <td class="tg-0lax">Soo Jun Neng</td>
+      <td class="tg-0lax">Jonas Ong Si Wei</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Soh Soon Wei</td>
+      <td class="tg-0lax">Lee Chun Jie</td>
+      <td class="tg-0lax">Ong Zhi Li</td>
+      <td class="tg-0lax">Chan Wei Hao</td>
+      <td class="tg-0lax">Timothy Putra Prasetio</td>
+      <td class="tg-0lax">Teo Zheng Yang</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Tan Sze Ying</td>
+      <td class="tg-0lax">Leonidas Raghav</td>
+      <td class="tg-0lax">Chandan Ananda Babu</td>
+      <td class="tg-0lax">Chew Jun Heng</td>
+      <td class="tg-0lax">Titus Chew Xuan Jun</td>
+      <td class="tg-0lax">Tan Yiming</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Tan Yuanzheng</td>
+      <td class="tg-0lax">Lian Zhi Xuan</td>
+      <td class="tg-0lax">Eu Chang Xian</td>
+      <td class="tg-0lax">Guo Yuheng</td>
+      <td class="tg-0lax">Toh Li Heng</td>
+      <td class="tg-0lax">Kum Chai Yin</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Toh Li Yuan</td>
+      <td class="tg-0lax">Lim Jian Yang</td>
+      <td class="tg-0lax">Shaun Lee Xuan Wei</td>
+      <td class="tg-0lax">Jason Baek</td>
+      <td class="tg-0lax">Xing Lingxi</td>
+      <td class="tg-0lax">Lim Jun Han, Alvin</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax">Wong Chee Hong</td>
+      <td class="tg-0lax">Loh Jian Rong</td>
+      <td class="tg-0lax">Wang Zhi, Wren</td>
+      <td class="tg-0lax">Julius Bryan Reynon Gambe</td>
+      <td class="tg-0lax">Yap Yuhang</td>
+      <td class="tg-0lax">Nguyen Khoi Nguyen</td>
+    </tr>
+  </tbody>
+  </table>
+
+---
+class: middle
+
+#### Recitation Tutors
+
+
+  </style>
+  <center>
+  <table class="tg">
+  <thead>
+    <tr>
+      <th class="tg-baqh">Enzio Kam Hai Hong</th>
+      <th class="tg-baqh">Han Meng</th>
+      <th class="tg-baqh">Tan Yugin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-baqh"><center><img width="250" src="img/Enzio.jpg"></center></td>
+      <td class="tg-baqh"><center><img width="250" src="img/HanMeng.png"></center></td>
+      <td class="tg-baqh"><center><img width="250" src="img/Yugin.png"></center></td>
+    </tr>
+  </tbody>
+  </table>
+</center>
+---
+
+#### System Admin
+
+  <center>
+  <table class="tg">
+  <thead>
+    <tr>
+      <th class="tg-baqh">Tan Hsiao Wei</th>
+      <th class="tg-baqh">Musa B Hashim</th>
+      <th class="tg-baqh">Chan Tim Fook</th>
+      <th class="tg-baqh">Chong Peng Kong</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-baqh"><center><img width="200" src="https://www.comp.nus.edu.sg/stfphotos/tanhw.jpg"></center></td>
+      <td class="tg-baqh"><center><img width="200" src="https://www.comp.nus.edu.sg/stfphotos/musa.jpg"></center></td>
+      <td class="tg-baqh"><center><img width="200" src="https://www.comp.nus.edu.sg/stfphotos/chantf.jpg"></center></td>
+      <td class="tg-baqh"><center><img width="200" src="https://www.comp.nus.edu.sg/stfphotos/chongpk.jpg"></center></td>
+    </tr>
+  </tbody>
+  </table>
+</center>
+
+### and many many more!
+
+---
+class: middle, center
+
+# You
+
+___This module will not have___<br> ___been a success without you!___
+
+---
+class: middle wide
+
+"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live”
+
+__John Woods__
 
 ---
 class: middle,center
@@ -866,7 +1188,7 @@ class: bottom
 .tiny[
 Version: v1.0
 
-Last Updated: Tue Apr 09 16:00:00 +08 2024
+Last Updated: Sun Apr 14 20:00:00 +08 2024
 ]
 </textarea>
 
